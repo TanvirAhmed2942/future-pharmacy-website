@@ -1,8 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -136,4 +134,10 @@
   .hover\:text-peter-dark:hover {
     color: #6d3366;
   }
+}
+.heading-text {
+  font-size: 40px;
+  font-weight: bold;
+  text-align: center;
+  color: #1c121c;
 }
