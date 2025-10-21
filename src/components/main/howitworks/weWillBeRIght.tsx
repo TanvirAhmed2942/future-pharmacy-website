@@ -23,7 +23,7 @@ function WeWillBeRight() {
           <div className="flex justify-center lg:justify-end">
             <div className="relative w-full max-w-md aspect-square">
               <Image
-                src="/howitworks/heart_shape.png"
+                src="/howitworks/heart_shape_1.png"
                 alt="Heart shape made of pills"
                 width={1000}
                 height={1000}
