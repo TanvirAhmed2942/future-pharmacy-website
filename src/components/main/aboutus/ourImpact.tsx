@@ -2,7 +2,7 @@ import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
-function OurImpact() {
+export default function OurImpact() {
   const stats = [
     {
       value: "100,000+",
@@ -46,9 +46,7 @@ function OurImpact() {
   );
 }
 
-export default OurImpact;
-
-const TransferPrescriptionSection = () => {
+export const TransferPrescriptionSection = () => {
   return (
     <div className="container mx-auto py-16 px-4 flex items-center justify-center">
       <div className="w-full mx-auto">

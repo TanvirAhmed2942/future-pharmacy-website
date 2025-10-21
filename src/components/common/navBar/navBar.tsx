@@ -26,7 +26,7 @@ function NavBar() {
   ];
 
   return (
-    <div className="bg-[#1a0a1a] text-white">
+    <div className="bg-[#1a0a1a] text-white sticky top-0 z-50">
       {/* Main Navigation */}
       <nav className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
@@ -90,10 +90,7 @@ function NavBar() {
 
           {/* Desktop Action Buttons */}
           <div className="hidden lg:flex items-center space-x-4">
-            <Button
-              variant="outline"
-              className="bg-white text-gray-800 hover:bg-gray-100 border-white"
-            >
+            <Button className="bg-white text-gray-800 hover:bg-gray-100 border-white">
               Login
             </Button>
             <Button className="bg-peter hover:bg-peter-dark text-white">
