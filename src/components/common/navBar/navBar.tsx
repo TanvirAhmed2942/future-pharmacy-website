@@ -2,28 +2,36 @@
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
+import { ChevronDown } from "lucide-react";
 
 function NavBar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isBusinessDropdownOpen, setIsBusinessDropdownOpen] = useState(false);
+  const pathname = usePathname();
 
   const navItems = [
     { label: "Home", href: "/" },
-    { label: "About Us", href: "/about-us", active: true },
+    { label: "About Us", href: "/about-us" },
     { label: "How It Works", href: "/how-it-works" },
-    {
-      label: "Business",
-      href: "/business",
-      hasDropdown: true,
-      dropdownItems: [
-        { label: "Independent Pharmacies", href: "/independent-pharmacies" },
-        { label: "Earn as a Driver", href: "/earn-as-driver" },
-        { label: "Investors", href: "/investors" },
-      ],
-    },
   ];
+
+  const businessItems = [
+    { label: "Independent Pharmacies", href: "/independent-pharmacies" },
+    { label: "Earn as a Driver", href: "/earn-as-driver" },
+    { label: "Investors", href: "/investors" },
+  ];
+
+  const isActive = (href: string) => {
+    if (href === "/") {
+      return pathname === "/";
+    }
+    return pathname.startsWith(href);
+  };
 
   return (
     <div className="bg-[#1a0a1a] text-white sticky top-0 z-50">
@@ -48,44 +56,65 @@ function NavBar() {
           <div className="hidden lg:flex items-center space-x-8">
             {navItems.map((item, index) => (
               <div key={index} className="relative">
-                <a
+                <Link
                   href={item.href}
-                  className={`text-white hover:text-peter transition-colors ${
-                    item.active ? "border-b-2 border-peter pb-1" : ""
-                  }`}
-                  onMouseEnter={() =>
-                    item.hasDropdown && setIsBusinessDropdownOpen(true)
-                  }
-                  onMouseLeave={() =>
-                    item.hasDropdown && setIsBusinessDropdownOpen(false)
-                  }
+                  className={cn(
+                    "text-white hover:text-[#ba5fb0] transition-colors",
+                    isActive(item.href) && "border-b-2 py-1 border-[#8d4585]"
+                  )}
                 >
                   {item.label}
-                  {item.hasDropdown && (
-                    <ChevronDown className="inline ml-1 w-4 h-4" />
-                  )}
-                </a>
-
-                {/* Business Dropdown */}
-                {item.hasDropdown && isBusinessDropdownOpen && (
-                  <div
-                    className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50"
-                    onMouseEnter={() => setIsBusinessDropdownOpen(true)}
-                    onMouseLeave={() => setIsBusinessDropdownOpen(false)}
-                  >
-                    {item.dropdownItems?.map((dropdownItem, dropdownIndex) => (
-                      <a
-                        key={dropdownIndex}
-                        href={dropdownItem.href}
-                        className="block px-4 py-2 text-gray-800 hover:bg-gray-100 transition-colors"
-                      >
-                        {dropdownItem.label}
-                      </a>
-                    ))}
-                  </div>
-                )}
+                </Link>
               </div>
             ))}
+
+            {/* Business Dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={() => setIsBusinessDropdownOpen(true)}
+              onMouseLeave={() => setIsBusinessDropdownOpen(false)}
+            >
+              <div className="flex items-center">
+                <Link
+                  href="/business"
+                  className={cn(
+                    "text-white hover:text-[#ba5fb0] transition-colors",
+                    isActive("/business") && "border-b-2 border-[#8d4585]"
+                  )}
+                >
+                  Business
+                </Link>
+                <div
+                  className="ml-1 cursor-pointer"
+                  onMouseEnter={() => setIsBusinessDropdownOpen(true)}
+                  onMouseLeave={() => setIsBusinessDropdownOpen(false)}
+                >
+                  <ChevronDown
+                    className={cn(
+                      "w-4 h-4 transition-transform duration-200",
+                      isBusinessDropdownOpen && "rotate-180"
+                    )}
+                  />
+                </div>
+              </div>
+
+              {isBusinessDropdownOpen && (
+                <div className="absolute top-full left-0  w-64 bg-white rounded-lg shadow-lg py-2 z-50">
+                  {businessItems.map((item, index) => (
+                    <Link
+                      key={index}
+                      href={item.href}
+                      className={cn(
+                        "block px-4 py-2 text-gray-800 hover:bg-gray-100 transition-colors rounded-md mx-2",
+                        isActive(item.href) && "bg-gray-100 font-medium"
+                      )}
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Desktop Action Buttons */}
@@ -108,48 +137,69 @@ function NavBar() {
         </div>
 
         {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className="lg:hidden mt-4 pb-4">
-            <div className="flex flex-col space-y-4">
-              {navItems.map((item, index) => (
-                <div key={index}>
-                  <a
+        <div
+          className={cn(
+            "lg:hidden overflow-hidden transition-all duration-300 ease-in-out",
+            isMobileMenuOpen
+              ? "max-h-96 opacity-100 mt-4 pb-4"
+              : "max-h-0 opacity-0"
+          )}
+        >
+          <div className="flex flex-col space-y-4">
+            {navItems.map((item, index) => (
+              <div key={index}>
+                <Link
+                  href={item.href}
+                  className={cn(
+                    "block text-white hover:text-[#ba5fb0] transition-colors",
+                    isActive(item.href) && "border-b-2 border-[#8d4585]"
+                  )}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              </div>
+            ))}
+
+            {/* Business Dropdown for Mobile */}
+            <div>
+              <Link
+                href="/business"
+                className={cn(
+                  "block text-white hover:text-[#ba5fb0] transition-colors mb-2",
+                  isActive("/business") && "border-b-2 border-[#8d4585]"
+                )}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Business
+              </Link>
+              <div className="ml-4 space-y-2">
+                {businessItems.map((item, index) => (
+                  <Link
+                    key={index}
                     href={item.href}
-                    className={`block text-white hover:text-peter transition-colors ${
-                      item.active ? "border-b-2 border-peter pb-1" : ""
-                    }`}
+                    className={cn(
+                      "block text-gray-300 hover:text-[#ba5fb0] transition-colors",
+                      isActive(item.href) && "text-[#ba5fb0] font-medium"
+                    )}
+                    onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {item.label}
-                  </a>
-                  {item.hasDropdown && item.dropdownItems && (
-                    <div className="ml-4 mt-2 space-y-2">
-                      {item.dropdownItems.map((dropdownItem, dropdownIndex) => (
-                        <a
-                          key={dropdownIndex}
-                          href={dropdownItem.href}
-                          className="block text-gray-300 hover:text-peter transition-colors"
-                        >
-                          {dropdownItem.label}
-                        </a>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
-              <div className="flex flex-col space-y-2 pt-4 border-t border-gray-700">
-                <Button
-                  variant="outline"
-                  className="bg-white text-gray-800 hover:bg-gray-100 border-white w-full"
-                >
-                  Login
-                </Button>
-                <Button className="bg-peter hover:bg-peter-dark text-white w-full">
-                  Sign Up
-                </Button>
+                  </Link>
+                ))}
               </div>
             </div>
+
+            <div className="flex flex-col space-y-2 pt-4 border-t border-gray-700">
+              <Button className="bg-white text-gray-800 hover:bg-gray-100 border-white w-full">
+                Login
+              </Button>
+              <Button className="bg-peter hover:bg-peter-dark text-white w-full">
+                Sign Up
+              </Button>
+            </div>
           </div>
-        )}
+        </div>
       </nav>
 
       {/* Contact Information */}
