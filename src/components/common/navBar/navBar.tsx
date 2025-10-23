@@ -2,12 +2,13 @@
 
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Clock, User, LogOut } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
+import { useAuth } from "@/userInfo.authProvide";
 
 function NavBar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -15,6 +16,7 @@ function NavBar() {
   const [isHydrated, setIsHydrated] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
+  const { isLoggedIn, toggleLogin } = useAuth();
   useEffect(() => {
     setIsHydrated(true);
   }, []);
@@ -128,6 +130,23 @@ function NavBar() {
 
           {/* Desktop Action Buttons */}
           <div className="hidden lg:flex items-center space-x-4">
+            {/* Test Button for Login State */}
+            <Button
+              className="bg-yellow-600 hover:bg-yellow-700 text-white text-xs px-3 py-2 flex items-center gap-2"
+              onClick={toggleLogin}
+            >
+              {isLoggedIn ? (
+                <>
+                  <LogOut className="w-4 h-4" />
+                  Logout Test
+                </>
+              ) : (
+                <>
+                  <User className="w-4 h-4" />
+                  Login Test
+                </>
+              )}
+            </Button>
             <Button
               className="bg-white text-gray-800 hover:bg-gray-100 border-white"
               onClick={() => router.push("/auth/login")}
@@ -219,14 +238,63 @@ function NavBar() {
 
       {/* Contact Information */}
       <div className="bg-[#1a0a1a] border-t border-gray-800">
-        <div className="container mx-auto px-4 py-2">
-          <div className="flex justify-end">
-            <p className="text-sm text-gray-300">
-              Need Help? Please Call or Text{" "}
-              <a href="tel:917-993-0549" className="text-peter hover:underline">
-                917-993-0549
+        <div className="container mx-auto px-4 py-3">
+          {/* Mobile Layout - Stacked */}
+          <div className="block sm:hidden">
+            <div className="space-y-2 text-sm text-white">
+              {/* Contact Details */}
+              <div className="space-y-1">
+                <div>Contact Us? Please Call or Text</div>
+                <div className="text-peter font-medium">917-993-0549</div>
+                <div>Email us:</div>
+                <a
+                  href="mailto:support@optimushs.com"
+                  className="text-peter hover:underline font-medium"
+                >
+                  support@optimushs.com
+                </a>
+              </div>
+
+              {/* Business Hours */}
+              <div className="flex items-center gap-2 pt-2">
+                <Clock className="w-4 h-4 text-purple-400" />
+                <div className="text-sm">
+                  <div>Mon-Fri: 8a.m.-7p.m. | Sat: 8a.m.-1p.m.</div>
+                  <div>Sun: Closed</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Desktop Layout - Side by Side */}
+          <div className="hidden sm:flex items-center justify-between text-sm text-white">
+            {/* Contact Section */}
+            <div className="flex items-center gap-4">
+              <span>Contact Us? Please Call or Text</span>
+              <span className="text-peter font-medium">917-993-0549</span>
+              <div className="w-px h-4 bg-gray-600"></div>
+              <span>Email us:</span>
+              <a
+                href="mailto:support@optimushs.com"
+                className="text-peter hover:underline font-medium"
+              >
+                support@optimushs.com
               </a>
-            </p>
+            </div>
+
+            {/* Business Hours Section */}
+            <div className="flex items-center gap-2">
+              <Clock className="w-4 h-4 text-purple-400" />
+              <div className="flex items-center gap-4 text-sm">
+                <span className="border-r border-gray-600 pr-2">
+                  Mon-Fri: 8a.m.-7p.m.
+                </span>
+                <span className="border-r border-gray-600 pr-2">
+                  Sat: 8a.m.-1p.m.
+                </span>
+                <span>Sun: Closed</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>

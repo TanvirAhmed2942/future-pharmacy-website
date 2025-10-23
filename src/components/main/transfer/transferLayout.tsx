@@ -8,7 +8,7 @@ function TransferLayout() {
       title: "Transfer Online",
       description:
         "Lorem ipsum dolor sit amet consectetur. Tempor quisque velit mi senectus mauris orci auctor.",
-      buttonText: "Transfer Now",
+      buttonText: "Transfer Online",
     },
     {
       icon: "phone" as const,

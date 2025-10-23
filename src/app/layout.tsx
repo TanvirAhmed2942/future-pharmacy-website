@@ -1,18 +1,8 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
-import NavBar from "@/components/common/navBar/navBar";
-import Footer from "@/components/common/footer/Footer";
-
-// const geistSans = Geist({
-//   variable: "--font-geist-sans",
-//   subsets: ["latin"],
-// });
-
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });
+import { AuthProvider } from "@/userInfo.authProvide";
+import ConditionalLayout from "@/components/common/ConditionalLayout";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -32,9 +22,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} antialiased bg-gray-50`}>
-        <NavBar />
-        {children}
-        <Footer />
+        <AuthProvider>
+          <ConditionalLayout>{children}</ConditionalLayout>
+        </AuthProvider>
       </body>
     </html>
   );

@@ -12,7 +12,7 @@ import { Card } from "@/components/ui/card";
 import DatePickerModal from "@/components/ui/date-picker-modal";
 import TimePickerModal from "@/components/ui/time-picker-modal";
 import LocationPickerModal from "@/components/ui/location-picker-modal";
-import userInfo from "@/userInfo.json";
+import { useAuth } from "@/userInfo.authProvide";
 import { useRouter } from "next/navigation";
 export default function MapAndFormSection() {
   const [pickupLocation, setPickupLocation] = useState("");
@@ -31,9 +31,10 @@ export default function MapAndFormSection() {
   );
 
   const router = useRouter();
+  const { isLoggedIn } = useAuth();
 
   const checkIsLoggedIn = () => {
-    return userInfo.isLoggedIn;
+    return isLoggedIn;
   };
 
   console.log("checkIsLoggedIn", checkIsLoggedIn());
@@ -75,36 +76,36 @@ export default function MapAndFormSection() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
               <div>
                 <span className="font-medium text-gray-700">Name:</span>
-                <span className="ml-2 text-gray-600">{userInfo.name}</span>
+                <span className="ml-2 text-gray-600">{user.name}</span>
               </div>
               <div>
                 <span className="font-medium text-gray-700">Email:</span>
-                <span className="ml-2 text-gray-600">{userInfo.email}</span>
+                <span className="ml-2 text-gray-600">{user.email}</span>
               </div>
               <div>
                 <span className="font-medium text-gray-700">Phone:</span>
-                <span className="ml-2 text-gray-600">{userInfo.phone}</span>
+                <span className="ml-2 text-gray-600">{user.phone}</span>
               </div>
               <div>
                 <span className="font-medium text-gray-700">Address:</span>
-                <span className="ml-2 text-gray-600">{userInfo.address}</span>
+                <span className="ml-2 text-gray-600">{user.address}</span>
               </div>
               <div>
                 <span className="font-medium text-gray-700">City:</span>
                 <span className="ml-2 text-gray-600">
-                  {userInfo.city}, {userInfo.state} {userInfo.zip}
+                  {user.city}, {user.state} {user.zip}
                 </span>
               </div>
               <div>
                 <span className="font-medium text-gray-700">Status:</span>
                 <span
                   className={`ml-2 px-2 py-1 rounded-full text-xs ${
-                    userInfo.isLoggedIn
+                    isLoggedIn
                       ? "bg-green-100 text-green-800"
                       : "bg-red-100 text-red-800"
                   }`}
                 >
-                  {userInfo.isLoggedIn ? "Logged In" : "Not Logged In"}
+                  {isLoggedIn ? "Logged In" : "Not Logged In"}
                 </span>
               </div>
             </div>

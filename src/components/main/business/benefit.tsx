@@ -51,8 +51,8 @@ function Benefits() {
                 <CardContent className="p-6 md:p-8 text-center">
                   {/* Icon */}
                   <div className="flex justify-center mb-6">
-                    <div className="bg-purple-100 rounded-full p-4">
-                      <Icon className="w-8 h-8 text-purple-600" />
+                    <div className="bg-[#f3ecf3] rounded-full p-4">
+                      <Icon className="w-8 h-8 text-peter" />
                     </div>
                   </div>
 

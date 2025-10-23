@@ -1,8 +1,13 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Laptop, Phone } from "lucide-react";
-
+import { useRouter } from "next/navigation";
+import RefillTransferScheduleForm from "@/components/common/refilltransferscheduleform/refilltransferscheduleform";
+import LoginChoiceModal from "@/components/common/refilltransferscheduleform/LoginChoiceModal";
+import { useAuth } from "@/userInfo.authProvide";
 interface RefillOption {
   title: string;
   description: string;
@@ -20,6 +25,43 @@ function RefillTransferSchedule({
   pageTitle = "Refill Your Prescription",
   refillOptions,
 }: RefillTransferScheduleProps) {
+  const router = useRouter();
+  const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+  const [isLoginChoiceModalOpen, setIsLoginChoiceModalOpen] = useState(false);
+  const { isLoggedIn } = useAuth();
+
+  const handleOnlineClick = () => {
+    if (isLoggedIn) {
+      // User is logged in, show form directly
+      setIsFormModalOpen(true);
+    } else {
+      // User is not logged in, show login choice modal
+      setIsLoginChoiceModalOpen(true);
+    }
+  };
+
+  const handleSignIn = () => {
+    setIsLoginChoiceModalOpen(false);
+    router.push("/auth/login");
+  };
+
+  const handleGuestCheckout = () => {
+    setIsLoginChoiceModalOpen(false);
+    setIsFormModalOpen(true);
+  };
+
+  const handleFormNext = (formData: {
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+    countryCode: string;
+    dateOfBirth: string;
+  }) => {
+    console.log("Form data:", formData);
+    // Handle form submission logic here
+    setIsFormModalOpen(false);
+  };
+
   return (
     <section className="bg-white py-16 md:py-24 px-4 md:px-8">
       <div className="max-w-5xl mx-auto">
@@ -57,7 +99,13 @@ function RefillTransferSchedule({
                 {/* Button */}
                 <Button
                   className="bg-peter hover:bg-peter-dark text-white px-8 py-5 text-base font-medium"
-                  onClick={option.onClick}
+                  onClick={
+                    option.title === "Refill Online" ||
+                    option.title === "Transfer Online" ||
+                    option.title === "Schedule Online"
+                      ? handleOnlineClick
+                      : option.onClick
+                  }
                 >
                   {option.buttonText}
                 </Button>
@@ -66,6 +114,20 @@ function RefillTransferSchedule({
           ))}
         </div>
       </div>
+
+      {/* Modals */}
+      <RefillTransferScheduleForm
+        isOpen={isFormModalOpen}
+        onClose={() => setIsFormModalOpen(false)}
+        onNext={handleFormNext}
+      />
+
+      <LoginChoiceModal
+        isOpen={isLoginChoiceModalOpen}
+        onClose={() => setIsLoginChoiceModalOpen(false)}
+        onSignIn={handleSignIn}
+        onGuestCheckout={handleGuestCheckout}
+      />
     </section>
   );
 }

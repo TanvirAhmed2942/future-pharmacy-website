@@ -96,7 +96,7 @@ export default function OrderSummary({
 
         {/* Legal Agreement Text */}
         <p className="text-sm text-gray-600">
-          By Clicking place order, you agree to Optimums health Solutions{" "}
+          By clicking place order, you agree to Optimums Health Solutions{" "}
           <button className="text-peter hover:underline">
             Terms of Service
           </button>

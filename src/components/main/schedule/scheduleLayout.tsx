@@ -8,7 +8,7 @@ function ScheduleLayout() {
       title: "Schedule Online",
       description:
         "Lorem ipsum dolor sit amet consectetur. Tempor quisque velit mi senectus mauris orci auctor.",
-      buttonText: "Schedule Now",
+      buttonText: "Schedule Online",
     },
     {
       icon: "phone" as const,
