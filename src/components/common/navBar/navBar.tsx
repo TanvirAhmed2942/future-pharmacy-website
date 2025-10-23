@@ -132,7 +132,11 @@ function NavBar() {
           <div className="hidden lg:flex items-center space-x-4">
             {/* Test Button for Login State */}
             <Button
-              className="bg-yellow-600 hover:bg-yellow-700 text-white text-xs px-3 py-2 flex items-center gap-2"
+              className={`${
+                isLoggedIn
+                  ? "bg-green-600 hover:bg-green-700"
+                  : "bg-pink-500 hover:bg-pink-600"
+              } text-xs px-3 py-2 flex items-center gap-2`}
               onClick={toggleLogin}
             >
               {isLoggedIn ? (
