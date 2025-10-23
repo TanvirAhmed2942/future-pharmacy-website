@@ -21,7 +21,7 @@ export default function OrderSummary({
   onComplete,
 }: OrderSummaryProps) {
   return (
-    <div className="p-6">
+    <div className="px-6">
       <div className="flex items-center gap-3 mb-6">
         <Button
           onClick={onPrevious}
@@ -68,7 +68,7 @@ export default function OrderSummary({
         </div>
 
         {/* Price Details */}
-        <div className="mt-6">
+        <div className="mt-4">
           <h3 className="text-lg font-semibold text-gray-900 mb-3">
             Price Details
           </h3>

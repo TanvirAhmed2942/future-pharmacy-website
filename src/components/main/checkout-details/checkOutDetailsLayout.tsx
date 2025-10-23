@@ -59,16 +59,16 @@ export default function CheckOutDetailsLayout() {
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-2xl mx-auto px-4">
-        <Card className="bg-white rounded-xl shadow-lg relative overflow-hidden min-h-[600px]">
+        <Card className="bg-white rounded-xl shadow-lg relative overflow-hidden">
           <div className="relative">
             {/* Contact Details Form */}
             <div
-              className={`absolute inset-0 transition-all duration-300 ${
+              className={`transition-all duration-300 ${
                 currentStep === 1
-                  ? "translate-x-0 opacity-100"
+                  ? "translate-x-0 opacity-100 block"
                   : isAnimating
-                  ? "-translate-x-full opacity-0"
-                  : "-translate-x-full opacity-0"
+                  ? "-translate-x-full opacity-0 absolute inset-0"
+                  : "-translate-x-full opacity-0 absolute inset-0"
               }`}
             >
               <ContactDetails
@@ -80,12 +80,12 @@ export default function CheckOutDetailsLayout() {
 
             {/* Order Summary Form */}
             <div
-              className={`absolute inset-0 transition-all duration-300 ${
+              className={`transition-all duration-300 ${
                 currentStep === 2
-                  ? "translate-x-0 opacity-100"
+                  ? "translate-x-0 opacity-100 block"
                   : isAnimating
-                  ? "translate-x-full opacity-0"
-                  : "translate-x-full opacity-0"
+                  ? "translate-x-full opacity-0 absolute inset-0"
+                  : "translate-x-full opacity-0 absolute inset-0"
               }`}
             >
               <OrderSummary

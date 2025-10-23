@@ -87,7 +87,7 @@ function ContactUsSection() {
             <CardContent className="p-6 text-center">
               <div className="flex justify-center mb-4">
                 <div className="bg-peter rounded-full p-3">
-                  <Phone className="w-6 h-6 text-purple-600" />
+                  <Phone className="w-6 h-6 text-white" />
                 </div>
               </div>
               <h3 className="font-semibold text-2xl text-gray-900 mb-3">
@@ -121,7 +121,7 @@ function ContactUsSection() {
             <CardContent className="p-6 text-center">
               <div className="flex justify-center mb-4">
                 <div className="bg-peter rounded-full p-3">
-                  <Mail className="w-6 h-6 text-purple-600" />
+                  <Mail className="w-6 h-6 text-white" />
                 </div>
               </div>
               <h3 className="font-semibold text-2xl text-gray-900 mb-3">

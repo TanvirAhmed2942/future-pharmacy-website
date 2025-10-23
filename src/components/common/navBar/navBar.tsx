@@ -1,18 +1,23 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
 
 function NavBar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isBusinessDropdownOpen, setIsBusinessDropdownOpen] = useState(false);
+  const [isHydrated, setIsHydrated] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   const navItems = [
     { label: "Home", href: "/" },
@@ -24,9 +29,11 @@ function NavBar() {
     { label: "Independent Pharmacies", href: "/independent-pharmacies" },
     { label: "Earn as a Driver", href: "/earn-as-driver" },
     { label: "Investors", href: "/investors" },
+    { label: "Other Businesses", href: "/other-businesses" },
   ];
 
   const isActive = (href: string) => {
+    if (!isHydrated) return false;
     if (href === "/") {
       return pathname === "/";
     }
@@ -41,14 +48,16 @@ function NavBar() {
           {/* Logo */}
           <div className="flex items-center">
             <div className="relative w-48 h-12">
-              <Image
-                src={"/nav/Logo.png"}
-                alt="Optimus Health Solutions Logo"
-                width={192}
-                height={48}
-                className="object-contain"
-                priority
-              />
+              <Link href="/">
+                <Image
+                  src={"/nav/Logo.png"}
+                  alt="Optimus Health Solutions Logo"
+                  width={192}
+                  height={48}
+                  className="object-contain"
+                  priority
+                />
+              </Link>
             </div>
           </div>
 
@@ -119,10 +128,16 @@ function NavBar() {
 
           {/* Desktop Action Buttons */}
           <div className="hidden lg:flex items-center space-x-4">
-            <Button className="bg-white text-gray-800 hover:bg-gray-100 border-white">
+            <Button
+              className="bg-white text-gray-800 hover:bg-gray-100 border-white"
+              onClick={() => router.push("/auth/login")}
+            >
               Login
             </Button>
-            <Button className="bg-peter hover:bg-peter-dark text-white">
+            <Button
+              className="bg-peter hover:bg-peter-dark text-white"
+              onClick={() => router.push("/auth/signup")}
+            >
               Sign Up
             </Button>
           </div>

@@ -1,9 +1,12 @@
+"use client";
 import React from "react";
 import { Pill, RefreshCw, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
 
 export default function RefilSection() {
+  const router = useRouter();
   const services = [
     {
       icon: <Pill className="w-12 h-12 text-peter" />,
@@ -12,6 +15,7 @@ export default function RefilSection() {
         "Lorem ipsum dolor sit amet consectetur. Tempor quisque velit mi senectus mauris orci auctor.",
       buttonText: "Refill Now",
       buttonColor: "bg-peter hover:bg-peter-dark",
+      href: "/refill-prescription",
     },
     {
       icon: (
@@ -34,6 +38,7 @@ export default function RefilSection() {
         "Lorem ipsum dolor sit amet consectetur. Tempor quisque velit mi senectus mauris orci auctor.",
       buttonText: "Transfer Now",
       buttonColor: "bg-peter hover:bg-peter-dark",
+      href: "/transfer-prescription",
     },
     {
       icon: (
@@ -49,6 +54,7 @@ export default function RefilSection() {
         "Lorem ipsum dolor sit amet consectetur. mauris orci auctor.",
       buttonText: "Schedule Now",
       buttonColor: "bg-peter hover:bg-peter-dark",
+      href: "/schedule-now",
     },
   ];
 
@@ -70,6 +76,7 @@ export default function RefilSection() {
               </p>
               <Button
                 className={`${service.buttonColor} text-white px-6 py-2 rounded-lg font-semibold`}
+                onClick={() => router.push(service.href)}
               >
                 {service.buttonText}
               </Button>

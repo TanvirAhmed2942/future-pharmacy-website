@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff } from "lucide-react";
+import Link from "next/link";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -75,12 +76,12 @@ function Login() {
           >
             Login
           </Button>
-          <a
-            href="#"
+          <Link
+            href="/auth/forgot-password"
             className="text-peter hover:text-peter-dark hover:underline text-sm"
           >
             Forget Password?
-          </a>
+          </Link>
         </div>
       </form>
 
@@ -88,12 +89,12 @@ function Login() {
       <div className="text-center mt-6">
         <p className="text-sm text-gray-700">
           Don&apos;t have an account?{" "}
-          <a
-            href="#"
+          <Link
+            href="/auth/signup"
             className="text-peter hover:text-peter-dark hover:underline"
           >
             Sign Up
-          </a>
+          </Link>
         </p>
       </div>
     </div>

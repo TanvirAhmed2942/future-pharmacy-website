@@ -12,7 +12,8 @@ import { Card } from "@/components/ui/card";
 import DatePickerModal from "@/components/ui/date-picker-modal";
 import TimePickerModal from "@/components/ui/time-picker-modal";
 import LocationPickerModal from "@/components/ui/location-picker-modal";
-
+import userInfo from "@/userInfo.json";
+import { useRouter } from "next/navigation";
 export default function MapAndFormSection() {
   const [pickupLocation, setPickupLocation] = useState("");
   const [dropoffAddress, setDropoffAddress] = useState("");
@@ -28,6 +29,21 @@ export default function MapAndFormSection() {
   const [currentLocation, setCurrentLocation] = useState(
     "1901 Thornridge Cir. Shiloh, Hawaii 81063"
   );
+
+  const router = useRouter();
+
+  const checkIsLoggedIn = () => {
+    return userInfo.isLoggedIn;
+  };
+
+  console.log("checkIsLoggedIn", checkIsLoggedIn());
+  const handleRedirect = () => {
+    if (checkIsLoggedIn()) {
+      return router.push("/checkout-details");
+    } else {
+      return router.push("/auth/login");
+    }
+  };
 
   return (
     <div className="flex bg-gray-50 py-16 gap-16">
@@ -50,6 +66,49 @@ export default function MapAndFormSection() {
               Request Your Prescription Delivery
             </h1>
           </div>
+
+          {/* User Info Display */}
+          {/* <div className="mb-6 p-4 bg-gray-50 rounded-lg border">
+            <h3 className="text-lg font-semibold text-gray-900 mb-3">
+              User Information
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+              <div>
+                <span className="font-medium text-gray-700">Name:</span>
+                <span className="ml-2 text-gray-600">{userInfo.name}</span>
+              </div>
+              <div>
+                <span className="font-medium text-gray-700">Email:</span>
+                <span className="ml-2 text-gray-600">{userInfo.email}</span>
+              </div>
+              <div>
+                <span className="font-medium text-gray-700">Phone:</span>
+                <span className="ml-2 text-gray-600">{userInfo.phone}</span>
+              </div>
+              <div>
+                <span className="font-medium text-gray-700">Address:</span>
+                <span className="ml-2 text-gray-600">{userInfo.address}</span>
+              </div>
+              <div>
+                <span className="font-medium text-gray-700">City:</span>
+                <span className="ml-2 text-gray-600">
+                  {userInfo.city}, {userInfo.state} {userInfo.zip}
+                </span>
+              </div>
+              <div>
+                <span className="font-medium text-gray-700">Status:</span>
+                <span
+                  className={`ml-2 px-2 py-1 rounded-full text-xs ${
+                    userInfo.isLoggedIn
+                      ? "bg-green-100 text-green-800"
+                      : "bg-red-100 text-red-800"
+                  }`}
+                >
+                  {userInfo.isLoggedIn ? "Logged In" : "Not Logged In"}
+                </span>
+              </div>
+            </div>
+          </div> */}
 
           {/* Pickup Location */}
           <Card className="mb-4 p-4 border-2 border-gray-200 hover:border-[#be95be] cursor-pointer transition-colors">
@@ -126,7 +185,10 @@ export default function MapAndFormSection() {
           </div>
 
           {/* Checkout Button */}
-          <Button className="w-full bg-peter hover:bg-peter-dark text-white py-6 rounded-lg text-lg font-semibold shadow-lg">
+          <Button
+            className="w-full bg-peter hover:bg-peter-dark text-white py-6 rounded-lg text-lg font-semibold shadow-lg"
+            onClick={() => handleRedirect()}
+          >
             <ShoppingCart className="w-5 h-5 mr-2" />
             Checkout Request
           </Button>

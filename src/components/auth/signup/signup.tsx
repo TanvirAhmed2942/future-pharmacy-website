@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Eye, EyeOff } from "lucide-react";
+import Link from "next/link";
 
 function Signup() {
   const [showPassword, setShowPassword] = useState(false);
@@ -153,12 +154,12 @@ function Signup() {
       <div className="text-center mt-6">
         <p className="text-sm text-gray-700">
           Already have an account?{" "}
-          <a
-            href="#"
+          <Link
+            href="/auth/login"
             className="text-peter hover:text-peter-dark hover:underline"
           >
             Sign in
-          </a>
+          </Link>
         </p>
       </div>
     </div>
