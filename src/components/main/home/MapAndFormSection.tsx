@@ -9,12 +9,25 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import DatePickerModal from "@/components/ui/date-picker-modal";
+import TimePickerModal from "@/components/ui/time-picker-modal";
+import LocationPickerModal from "@/components/ui/location-picker-modal";
 
 export default function MapAndFormSection() {
   const [pickupLocation, setPickupLocation] = useState("");
   const [dropoffAddress, setDropoffAddress] = useState("");
   const [deliveryTime, setDeliveryTime] = useState("today");
   const [deliverySpeed, setDeliverySpeed] = useState("now");
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+  const [isTimePickerOpen, setIsTimePickerOpen] = useState(false);
+  const [isLocationPickerOpen, setIsLocationPickerOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+  const [selectedTime, setSelectedTime] = useState<string | undefined>(
+    undefined
+  );
+  const [currentLocation, setCurrentLocation] = useState(
+    "1901 Thornridge Cir. Shiloh, Hawaii 81063"
+  );
 
   return (
     <div className="flex bg-gray-50 py-16 gap-16">
@@ -25,8 +38,11 @@ export default function MapAndFormSection() {
           <div className="mb-6">
             <div className="flex items-center gap-2 text-sm text-gray-600 mb-4">
               <MapPin className="w-4 h-4" />
-              <span>1901 Thornridge Cir. Shiloh, Hawaii US</span>
-              <button className="text-peter hover:text-peter-dark ml-2">
+              <span>{currentLocation}</span>
+              <button
+                onClick={() => setIsLocationPickerOpen(true)}
+                className="text-peter hover:text-peter-dark ml-2 hover:underline cursor-pointer"
+              >
                 Change City or Zip Code
               </button>
             </div>
@@ -71,7 +87,7 @@ export default function MapAndFormSection() {
           {/* Delivery Time Options */}
           <div className="grid grid-cols-2 gap-4 mb-6">
             <button
-              onClick={() => setDeliveryTime("today")}
+              onClick={() => setIsDatePickerOpen(true)}
               className={`p-4 rounded-lg border-2 transition-all ${
                 deliveryTime === "today"
                   ? "border-peter bg-peter/10"
@@ -80,11 +96,18 @@ export default function MapAndFormSection() {
             >
               <div className="flex items-center gap-2">
                 <Calendar className="w-5 h-5 text-gray-600" />
-                <span className="font-medium text-gray-900">Today</span>
+                <span className="font-medium text-gray-900">
+                  {selectedDate
+                    ? selectedDate.toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                      })
+                    : "Today"}
+                </span>
               </div>
             </button>
             <button
-              onClick={() => setDeliverySpeed("now")}
+              onClick={() => setIsTimePickerOpen(true)}
               className={`p-4 rounded-lg border-2 transition-all ${
                 deliverySpeed === "now"
                   ? "border-peter bg-peter/10"
@@ -93,7 +116,11 @@ export default function MapAndFormSection() {
             >
               <div className="flex items-center gap-2">
                 <Clock className="w-5 h-5 text-gray-600" />
-                <span className="font-medium text-gray-900">Now</span>
+                <span className="font-medium text-gray-900">
+                  {selectedTime
+                    ? selectedTime.split(" - ")[0] // Show just the start time
+                    : "Now"}
+                </span>
               </div>
             </button>
           </div>
@@ -142,13 +169,46 @@ export default function MapAndFormSection() {
       </div>
 
       {/* Right Section - Map */}
-      <div className="hidden lg:block w-1/2 relative rounded-xl">
+      <div className="hidden lg:block md:w-1/2  relative rounded-xl">
         <iframe
           src="https://www.openstreetmap.org/export/embed.html?bbox=-74.2097%2C40.7014%2C-74.1497%2C40.7614&layer=mapnik&marker=40.7314,-74.1794"
           className="w-full h-full border-0 rounded-xl"
           title="Map of Newark, NJ"
         />
       </div>
+
+      {/* Date Picker Modal */}
+      <DatePickerModal
+        isOpen={isDatePickerOpen}
+        onClose={() => setIsDatePickerOpen(false)}
+        onDateSelect={(date) => {
+          setSelectedDate(date);
+          setDeliveryTime("today");
+        }}
+        selectedDate={selectedDate}
+      />
+
+      {/* Time Picker Modal */}
+      <TimePickerModal
+        isOpen={isTimePickerOpen}
+        onClose={() => setIsTimePickerOpen(false)}
+        onTimeSelect={(time) => {
+          setSelectedTime(time);
+          setDeliverySpeed("now");
+        }}
+        selectedTime={selectedTime}
+        selectedDate={selectedDate}
+      />
+
+      {/* Location Picker Modal */}
+      <LocationPickerModal
+        isOpen={isLocationPickerOpen}
+        onClose={() => setIsLocationPickerOpen(false)}
+        onLocationSelect={(location) => {
+          setCurrentLocation(location);
+        }}
+        currentLocation={currentLocation}
+      />
     </div>
   );
 }
