@@ -13,11 +13,12 @@ export default function ConditionalLayout({
 }: ConditionalLayoutProps) {
   const pathname = usePathname();
 
-  // Check if current path is an auth page
+  // Check if current path is an auth page or dashboard page
   const isAuthPage = pathname.startsWith("/auth");
+  const isDashboardPage = pathname.startsWith("/dashboard");
 
-  // If it's an auth page, don't show NavBar and Footer
-  if (isAuthPage) {
+  // If it's an auth page or dashboard page, don't show NavBar and Footer
+  if (isAuthPage || isDashboardPage) {
     return <>{children}</>;
   }
 
