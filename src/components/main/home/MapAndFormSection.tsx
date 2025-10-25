@@ -47,9 +47,9 @@ export default function MapAndFormSection() {
   };
 
   return (
-    <div className="flex bg-gray-50 py-16 gap-16">
+    <div className="flex bg-gray-50 pt-8 pb-16 gap-16">
       {/* Left Section - Form */}
-      <div className="w-full lg:w-1/2 p-8 overflow-y-auto bg-white rounded-xl ">
+      <div className="w-full lg:w-1/2 px-4 lg:px-8 py-6 overflow-y-auto bg-white rounded-xl ">
         <div className="max-w-xl">
           {/* Address Header */}
           <div className="mb-6">
@@ -112,38 +112,42 @@ export default function MapAndFormSection() {
           </div> */}
 
           {/* Pickup Location */}
-          <Card className="mb-4 p-4 border-2 border-gray-200 hover:border-[#be95be] cursor-pointer transition-colors">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-3 h-3 rounded-full bg-black"></div>
-                <input
-                  type="text"
-                  placeholder="Pickup Location"
-                  value={pickupLocation}
-                  onChange={(e) => setPickupLocation(e.target.value)}
-                  className="text-gray-700 bg-transparent border-none outline-none placeholder:text-gray-400 w-full"
-                />
+          <div className="relative">
+            <Card className="mb-4 p-4 border-2 border-gray-200 hover:border-[#be95be] cursor-pointer transition-colors">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3 w-10/12">
+                  <div className="w-4.5 h-4 rounded-full bg-black"></div>
+                  <input
+                    type="text"
+                    placeholder="Pickup Location"
+                    value={pickupLocation}
+                    onChange={(e) => setPickupLocation(e.target.value)}
+                    className="text-gray-700 bg-transparent border-none outline-none placeholder:text-gray-400 w-full"
+                  />
+                </div>
+                <ChevronRight className="w-5 h-5 text-gray-400" />
               </div>
-              <ChevronRight className="w-5 h-5 text-gray-400" />
-            </div>
-          </Card>
+            </Card>
 
-          {/* Drop-off Address */}
-          <Card className="mb-6 p-4 border-2 border-gray-200 hover:border-[#be95be] cursor-pointer transition-colors">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-3 h-3 rounded-full bg-peter"></div>
-                <input
-                  type="text"
-                  placeholder="Drop-off address"
-                  value={dropoffAddress}
-                  onChange={(e) => setDropoffAddress(e.target.value)}
-                  className="text-gray-700 bg-transparent border-none outline-none placeholder:text-gray-400 w-full"
-                />
+            {/* Drop-off Address */}
+            <Card className="mb-6 p-4 border-2 border-gray-200 hover:border-[#be95be] cursor-pointer transition-colors">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3 w-10/12">
+                  <div className="w-4 h-4 bg-peter flex items-center justify-center border border-black">
+                    <span className="w-1 h-1 bg-black  z-10"></span>
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Drop-off address"
+                    value={dropoffAddress}
+                    onChange={(e) => setDropoffAddress(e.target.value)}
+                    className="text-gray-700 bg-transparent border-none outline-none placeholder:text-gray-400 w-full "
+                  />
+                </div>
               </div>
-            </div>
-          </Card>
-
+            </Card>
+            <div className="absolute top-14.5 left-6 border-l-3 border-gray-200 h-5 "></div>
+          </div>
           {/* Delivery Time Options */}
           <div className="grid grid-cols-2 gap-4 mb-6">
             <button

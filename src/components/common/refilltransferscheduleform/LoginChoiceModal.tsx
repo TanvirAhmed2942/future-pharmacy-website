@@ -15,6 +15,7 @@ interface LoginChoiceModalProps {
   onClose: () => void;
   onSignIn: () => void;
   onGuestCheckout: () => void;
+  description: string;
 }
 
 function LoginChoiceModal({
@@ -22,6 +23,7 @@ function LoginChoiceModal({
   onClose,
   onSignIn,
   onGuestCheckout,
+  description,
 }: LoginChoiceModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -33,10 +35,7 @@ function LoginChoiceModal({
         </DialogHeader>
 
         <div className="px-6 pb-6">
-          <p className="text-gray-600 text-center mb-6">
-            To continue with your refill, please choose one of the following
-            options:
-          </p>
+          <p className="text-gray-600 text-center mb-6">{description}</p>
 
           <div className="space-y-4">
             {/* Sign In / Create Account */}

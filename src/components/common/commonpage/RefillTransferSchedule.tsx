@@ -127,6 +127,7 @@ function RefillTransferSchedule({
         onClose={() => setIsLoginChoiceModalOpen(false)}
         onSignIn={handleSignIn}
         onGuestCheckout={handleGuestCheckout}
+        description={`To continue with your ${pageTitle}, please choose one of the following options:`}
       />
     </section>
   );

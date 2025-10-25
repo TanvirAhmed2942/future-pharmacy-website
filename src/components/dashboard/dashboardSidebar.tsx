@@ -1,4 +1,4 @@
-import { Calendar, CreditCard, Home, Inbox, Search, Settings } from "lucide-react"
+import { CreditCard, Home, Inbox, LogOut } from "lucide-react";
 
 import {
   Sidebar,
@@ -9,9 +9,9 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
-import Image from "next/image"
-import Link from "next/link"
+} from "@/components/ui/sidebar";
+import Image from "next/image";
+import Link from "next/link";
 
 // Menu items.
 const items = [
@@ -31,21 +31,11 @@ const items = [
     icon: CreditCard,
   },
   {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
+    title: "Logout",
+    url: "/auth/login",
+    icon: LogOut,
   },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
-  },
-]
+];
 
 export function DashboardSidebar() {
   return (
@@ -53,16 +43,25 @@ export function DashboardSidebar() {
       <SidebarContent className="rounded-2xl bg-peter m-4 ">
         <SidebarGroup>
           <SidebarGroupLabel className="flex items-center justify-center my-10">
-            <Image src='/nav/Logo.png' alt='logo' width={100} height={100} className="bg-white" />
+            <Image
+              src="/nav/Logo.png"
+              alt="logo"
+              width={100}
+              height={100}
+              className="bg-white"
+            />
           </SidebarGroupLabel>
           <SidebarGroupContent className="mt-10">
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <Link href={item.url} className="flex items-center gap-2 text-white">
-                      <item.icon  />
-                      <span >{item.title}</span>
+                    <Link
+                      href={item.url}
+                      className="flex items-center gap-2 text-white"
+                    >
+                      <item.icon />
+                      <span>{item.title}</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -72,5 +71,5 @@ export function DashboardSidebar() {
         </SidebarGroup>
       </SidebarContent>
     </Sidebar>
-  )
+  );
 }

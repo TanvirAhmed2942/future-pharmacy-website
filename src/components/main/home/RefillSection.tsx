@@ -1,15 +1,15 @@
 "use client";
 import React from "react";
-import { Pill, RefreshCw, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function RefilSection() {
   const router = useRouter();
   const services = [
     {
-      icon: <Pill className="w-12 h-12 text-peter" />,
+      icon: "/home/refill.png",
       title: "Refill a Prescription",
       description:
         "Lorem ipsum dolor sit amet consectetur. Tempor quisque velit mi senectus mauris orci auctor.",
@@ -18,21 +18,7 @@ export default function RefilSection() {
       href: "/refill-prescription",
     },
     {
-      icon: (
-        <div className="relative">
-          <div className="flex gap-2">
-            <div className="w-8 h-8 border-4 border-peter rounded-full relative">
-              <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-3 h-3 bg-peter rounded-full"></div>
-            </div>
-            <div className="w-8 h-8 border-4 border-peter rounded-full relative">
-              <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-3 h-3 bg-peter rounded-full"></div>
-            </div>
-          </div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-            <RefreshCw className="w-6 h-6 text-peter" />
-          </div>
-        </div>
-      ),
+      icon: "/home/transfer.png",
       title: "Transfer a Prescription",
       description:
         "Lorem ipsum dolor sit amet consectetur. Tempor quisque velit mi senectus mauris orci auctor.",
@@ -41,14 +27,8 @@ export default function RefilSection() {
       href: "/transfer-prescription",
     },
     {
-      icon: (
-        <div className="relative">
-          <Calendar className="w-12 h-12 text-peter" />
-          <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-peter rounded-full flex items-center justify-center">
-            <Clock className="w-3 h-3 text-white" />
-          </div>
-        </div>
-      ),
+      icon: "/home/schedule.png",
+
       title: "Schedule Essential Healthcare Services",
       description:
         "Lorem ipsum dolor sit amet consectetur. mauris orci auctor.",
@@ -61,44 +41,49 @@ export default function RefilSection() {
   return (
     <div className="container mx-auto bg-gray-50 py-16  mt-16">
       <div className=" mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {services.map((service, index) => (
             <Card
               key={index}
-              className="bg-white p-8 text-center hover:shadow-lg transition-shadow"
+              className="bg-white p-8 text-center hover:shadow-lg transition-shadow flex flex-col "
             >
-              <div className="flex justify-center mb-6">{service.icon}</div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">
-                {service.title}
-              </h3>
-              <p className="text-gray-600 text-sm mb-6 leading-relaxed">
-                {service.description}
-              </p>
-              <Button
-                className={`${service.buttonColor} text-white px-6 py-2 rounded-lg font-semibold`}
-                onClick={() => router.push(service.href)}
-              >
-                {service.buttonText}
-              </Button>
+              {/* Icon section - fixed height */}
+              <div className="flex justify-center mb-6 h-24  items-center">
+                <Image
+                  src={service.icon}
+                  alt={service.title}
+                  width={100}
+                  height={100}
+                />
+              </div>
+
+              {/* Title section - fixed height */}
+              <div className="h-16 flex items-center justify-center mb-4">
+                <h3 className="text-xl font-bold text-gray-900">
+                  {service.title}
+                </h3>
+              </div>
+
+              {/* Description section - flexible height with min-height */}
+              <div className="flex-1 flex items-start justify-center mb-6 min-h-[80px]">
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  {service.description}
+                </p>
+              </div>
+
+              {/* Button section - fixed at bottom */}
+              <div className="mt-auto">
+                <Button
+                  className={`${service.buttonColor} text-white px-6 py-2 rounded-lg w-fit mx-auto font-semibold`}
+                  onClick={() => router.push(service.href)}
+                >
+                  {service.buttonText}
+                </Button>
+              </div>
             </Card>
           ))}
         </div>
       </div>
     </div>
-  );
-}
-
-function Clock({ className }: { className: string }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-    >
-      <circle cx="12" cy="12" r="10" />
-      <path d="M12 6v6l4 2" />
-    </svg>
   );
 }
