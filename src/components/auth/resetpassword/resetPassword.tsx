@@ -5,24 +5,23 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff } from "lucide-react";
+import Image from "next/image";
 
 function ResetPassword() {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   return (
-    <div className="w-full max-w-md mx-auto bg-white p-8 rounded-lg">
+    <div className="w-full max-w-xl mx-auto bg-white p-8 rounded-lg">
       {/* Logo and Header */}
       <div className="text-center mb-8">
-        <div className="flex items-center justify-center mb-4">
-          <div className="w-8 h-8 bg-peter rounded-full flex items-center justify-center mr-3">
-            <div className="w-4 h-4 bg-white rounded-full"></div>
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold text-peter">Optimus</h1>
-            <p className="text-sm text-peter font-medium">HEALTH SOLUTIONS</p>
-          </div>
-        </div>
+        <Image
+          src="/nav/Logo.png"
+          alt="logo"
+          width={300}
+          height={300}
+          className="w-48 h-fit object-cover mx-auto my-4"
+        />
         <h2 className="text-2xl font-bold text-gray-800 mb-4">
           Create New Password
         </h2>
@@ -33,10 +32,13 @@ function ResetPassword() {
       </div>
 
       {/* Form */}
-      <form className="space-y-6">
+      <form className="space-y-7">
         {/* New Password */}
         <div className="space-y-2">
-          <Label htmlFor="newPassword" className="text-gray-800 font-bold">
+          <Label
+            htmlFor="newPassword"
+            className="text-gray-800 font-bold text-md"
+          >
             New Password
           </Label>
           <div className="relative">
@@ -58,7 +60,10 @@ function ResetPassword() {
 
         {/* Confirm New Password */}
         <div className="space-y-2">
-          <Label htmlFor="confirmPassword" className="text-gray-800 font-bold">
+          <Label
+            htmlFor="confirmPassword"
+            className="text-gray-800 font-bold text-md"
+          >
             Confirm New Password
           </Label>
           <div className="relative">

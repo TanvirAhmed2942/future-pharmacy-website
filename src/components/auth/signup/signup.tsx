@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
+import { useIcon } from "@/hooks/useIcon";
 
 function Signup() {
   const [showPassword, setShowPassword] = useState(false);
@@ -14,28 +16,29 @@ function Signup() {
   const [agreeToTerms, setAgreeToTerms] = useState(false);
 
   return (
-    <div className="w-full max-w-md mx-auto bg-white p-8 rounded-lg">
+    <div className="w-full max-w-xl mx-auto bg-white p-8 rounded-lg">
       {/* Logo and Header */}
       <div className="text-center mb-8">
-        <div className="flex items-center justify-center mb-4">
-          <div className="w-8 h-8 bg-peter rounded-full flex items-center justify-center mr-3">
-            <div className="w-4 h-4 bg-white rounded-full"></div>
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold text-peter">Optimus</h1>
-            <p className="text-sm text-peter font-medium">HEALTH SOLUTIONS</p>
-          </div>
-        </div>
+        <Image
+          src="/nav/Logo.png"
+          alt="logo"
+          width={300}
+          height={300}
+          className="w-48 h-fit object-cover mx-auto my-4"
+        />
         <h2 className="text-2xl font-semibold text-gray-800">
           Create Your Optimus Health Solutions
         </h2>
       </div>
 
       {/* Form */}
-      <form className="space-y-6">
+      <form className="space-y-7">
         {/* Full Name */}
         <div className="space-y-2">
-          <Label htmlFor="fullName" className="text-gray-700 font-medium">
+          <Label
+            htmlFor="fullName"
+            className="text-gray-700 font-medium text-md"
+          >
             Full Name
           </Label>
           <Input
@@ -48,7 +51,7 @@ function Signup() {
 
         {/* Email Address */}
         <div className="space-y-2">
-          <Label htmlFor="email" className="text-gray-700 font-medium">
+          <Label htmlFor="email" className="text-gray-700 font-medium text-md">
             Email Address
           </Label>
           <Input
@@ -61,7 +64,10 @@ function Signup() {
 
         {/* Create Password */}
         <div className="space-y-2">
-          <Label htmlFor="password" className="text-gray-700 font-medium">
+          <Label
+            htmlFor="password"
+            className="text-gray-700 font-medium text-md"
+          >
             Create Password
           </Label>
           <div className="relative">
@@ -85,7 +91,7 @@ function Signup() {
         <div className="space-y-2">
           <Label
             htmlFor="confirmPassword"
-            className="text-gray-700 font-medium"
+            className="text-gray-700 font-medium text-md"
           >
             Confirm Password
           </Label>
@@ -114,7 +120,7 @@ function Signup() {
             onCheckedChange={(checked) => setAgreeToTerms(checked as boolean)}
             className="rounded-full bg-gray-200"
           />
-          <Label htmlFor="terms" className="text-sm text-gray-700">
+          <Label htmlFor="terms" className="text-sm text-gray-700 text-md">
             Agree to{" "}
             <a
               href="#"
@@ -137,14 +143,10 @@ function Signup() {
         <Button
           type="button"
           variant="outline"
-          className="w-full bg-purple-50 hover:bg-purple-100 text-gray-700 font-medium py-2 px-4 rounded-lg border-purple-200"
+          className="w-full bg-purple-50 hover:bg-purple-100 text-gray-700 font-medium py-2 px-4 rounded-lg border-purple-200 cursor-pointer"
         >
           <div className="flex items-center justify-center space-x-2">
-            <div className="w-5 h-5 flex items-center justify-center">
-              <div className="w-4 h-4 bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 rounded-full flex items-center justify-center">
-                <span className="text-white text-xs font-bold">G</span>
-              </div>
-            </div>
+            {useIcon("google")}
             <span>Continue with Google</span>
           </div>
         </Button>

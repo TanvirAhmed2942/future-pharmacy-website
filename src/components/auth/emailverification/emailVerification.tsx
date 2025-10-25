@@ -3,6 +3,7 @@
 import React, { useState, useRef } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 function EmailVerification() {
   const [code, setCode] = useState(["", "", "", ""]);
@@ -52,13 +53,13 @@ function EmailVerification() {
       {/* Logo and Header */}
       <div className="text-center mb-8">
         <div className="flex items-center justify-center mb-4">
-          <div className="w-8 h-8 bg-peter rounded-full flex items-center justify-center mr-3">
-            <div className="w-4 h-4 bg-white rounded-full"></div>
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold text-peter">Optimus</h1>
-            <p className="text-sm text-peter font-medium">HEALTH SOLUTIONS</p>
-          </div>
+          <Image
+            src="/nav/Logo.png"
+            alt="logo"
+            width={300}
+            height={300}
+            className="w-48 h-fit object-cover mx-auto my-4"
+          />
         </div>
         <h2 className="text-2xl font-bold text-gray-800 mb-4">
           Email Verification Code
@@ -104,7 +105,7 @@ function EmailVerification() {
         <div className="flex justify-start mt-8">
           <Button
             type="button"
-            className="bg-peter hover:bg-peter-dark text-white font-medium py-2 px-6 rounded-lg"
+            className="bg-peter hover:bg-peter-dark text-white font-medium py-2 px-6 rounded-lg mx-auto"
           >
             Sign Up
           </Button>

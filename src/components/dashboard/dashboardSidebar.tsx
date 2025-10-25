@@ -44,11 +44,10 @@ export function DashboardSidebar() {
         <SidebarGroup>
           <SidebarGroupLabel className="flex items-center justify-center my-10">
             <Image
-              src="/nav/Logo.png"
+              src="/nav/dashboard_logo.png"
               alt="logo"
-              width={100}
-              height={100}
-              className="bg-white"
+              width={200}
+              height={200}
             />
           </SidebarGroupLabel>
           <SidebarGroupContent className="mt-10">
