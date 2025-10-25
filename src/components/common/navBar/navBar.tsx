@@ -151,18 +151,30 @@ function NavBar() {
                 </>
               )}
             </Button>
-            <Button
-              className="bg-white text-gray-800 hover:bg-gray-100 border-white"
-              onClick={() => router.push("/auth/login")}
-            >
-              Login
-            </Button>
-            <Button
-              className="bg-peter hover:bg-peter-dark text-white"
-              onClick={() => router.push("/auth/signup")}
-            >
-              Sign Up
-            </Button>
+
+            {isLoggedIn ? (
+              <Button
+                className="bg-white text-gray-800 hover:bg-gray-100 border-white"
+                onClick={() => router.push("/dashboard/overview")}
+              >
+                Dashboard
+              </Button>
+            ) : (
+              <>
+                <Button
+                  className="bg-white text-gray-800 hover:bg-gray-100 border-white"
+                  onClick={() => router.push("/auth/login")}
+                >
+                  Login
+                </Button>
+                <Button
+                  className="bg-peter hover:bg-peter-dark text-white"
+                  onClick={() => router.push("/auth/signup")}
+                >
+                  Sign Up
+                </Button>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
