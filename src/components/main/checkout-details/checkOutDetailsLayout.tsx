@@ -1,10 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import ContactDetails from "./ContactDetails";
 import OrderSummary from "./OrderSummary";
+import { useAuth } from "@/userInfo.authProvide";
 
 export default function CheckOutDetailsLayout() {
+  const { isLoggedIn, user } = useAuth();
   const [currentStep, setCurrentStep] = useState(1);
   const [isAnimating, setIsAnimating] = useState(false);
   const [formData, setFormData] = useState({
@@ -14,6 +16,19 @@ export default function CheckOutDetailsLayout() {
     lastName: "",
     dateOfBirth: "",
   });
+
+  // Prepopulate form data if user is logged in
+  useEffect(() => {
+    if (isLoggedIn && user) {
+      setFormData({
+        email: user.email || "",
+        contactNumber: user.phone || "",
+        firstName: user.name?.split(" ")[0] || "",
+        lastName: user.name?.split(" ").slice(1).join(" ") || "",
+        dateOfBirth: user.dateOfBirth,
+      });
+    }
+  }, [isLoggedIn, user]);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -40,20 +55,6 @@ export default function CheckOutDetailsLayout() {
     console.log("Payment completed with data:", formData);
     // You can add navigation logic here or close the modal
     // For now, we'll just log the completion
-  };
-
-  const handleClose = () => {
-    // Reset form and navigate back
-    setCurrentStep(1);
-    setFormData({
-      email: "",
-      contactNumber: "",
-      firstName: "",
-      lastName: "",
-      dateOfBirth: "",
-    });
-    // You can add navigation logic here to go back to previous page
-    // For example: router.back() or router.push('/')
   };
 
   return (

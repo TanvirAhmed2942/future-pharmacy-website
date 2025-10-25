@@ -12,6 +12,7 @@ import { Card } from "@/components/ui/card";
 import DatePickerModal from "@/components/ui/date-picker-modal";
 import TimePickerModal from "@/components/ui/time-picker-modal";
 import LocationPickerModal from "@/components/ui/location-picker-modal";
+import NewCustomerModal from "./checkUserStatusModal";
 import { useAuth } from "@/userInfo.authProvide";
 import { useRouter } from "next/navigation";
 export default function MapAndFormSection() {
@@ -29,6 +30,7 @@ export default function MapAndFormSection() {
   const [currentLocation, setCurrentLocation] = useState(
     "1901 Thornridge Cir. Shiloh, Hawaii 81063"
   );
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const router = useRouter();
   const { isLoggedIn } = useAuth();
@@ -42,7 +44,7 @@ export default function MapAndFormSection() {
     if (checkIsLoggedIn()) {
       return router.push("/checkout-details");
     } else {
-      return router.push("/auth/login");
+      setIsModalOpen(true);
     }
   };
 
@@ -152,7 +154,7 @@ export default function MapAndFormSection() {
           <div className="grid grid-cols-2 gap-4 mb-6">
             <button
               onClick={() => setIsDatePickerOpen(true)}
-              className={`p-4 rounded-lg border-2 transition-all ${
+              className={`p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-[#be95be] ${
                 deliveryTime === "today"
                   ? "border-peter bg-peter/10"
                   : "border-gray-200 bg-white hover:border-gray-300"
@@ -172,7 +174,7 @@ export default function MapAndFormSection() {
             </button>
             <button
               onClick={() => setIsTimePickerOpen(true)}
-              className={`p-4 rounded-lg border-2 transition-all ${
+              className={`p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-[#be95be] ${
                 deliverySpeed === "now"
                   ? "border-peter bg-peter/10"
                   : "border-gray-200 bg-white hover:border-gray-300"
@@ -275,6 +277,13 @@ export default function MapAndFormSection() {
           setCurrentLocation(location);
         }}
         currentLocation={currentLocation}
+      />
+
+      {/* New Customer Modal */}
+      <NewCustomerModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        description="Create a Optimus health Solutions account for faster checkout later. No time right now? No problem. You can check out as guest."
       />
     </div>
   );

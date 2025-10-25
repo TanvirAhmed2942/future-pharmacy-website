@@ -13,6 +13,7 @@ interface User {
   country: string;
   role: string;
   isLoggedIn: boolean;
+  dateOfBirth: string;
 }
 
 interface AuthContextType {
@@ -35,6 +36,7 @@ const defaultUser: User = {
   zip: "12345",
   country: "USA",
   role: "user",
+  dateOfBirth: "1990-01-01",
   isLoggedIn: false, // Start with false for testing
 };
 
