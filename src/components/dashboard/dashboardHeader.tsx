@@ -18,6 +18,7 @@ function DashboardHeader() {
         <Button
           size="icon"
           className="bg-gray-100 hover:bg-gray-200 rounded-full cursor-pointer"
+          onClick={() => router.push("/dashboard/notifications")}
         >
           <IoNotificationsOutline className="size-6 text-gray-500 " />
         </Button>

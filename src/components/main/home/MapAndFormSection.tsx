@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import DatePickerModal from "@/components/ui/date-picker-modal";
 import TimePickerModal from "@/components/ui/time-picker-modal";
-import LocationPickerModal from "@/components/ui/location-picker-modal";
+import LocationPickerModal from "@/components/main/home/location-picker-modal";
 import NewCustomerModal from "./checkUserStatusModal";
 import { useAuth } from "@/userInfo.authProvide";
 import { useRouter } from "next/navigation";
@@ -49,10 +49,10 @@ export default function MapAndFormSection() {
   };
 
   return (
-    <div className="flex bg-gray-50 pt-8 pb-16 gap-16">
+    <div className="flex flex-col lg:flex-row bg-gray-50 pt-8 lg:px-4 px-0 pb-16 gap-16">
       {/* Left Section - Form */}
       <div className="w-full lg:w-1/2 px-4 lg:px-8 py-6 overflow-y-auto bg-white rounded-xl ">
-        <div className="max-w-xl">
+        <div className="max-w-full">
           {/* Address Header */}
           <div className="mb-6">
             <div className="flex items-center gap-2 text-sm text-gray-600 mb-4">
@@ -69,49 +69,6 @@ export default function MapAndFormSection() {
               Request Your Prescription Delivery
             </h1>
           </div>
-
-          {/* User Info Display */}
-          {/* <div className="mb-6 p-4 bg-gray-50 rounded-lg border">
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">
-              User Information
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
-              <div>
-                <span className="font-medium text-gray-700">Name:</span>
-                <span className="ml-2 text-gray-600">{user.name}</span>
-              </div>
-              <div>
-                <span className="font-medium text-gray-700">Email:</span>
-                <span className="ml-2 text-gray-600">{user.email}</span>
-              </div>
-              <div>
-                <span className="font-medium text-gray-700">Phone:</span>
-                <span className="ml-2 text-gray-600">{user.phone}</span>
-              </div>
-              <div>
-                <span className="font-medium text-gray-700">Address:</span>
-                <span className="ml-2 text-gray-600">{user.address}</span>
-              </div>
-              <div>
-                <span className="font-medium text-gray-700">City:</span>
-                <span className="ml-2 text-gray-600">
-                  {user.city}, {user.state} {user.zip}
-                </span>
-              </div>
-              <div>
-                <span className="font-medium text-gray-700">Status:</span>
-                <span
-                  className={`ml-2 px-2 py-1 rounded-full text-xs ${
-                    isLoggedIn
-                      ? "bg-green-100 text-green-800"
-                      : "bg-red-100 text-red-800"
-                  }`}
-                >
-                  {isLoggedIn ? "Logged In" : "Not Logged In"}
-                </span>
-              </div>
-            </div>
-          </div> */}
 
           {/* Pickup Location */}
           <div className="relative">
@@ -238,7 +195,7 @@ export default function MapAndFormSection() {
       </div>
 
       {/* Right Section - Map */}
-      <div className="hidden lg:block md:w-1/2  relative rounded-xl">
+      <div className=" lg:block md:w-full lg:w-1/2   relative rounded-xl">
         <iframe
           src="https://www.openstreetmap.org/export/embed.html?bbox=-74.2097%2C40.7014%2C-74.1497%2C40.7614&layer=mapnik&marker=40.7314,-74.1794"
           className="w-full h-full border-0 rounded-xl"

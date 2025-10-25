@@ -4,13 +4,21 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Cloud } from "lucide-react";
+import { BiCloudUpload } from "react-icons/bi";
 function PartnerRegistrationForm() {
   const [formData, setFormData] = useState({
-    fullName: "",
-    licenseNumber: "",
-    address: "",
+    name: "",
     emailAddress: "",
+    vehicleType: "",
+    licenseFile: null as File | null,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,6 +26,21 @@ function PartnerRegistrationForm() {
     setFormData((prev) => ({
       ...prev,
       [name]: value,
+    }));
+  };
+
+  const handleSelectChange = (value: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      vehicleType: value,
+    }));
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    setFormData((prev) => ({
+      ...prev,
+      licenseFile: file,
     }));
   };
 
@@ -43,57 +66,31 @@ function PartnerRegistrationForm() {
           </CardHeader>
           <CardContent>
             <div className="space-y-6">
-              {/* Pharmacy Name */}
+              {/* Name Field */}
               <div className="space-y-2">
-                <Label htmlFor="fullName" className="text-sm font-medium">
-                  Full Name
+                <Label
+                  htmlFor="name"
+                  className="text-sm font-medium text-gray-700"
+                >
+                  Name
                 </Label>
                 <Input
-                  id="fullName"
-                  name="fullName"
+                  id="name"
+                  name="name"
                   type="text"
-                  placeholder="Enter your full name here..."
-                  value={formData.fullName}
+                  placeholder="Enter your name here..."
+                  value={formData.name}
                   onChange={handleChange}
-                  className="bg-gray-50"
+                  className="bg-gray-50 border-gray-200 focus:border-peter focus:ring-peter/20"
                 />
               </div>
 
-              {/* License Number */}
+              {/* Email Address Field */}
               <div className="space-y-2">
-                <Label htmlFor="licenseNumber" className="text-sm font-medium">
-                  License Number
-                </Label>
-                <Input
-                  id="licenseNumber"
-                  name="licenseNumber"
-                  type="text"
-                  placeholder="Enter your license number here..."
-                  value={formData.licenseNumber}
-                  onChange={handleChange}
-                  className="bg-gray-50"
-                />
-              </div>
-
-              {/* Address */}
-              <div className="space-y-2">
-                <Label htmlFor="address" className="text-sm font-medium">
-                  Address
-                </Label>
-                <Input
-                  id="address"
-                  name="address"
-                  type="text"
-                  placeholder="Enter your pharmacy address here..."
-                  value={formData.address}
-                  onChange={handleChange}
-                  className="bg-gray-50"
-                />
-              </div>
-
-              {/* Contact Person */}
-              <div className="space-y-2">
-                <Label htmlFor="contactPerson" className="text-sm font-medium">
+                <Label
+                  htmlFor="emailAddress"
+                  className="text-sm font-medium text-gray-700"
+                >
                   Email Address
                 </Label>
                 <Input
@@ -103,24 +100,74 @@ function PartnerRegistrationForm() {
                   placeholder="Enter your email address here..."
                   value={formData.emailAddress}
                   onChange={handleChange}
-                  className="bg-gray-50"
+                  className="bg-gray-50 border-gray-200 focus:border-peter focus:ring-peter/20"
                 />
               </div>
 
-              {/* Email Address */}
+              {/* Vehicle Type Field */}
               <div className="space-y-2">
-                <Label htmlFor="emailAddress" className="text-sm font-medium">
-                  Email Address
+                <Label
+                  htmlFor="vehicleType"
+                  className="text-sm font-medium text-gray-700"
+                >
+                  Vehicle Type
                 </Label>
-                <Input
-                  id="emailAddress"
-                  name="emailAddress"
-                  type="email"
-                  placeholder="Enter your email address here..."
-                  value={formData.emailAddress}
-                  onChange={handleChange}
-                  className="bg-gray-50"
-                />
+                <Select
+                  value={formData.vehicleType}
+                  onValueChange={handleSelectChange}
+                >
+                  <SelectTrigger className="bg-gray-50 border-gray-200 focus:border-peter focus:ring-peter/20">
+                    <SelectValue placeholder="Select your vehicle type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="car">Car</SelectItem>
+                    <SelectItem value="motorcycle">Motorcycle</SelectItem>
+                    <SelectItem value="bicycle">Bicycle</SelectItem>
+                    <SelectItem value="van">Van</SelectItem>
+                    <SelectItem value="truck">Truck</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Upload License Section */}
+              <div className="space-y-2">
+                <Label className="text-sm font-medium text-gray-700">
+                  Upload License
+                </Label>
+                <div className="border-2 border-dashed border-peter rounded-lg p-8 text-center hover:bg-peter/5 transition-colors">
+                  <div className="flex flex-col items-center space-y-4">
+                    <Cloud className="w-12 h-12 text-peter" />
+                    <div className="space-y-2">
+                      <h3 className="text-lg font-semibold text-gray-900">
+                        Upload License
+                      </h3>
+                      <p className="text-sm text-peter">
+                        Drag and drop or click to upload{" "}
+                        {formData.licenseFile
+                          ? formData.licenseFile.name
+                          : "Image or PDF"}
+                      </p>
+                    </div>
+                    <input
+                      type="file"
+                      id="licenseFile"
+                      accept="image/*,.pdf"
+                      onChange={handleFileChange}
+                      className="hidden"
+                    />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="bg-blue-900/90 hover:bg-blue-900 hover:text-white cursor-pointer text-white "
+                      onClick={() =>
+                        document.getElementById("licenseFile")?.click()
+                      }
+                    >
+                      <BiCloudUpload className="w-4 h-4 mr-2" />
+                      Upload File
+                    </Button>
+                  </div>
+                </div>
               </div>
 
               {/* Submit Button */}
