@@ -4,7 +4,7 @@ import {
   MapPin,
   Calendar,
   Clock,
-  ShoppingCart,
+  // ShoppingCart,
   ChevronRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -15,6 +15,7 @@ import LocationPickerModal from "@/components/main/home/location-picker-modal";
 import NewCustomerModal from "./checkUserStatusModal";
 import { useAuth } from "@/userInfo.authProvide";
 import { useRouter } from "next/navigation";
+import useIcon from "@/hooks/useIcon";
 export default function MapAndFormSection() {
   const [pickupLocation, setPickupLocation] = useState("");
   const [dropoffAddress, setDropoffAddress] = useState("");
@@ -150,10 +151,11 @@ export default function MapAndFormSection() {
 
           {/* Checkout Button */}
           <Button
-            className="w-full bg-peter hover:bg-peter-dark text-white py-6 rounded-lg text-lg font-semibold shadow-lg"
+            className="w-full bg-peter hover:bg-peter-dark text-white py-6 rounded-lg text-lg font-semibold shadow-lg flex items-center justify-center gap-2"
             onClick={() => handleRedirect()}
           >
-            <ShoppingCart className="w-5 h-5 mr-2" />
+            {/* <ShoppingCart className="w-5 h-5 mr-2" /> */}
+            <p>{useIcon({ name: "cart" })}</p>
             Checkout Request
           </Button>
 
@@ -166,6 +168,7 @@ export default function MapAndFormSection() {
               <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer">
                 <div className="flex items-start gap-3">
                   <MapPin className="w-5 h-5 text-red-500 mt-1" />
+
                   <div>
                     <h3 className="font-semibold text-gray-900">
                       CVS Pharmacy- Downtown
@@ -179,6 +182,7 @@ export default function MapAndFormSection() {
               <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer">
                 <div className="flex items-start gap-3">
                   <MapPin className="w-5 h-5 text-red-500 mt-1" />
+
                   <div>
                     <h3 className="font-semibold text-gray-900">
                       Walgreens - Medical Center

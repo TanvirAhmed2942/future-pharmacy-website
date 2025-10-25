@@ -74,7 +74,7 @@ export default function RefilSection() {
               {/* Button section - fixed at bottom */}
               <div className="mt-auto">
                 <Button
-                  className={`${service.buttonColor} text-white px-6 py-2 rounded-lg w-fit mx-auto font-semibold`}
+                  className={`${service.buttonColor} text-white px-6 py-2 rounded-lg w-fit mx-auto font-semibold cursor-pointer`}
                   onClick={() => router.push(service.href)}
                 >
                   {service.buttonText}

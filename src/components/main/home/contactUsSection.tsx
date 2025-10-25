@@ -12,7 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { MapPin, Phone, Mail } from "lucide-react";
+import useIcon from "@/hooks/useIcon";
 
 function ContactUsSection() {
   const [formData, setFormData] = useState({
@@ -60,10 +60,8 @@ function ContactUsSection() {
           {/* Visit Our Store */}
           <Card className="shadow-sm border-gray-200 hover:border-[#8d4585]">
             <CardContent className="p-6 text-center">
-              <div className="flex justify-center mb-4">
-                <div className="bg-peter rounded-full p-3">
-                  <MapPin className="w-6 h-6 text-white" />
-                </div>
+              <div className="flex justify-center mb-6">
+                {useIcon({ name: "map_fill" })}
               </div>
               <h3 className="font-semibold text-2xl text-gray-900 mb-3">
                 Visit Our Store
@@ -85,11 +83,10 @@ function ContactUsSection() {
           {/* Call US */}
           <Card className="shadow-sm border-gray-200 hover:border-[#8d4585] hover:shadow-lg">
             <CardContent className="p-6 text-center">
-              <div className="flex justify-center mb-4">
-                <div className="bg-peter rounded-full p-3">
-                  <Phone className="w-6 h-6 text-white" />
-                </div>
+              <div className="flex justify-center mb-6">
+                {useIcon({ name: "phone" })}
               </div>
+
               <h3 className="font-semibold text-2xl text-gray-900 mb-3">
                 Call US
               </h3>
@@ -119,10 +116,8 @@ function ContactUsSection() {
           {/* Email Us */}
           <Card className="shadow-sm border-gray-200 hover:border-[#8d4585]">
             <CardContent className="p-6 text-center">
-              <div className="flex justify-center mb-4">
-                <div className="bg-peter rounded-full p-3">
-                  <Mail className="w-6 h-6 text-white" />
-                </div>
+              <div className="flex justify-center mb-6">
+                {useIcon({ name: "message" })}
               </div>
               <h3 className="font-semibold text-2xl text-gray-900 mb-3">
                 Email Us

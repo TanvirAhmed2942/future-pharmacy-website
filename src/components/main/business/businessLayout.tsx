@@ -7,7 +7,7 @@ import PartnerTestimonial from "./partnerTestimonial";
 
 function BusinessLayout() {
   return (
-    <div>
+    <div className="bg-white">
       <Banner
         title="Partner with Our Prescription Delivery Network"
         description="Grow your pharmacy’s reach and deliver medicines seamlessly to your customers."

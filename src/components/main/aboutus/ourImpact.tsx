@@ -1,6 +1,8 @@
+"use client";
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 export default function OurImpact() {
   const stats = [
@@ -47,6 +49,7 @@ export default function OurImpact() {
 }
 
 export const TransferPrescriptionSection = () => {
+  const router = useRouter();
   return (
     <div className="container mx-auto py-16 px-4 flex items-center justify-center">
       <div className="w-full mx-auto">
@@ -63,7 +66,10 @@ export const TransferPrescriptionSection = () => {
               prescription delivery needs.
             </p>
 
-            <Button className="bg-peter hover:bg-peter-dark text-white px-8 py-6 text-base font-medium rounded-md">
+            <Button
+              className="bg-peter hover:bg-peter-dark text-white px-8 py-6 text-base font-medium rounded-md cursor-pointer"
+              onClick={() => router.push("/transfer-prescription")}
+            >
               Transfer a Prescription
             </Button>
           </CardContent>

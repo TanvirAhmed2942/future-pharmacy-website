@@ -50,7 +50,7 @@ function PartnerRegistrationForm() {
   };
 
   return (
-    <div className=" bg-gray-50 py-16  px-4 md:px-8">
+    <div className=" bg-white py-16  px-4 md:px-8">
       <div className="max-w-2xl mx-auto">
         {/* Page Title */}
         <h1 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-8">

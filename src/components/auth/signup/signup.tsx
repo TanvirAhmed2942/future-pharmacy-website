@@ -8,7 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { useIcon } from "@/hooks/useIcon";
+import useIcon from "@/hooks/useIcon";
 
 function Signup() {
   const [showPassword, setShowPassword] = useState(false);
@@ -146,7 +146,7 @@ function Signup() {
           className="w-full bg-purple-50 hover:bg-purple-100 text-gray-700 font-medium py-2 px-4 rounded-lg border-purple-200 cursor-pointer"
         >
           <div className="flex items-center justify-center space-x-2">
-            {useIcon("google")}
+            <p>{useIcon({ name: "google" })}</p>
             <span>Continue with Google</span>
           </div>
         </Button>

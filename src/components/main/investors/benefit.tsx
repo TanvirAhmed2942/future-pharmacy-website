@@ -25,7 +25,7 @@ function Benefits() {
   ];
 
   return (
-    <section className="bg-gray-50 py-16 md:py-24 px-4 md:px-8">
+    <section className="bg-white py-16 md:py-24 px-4 md:px-8">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12 md:mb-16">
@@ -45,13 +45,13 @@ function Benefits() {
             return (
               <Card
                 key={index}
-                className="border bg-gray-50 border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-300"
+                className="border bg-white border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-300"
               >
                 <CardContent className="p-6 md:p-8 text-center">
                   {/* Icon */}
                   <div className="flex justify-center mb-6">
-                    <div className="bg-purple-100 rounded-full p-4">
-                      <Icon className="w-8 h-8 text-purple-600" />
+                    <div className="bg-[#f3ecf3] rounded-full p-4">
+                      <Icon className="w-8 h-8 text-peter" />
                     </div>
                   </div>
 

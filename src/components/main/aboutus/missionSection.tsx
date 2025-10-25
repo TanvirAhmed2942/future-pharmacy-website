@@ -1,6 +1,6 @@
 import React from "react";
-import { Eye, Target } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import useIcon from "@/hooks/useIcon";
 
 function MissionSection() {
   return (
@@ -10,8 +10,8 @@ function MissionSection() {
         {/* Mission Card */}
         <Card className="w-8/12 mx-auto">
           <CardHeader>
-            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-purple-100">
-              <Target className="h-6 w-6 text-peter" />
+            <div className="mx-auto mb-4 flex h-12 w-12 p-2 items-center justify-center rounded-full bg-[#f3ecf3]">
+              {useIcon({ name: "target" })}
             </div>
           </CardHeader>
           <CardContent className="text-center">
@@ -29,8 +29,8 @@ function MissionSection() {
         {/* Vision Card */}
         <Card className="w-8/12 mx-auto">
           <CardHeader>
-            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-purple-100">
-              <Eye className="h-6 w-6 text-peter" />
+            <div className="mx-auto mb-4 flex h-12 w-12 p-2 items-center justify-center rounded-full bg-[#f3ecf3]">
+              {useIcon({ name: "eye" })}
             </div>
           </CardHeader>
           <CardContent className="text-center">

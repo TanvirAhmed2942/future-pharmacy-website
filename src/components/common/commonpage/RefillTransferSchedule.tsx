@@ -77,7 +77,7 @@ function RefillTransferSchedule({
               <CardContent className="p-8 md:p-10 text-center">
                 {/* Icon */}
                 <div className="flex justify-center mb-6">
-                  <div className="bg-white rounded-lg p-4 ">
+                  <div>
                     {option.icon === "laptop" ? (
                       <Laptop className="w-12 h-12 text-peter" />
                     ) : (
@@ -98,7 +98,7 @@ function RefillTransferSchedule({
 
                 {/* Button */}
                 <Button
-                  className="bg-peter hover:bg-peter-dark text-white px-8 py-5 text-base font-medium"
+                  className="bg-peter hover:bg-peter-dark text-white px-8 py-5 text-base font-medium cursor-pointer"
                   onClick={
                     option.title === "Refill Online" ||
                     option.title === "Transfer Online" ||

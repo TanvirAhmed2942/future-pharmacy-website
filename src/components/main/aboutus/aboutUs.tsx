@@ -6,7 +6,7 @@ import OurImpact from "./ourImpact";
 
 function AboutUs() {
   return (
-    <div className="">
+    <div className="bg-white">
       <Banner
         title="Your Trusted Partner for Prescription Delivery"
         description="We make prescription delivery faster, safer, and more accessible for patients across the USA."

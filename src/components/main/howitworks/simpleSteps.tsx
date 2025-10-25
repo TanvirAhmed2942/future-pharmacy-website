@@ -35,7 +35,7 @@ function SimpleSteps() {
 
   return (
     <div className="bg-white py-16 md:py-24 px-4 font-inter">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl font-bold text-center text-gray-900 mb-16 font-inter">
           Our Simple 4-Step Process
         </h1>
@@ -54,14 +54,14 @@ function SimpleSteps() {
                     : "md:justify-start"
                 }`}
               >
-                <div className="bg-purple-100 rounded-full p-3 flex-shrink-0 mt-1">
+                <div className="bg-[#f3ecf3] rounded-full p-3 flex-shrink-0 mt-1">
                   <Icon className="w-6 h-6 text-peter" />
                 </div>
                 <div className={`flex-1 ${isEven ? "md:text-right" : ""}`}>
-                  <h3 className="text-lg font-bold text-black mb-3 font-inter">
+                  <h3 className="text-xl font-semibold text-black mb-3 font-inter">
                     {step.number}. {step.title}
                   </h3>
-                  <p className="text-black text-sm leading-relaxed font-inter">
+                  <p className="text-black text-base leading-relaxed font-inter">
                     {step.description}
                   </p>
                 </div>

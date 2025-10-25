@@ -1,6 +1,5 @@
 import RefillTransferSchedule from "@/components/common/commonpage/RefillTransferSchedule";
 import React from "react";
-
 function RefillPrescriptionLayout() {
   const refillOptions = [
     {
