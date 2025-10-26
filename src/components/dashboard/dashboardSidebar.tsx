@@ -1,5 +1,5 @@
-import { CreditCard, Home, Inbox, LogOut } from "lucide-react";
-
+import { CreditCard, Inbox, LogOut } from "lucide-react";
+import { TbLayoutDashboard } from "react-icons/tb";
 import {
   Sidebar,
   SidebarContent,
@@ -16,9 +16,9 @@ import Link from "next/link";
 // Menu items.
 const items = [
   {
-    title: "Home",
+    title: "Overview",
     url: "/dashboard/overview",
-    icon: Home,
+    icon: TbLayoutDashboard,
   },
   {
     title: "My Requests",

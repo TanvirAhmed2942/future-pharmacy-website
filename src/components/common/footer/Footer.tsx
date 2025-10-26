@@ -1,6 +1,7 @@
 import React from "react";
 import { Facebook, Linkedin } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 function Footer() {
   return (
@@ -10,15 +11,13 @@ function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-12">
           {/* Brand Section */}
           <div className="md:col-span-1">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-                <div className="w-6 h-6 border-2 border-purple-900 rounded-full"></div>
-              </div>
-              <div>
-                <div className="font-bold text-lg">Optimus</div>
-                <div className="text-xs text-gray-300">HEALTH SOLUTIONS</div>
-              </div>
-            </div>
+            <Image
+              src="/nav/dashboard_logo.png"
+              alt="logo"
+              width={200}
+              height={200}
+              className="w-48 h-fit object-cover  my-4"
+            />
             <p className="text-sm text-gray-300 leading-relaxed">
               Design amazing digital experiences that create more happy in the
               world.
@@ -47,10 +46,10 @@ function Footer() {
               </li>
               <li>
                 <Link
-                  href="/contact-us"
+                  href="/independent-pharmacies"
                   className="text-sm text-gray-300 hover:text-white transition"
                 >
-                  Contact Us
+                  For Independent Pharmacies
                 </Link>
               </li>
             </ul>

@@ -3,10 +3,12 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
+import PasswordModal from "./passWordModal";
 
 export default function PasswordAnd2FA() {
   const [password, setPassword] = useState("");
   const [is2FAEnabled, setIs2FAEnabled] = useState(true);
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
 
   return (
     <div className="w-full mx-auto space-y-6">
@@ -25,7 +27,10 @@ export default function PasswordAnd2FA() {
               className="max-w-md"
             />
           </div>
-          <Button className="bg-peter hover:bg-peter-dark text-white px-6 cursor-pointer">
+          <Button
+            className="bg-peter hover:bg-peter-dark text-white px-6 cursor-pointer"
+            onClick={() => setIsPasswordModalOpen(true)}
+          >
             Change password
           </Button>
         </div>
@@ -51,6 +56,18 @@ export default function PasswordAnd2FA() {
           />
         </div>
       </div>
+
+      {/* Password Modal */}
+      <PasswordModal
+        isOpen={isPasswordModalOpen}
+        onClose={() => setIsPasswordModalOpen(false)}
+        is2FAEnabled={is2FAEnabled}
+        onPasswordChange={(newPassword) => {
+          setPassword(newPassword);
+          // Here you would typically call an API to update the password
+          console.log("Password changed to:", newPassword);
+        }}
+      />
     </div>
   );
 }
