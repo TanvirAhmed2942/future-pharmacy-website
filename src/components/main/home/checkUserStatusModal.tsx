@@ -66,7 +66,7 @@ function NewCustomerModal({
               className="flex-1 h-12 bg-blue-900 text-white hover:bg-blue-800 flex items-center justify-center gap-2 font-medium"
             >
               <UserPlus className="w-4 h-4" />
-              Create Account
+              Login / Signup
             </Button>
 
             {/* Checkout as Guest Button */}

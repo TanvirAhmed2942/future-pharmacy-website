@@ -67,7 +67,7 @@ export default function MapAndFormSection() {
               </button>
             </div>
             <h1 className="text-3xl font-bold text-gray-900">
-              Request Your Prescription Delivery
+              Request Your Rx Delivered in Minutes
             </h1>
           </div>
 
