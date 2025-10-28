@@ -7,7 +7,7 @@ import ContactUsSection from "./contactUsSection";
 function Home() {
   return (
     <div className="min-h-screen  px-4 ">
-      <div className="container mx-auto space-y-16">
+      <div className="container mx-auto space-y-4">
         <MapAndFormSection />
         <RefillSection />
       </div>

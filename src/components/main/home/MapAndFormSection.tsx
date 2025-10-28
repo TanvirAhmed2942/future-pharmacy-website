@@ -50,7 +50,7 @@ export default function MapAndFormSection() {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row bg-gray-50 pt-8 lg:px-4 px-0 pb-16 gap-16">
+    <div className="flex flex-col lg:flex-row bg-gray-50 pt-8 lg:px-4 px-0 pb-8 gap-16 ">
       {/* Left Section - Form */}
       <div className="w-full lg:w-1/2 px-4 lg:px-8 py-6 overflow-y-auto bg-white rounded-xl ">
         <div className="max-w-full">
