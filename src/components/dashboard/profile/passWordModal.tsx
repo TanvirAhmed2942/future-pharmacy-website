@@ -114,7 +114,7 @@ function PasswordModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md p-4 sm:p-6">
         <DialogHeader>
           <DialogTitle>Change Password</DialogTitle>
           <DialogDescription>
@@ -249,15 +249,19 @@ function PasswordModal({
           )}
         </div>
 
-        <DialogFooter className="flex gap-2">
-          <Button variant="outline" onClick={onClose} className="flex-1">
+        <DialogFooter className="flex flex-col sm:flex-row gap-2">
+          <Button
+            variant="outline"
+            onClick={onClose}
+            className="w-full sm:flex-1"
+          >
             Cancel
           </Button>
           {is2FAEnabled ? (
             isOtpVerified && (
               <Button
                 onClick={handlePasswordChange2FA}
-                className="flex-1 bg-peter hover:bg-peter-dark text-white"
+                className="w-full sm:flex-1 bg-peter hover:bg-peter-dark text-white"
               >
                 Save Password
               </Button>
@@ -265,7 +269,7 @@ function PasswordModal({
           ) : (
             <Button
               onClick={handlePasswordChange}
-              className="flex-1 bg-peter hover:bg-peter-dark text-white"
+              className="w-full sm:flex-1 bg-peter hover:bg-peter-dark text-white"
             >
               Save Password
             </Button>
