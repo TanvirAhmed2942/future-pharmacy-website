@@ -300,7 +300,7 @@ function NavBar() {
 
       {/* Contact Information */}
       <div className="bg-[#1a0a1a] border-t border-gray-800">
-        <div className="container mx-auto px-4 sm:px-52 py-3">
+        <div className="container mx-auto px-4 sm:px-18  py-3">
           {/* Mobile Layout - Collapsible */}
           <div className="block sm:hidden">
             {/* Toggle Button */}
@@ -341,7 +341,7 @@ function NavBar() {
                 </div>
 
                 {/* Business Hours */}
-                <div className="flex items-center gap-2 pt-2">
+                <div className="flex items-center gap-2 pt-2 mr-4">
                   <Clock className="w-4 h-4 text-purple-400" />
                   <div className="text-sm">
                     <div>Mon-Fri: 8a.m.-7p.m. | Sat: 8a.m.-1p.m.</div>

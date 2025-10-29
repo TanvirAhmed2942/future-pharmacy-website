@@ -34,9 +34,9 @@ function SimpleSteps() {
   ];
 
   return (
-    <div className="bg-white py-16 md:py-24 px-4 font-inter">
+    <div className="bg-white py-6 md:py-24 px-4 font-inter">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl font-bold text-center text-gray-900 mb-16 font-inter">
+        <h1 className="text-4xl font-bold text-center text-gray-900 mb-6 md:mb-16 font-inter">
           Our Simple 4-Step Process
         </h1>
 

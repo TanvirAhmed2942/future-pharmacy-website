@@ -51,7 +51,7 @@ export default function OurImpact() {
 export const TransferPrescriptionSection = () => {
   const router = useRouter();
   return (
-    <div className="container mx-auto py-16 px-4 flex items-center justify-center">
+    <div className="container mx-auto py-6 md:py-16 px-4 flex items-center justify-center">
       <div className="w-full mx-auto">
         <Card className="border border-gray-200 shadow-sm rounded-4xl">
           <CardContent className="p-12 text-center">

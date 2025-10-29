@@ -48,7 +48,7 @@ function ContactUsSection() {
   };
 
   return (
-    <section className=" py-16 md:py-24 px-4 md:px-8">
+    <section className=" pb-4 md:pb-16 px-4 md:px-8">
       <div className="container mx-auto">
         {/* Page Title */}
         <h1 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-12">
@@ -60,7 +60,7 @@ function ContactUsSection() {
           {/* Visit Our Store */}
           <Card className="shadow-sm border-gray-200 hover:border-[#8d4585]">
             <CardContent className="p-6 text-center">
-              <div className="flex justify-center mb-6">
+              {/* <div className="flex justify-center mb-6">
                 {useIcon({ name: "map_fill" })}
               </div>
               <h3 className="font-semibold text-2xl text-gray-900 mb-3">
@@ -68,7 +68,7 @@ function ContactUsSection() {
               </h3>
               <p className="text-gray-600 text-lg mb-4">
                 2972 Westheimer Rd. Santa Ana, Illinois 85486
-              </p>
+              </p> */}
               <div className="space-y-2 pt-4">
                 <p className="font-semibold text-gray-900 text-2xl mb-2">
                   Hours:

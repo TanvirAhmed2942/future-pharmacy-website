@@ -50,23 +50,25 @@ export default function MapAndFormSection() {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row bg-gray-50 pt-8 lg:px-4 px-0 pb-8 gap-16 ">
+    <div className="flex flex-col lg:flex-row bg-gray-50 pt-4 sm:pt-8 lg:px-4 px-0 pb-4 sm:pb-8 gap-x-16 gap-y-4 sm:gap-y-8 ">
       {/* Left Section - Form */}
       <div className="w-full lg:w-1/2 px-4 lg:px-8 py-6 overflow-y-auto bg-white rounded-xl ">
         <div className="max-w-full">
           {/* Address Header */}
           <div className="mb-6">
-            <div className="flex items-center gap-2 text-sm text-gray-600 mb-4">
-              <MapPin className="w-4 h-4" />
-              <span>{currentLocation}</span>
+            <div className="flex flex-col-reverse sm:flex-row items-start sm:items-center gap-2 text-sm text-gray-600 mb-4">
+              <span className="flex items-center justify-start sm:justify-center gap-2">
+                <MapPin className="w-4 h-4" />
+                {currentLocation}
+              </span>
               <button
                 onClick={() => setIsLocationPickerOpen(true)}
-                className="text-peter hover:text-peter-dark ml-2 hover:underline cursor-pointer"
+                className="text-peter hover:text-peter-dark sm:ml-2 hover:underline cursor-pointer"
               >
                 Change City or Zip Code
               </button>
             </div>
-            <h1 className="text-3xl font-bold text-gray-900">
+            <h1 className="text-3xl lg:text-2xl 2xl:text-3xl font-bold text-gray-900">
               Request Your Rx Delivered in Minutes
             </h1>
           </div>
