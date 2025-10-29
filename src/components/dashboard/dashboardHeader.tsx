@@ -40,7 +40,7 @@ function DashboardHeader() {
                 />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
-              <span className="text-gray-500">John Doe</span>
+              <span className="text-gray-500 hidden sm:block">John Doe</span>
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56">
