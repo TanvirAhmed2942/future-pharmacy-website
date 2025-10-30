@@ -3,6 +3,9 @@ import { Facebook, Linkedin } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import useIcon from "@/hooks/useIcon";
+import { IoLogoTiktok } from "react-icons/io5";
+import { FaInstagram } from "react-icons/fa6";
+import { TbBrandYoutube } from "react-icons/tb";
 function Footer() {
   return (
     <footer className="bg-[#1c121b] text-white rounded-tl-3xl rounded-tr-3xl ">
@@ -52,6 +55,14 @@ function Footer() {
                   For Independent Pharmacies
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/blog"
+                  className="text-sm text-gray-300 hover:text-white transition"
+                >
+                  Blog
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -83,19 +94,13 @@ function Footer() {
           {/* Social Media Section */}
           <div>
             <h3 className="font-semibold text-base mb-4">Social Media</h3>
-            <div className="flex gap-4">
+            <div className="flex gap-4 flex-wrap max-w-42">
               <Link
                 href="#"
                 className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition"
-                aria-label="X (Twitter)"
+                aria-label="Facebook"
               >
-                <svg
-                  className="w-5 h-5"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                </svg>
+                <IoLogoTiktok className="w-5 h-5" />
               </Link>
               <Link
                 href="#"
@@ -103,6 +108,21 @@ function Footer() {
                 aria-label="LinkedIn"
               >
                 <Linkedin className="w-5 h-5" />
+              </Link>
+              <Link
+                href="#"
+                className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition"
+                aria-label="Facebook"
+              >
+                <FaInstagram className="w-5 h-5" />
+              </Link>
+
+              <Link
+                href="#"
+                className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition"
+                aria-label="Facebook"
+              >
+                <TbBrandYoutube className="w-5 h-5" />
               </Link>
               <Link
                 href="#"

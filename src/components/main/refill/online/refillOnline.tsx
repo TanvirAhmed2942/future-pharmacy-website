@@ -187,7 +187,7 @@ function RefillOnline() {
                 htmlFor="date"
                 className="text-sm font-medium text-gray-700"
               >
-                Date *
+                Date of Birth *
               </Label>
               <Controller
                 control={control}
@@ -436,10 +436,8 @@ function RefillOnline() {
 
         {/* Medication List Section */}
         <div className="bg-white rounded-lg border p-6 shadow-sm">
-          <h3 className="text-lg font-medium text-peter mb-4">
-            Medication List
-          </h3>
-          <div className="mb-4 flex items-start gap-2 text-sm text-gray-600 italic">
+          <h3 className="text-lg font-medium text-peter ">Medication List</h3>
+          {/* <div className="mb-4 flex items-start gap-2 text-sm text-gray-600 italic">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -457,8 +455,8 @@ function RefillOnline() {
               <line x1="12" y1="16" x2="12.01" y2="16"></line>
             </svg>
             <p>Add the medication... right under &quot;Medication List&quot;</p>
-          </div>
-          <div className="mb-4 text-sm text-gray-600">
+          </div> */}
+          <div className="mb-4 text-xs text-gray-600 italic">
             <p>
               Add the medication name and/or Rx number (or at least one is
               required to refill)

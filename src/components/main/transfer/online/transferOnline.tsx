@@ -393,7 +393,7 @@ function TransferOnline() {
 
         {/* Prescriptions Section */}
         <div className="bg-white rounded-lg border p-6 shadow-sm">
-          <div className="flex items-start mb-2">
+          <div className="flex items-start ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -413,7 +413,7 @@ function TransferOnline() {
             <h3 className="text-lg font-medium text-peter">Prescriptions</h3>
           </div>
           <div className="mb-4 text-sm text-gray-600">
-            <p>
+            <p className="text-xs text-gray-600 italic">
               Add the medication name and/or Rx number for all medications
               you&apos;d like to transfer
             </p>
@@ -490,59 +490,11 @@ function TransferOnline() {
             Additional Information
           </h3>
 
-          <h4 className="text-md font-medium text-peter mb-2">
-            Previous Pharmacy
-          </h4>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            <div>
-              <Label
-                htmlFor="additionalPreviousPharmacyName"
-                className="text-sm font-medium text-gray-700"
-              >
-                Previous Pharmacy Name *
-              </Label>
-              <Input
-                type="text"
-                id="additionalPreviousPharmacyName"
-                placeholder="e.g. CVS, Walgreens, etc."
-                className="w-full mt-1"
-              />
-            </div>
-            <div>
-              <Label
-                htmlFor="additionalPreviousPharmacyPhone"
-                className="text-sm font-medium text-gray-700"
-              >
-                Previous Pharmacy Phone *
-              </Label>
-              <Input
-                type="tel"
-                id="additionalPreviousPharmacyPhone"
-                placeholder="(555) 123-4567"
-                className="w-full mt-1"
-              />
-            </div>
-          </div>
-          <div className="mb-6">
-            <Label
-              htmlFor="additionalPreviousPharmacyAddress"
-              className="text-sm font-medium text-gray-700"
-            >
-              Previous Pharmacy Address
-            </Label>
-            <Input
-              type="text"
-              id="additionalPreviousPharmacyAddress"
-              placeholder="Street address, city state, Zip"
-              className="w-full mt-1"
-            />
-          </div>
-
           <Label
             htmlFor="notes"
             className="text-sm font-medium text-gray-700 block mb-2"
           >
-            Additional Notes or Special Instructions
+            Additional Notes or Special Instructions for the pharmacy
           </Label>
           <Textarea
             id="notes"

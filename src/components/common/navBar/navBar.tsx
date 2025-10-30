@@ -378,7 +378,7 @@ function NavBar() {
             </div>
 
             {/* Business Hours Section */}
-            <div className="flex items-center gap-2 -mr-13.5">
+            <div className="flex items-center gap-2 mr-4">
               <Clock className="w-4 h-4 text-purple-400" />
               <div className="flex items-center gap-4 text-sm">
                 <span className="border-r border-gray-600 pr-2">
