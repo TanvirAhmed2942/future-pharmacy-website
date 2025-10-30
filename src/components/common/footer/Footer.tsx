@@ -147,7 +147,7 @@ function Footer() {
           </p>
           <div className="flex gap-6">
             <Link
-              href="/policies/privacy-policy"
+              href="/policies/hipaa-policy"
               className="text-sm text-gray-400 hover:text-white underline transition"
             >
               HIPAA policy
