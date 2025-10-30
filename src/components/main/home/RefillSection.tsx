@@ -39,8 +39,20 @@ export default function RefilSection() {
   ];
 
   return (
-    <div className="container mx-auto bg-gray-50 py-4 md:py-8 lg:py-16 ">
+    <div className="container mx-auto bg-gray-50 py-4 md:py-8 lg:py-8 ">
       <div className=" mx-auto">
+        <div className="w-full max-w-2xl md:max-w-6xl mx-auto mb-10">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 font-inter text-center">
+            Our Services
+          </h2>
+          <p className="text-gray-700 text-base md:text-lg font-inter text-center">
+            When you refill, transfer prescription or schedule essential
+            healthcare services through our platform, you&apos;re connecting
+            with our trusted local independent pharmacies near you. Together,
+            we&apos;re strengthening our communities and helping independent
+            pharmacies thrive.
+          </p>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-10">
           {services.map((service, index) => (
             <Card
