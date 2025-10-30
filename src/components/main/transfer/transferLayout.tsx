@@ -9,6 +9,7 @@ function TransferLayout() {
       description:
         "Lorem ipsum dolor sit amet consectetur. Tempor quisque velit mi senectus mauris orci auctor.",
       buttonText: "Transfer Online",
+      onlineHref: "/transfer-prescription/online",
     },
     {
       icon: "phone" as const,

@@ -16,6 +16,7 @@ interface RefillOption {
   buttonText: string;
   icon: "laptop" | "phone" | "globe";
   onClick?: () => void;
+  onlineHref?: string;
 }
 
 interface RefillTransferScheduleProps {
@@ -30,18 +31,35 @@ function RefillTransferSchedule({
   const router = useRouter();
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
   const [isLoginChoiceModalOpen, setIsLoginChoiceModalOpen] = useState(false);
+  const [currentOnlineHref, setCurrentOnlineHref] = useState<
+    string | undefined
+  >(undefined);
   const { isLoggedIn } = useAuth();
 
   // Pre-fetch the globe icon
   const globeIcon = useIcon({ name: "globe" });
 
-  const handleOnlineClick = () => {
-    if (isLoggedIn) {
-      // User is logged in, show form directly
-      setIsFormModalOpen(true);
+  const handleOnlineClick = (onlineHref?: string) => {
+    // If onlineHref is provided, redirect to it
+    if (onlineHref) {
+      if (isLoggedIn) {
+        // User is logged in, redirect directly
+        router.push(onlineHref);
+      } else {
+        // User is not logged in, show login choice modal
+        // Store the redirect URL to use after login choice
+        setCurrentOnlineHref(onlineHref);
+        setIsLoginChoiceModalOpen(true);
+      }
     } else {
-      // User is not logged in, show login choice modal
-      setIsLoginChoiceModalOpen(true);
+      // Fallback to original behavior if no onlineHref provided
+      if (isLoggedIn) {
+        // User is logged in, show form directly
+        setIsFormModalOpen(true);
+      } else {
+        // User is not logged in, show login choice modal
+        setIsLoginChoiceModalOpen(true);
+      }
     }
   };
 
@@ -52,7 +70,14 @@ function RefillTransferSchedule({
 
   const handleGuestCheckout = () => {
     setIsLoginChoiceModalOpen(false);
-    setIsFormModalOpen(true);
+
+    // If we have a stored online URL, redirect to it
+    if (currentOnlineHref) {
+      router.push(currentOnlineHref);
+    } else {
+      // Otherwise show the form as before
+      setIsFormModalOpen(true);
+    }
   };
 
   const handleFormNext = (formData: {
@@ -155,7 +180,7 @@ function RefillTransferSchedule({
                     option.title === "Refill Online" ||
                     option.title === "Transfer Online" ||
                     option.title === "Schedule Online"
-                      ? handleOnlineClick
+                      ? () => handleOnlineClick(option.onlineHref)
                       : option.onClick
                   }
                 >

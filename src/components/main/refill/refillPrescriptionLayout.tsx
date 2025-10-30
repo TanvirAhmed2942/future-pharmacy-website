@@ -8,6 +8,7 @@ function RefillPrescriptionLayout() {
       description:
         "Lorem ipsum dolor sit amet consectetur. Tempor quisque velit mi senectus mauris orci auctor.",
       buttonText: "Refill Now",
+      onlineHref: "/refill-prescription/online",
     },
     {
       icon: "phone" as const,
