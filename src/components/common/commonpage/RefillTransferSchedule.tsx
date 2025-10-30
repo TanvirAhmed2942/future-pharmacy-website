@@ -62,13 +62,58 @@ function RefillTransferSchedule({
     setIsFormModalOpen(false);
   };
 
+  const steps = [
+    {
+      title: "Complete Refill From",
+      description:
+        "Fill out our secure online refill form with your prescription details",
+    },
+    {
+      title: "We contact your pharmacy",
+      description:
+        "Our team will contact your pharmacy to refill your prescriptions",
+    },
+    {
+      title: "Prescription Ready",
+      description:
+        "We'll notify you when your prescriptions are ready for delivery",
+    },
+  ];
+
   return (
-    <section className="bg-white py-16 md:py-24 px-4 md:px-8">
-      <div className="max-w-5xl mx-auto">
+    <section className="bg-white py-8 md:py-16 px-4 md:px-8">
+      <div className="max-w-7xl mx-auto">
         {/* Page Title */}
-        <h1 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-12">
+        <h1 className="text-2xl md:text-4xl font-bold text-center text-gray-900 mb-6 md:mb-12">
           {pageTitle}
         </h1>
+
+        <div className="mb-12">
+          <p className="text-gray-800 text-sm md:text-base mb-6 text-center md:text-left">
+            Need help? please call or text us at 917-993-0549
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {steps.map((step, index) => (
+              <div
+                key={index}
+                className="bg-gray-50 rounded-lg p-4 flex items-start gap-x-3"
+              >
+                <div className="min-w-7 min-h-7 rounded-full bg-peter flex items-center justify-center text-white">
+                  {index + 1}
+                </div>
+                <div className="space-y-3">
+                  <h3 className="text-xl md:text-2xl font-bold text-gray-900 ">
+                    {step.title}
+                  </h3>
+                  <p className="text-gray-600 text-sm md:text-base ">
+                    {step.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
 
         {/* Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

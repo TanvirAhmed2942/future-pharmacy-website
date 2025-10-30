@@ -60,19 +60,13 @@ function ContactUsSection() {
           {/* Visit Our Store */}
           <Card className="shadow-sm border-gray-200 hover:border-[#8d4585]">
             <CardContent className="p-6 text-center">
-              {/* <div className="flex justify-center mb-6">
-                {useIcon({ name: "map_fill" })}
+              <div className="flex justify-center mb-6 ">
+                {useIcon({ name: "operational_hours" })}
               </div>
               <h3 className="font-semibold text-2xl text-gray-900 mb-3">
-                Visit Our Store
+                Operational Hours
               </h3>
-              <p className="text-gray-600 text-lg mb-4">
-                2972 Westheimer Rd. Santa Ana, Illinois 85486
-              </p> */}
-              <div className="space-y-2 pt-4">
-                <p className="font-semibold text-gray-900 text-2xl mb-2">
-                  Hours:
-                </p>
+              <div className="space-y-4">
                 <p className="text-gray-600 text-lg">Mon-Fri: 8AM-8PM</p>
                 <p className="text-gray-600 text-lg">Sat: 9AM-4PM</p>
                 <p className="text-gray-600 text-lg">Sun: 9AM-8PM</p>
@@ -83,7 +77,7 @@ function ContactUsSection() {
           {/* Call US */}
           <Card className="shadow-sm border-gray-200 hover:border-[#8d4585] hover:shadow-lg">
             <CardContent className="p-6 text-center">
-              <div className="flex justify-center mb-6">
+              <div className="flex justify-center mb-6 ">
                 {useIcon({ name: "phone" })}
               </div>
 
@@ -116,7 +110,7 @@ function ContactUsSection() {
           {/* Email Us */}
           <Card className="shadow-sm border-gray-200 hover:border-[#8d4585]">
             <CardContent className="p-6 text-center">
-              <div className="flex justify-center mb-6">
+              <div className="flex justify-center mb-6 ">
                 {useIcon({ name: "message" })}
               </div>
               <h3 className="font-semibold text-2xl text-gray-900 mb-3">

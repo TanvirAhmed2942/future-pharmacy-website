@@ -3,7 +3,7 @@ import React from "react";
 
 function page() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className=" bg-white">
       <TransferLayout />
     </div>
   );

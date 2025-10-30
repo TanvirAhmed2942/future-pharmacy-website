@@ -19,7 +19,7 @@ function TransferLayout() {
     },
   ];
   return (
-    <div className="container mx-auto bg-white py-16 ">
+    <div className="container mx-auto bg-white  ">
       <RefillTransferSchedule
         pageTitle="Transfer Your Prescription"
         refillOptions={refillOptions}

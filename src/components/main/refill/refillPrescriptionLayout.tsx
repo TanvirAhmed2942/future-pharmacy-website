@@ -18,7 +18,7 @@ function RefillPrescriptionLayout() {
     },
   ];
   return (
-    <div className="container mx-auto bg-white py-16 ">
+    <div className="container mx-auto bg-white  ">
       <RefillTransferSchedule
         pageTitle="Refill Your Prescription"
         refillOptions={refillOptions}

@@ -3,7 +3,7 @@ import RefillPrescriptionLayout from "@/components/main/refill/refillPrescriptio
 
 function page() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className=" bg-white">
       <RefillPrescriptionLayout />
     </div>
   );
