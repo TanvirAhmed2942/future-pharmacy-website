@@ -16,7 +16,7 @@ function Footer() {
               alt="logo"
               width={200}
               height={200}
-              className="w-48 h-fit object-cover  my-4"
+              className="w-48 h-fit object-cover mb-4"
             />
             <p className="text-sm text-gray-300 leading-relaxed">
               Connecting communities to their local pharmacies for fast,

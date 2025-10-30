@@ -3,7 +3,7 @@ import React from "react";
 function RefillPrescriptionLayout() {
   const refillOptions = [
     {
-      icon: "laptop" as const,
+      icon: "globe" as const,
       title: "Refill Online",
       description:
         "Lorem ipsum dolor sit amet consectetur. Tempor quisque velit mi senectus mauris orci auctor.",

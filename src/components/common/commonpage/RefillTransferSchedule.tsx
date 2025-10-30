@@ -8,11 +8,13 @@ import { useRouter } from "next/navigation";
 import RefillTransferScheduleForm from "@/components/common/refilltransferscheduleform/refilltransferscheduleform";
 import LoginChoiceModal from "@/components/common/refilltransferscheduleform/LoginChoiceModal";
 import { useAuth } from "@/userInfo.authProvide";
+
+import useIcon from "@/hooks/useIcon";
 interface RefillOption {
   title: string;
   description: string;
   buttonText: string;
-  icon: "laptop" | "phone";
+  icon: "laptop" | "phone" | "globe";
   onClick?: () => void;
 }
 
@@ -29,6 +31,9 @@ function RefillTransferSchedule({
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
   const [isLoginChoiceModalOpen, setIsLoginChoiceModalOpen] = useState(false);
   const { isLoggedIn } = useAuth();
+
+  // Pre-fetch the globe icon
+  const globeIcon = useIcon({ name: "globe" });
 
   const handleOnlineClick = () => {
     if (isLoggedIn) {
@@ -97,9 +102,9 @@ function RefillTransferSchedule({
             {steps.map((step, index) => (
               <div
                 key={index}
-                className="bg-gray-50 rounded-lg p-4 flex items-start gap-x-3"
+                className="bg-gray-50 rounded-xl p-6 flex items-start gap-x-3 shadow-sm"
               >
-                <div className="min-w-7 min-h-7 rounded-full bg-peter flex items-center justify-center text-white">
+                <div className="min-w-7 min-h-7 rounded-full bg-peter flex items-center justify-center text-white mt-0.5">
                   {index + 1}
                 </div>
                 <div className="space-y-3">
@@ -125,9 +130,11 @@ function RefillTransferSchedule({
                   <div>
                     {option.icon === "laptop" ? (
                       <Laptop className="w-12 h-12 text-peter" />
-                    ) : (
+                    ) : option.icon === "phone" ? (
                       <Phone className="w-12 h-12 text-peter" />
-                    )}
+                    ) : option.icon === "globe" ? (
+                      globeIcon
+                    ) : null}
                   </div>
                 </div>
 

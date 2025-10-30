@@ -341,8 +341,8 @@ function NavBar() {
                 </div>
 
                 {/* Business Hours */}
-                <div className="flex items-center gap-2 pt-2 mr-4">
-                  <Clock className="w-4 h-4 text-purple-400" />
+                <div className="flex items-start gap-2 pt-2 mr-4">
+                  <Clock className="w-4 h-4 text-purple-400 mt-0.5" />
                   <div className="text-sm">
                     <div>Mon-Fri: 8a.m.-7p.m. | Sat: 8a.m.-1p.m.</div>
                     <div>Sun: Closed</div>
@@ -369,7 +369,7 @@ function NavBar() {
             </div>
 
             {/* Business Hours Section */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 -mr-13.5">
               <Clock className="w-4 h-4 text-purple-400" />
               <div className="flex items-center gap-4 text-sm">
                 <span className="border-r border-gray-600 pr-2">
