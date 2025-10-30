@@ -6,7 +6,7 @@ function Benefits() {
   const benefits = [
     {
       icon: Truck,
-      title: "Rapid market Growth",
+      title: "Growing Market",
       description:
         "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere. ",
     },

@@ -1,9 +1,10 @@
 "use client";
 import React, { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -11,17 +12,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Cloud } from "lucide-react";
-import { BiCloudUpload } from "react-icons/bi";
-function PartnerRegistrationForm() {
+
+function DriverRegForm() {
   const [formData, setFormData] = useState({
     name: "",
     emailAddress: "",
+    phoneNumber: "",
+    zipCode: "",
     vehicleType: "",
-    licenseFile: null as File | null,
+    otherVehicleType: "",
+    message: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -36,42 +41,24 @@ function PartnerRegistrationForm() {
     }));
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] || null;
-    setFormData((prev) => ({
-      ...prev,
-      licenseFile: file,
-    }));
-  };
-
   const handleSubmit = () => {
     console.log("Form submitted:", formData);
     // Handle form submission logic here
   };
 
   return (
-    <div className=" bg-white py-16  px-4 md:px-8">
+    <div className="bg-white py-10 px-4 md:px-8">
       <div className="max-w-2xl mx-auto">
-        {/* Page Title */}
-        <h1 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-8">
-          Driver Registration Form
-        </h1>
+        <Card className="border shadow-sm">
+          <CardContent className="pt-6">
+            <h2 className="text-xl font-semibold text-center mb-6">
+              Apply to become a Driver
+            </h2>
 
-        {/* Form Card */}
-        <Card className="shadow-lg">
-          <CardHeader className="space-y-1 pb-6">
-            <CardTitle className="text-2xl font-bold text-gray-900">
-              Driver Registration Form
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-6">
+            <div className="space-y-4">
               {/* Name Field */}
-              <div className="space-y-2">
-                <Label
-                  htmlFor="name"
-                  className="text-sm font-medium text-gray-700"
-                >
+              <div>
+                <Label htmlFor="name" className="text-sm text-gray-700">
                   Name
                 </Label>
                 <Input
@@ -81,16 +68,13 @@ function PartnerRegistrationForm() {
                   placeholder="Enter your name here..."
                   value={formData.name}
                   onChange={handleChange}
-                  className="bg-gray-50 border-gray-200 focus:border-peter focus:ring-peter/20"
+                  className="mt-1 bg-gray-50"
                 />
               </div>
 
               {/* Email Address Field */}
-              <div className="space-y-2">
-                <Label
-                  htmlFor="emailAddress"
-                  className="text-sm font-medium text-gray-700"
-                >
+              <div>
+                <Label htmlFor="emailAddress" className="text-sm text-gray-700">
                   Email Address
                 </Label>
                 <Input
@@ -100,24 +84,53 @@ function PartnerRegistrationForm() {
                   placeholder="Enter your email address here..."
                   value={formData.emailAddress}
                   onChange={handleChange}
-                  className="bg-gray-50 border-gray-200 focus:border-peter focus:ring-peter/20"
+                  className="mt-1 bg-gray-50"
+                />
+              </div>
+
+              {/* Phone Number Field */}
+              <div>
+                <Label htmlFor="phoneNumber" className="text-sm text-gray-700">
+                  Phone Number
+                </Label>
+                <Input
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  type="tel"
+                  placeholder="Enter your phone number here..."
+                  value={formData.phoneNumber}
+                  onChange={handleChange}
+                  className="mt-1 bg-gray-50"
+                />
+              </div>
+
+              {/* Zip Code Field */}
+              <div>
+                <Label htmlFor="zipCode" className="text-sm text-gray-700">
+                  Zip Code
+                </Label>
+                <Input
+                  id="zipCode"
+                  name="zipCode"
+                  type="text"
+                  placeholder="Enter your zip code here..."
+                  value={formData.zipCode}
+                  onChange={handleChange}
+                  className="mt-1 bg-gray-50"
                 />
               </div>
 
               {/* Vehicle Type Field */}
-              <div className="space-y-2">
-                <Label
-                  htmlFor="vehicleType"
-                  className="text-sm font-medium text-gray-700"
-                >
+              <div>
+                <Label htmlFor="vehicleType" className="text-sm text-gray-700">
                   Vehicle Type
                 </Label>
                 <Select
                   value={formData.vehicleType}
                   onValueChange={handleSelectChange}
                 >
-                  <SelectTrigger className="bg-gray-50 border-gray-200 focus:border-peter focus:ring-peter/20">
-                    <SelectValue placeholder="Select your vehicle type" />
+                  <SelectTrigger className="mt-1 bg-gray-50">
+                    <SelectValue placeholder="Select your vehicle type here..." />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="car">Car</SelectItem>
@@ -125,57 +138,53 @@ function PartnerRegistrationForm() {
                     <SelectItem value="bicycle">Bicycle</SelectItem>
                     <SelectItem value="van">Van</SelectItem>
                     <SelectItem value="truck">Truck</SelectItem>
+                    <SelectItem value="others">Others</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
-              {/* Upload License Section */}
-              <div className="space-y-2">
-                <Label className="text-sm font-medium text-gray-700">
-                  Upload License
-                </Label>
-                <div className="border-2 border-dashed border-peter rounded-lg p-8 text-center hover:bg-peter/5 transition-colors">
-                  <div className="flex flex-col items-center space-y-4">
-                    <Cloud className="w-12 h-12 text-peter" />
-                    <div className="space-y-2">
-                      <h3 className="text-lg font-semibold text-gray-900">
-                        Upload License
-                      </h3>
-                      <p className="text-sm text-peter">
-                        Drag and drop or click to upload{" "}
-                        {formData.licenseFile
-                          ? formData.licenseFile.name
-                          : "Image or PDF"}
-                      </p>
-                    </div>
-                    <input
-                      type="file"
-                      id="licenseFile"
-                      accept="image/*,.pdf"
-                      onChange={handleFileChange}
-                      className="hidden"
-                    />
-                    <Button
-                      type="button"
-                      variant="outline"
-                      className="bg-blue-900/90 hover:bg-blue-900 hover:text-white cursor-pointer text-white "
-                      onClick={() =>
-                        document.getElementById("licenseFile")?.click()
-                      }
-                    >
-                      <BiCloudUpload className="w-4 h-4 mr-2" />
-                      Upload File
-                    </Button>
-                  </div>
+              {/* Other Vehicle Type Field - Conditional */}
+              {formData.vehicleType === "others" && (
+                <div>
+                  <Label
+                    htmlFor="otherVehicleType"
+                    className="text-sm text-gray-700"
+                  >
+                    Specify Other Vehicle Type
+                  </Label>
+                  <Input
+                    id="otherVehicleType"
+                    name="otherVehicleType"
+                    type="text"
+                    placeholder="Please specify your vehicle type..."
+                    value={formData.otherVehicleType}
+                    onChange={handleChange}
+                    className="mt-1 bg-gray-50"
+                  />
                 </div>
+              )}
+
+              {/* Message Field */}
+              <div>
+                <Label htmlFor="message" className="text-sm text-gray-700">
+                  Your Message
+                </Label>
+                <Textarea
+                  id="message"
+                  name="message"
+                  placeholder="Type your message here..."
+                  value={formData.message}
+                  onChange={handleChange}
+                  className="mt-1 bg-gray-50 min-h-[100px]"
+                />
               </div>
 
               {/* Submit Button */}
               <Button
                 onClick={handleSubmit}
-                className="w-full bg-peter hover:bg-peter-dark text-white py-6 text-base font-medium"
+                className="w-full bg-peter hover:bg-peter-dark text-white py-2 cursor-pointer"
               >
-                Submit
+                Submit Interest
               </Button>
             </div>
           </CardContent>
@@ -185,4 +194,4 @@ function PartnerRegistrationForm() {
   );
 }
 
-export default PartnerRegistrationForm;
+export default DriverRegForm;

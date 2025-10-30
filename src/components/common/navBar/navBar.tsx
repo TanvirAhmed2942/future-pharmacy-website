@@ -19,6 +19,8 @@ function NavBar() {
   const pathname = usePathname();
   const router = useRouter();
   const { isLoggedIn, toggleLogin } = useAuth();
+
+  // Fix hydration issues by ensuring client-side rendering matches server
   useEffect(() => {
     setIsHydrated(true);
   }, []);
@@ -139,15 +141,19 @@ function NavBar() {
                 onMouseLeave={() => setIsBusinessDropdownOpen(false)}
               >
                 <div className="flex items-center">
-                  <Link
-                    href="/business"
+                  <span
+                    suppressHydrationWarning
                     className={cn(
-                      "text-white hover:text-[#ba5fb0] transition-colors",
-                      isActive("/business") && "border-b-2 border-[#8d4585]"
+                      "text-white hover:text-[#ba5fb0] transition-colors cursor-pointer",
+                      (isActive("/independent-pharmacies") ||
+                        isActive("/earn-as-driver") ||
+                        isActive("/investors") ||
+                        isActive("/other-businesses")) &&
+                        "border-b-2 border-[#8d4585]"
                     )}
                   >
                     Business
-                  </Link>
+                  </span>
                   <div
                     className="ml-1 cursor-pointer"
                     onMouseEnter={() => setIsBusinessDropdownOpen(true)}
@@ -259,16 +265,19 @@ function NavBar() {
 
             {/* Business Dropdown for Mobile */}
             <div>
-              <Link
-                href="/business"
+              <span
+                suppressHydrationWarning
                 className={cn(
-                  "block text-white hover:text-[#ba5fb0] transition-colors mb-2",
-                  isActive("/business") && "border-b-2 border-[#8d4585]"
+                  "block text-white hover:text-[#ba5fb0] transition-colors mb-2 cursor-pointer",
+                  (isActive("/independent-pharmacies") ||
+                    isActive("/earn-as-driver") ||
+                    isActive("/investors") ||
+                    isActive("/other-businesses")) &&
+                    "border-b-2 border-[#8d4585]"
                 )}
-                onClick={() => setIsMobileMenuOpen(false)}
               >
                 Business
-              </Link>
+              </span>
               <div className="ml-4 space-y-2">
                 {businessItems.map((item, index) => (
                   <Link

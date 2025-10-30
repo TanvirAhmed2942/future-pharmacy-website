@@ -4,26 +4,29 @@ function HowItWorksSection() {
   const items = [
     {
       badge: "H1",
-      title: "Sign Up",
+      title: "Apply to become a driver",
 
-      description: "Create your account in minutes.",
+      description:
+        "How It Works H1 Apply to become a driver 2022 Create your account in minutes. H2 Get Verified 2025 Complete our background check. H3 Start Delivery & Earning Present Hit the ",
     },
     {
       badge: "H2",
       title: "Get Verified",
 
-      description: "Complete our background check.",
+      description:
+        "Our staff will get in touch with you to discuss the next steps. Background checks, driver's license and insurance verification, vehicle inspections (if applicable), and compliance training are all part of this procedure.",
     },
     {
       badge: "H3",
-      title: "Start Delivery & Earning",
+      title: "Get activated and begin earning",
 
-      description: "Manage and Fulfil delivery requests through our platform.",
+      description:
+        "After being accepted, you will receive delivery information to pick up prescription drugs from nearby pharmacies and deliver them to users' preferred locations in a safe, secure, and considerate manner.",
     },
   ];
 
   return (
-    <div className="py-16 ">
+    <div className="py-16 px-4 md:px-0">
       <div className="max-w-2xl mx-auto">
         <h1 className="text-4xl font-bold text-center text-gray-900 my-16">
           How It Works

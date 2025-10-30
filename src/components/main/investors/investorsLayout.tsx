@@ -8,7 +8,7 @@ function InvestorsLayout() {
     <div>
       <Banner
         title="Invest in the Future of Prescription Delivery"
-        description="Join out team and start earning on your own schedule. delivery with flexibility and get paid weekly or instantly."
+        description="join us in revolutionizing prescription delivery with a scalable business model rooted in local community in rapidly growing healthcare delivery model"
         image="/banner/investors_banner.png"
       />
       <Benefits />

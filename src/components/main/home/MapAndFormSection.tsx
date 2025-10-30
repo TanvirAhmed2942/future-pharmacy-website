@@ -201,7 +201,7 @@ export default function MapAndFormSection() {
       </div>
 
       {/* Right Section - Map */}
-      <div className=" lg:block md:w-full lg:w-1/2   relative rounded-xl">
+      <div className=" lg:block md:w-full lg:w-1/2 px-4 md:px-0 relative rounded-xl">
         <iframe
           src="https://www.openstreetmap.org/export/embed.html?bbox=-74.2097%2C40.7014%2C-74.1497%2C40.7614&layer=mapnik&marker=40.7314,-74.1794"
           className="w-full h-full border-0 rounded-xl"

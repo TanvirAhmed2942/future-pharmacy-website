@@ -50,14 +50,14 @@ function InvestorsInquiryForm() {
     <div className="min-h-screen  py-12 px-4 md:px-8">
       <div className="max-w-2xl mx-auto">
         {/* Page Title */}
-        <h1 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-8">
-          Investor Inquiry Form
+        <h1 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-16">
+          Complete form to express interest
         </h1>
 
         {/* Form Card */}
         <Card className="shadow-lg">
           <CardHeader className="space-y-1 pb-6">
-            <CardTitle className="text-2xl font-bold text-gray-900">
+            <CardTitle className="text-2xl font-bold text-gray-900 text-center">
               Investor Inquiry Form
             </CardTitle>
           </CardHeader>
@@ -158,9 +158,9 @@ function InvestorsInquiryForm() {
               {/* Submit Button */}
               <Button
                 onClick={handleSubmit}
-                className="w-full bg-peter hover:bg-peter-dark text-white py-6 text-base font-medium"
+                className="w-full bg-peter hover:bg-peter-dark text-white py-6 text-base font-medium cursor-pointer"
               >
-                Submit
+                Submit Interest
               </Button>
             </div>
           </CardContent>

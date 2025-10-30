@@ -9,8 +9,8 @@ function EarnAsDriverLayout() {
   return (
     <div>
       <Banner
-        title="Partner with Our Prescription Delivery Network"
-        description="Grow your pharmacy’s reach and deliver medicines seamlessly to your customers."
+        title="Earn with Every Delivery"
+        description="Join the community of independent courier drivers supporting local pharmacies and helping patients get the prescriptions they need while you earn a flexible income."
         image="/banner/earn_as_driver.png"
       />
       <Benefits />
