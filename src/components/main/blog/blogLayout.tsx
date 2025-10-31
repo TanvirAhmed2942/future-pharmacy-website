@@ -74,7 +74,7 @@ function BlogLayout() {
             and updates.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-4 2xl:gap-8">
           {blog.map((blog) => (
             <BlogCard key={blog.title + blog.date} blog={[blog]} />
           ))}

@@ -60,7 +60,7 @@ export default function RefilSection() {
           {services.map((service, index) => (
             <Card
               key={index}
-              className="bg-white p-8 text-center hover:shadow-lg transition-shadow flex flex-col "
+              className="bg-white p-8 text-center hover:shadow-lg transition-shadow flex flex-col border-none shadow-none "
             >
               {/* Icon section - fixed height */}
               <div className="flex justify-center mb-4 h-20  items-center">

@@ -29,7 +29,7 @@ function BlogCard({ blog }: { blog: Blog[] }) {
           >
             <CardContent className="p-2">
               <div>
-                <div className="relative w-full aspect-[16/9] overflow-hidden">
+                <div className="relative w-full h-48 md:h-64 aspect-[16/9] overflow-hidden">
                   <Image
                     src={blog.image}
                     alt={blog.title}
