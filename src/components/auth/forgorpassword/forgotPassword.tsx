@@ -16,7 +16,7 @@ function ForgotPassword() {
           alt="logo"
           width={300}
           height={300}
-          className="w-48 h-fit object-cover mx-auto my-4"
+          className="w-48 h-14 object-cover mx-auto my-4"
         />
         <h2 className="text-2xl font-bold text-gray-800 mb-4">
           Reset Password

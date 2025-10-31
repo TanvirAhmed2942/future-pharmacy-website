@@ -3,7 +3,7 @@ import Banner from "@/components/common/banner/Banner";
 import SimpleSteps from "./simpleSteps";
 import WeWillBeRight from "./weWillBeRIght";
 import SafetyAndSecuritySection from "./safetyandsecuritySection";
-import { TransferPrescriptionSection } from "../aboutus/ourImpact";
+// import { TransferPrescriptionSection } from "../aboutus/ourImpact";
 
 function HowItWorksLayout() {
   return (
@@ -18,7 +18,7 @@ function HowItWorksLayout() {
       </div>
       <WeWillBeRight />
       <SafetyAndSecuritySection />
-      <TransferPrescriptionSection />
+      {/* <TransferPrescriptionSection /> */}
     </>
   );
 }

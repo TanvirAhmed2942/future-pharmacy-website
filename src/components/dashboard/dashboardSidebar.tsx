@@ -43,12 +43,15 @@ export function DashboardSidebar() {
       <SidebarContent className="rounded-2xl bg-peter m-4 ">
         <SidebarGroup>
           <SidebarGroupLabel className="flex items-center justify-center my-10">
+            {/* <div className="w-full h-full"> */}
             <Image
               src="/nav/dashboard_logo.png"
               alt="logo"
-              width={200}
-              height={200}
+              width={1000}
+              height={1000}
+              className="w-full h-14"
             />
+            {/* </div> */}
           </SidebarGroupLabel>
           <SidebarGroupContent className="mt-10">
             <SidebarMenu>
