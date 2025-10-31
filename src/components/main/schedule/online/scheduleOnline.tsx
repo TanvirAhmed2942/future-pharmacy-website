@@ -17,8 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
+import { ChevronDownIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 import React from "react";
@@ -28,12 +27,15 @@ type FormValues = {
   firstName: string;
   lastName: string;
   phoneNumber: string;
-  date: Date | undefined;
+  dateOfBirth: Date | undefined; // Renamed from date to dateOfBirth
 
   // Pharmacy details
   pharmacyName: string;
   pharmacyPhone: string;
   pharmacyAddress: string;
+  pharmacyCity: string;
+  pharmacyState: string;
+  pharmacyZipCode: string;
 
   // Service type
   serviceCategory: string;
@@ -57,10 +59,13 @@ function ScheduleOnline() {
       firstName: "",
       lastName: "",
       phoneNumber: "",
-      date: undefined,
+      dateOfBirth: undefined,
       pharmacyName: "",
       pharmacyPhone: "",
       pharmacyAddress: "",
+      pharmacyCity: "",
+      pharmacyState: "",
+      pharmacyZipCode: "",
       serviceCategory: "",
       serviceType: "",
       notes: "",
@@ -84,9 +89,12 @@ function ScheduleOnline() {
   };
 
   return (
-    <div className="container mx-auto bg-white py-8 max-w-3xl">
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 px-4">
-        <h2 className="text-2xl font-bold text-center text-peter font-inter mb-2">
+    <div className="container mx-auto bg-white max-w-3xl mb-6">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-6 md:space-y-8 px-4"
+      >
+        <h2 className="text-2xl lg:text-3xl font-bold text-center text-peter font-inter mt-2 mb-4 lg:-mt-8 lg:mb-8 ">
           Schedule Your Prescription
         </h2>
 
@@ -177,48 +185,64 @@ function ScheduleOnline() {
             </div>
             <div>
               <Label
-                htmlFor="date"
+                htmlFor="dateOfBirth"
                 className="text-sm font-medium text-gray-700"
               >
-                Date *
+                Date of Birth *
               </Label>
               <Controller
                 control={control}
-                name="date"
-                rules={{ required: "Date is required" }}
+                name="dateOfBirth"
+                rules={{ required: "Date of birth is required" }}
                 render={({ field }) => (
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button
+                        id="dateOfBirth"
                         variant={"outline"}
                         className={cn(
-                          "relative w-full mt-1 justify-start text-left font-normal",
+                          "w-full mt-1 justify-between font-normal",
                           !field.value && "text-muted-foreground",
-                          errors.date && "border-red-500"
+                          errors.dateOfBirth && "border-red-500"
                         )}
                       >
                         {field.value ? (
-                          format(field.value, "PPP")
+                          // Format the date as MM/DD/YYYY
+                          `${(field.value.getMonth() + 1)
+                            .toString()
+                            .padStart(2, "0")}/${field.value
+                            .getDate()
+                            .toString()
+                            .padStart(2, "0")}/${field.value.getFullYear()}`
                         ) : (
-                          <span>Pick a date</span>
+                          <span>Select date (MM/DD/YYYY)</span>
                         )}
-                        <CalendarIcon className="absolute right-2 top-1/2 -translate-y-1/2 h-4 w-4" />
+                        <ChevronDownIcon className="h-4 w-4 opacity-50" />
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
                         mode="single"
                         selected={field.value}
-                        onSelect={field.onChange}
+                        onSelect={(date) => {
+                          // Prevent future dates
+                          if (date && date <= new Date()) {
+                            field.onChange(date);
+                          }
+                        }}
+                        captionLayout="dropdown"
+                        fromYear={1900}
+                        toYear={new Date().getFullYear()}
+                        disabled={(date) => date > new Date()}
                         initialFocus
                       />
                     </PopoverContent>
                   </Popover>
                 )}
               />
-              {errors.date && (
+              {errors.dateOfBirth && (
                 <p className="text-red-500 text-xs mt-1">
-                  {errors.date.message}
+                  {errors.dateOfBirth.message}
                 </p>
               )}
             </div>
@@ -297,9 +321,90 @@ function ScheduleOnline() {
               type="text"
               id="pharmacyAddress"
               {...register("pharmacyAddress")}
-              placeholder="Street address, city, state, Zip"
+              placeholder="Enter pharmacy address here..."
               className="w-full mt-1"
             />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+            <div>
+              <Label
+                htmlFor="pharmacyCity"
+                className="text-sm font-medium text-gray-700"
+              >
+                City *
+              </Label>
+              <Input
+                type="text"
+                id="pharmacyCity"
+                {...register("pharmacyCity", {
+                  required: "City is required",
+                })}
+                placeholder="Enter city name here..."
+                className={cn(
+                  "w-full mt-1",
+                  errors.pharmacyCity && "border-red-500"
+                )}
+              />
+              {errors.pharmacyCity && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.pharmacyCity.message}
+                </p>
+              )}
+            </div>
+            <div>
+              <Label
+                htmlFor="pharmacyState"
+                className="text-sm font-medium text-gray-700"
+              >
+                State *
+              </Label>
+              <Input
+                type="text"
+                id="pharmacyState"
+                {...register("pharmacyState", {
+                  required: "State is required",
+                })}
+                placeholder="Enter state name here..."
+                className={cn(
+                  "w-full mt-1",
+                  errors.pharmacyState && "border-red-500"
+                )}
+              />
+              {errors.pharmacyState && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.pharmacyState.message}
+                </p>
+              )}
+            </div>
+            <div>
+              <Label
+                htmlFor="pharmacyZipCode"
+                className="text-sm font-medium text-gray-700"
+              >
+                Zip Code *
+              </Label>
+              <Input
+                type="text"
+                id="pharmacyZipCode"
+                {...register("pharmacyZipCode", {
+                  required: "Zip code is required",
+                  pattern: {
+                    value: /^\d{5}(-\d{4})?$/,
+                    message: "Please enter a valid zip code",
+                  },
+                })}
+                placeholder="Enter zip code here..."
+                className={cn(
+                  "w-full mt-1",
+                  errors.pharmacyZipCode && "border-red-500"
+                )}
+              />
+              {errors.pharmacyZipCode && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.pharmacyZipCode.message}
+                </p>
+              )}
+            </div>
           </div>
 
           {/* Service Category Dropdown */}

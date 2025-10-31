@@ -94,9 +94,12 @@ function RefillOnline() {
   };
 
   return (
-    <div className="container mx-auto bg-white py-8 max-w-3xl">
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 px-4">
-        <h2 className="text-2xl font-bold text-center text-peter font-inter">
+    <div className="container mx-auto bg-white max-w-3xl mb-6 mt-4 md:mt-0">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-6 md:space-y-8 px-4"
+      >
+        <h2 className="text-2xl lg:text-3xl font-bold text-center text-peter font-inter mt-2 mb-4 lg:-mt-8 lg:mb-8 ">
           Refill Your Prescription
         </h2>
 
