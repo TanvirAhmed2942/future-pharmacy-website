@@ -3,6 +3,7 @@ import MapAndFormSection from "./MapAndFormSection";
 import RefillSection from "./RefillSection";
 import UserTestimonial from "./userTestimonial";
 import ContactUsSection from "./contactUsSection";
+import OurImpact from "../aboutus/ourImpact";
 
 function Home() {
   return (
@@ -11,6 +12,7 @@ function Home() {
         <MapAndFormSection />
         <RefillSection />
       </div>
+      <OurImpact />
       <UserTestimonial />
       <div className="bg-white">
         <ContactUsSection />

@@ -43,7 +43,7 @@ export default function OurImpact() {
           </div>
         </div>
       </div>
-      <TransferPrescriptionSection />
+      {/* <TransferPrescriptionSection /> */}
     </>
   );
 }
