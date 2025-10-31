@@ -42,7 +42,7 @@ export default function RefilSection() {
   ];
 
   return (
-    <div className="container mx-auto bg-gray-50 py-4 md:py-8 lg:py-8 ">
+    <div className="container mx-auto bg-gray-50 py-4 md:py-8 lg:py-16 ">
       <div className=" mx-auto">
         <div className="w-full max-w-2xl md:max-w-6xl mx-auto mb-10">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 font-inter text-center">
@@ -63,24 +63,26 @@ export default function RefilSection() {
               className="bg-white p-8 text-center hover:shadow-lg transition-shadow flex flex-col "
             >
               {/* Icon section - fixed height */}
-              <div className="flex justify-center mb-6 h-24  items-center">
+              <div className="flex justify-center mb-4 h-20  items-center">
                 <Image
                   src={service.icon}
                   alt={service.title}
-                  width={100}
-                  height={100}
+                  width={150}
+                  height={150}
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="w-full h-full object-contain"
                 />
               </div>
 
               {/* Title section - fixed height */}
-              <div className="h-16 flex items-center justify-center mb-4">
+              <div className="h-fit flex items-center justify-center mb-2">
                 <h3 className="text-xl font-bold text-gray-900">
                   {service.title}
                 </h3>
               </div>
 
               {/* Description section - flexible height with min-height */}
-              <div className="flex-1 flex items-start justify-center mb-6 min-h-[80px]">
+              <div className="flex-1 flex items-start justify-center mb-2 ">
                 <p className="text-gray-600 text-sm leading-relaxed">
                   {service.description}
                 </p>
