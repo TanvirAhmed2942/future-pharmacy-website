@@ -10,8 +10,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
+import { ChevronDownIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 import React from "react";
@@ -32,17 +31,23 @@ type FormValues = {
   firstName: string;
   lastName: string;
   phoneNumber: string;
-  date: Date | undefined;
+  dateOfBirth: Date | undefined; // Renamed from date to dateOfBirth for clarity
 
   // Previous pharmacy details
   previousPharmacyName: string;
   previousPharmacyPhone: string;
   previousPharmacyAddress: string;
+  previousPharmacyCity: string;
+  previousPharmacyState: string;
+  previousPharmacyZipCode: string;
 
   // New pharmacy details
   newPharmacyName: string;
   newPharmacyPhone: string;
   newPharmacyAddress: string;
+  newPharmacyCity: string;
+  newPharmacyState: string;
+  newPharmacyZipCode: string;
 
   medications: MedicationInput[];
   transferAll: boolean;
@@ -61,13 +66,19 @@ function TransferOnline() {
       firstName: "",
       lastName: "",
       phoneNumber: "",
-      date: undefined,
+      dateOfBirth: undefined,
       previousPharmacyName: "",
       previousPharmacyPhone: "",
       previousPharmacyAddress: "",
+      previousPharmacyCity: "",
+      previousPharmacyState: "",
+      previousPharmacyZipCode: "",
       newPharmacyName: "",
       newPharmacyPhone: "",
       newPharmacyAddress: "",
+      newPharmacyCity: "",
+      newPharmacyState: "",
+      newPharmacyZipCode: "",
       medications: [{ id: 1, name: "", rxNumber: "" }],
       transferAll: false,
       notes: "",
@@ -187,48 +198,64 @@ function TransferOnline() {
             </div>
             <div>
               <Label
-                htmlFor="date"
+                htmlFor="dateOfBirth"
                 className="text-sm font-medium text-gray-700"
               >
-                Date *
+                Date of Birth *
               </Label>
               <Controller
                 control={control}
-                name="date"
-                rules={{ required: "Date is required" }}
+                name="dateOfBirth"
+                rules={{ required: "Date of birth is required" }}
                 render={({ field }) => (
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button
+                        id="dateOfBirth"
                         variant={"outline"}
                         className={cn(
-                          "relative w-full mt-1 justify-start text-left font-normal",
+                          "w-full mt-1 justify-between font-normal",
                           !field.value && "text-muted-foreground",
-                          errors.date && "border-red-500"
+                          errors.dateOfBirth && "border-red-500"
                         )}
                       >
                         {field.value ? (
-                          format(field.value, "PPP")
+                          // Format the date as MM/DD/YYYY
+                          `${(field.value.getMonth() + 1)
+                            .toString()
+                            .padStart(2, "0")}/${field.value
+                            .getDate()
+                            .toString()
+                            .padStart(2, "0")}/${field.value.getFullYear()}`
                         ) : (
-                          <span>Pick a date</span>
+                          <span>Select date (MM/DD/YYYY)</span>
                         )}
-                        <CalendarIcon className="absolute right-2 top-1/2 -translate-y-1/2 h-4 w-4" />
+                        <ChevronDownIcon className="h-4 w-4 opacity-50" />
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
                         mode="single"
                         selected={field.value}
-                        onSelect={field.onChange}
+                        onSelect={(date) => {
+                          // Prevent future dates
+                          if (date && date <= new Date()) {
+                            field.onChange(date);
+                          }
+                        }}
+                        captionLayout="dropdown"
+                        fromYear={1900}
+                        toYear={new Date().getFullYear()}
+                        disabled={(date) => date > new Date()}
                         initialFocus
                       />
                     </PopoverContent>
                   </Popover>
                 )}
               />
-              {errors.date && (
+              {errors.dateOfBirth && (
                 <p className="text-red-500 text-xs mt-1">
-                  {errors.date.message}
+                  {errors.dateOfBirth.message}
                 </p>
               )}
             </div>
@@ -300,7 +327,7 @@ function TransferOnline() {
               )}
             </div>
           </div>
-          <div className="mb-6">
+          <div className="mb-4">
             <Label
               htmlFor="previousPharmacyAddress"
               className="text-sm font-medium text-gray-700"
@@ -311,9 +338,90 @@ function TransferOnline() {
               type="text"
               id="previousPharmacyAddress"
               {...register("previousPharmacyAddress")}
-              placeholder="Street address, city, state, ZIP"
+              placeholder="Enter pharmacy address here..."
               className="w-full mt-1"
             />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div>
+              <Label
+                htmlFor="previousPharmacyCity"
+                className="text-sm font-medium text-gray-700"
+              >
+                City *
+              </Label>
+              <Input
+                type="text"
+                id="previousPharmacyCity"
+                {...register("previousPharmacyCity", {
+                  required: "City is required",
+                })}
+                placeholder="Enter city name here..."
+                className={cn(
+                  "w-full mt-1",
+                  errors.previousPharmacyCity && "border-red-500"
+                )}
+              />
+              {errors.previousPharmacyCity && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.previousPharmacyCity.message}
+                </p>
+              )}
+            </div>
+            <div>
+              <Label
+                htmlFor="previousPharmacyState"
+                className="text-sm font-medium text-gray-700"
+              >
+                State *
+              </Label>
+              <Input
+                type="text"
+                id="previousPharmacyState"
+                {...register("previousPharmacyState", {
+                  required: "State is required",
+                })}
+                placeholder="Enter state name here..."
+                className={cn(
+                  "w-full mt-1",
+                  errors.previousPharmacyState && "border-red-500"
+                )}
+              />
+              {errors.previousPharmacyState && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.previousPharmacyState.message}
+                </p>
+              )}
+            </div>
+            <div>
+              <Label
+                htmlFor="previousPharmacyZipCode"
+                className="text-sm font-medium text-gray-700"
+              >
+                Zip Code *
+              </Label>
+              <Input
+                type="text"
+                id="previousPharmacyZipCode"
+                {...register("previousPharmacyZipCode", {
+                  required: "Zip code is required",
+                  pattern: {
+                    value: /^\d{5}(-\d{4})?$/,
+                    message: "Please enter a valid zip code",
+                  },
+                })}
+                placeholder="Enter zip code here..."
+                className={cn(
+                  "w-full mt-1",
+                  errors.previousPharmacyZipCode && "border-red-500"
+                )}
+              />
+              {errors.previousPharmacyZipCode && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.previousPharmacyZipCode.message}
+                </p>
+              )}
+            </div>
           </div>
 
           {/* New Pharmacy Information */}
@@ -385,9 +493,90 @@ function TransferOnline() {
               type="text"
               id="newPharmacyAddress"
               {...register("newPharmacyAddress")}
-              placeholder="Street address, city, state, ZIP"
+              placeholder="Enter pharmacy address here..."
               className="w-full mt-1"
             />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+            <div>
+              <Label
+                htmlFor="newPharmacyCity"
+                className="text-sm font-medium text-gray-700"
+              >
+                City *
+              </Label>
+              <Input
+                type="text"
+                id="newPharmacyCity"
+                {...register("newPharmacyCity", {
+                  required: "City is required",
+                })}
+                placeholder="Enter city name here..."
+                className={cn(
+                  "w-full mt-1",
+                  errors.newPharmacyCity && "border-red-500"
+                )}
+              />
+              {errors.newPharmacyCity && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.newPharmacyCity.message}
+                </p>
+              )}
+            </div>
+            <div>
+              <Label
+                htmlFor="newPharmacyState"
+                className="text-sm font-medium text-gray-700"
+              >
+                State *
+              </Label>
+              <Input
+                type="text"
+                id="newPharmacyState"
+                {...register("newPharmacyState", {
+                  required: "State is required",
+                })}
+                placeholder="Enter state name here..."
+                className={cn(
+                  "w-full mt-1",
+                  errors.newPharmacyState && "border-red-500"
+                )}
+              />
+              {errors.newPharmacyState && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.newPharmacyState.message}
+                </p>
+              )}
+            </div>
+            <div>
+              <Label
+                htmlFor="newPharmacyZipCode"
+                className="text-sm font-medium text-gray-700"
+              >
+                Zip Code *
+              </Label>
+              <Input
+                type="text"
+                id="newPharmacyZipCode"
+                {...register("newPharmacyZipCode", {
+                  required: "Zip code is required",
+                  pattern: {
+                    value: /^\d{5}(-\d{4})?$/,
+                    message: "Please enter a valid zip code",
+                  },
+                })}
+                placeholder="Enter zip code here..."
+                className={cn(
+                  "w-full mt-1",
+                  errors.newPharmacyZipCode && "border-red-500"
+                )}
+              />
+              {errors.newPharmacyZipCode && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.newPharmacyZipCode.message}
+                </p>
+              )}
+            </div>
           </div>
         </div>
 
