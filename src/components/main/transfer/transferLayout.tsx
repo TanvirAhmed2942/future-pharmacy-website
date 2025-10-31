@@ -4,7 +4,7 @@ import React from "react";
 function TransferLayout() {
   const refillOptions = [
     {
-      icon: "laptop" as const,
+      icon: "globe" as const,
       title: "Transfer Online",
       description:
         "Lorem ipsum dolor sit amet consectetur. Tempor quisque velit mi senectus mauris orci auctor.",

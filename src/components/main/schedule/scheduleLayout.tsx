@@ -4,7 +4,7 @@ import React from "react";
 function ScheduleLayout() {
   const refillOptions = [
     {
-      icon: "laptop" as const,
+      icon: "globe" as const,
       title: "Schedule Online",
       description:
         "Lorem ipsum dolor sit amet consectetur. Tempor quisque velit mi senectus mauris orci auctor.",
