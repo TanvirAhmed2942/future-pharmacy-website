@@ -34,7 +34,7 @@ function OurStorySection() {
 
         <div className="relative">
           {/* Vertical connecting line */}
-          <div className="absolute left-6 top-2 bottom-18 w-0.5 border-l-2 border-dashed border-gray-300 " />
+          <div className="absolute left-6 top-2 bottom-28 md:bottom-18 w-0.5 border-l-2 border-dashed border-gray-300 " />
 
           <div className="space-y-12 my-16">
             {items.map((item, idx) => (
