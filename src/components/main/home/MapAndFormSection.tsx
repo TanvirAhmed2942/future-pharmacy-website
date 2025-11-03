@@ -68,7 +68,10 @@ export default function MapAndFormSection() {
                 Change City or Zip Code
               </button>
             </div>
-            <h1 className="text-3xl lg:text-2xl 2xl:text-3xl font-bold text-gray-900">
+            <h1
+              id="request-your-rx-delivered-in-minutes"
+              className="text-3xl lg:text-2xl 2xl:text-3xl font-bold text-gray-900"
+            >
               Request Your Rx Delivered in Minutes
             </h1>
           </div>

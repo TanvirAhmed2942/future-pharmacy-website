@@ -1,22 +1,37 @@
-import React from "react";
-import { Truck, Search, Users } from "lucide-react";
+"use client";
+
+import React, { ReactElement } from "react";
+import { Search, Users, LucideIcon } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import useIcon from "@/hooks/useIcon";
+
+type BenefitItem = {
+  title: string;
+  description: string;
+} & (
+  | { iconType: "custom"; customIcon: ReactElement | null }
+  | { iconType: "lucide"; icon: LucideIcon }
+);
 
 function Benefits() {
-  const benefits = [
+  const growing_market = useIcon({ name: "growing_market" });
+  const benefits: BenefitItem[] = [
     {
-      icon: Truck,
+      iconType: "custom",
+      customIcon: growing_market,
       title: "Growing Market",
       description:
         "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere. ",
     },
     {
+      iconType: "lucide",
       icon: Search,
       title: "Tech-Driven Model",
       description:
         "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere.",
     },
     {
+      iconType: "lucide",
       icon: Users,
       title: "Scalable Nationwide",
       description:
@@ -41,7 +56,7 @@ function Benefits() {
         {/* Benefits Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           {benefits.map((benefit, index) => {
-            const Icon = benefit.icon;
+            // Using benefit.icon directly instead of assigning to const Icon
             return (
               <Card
                 key={index}
@@ -51,7 +66,13 @@ function Benefits() {
                   {/* Icon */}
                   <div className="flex justify-center mb-6">
                     <div className="bg-[#f3ecf3] rounded-full p-4">
-                      <Icon className="w-8 h-8 text-peter" />
+                      <div className="w-8 h-8 text-peter">
+                        {benefit.iconType === "custom" && benefit.customIcon}
+                        {benefit.iconType === "lucide" &&
+                          React.createElement(benefit.icon, {
+                            className: "w-8 h-8 text-peter",
+                          })}
+                      </div>
                     </div>
                   </div>
 

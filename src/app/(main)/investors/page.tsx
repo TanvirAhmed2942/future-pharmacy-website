@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import InvestorsLayout from "@/components/main/investors/investorsLayout";
 

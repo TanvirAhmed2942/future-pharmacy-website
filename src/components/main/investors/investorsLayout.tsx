@@ -1,3 +1,5 @@
+"use client";
+
 import Banner from "@/components/common/banner/Banner";
 import React from "react";
 import Benefits from "./benefit";
