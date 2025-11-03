@@ -5,6 +5,7 @@ import UserTestimonial from "./userTestimonial";
 import ContactUsSection from "./contactUsSection";
 import OurImpact from "../aboutus/ourImpact";
 import HowOptimusWorks from "./howOptimusWorks";
+import CheckZoneCoverage from "./checKZoneCoverage";
 
 function Home() {
   return (
@@ -17,6 +18,7 @@ function Home() {
       <OurImpact />
       <UserTestimonial />
       <div className="bg-white">
+        <CheckZoneCoverage />
         <ContactUsSection />
       </div>
     </div>

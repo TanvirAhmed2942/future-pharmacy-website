@@ -52,7 +52,7 @@ export default function HowOptimusWorks() {
             How Optimus Health Solutions Works
           </h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-10 px-4 md:px-6">
+        <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-4 2xl:gap-10 px-4 md:px-6">
           {items.map((item, index) => (
             <Card
               key={index}

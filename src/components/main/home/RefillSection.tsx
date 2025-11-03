@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import useIcon from "@/hooks/useIcon";
 
 export default function RefilSection() {
   const router = useRouter();
@@ -40,10 +41,15 @@ export default function RefilSection() {
     window.requestAnimationFrame(step);
   };
 
+  const prescriptionDelivery = useIcon({ name: "prescription_delivery" });
+  const refillPrescription = useIcon({ name: "refill_prescription" });
+  const calendar = useIcon({ name: "calendar" });
+
   const services = [
     {
-      icon: "/home/schedule.png",
-      title: "Prescription Delivery",
+      icon: prescriptionDelivery,
+      iconType: "custom",
+      title: "Request a Prescription Delivery",
       description:
         "Lorem ipsum dolor sit amet consectetur. Tempor quisque velit mi senectus mauris orci auctor.",
       buttonText: "Request Now",
@@ -52,7 +58,8 @@ export default function RefilSection() {
       onlineHref: "/request-your-rx-delivered-in-minutes",
     },
     {
-      icon: "/home/refill.png",
+      icon: refillPrescription,
+      iconType: "custom",
       title: "Refill a Prescription",
       description:
         "Lorem ipsum dolor sit amet consectetur. Tempor quisque velit mi senectus mauris orci auctor.",
@@ -63,6 +70,7 @@ export default function RefilSection() {
     },
     {
       icon: "/home/transfer.png",
+      iconType: "image",
       title: "Transfer a Prescription",
       description:
         "Lorem ipsum dolor sit amet consectetur. Tempor quisque velit mi senectus mauris orci auctor.",
@@ -72,8 +80,8 @@ export default function RefilSection() {
       onlineHref: "/transfer-prescription/online",
     },
     {
-      icon: "/home/schedule.png",
-
+      icon: calendar,
+      iconType: "custom",
       title: "Schedule Essential Healthcare Services",
       description:
         "Lorem ipsum dolor sit amet consectetur. mauris orci auctor.",
@@ -99,7 +107,7 @@ export default function RefilSection() {
             pharmacies thrive.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-4 gap-10 px-4 md:px-4">
+        <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-4 gap-4  2xl:gap-10 px-4 md:px-4">
           {services.map((service, index) => (
             <Card
               key={index}
@@ -107,14 +115,20 @@ export default function RefilSection() {
             >
               {/* Icon section - fixed height */}
               <div className="flex justify-center mb-4 h-20  items-center">
-                <Image
-                  src={service?.icon || ""}
-                  alt={service?.title || ""}
-                  width={150}
-                  height={150}
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  className="w-full h-full object-contain"
-                />
+                {service?.iconType === "custom" ? (
+                  <div className=" text-peter flex items-center justify-center">
+                    {service?.icon}
+                  </div>
+                ) : (
+                  <Image
+                    src={(service?.icon as string) || ""}
+                    alt={service?.title || ""}
+                    width={150}
+                    height={150}
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="w-full h-full object-contain"
+                  />
+                )}
               </div>
 
               {/* Title section - fixed height */}

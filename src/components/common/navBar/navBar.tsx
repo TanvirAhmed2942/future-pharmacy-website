@@ -39,10 +39,10 @@ function NavBar() {
     { label: "Other Businesses", href: "/other-businesses" },
   ];
 
-  const languageItems = [
-    { label: "English", href: "/en" },
-    { label: "Spanish", href: "/es" },
-  ];
+  // const languageItems = [
+  //   { label: "English", href: "/en" },
+  //   { label: "Spanish", href: "/es" },
+  // ];
 
   const isActive = (href: string) => {
     if (!isHydrated) return false;
@@ -72,7 +72,7 @@ function NavBar() {
               <div className="relative w-32 h-8">
                 <Link href="/">
                   <Image
-                    src={"/nav/Logo.png"}
+                    src={"/nav/Logo.svg"}
                     alt="Optimus Health Solutions Logo"
                     width={192}
                     height={48}
@@ -110,10 +110,10 @@ function NavBar() {
           <div className="hidden lg:flex items-center justify-between w-full">
             {/* Logo */}
             <div className="flex items-center">
-              <div className="relative w-48 h-12">
+              <div className="relative w-48 h-16">
                 <Link href="/">
                   <Image
-                    src={"/nav/Logo.png"}
+                    src={"/nav/Logo.svg"}
                     alt="Optimus Health Solutions Logo"
                     width={192}
                     height={48}
