@@ -1,8 +1,6 @@
 "use client";
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 
 export default function OurImpact() {
   const stats = [
@@ -22,9 +20,9 @@ export default function OurImpact() {
 
   return (
     <>
-      <div className=" bg-[#f3ecf3]  px-4 py-16">
+      <div className=" bg-[#f3ecf3]  px-4 py-6 md:py-16">
         <div className="max-w-6xl mx-auto ">
-          <h1 className="text-4xl font-bold text-center text-gray-900 pb-16">
+          <h1 className="text-4xl font-bold text-center text-gray-900 pb-6 md:pb-16">
             Our Impact
           </h1>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 ">
@@ -48,33 +46,33 @@ export default function OurImpact() {
   );
 }
 
-export const TransferPrescriptionSection = () => {
-  const router = useRouter();
-  return (
-    <div className="container mx-auto py-6 md:py-16 px-4 flex items-center justify-center">
-      <div className="w-full mx-auto">
-        <Card className="border border-gray-200 shadow-sm rounded-4xl">
-          <CardContent className="p-12 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Ready to experience the convenience
-              <br />
-              of Optimus Heath Solutions
-            </h2>
+// export const TransferPrescriptionSection = () => {
+//   const router = useRouter();
+//   return (
+//     <div className="container mx-auto py-6 md:py-16 px-4 flex items-center justify-center">
+//       <div className="w-full mx-auto">
+//         <Card className="border border-gray-200 shadow-sm rounded-4xl">
+//           <CardContent className="p-12 text-center">
+//             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+//               Ready to experience the convenience
+//               <br />
+//               of Optimus Heath Solutions
+//             </h2>
 
-            <p className="text-gray-600 text-base md:text-lg mb-8 max-w-2xl mx-auto">
-              Join thousands of satisfied patients who trust us with their
-              prescription delivery needs.
-            </p>
+//             <p className="text-gray-600 text-base md:text-lg mb-8 max-w-2xl mx-auto">
+//               Join thousands of satisfied patients who trust us with their
+//               prescription delivery needs.
+//             </p>
 
-            <Button
-              className="bg-peter hover:bg-peter-dark text-white px-8 py-6 text-base font-medium rounded-md cursor-pointer"
-              onClick={() => router.push("/transfer-prescription")}
-            >
-              Transfer a Prescription
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
-  );
-};
+//             <Button
+//               className="bg-peter hover:bg-peter-dark text-white px-8 py-6 text-base font-medium rounded-md cursor-pointer"
+//               onClick={() => router.push("/transfer-prescription")}
+//             >
+//               Transfer a Prescription
+//             </Button>
+//           </CardContent>
+//         </Card>
+//       </div>
+//     </div>
+//   );
+// };

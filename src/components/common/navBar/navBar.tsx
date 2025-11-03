@@ -14,12 +14,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 function NavBar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isBusinessDropdownOpen, setIsBusinessDropdownOpen] = useState(false);
+  const [isMobileBusinessOpen, setIsMobileBusinessOpen] = useState(false);
   const [isContactSectionOpen, setIsContactSectionOpen] = useState(false);
   const [isHydrated, setIsHydrated] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
   const { isLoggedIn, toggleLogin } = useAuth();
-
+  const [isSpanish, setIsSpanish] = useState(false);
   // Fix hydration issues by ensuring client-side rendering matches server
   useEffect(() => {
     setIsHydrated(true);
@@ -36,6 +37,11 @@ function NavBar() {
     { label: "Earn as a Driver", href: "/earn-as-driver" },
     { label: "Investors", href: "/investors" },
     { label: "Other Businesses", href: "/other-businesses" },
+  ];
+
+  const languageItems = [
+    { label: "English", href: "/en" },
+    { label: "Spanish", href: "/es" },
   ];
 
   const isActive = (href: string) => {
@@ -185,6 +191,23 @@ function NavBar() {
                   </div>
                 )}
               </div>
+              <div className="flex items-center gap-2">
+                <label className="language-switch" htmlFor="language">
+                  <input
+                    id="language"
+                    type="checkbox"
+                    checked={isSpanish}
+                    onChange={() => setIsSpanish(!isSpanish)}
+                  />
+                  <span className="switch-track">
+                    <span className="language-option inactive">EN</span>
+                    <span className="language-option inactive">ES</span>
+                    <span className="switch-thumb">
+                      {isSpanish ? "ES" : "EN"}
+                    </span>
+                  </span>
+                </label>
+              </div>
             </div>
 
             {/* Desktop Action Buttons */}
@@ -265,37 +288,80 @@ function NavBar() {
 
             {/* Business Dropdown for Mobile */}
             <div>
-              <span
-                suppressHydrationWarning
+              <div
+                onClick={() => setIsMobileBusinessOpen(!isMobileBusinessOpen)}
+                className="flex items-center justify-between cursor-pointer"
+              >
+                <span
+                  suppressHydrationWarning
+                  className={cn(
+                    "block text-white hover:text-[#ba5fb0] transition-colors",
+                    (isActive("/independent-pharmacies") ||
+                      isActive("/earn-as-driver") ||
+                      isActive("/investors") ||
+                      isActive("/other-businesses")) &&
+                      "border-b-2 border-[#8d4585]"
+                  )}
+                >
+                  Business
+                </span>
+                <ChevronDown
+                  className={cn(
+                    "w-4 h-4 text-white transition-transform duration-300",
+                    isMobileBusinessOpen && "rotate-180"
+                  )}
+                />
+              </div>
+              <div
                 className={cn(
-                  "block text-white hover:text-[#ba5fb0] transition-colors mb-2 cursor-pointer",
-                  (isActive("/independent-pharmacies") ||
-                    isActive("/earn-as-driver") ||
-                    isActive("/investors") ||
-                    isActive("/other-businesses")) &&
-                    "border-b-2 border-[#8d4585]"
+                  "overflow-hidden transition-all duration-300 ease-in-out",
+                  isMobileBusinessOpen
+                    ? "max-h-96 opacity-100 mt-2"
+                    : "max-h-0 opacity-0"
                 )}
               >
-                Business
-              </span>
-              <div className="ml-4 space-y-2">
-                {businessItems.map((item, index) => (
-                  <Link
-                    key={index}
-                    href={item.href}
-                    className={cn(
-                      "block text-gray-300 hover:text-[#ba5fb0] transition-colors",
-                      isActive(item.href) && "text-[#ba5fb0] font-medium"
-                    )}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    {item.label}
-                  </Link>
-                ))}
+                <div className="ml-4 space-y-2">
+                  {businessItems.map((item, index) => (
+                    <Link
+                      key={index}
+                      href={item.href}
+                      className={cn(
+                        "block text-gray-300 hover:text-[#ba5fb0] transition-colors",
+                        isActive(item.href) && "text-[#ba5fb0] font-medium"
+                      )}
+                      onClick={() => {
+                        setIsMobileMenuOpen(false);
+                        setIsMobileBusinessOpen(false);
+                      }}
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
               </div>
             </div>
 
-            <div className="flex flex-col space-y-2 pt-4 border-t border-gray-700">
+            {/* Language Switch for Mobile */}
+            <div className="flex items-center justify-between pt-4 border-t border-gray-700">
+              <span className="text-white text-sm">Language</span>
+              <label className="language-switch" htmlFor="language-mobile">
+                <input
+                  id="language-mobile"
+                  type="checkbox"
+                  checked={isSpanish}
+                  onChange={() => setIsSpanish(!isSpanish)}
+                />
+                <span className="switch-track">
+                  <span className="language-option inactive">EN</span>
+                  <span className="language-option inactive">ES</span>
+                  <span className="switch-thumb">
+                    {isSpanish ? "ES" : "EN"}
+                  </span>
+                </span>
+              </label>
+            </div>
+
+            <div className="flex flex-col space-y-2 pt-4">
               <Button className="bg-white text-gray-800 hover:bg-gray-100 border-white w-full">
                 Login
               </Button>

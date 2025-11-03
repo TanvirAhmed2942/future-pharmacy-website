@@ -4,7 +4,6 @@ import SimpleSteps from "./simpleSteps";
 import WeWillBeRight from "./weWillBeRIght";
 import SafetyAndSecuritySection from "./safetyandsecuritySection";
 import ReadyToExperience from "@/components/common/readyToExperience/ReadyToExperience";
-// import { TransferPrescriptionSection } from "../aboutus/ourImpact";
 
 function HowItWorksLayout() {
   return (
@@ -20,7 +19,6 @@ function HowItWorksLayout() {
       <WeWillBeRight />
       <SafetyAndSecuritySection />
       <ReadyToExperience />
-      {/* <TransferPrescriptionSection /> */}
     </>
   );
 }
