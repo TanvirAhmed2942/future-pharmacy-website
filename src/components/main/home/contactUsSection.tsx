@@ -139,13 +139,13 @@ function ContactUsSection() {
         </div>
 
         {/* Send Us a Message Form */}
-        <div className="max-w-2xl mx-auto">
+        <div id="contact-us" className="max-w-2xl mx-auto">
           <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-8">
             Send Us a Message
           </h2>
 
-          <Card className="shadow-lg border-gray-200 bg-white">
-            <CardContent className="p-6 md:p-8">
+          <Card className="shadow-lg p-2 border-gray-200 bg-white ">
+            <CardContent className="p-6">
               <div className="space-y-6">
                 {/* Name and Email Row */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -238,10 +238,10 @@ function ContactUsSection() {
                 </div>
 
                 {/* Submit Button */}
-                <div className="flex justify-center">
+                <div className="flex justify-center ">
                   <Button
                     onClick={handleSubmit}
-                    className="bg-peter hover:bg-peter-dark text-white px-8 py-5 text-base font-medium"
+                    className="bg-peter hover:bg-peter-dark text-white px-8 py-4 text-base font-medium"
                   >
                     Send Message
                   </Button>

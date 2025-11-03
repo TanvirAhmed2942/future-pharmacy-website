@@ -3,6 +3,7 @@ import Banner from "@/components/common/banner/Banner";
 import SimpleSteps from "./simpleSteps";
 import WeWillBeRight from "./weWillBeRIght";
 import SafetyAndSecuritySection from "./safetyandsecuritySection";
+import ReadyToExperience from "@/components/common/readyToExperience/ReadyToExperience";
 // import { TransferPrescriptionSection } from "../aboutus/ourImpact";
 
 function HowItWorksLayout() {
@@ -18,6 +19,7 @@ function HowItWorksLayout() {
       </div>
       <WeWillBeRight />
       <SafetyAndSecuritySection />
+      <ReadyToExperience />
       {/* <TransferPrescriptionSection /> */}
     </>
   );

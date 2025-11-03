@@ -2,7 +2,7 @@ import React from "react";
 import Banner from "@/components/common/banner/Banner";
 import MissionSection from "./missionSection";
 import OurStorySection from "./ourStorySection";
-// import OurImpact from "./ourImpact";
+import ReadyToExperience from "@/components/common/readyToExperience/ReadyToExperience";
 
 function AboutUs() {
   return (
@@ -16,7 +16,7 @@ function AboutUs() {
         <MissionSection />
         <OurStorySection />
       </div>
-      {/* <OurImpact /> */}
+      <ReadyToExperience />
     </div>
   );
 }
