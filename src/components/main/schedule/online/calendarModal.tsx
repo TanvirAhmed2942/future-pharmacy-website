@@ -199,7 +199,7 @@ const CalendarModal: React.FC<DateTimePickerModalProps> = ({
             </div>
 
             {/* Calendar Grid */}
-            <div className="bg-purple-50 rounded-lg p-4">
+            <div className="bg-[#f2e3f0] rounded-lg p-4">
               {/* Day Headers */}
               <div className="grid grid-cols-7 gap-2 mb-2">
                 {daysOfWeek.map((day, index) => (
@@ -242,24 +242,19 @@ const CalendarModal: React.FC<DateTimePickerModalProps> = ({
 
           {/* Time Slots Section */}
           <div>
-            <div className="mb-4">
+            <div className="mb-0">
               <span className="text-lg font-medium text-gray-700">
                 {getSelectedDateName(currentDate, selectedDate)}
               </span>
             </div>
 
-            <div className="mb-4">
-              <div className="mt-2 text-sm text-peter">
+            <div className="mb-2">
+              <div className=" text-sm text-peter">
                 Select one or more time slots for your appointment
               </div>
             </div>
 
-            <div className="space-y-3 max-h-96 overflow-y-auto">
-              {/* <div className="flex justify-between mb-2 sticky top-0 bg-white py-2 border-b text-sm font-medium">
-                <span>Morning</span>
-                <span>Afternoon</span>
-                <span>Evening</span>
-              </div> */}
+            <div className="space-y-3 max-h-96 overflow-y-auto border border-gray-200 rounded-lg p-2">
               {availableTimes.map((timeSlot, index) => (
                 <button
                   key={index}
@@ -275,7 +270,7 @@ const CalendarModal: React.FC<DateTimePickerModalProps> = ({
                     }
                     ${
                       selectedTimes.includes(timeSlot.time)
-                        ? "border-peter bg-[#f3ecf3]"
+                        ? "border-red-900 bg-[#f3ecf3]"
                         : ""
                     }
                   `}
