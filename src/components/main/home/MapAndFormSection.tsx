@@ -56,7 +56,7 @@ export default function MapAndFormSection() {
         <div className="max-w-full">
           {/* Address Header */}
           <div className="mb-6">
-            <div className="flex flex-col-reverse sm:flex-row items-start sm:items-center gap-2 text-sm text-gray-600 mb-4">
+            <div className="flex flex-col-reverse sm:flex-row items-center sm:items-start gap-2 text-sm text-gray-600 mb-4">
               <span className="flex items-center justify-start sm:justify-center gap-2">
                 <MapPin className="w-4 h-4" />
                 {currentLocation}
@@ -70,9 +70,15 @@ export default function MapAndFormSection() {
             </div>
             <h1
               id="request-your-rx-delivered-in-minutes"
-              className="text-lg lg:text-xl 2xl:text-2xl font-bold text-gray-900"
+              className="hidden sm:block text-2xl lg:text-xl 2xl:text-2xl font-bold text-gray-900 "
             >
               Request Your Prescriptions Delivered in Minutes
+            </h1>
+            <h1
+              id="request-your-rx-delivered-in-minutes"
+              className="block sm:hidden text-2xl lg:text-xl 2xl:text-2xl font-medium text-gray-900 text-center"
+            >
+              Request Your Prescriptions <br /> Delivered in Minutes
             </h1>
           </div>
 
