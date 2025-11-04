@@ -70,9 +70,9 @@ export default function MapAndFormSection() {
             </div>
             <h1
               id="request-your-rx-delivered-in-minutes"
-              className="text-3xl lg:text-2xl 2xl:text-3xl font-bold text-gray-900"
+              className="text-lg lg:text-xl 2xl:text-2xl font-bold text-gray-900"
             >
-              Request Your Rx Delivered in Minutes
+              Request Your Prescriptions Delivered in Minutes
             </h1>
           </div>
 

@@ -29,7 +29,9 @@ function Footer() {
 
           {/* Home Section */}
           <div>
-            <h3 className="font-semibold text-base mb-4">Home</h3>
+            <Link href="/">
+              <h3 className="font-semibold text-base mb-4">Home</h3>
+            </Link>
             <ul className="space-y-3">
               <li>
                 <Link

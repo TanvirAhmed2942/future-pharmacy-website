@@ -94,7 +94,7 @@ function CheckZoneCoverage() {
               {useIcon({ name: "check-zone-coverage" })}
             </div>
             <h1 className="text-3xl md:text-4xl font-bold text-center text-gray-900 ">
-              Is your area in our delivery zone?
+              Check if you are in our Delivery Zone
             </h1>
             <div className="flex flex-col items-center justify-center gap-4">
               <Input
