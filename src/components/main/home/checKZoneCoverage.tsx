@@ -35,6 +35,8 @@ function CheckZoneCoverage() {
     "07199",
   ];
 
+  const [notFoundZip, setNotFoundZip] = useState("");
+
   const handleSearch = (search: string) => {
     const trimmedSearch = search.trim();
 
@@ -63,8 +65,9 @@ function CheckZoneCoverage() {
         setIsCovered(true);
         // alert("Your area is in our delivery zone");
       } else {
+        setNotFoundZip(trimmedSearch); // Store the zip that was not found
         setIsCovered(false);
-        setZip("");
+        setZip(""); // Clear the input
         // alert("Your area is not in our delivery zone");
       }
     }, 1000);
@@ -96,7 +99,7 @@ function CheckZoneCoverage() {
             <div className="flex flex-col items-center justify-center gap-4">
               <Input
                 type="text"
-                placeholder="Enter your zip code ex:10017"
+                placeholder="Enter your zip code ex: 10017"
                 className="w-full max-w-md flex items-center justify-center placeholder:text-center text-center"
                 maxLength={5}
                 value={zip}
@@ -144,9 +147,10 @@ function CheckZoneCoverage() {
           }}
         >
           <NotifyCoverage
-            zipCode={zip}
+            zipCode={notFoundZip}
             isCovered={isCovered}
             setIsCovered={setIsCovered}
+            setNotFoundZip={setNotFoundZip}
           />
         </section>
       </div>
@@ -160,10 +164,12 @@ const NotifyCoverage = ({
   zipCode,
   // isCovered,
   setIsCovered,
+  setNotFoundZip,
 }: {
   zipCode: string;
   isCovered: boolean | null;
   setIsCovered: React.Dispatch<React.SetStateAction<boolean | null>>;
+  setNotFoundZip: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const [email, setEmail] = useState("");
   const [isOpen, setIsOpen] = useState(false);
@@ -173,6 +179,7 @@ const NotifyCoverage = ({
 
   const handleBack = () => {
     setIsCovered(null);
+    setNotFoundZip(""); // Clear the not found zip when going back
   };
 
   const handleClose = () => {

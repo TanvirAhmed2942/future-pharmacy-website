@@ -20,8 +20,9 @@ import {
 import { ChevronDownIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-import React from "react";
+import React, { useState } from "react";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
+import CalendarModal from "./calendarModal";
 
 type FormValues = {
   firstName: string;
@@ -40,6 +41,11 @@ type FormValues = {
   // Service type
   serviceCategory: string;
   serviceType: string;
+
+  // Appointment details
+  appointmentDate: string;
+  appointmentTime: string;
+  appointmentAllTimes: string[];
 
   // Additional info
   notes: string;
@@ -68,13 +74,22 @@ function ScheduleOnline() {
       pharmacyZipCode: "",
       serviceCategory: "",
       serviceType: "",
+      appointmentDate: "",
+      appointmentTime: "",
+      appointmentAllTimes: [],
       notes: "",
       consent: false,
     },
   });
 
+  // State for calendar modal
+  const [isCalendarModalOpen, setIsCalendarModalOpen] = useState(false);
+
   // Watch the service category to update available options in second dropdown
   const selectedCategory = watch("serviceCategory");
+  const selectedDate = watch("appointmentDate");
+  // const selectedTime = watch("appointmentTime");
+  const selectedAllTimes = watch("appointmentAllTimes");
 
   // Reset service type when category changes
   React.useEffect(() => {
@@ -82,6 +97,23 @@ function ScheduleOnline() {
       setValue("serviceType", "");
     }
   }, [selectedCategory, setValue]);
+
+  const handleSelectDateTime = ({
+    date,
+    time,
+    allSelectedTimes,
+  }: {
+    date: string;
+    time: string;
+    allSelectedTimes?: string[];
+  }) => {
+    setValue("appointmentDate", date);
+    setValue("appointmentTime", time);
+    if (allSelectedTimes) {
+      setValue("appointmentAllTimes", allSelectedTimes);
+    }
+    setIsCalendarModalOpen(false);
+  };
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     console.log(data);
@@ -426,7 +458,7 @@ function ScheduleOnline() {
                 >
                   <SelectTrigger
                     className={cn(
-                      "w-full mt-1",
+                      "w-full mt-1 h-10 text-[14px]",
                       errors.serviceCategory && "border-red-500"
                     )}
                   >
@@ -444,6 +476,63 @@ function ScheduleOnline() {
             {errors.serviceCategory && (
               <p className="text-red-500 text-xs mt-1">
                 {errors.serviceCategory.message}
+              </p>
+            )}
+          </div>
+
+          {/* Calendar  */}
+          <div className="mb-4">
+            <Label
+              htmlFor="appointmentDateTime"
+              className="text-sm font-medium text-gray-700"
+            >
+              Select Date & Time
+            </Label>
+            <Button
+              type="button"
+              variant={"outline"}
+              onClick={() => setIsCalendarModalOpen(true)}
+              className={cn(
+                "w-full mt-1 justify-between font-normal text-left",
+                !selectedDate && "text-muted-foreground"
+              )}
+            >
+              {selectedDate &&
+              selectedAllTimes &&
+              selectedAllTimes.length > 0 ? (
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-medium text-gray-700">
+                    {selectedDate}
+                  </span>
+                  <div className="text-sm text-gray-500  max-h-16 overflow-y-auto pr-2">
+                    {selectedAllTimes.length > 3 ? (
+                      <>
+                        {selectedAllTimes.slice(0, 2).map((time, index) => (
+                          <span key={index}>
+                            {time}
+                            {index < 1 ? ", " : ""}
+                          </span>
+                        ))}
+                        <span> and {selectedAllTimes.length - 2} more</span>
+                      </>
+                    ) : (
+                      selectedAllTimes.map((time, index) => (
+                        <span key={index}>
+                          {time}
+                          {index < selectedAllTimes.length - 1 ? ", " : ""}
+                        </span>
+                      ))
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <span>Select a Date & Time</span>
+              )}
+              <ChevronDownIcon className="h-4 w-4 opacity-50" />
+            </Button>
+            {(errors.appointmentDate || errors.appointmentTime) && (
+              <p className="text-red-500 text-xs mt-1">
+                Please select a date and time
               </p>
             )}
           </div>
@@ -567,6 +656,13 @@ function ScheduleOnline() {
           Submit Schedule Request
         </Button>
       </form>
+
+      {/* Calendar Modal */}
+      <CalendarModal
+        isOpen={isCalendarModalOpen}
+        onClose={() => setIsCalendarModalOpen(false)}
+        onSelectDateTime={handleSelectDateTime}
+      />
     </div>
   );
 }

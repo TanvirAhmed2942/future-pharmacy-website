@@ -12,8 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import useIcon from "@/hooks/useIcon";
-import { LuClock4 } from "react-icons/lu";
+
 function ContactUsSection() {
   const [formData, setFormData] = useState({
     name: "",
@@ -51,7 +50,7 @@ function ContactUsSection() {
     <section className="  py-8 md:py-16">
       <div className="container mx-auto px-4 md:px-4">
         {/* Send Us a Message Form */}
-        <div id="contact-us" className="max-w-2xl mx-auto">
+        <div id="contact-us" className="max-w-4xl mx-auto">
           <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-8">
             Send Us a Message
           </h2>
@@ -72,7 +71,7 @@ function ContactUsSection() {
                       placeholder="Enter your name here..."
                       value={formData.name}
                       onChange={handleChange}
-                      className="bg-gray-50 placeholder:text-[16px] h-12"
+                      className="bg-gray-50 placeholder:text-[14px] h-11"
                     />
                   </div>
                   <div className="space-y-2">
@@ -86,7 +85,7 @@ function ContactUsSection() {
                       placeholder="Enter your email here..."
                       value={formData.email}
                       onChange={handleChange}
-                      className="bg-gray-50 placeholder:text-[16px] h-12"
+                      className="bg-gray-50 placeholder:text-[14px] h-11"
                     />
                   </div>
                 </div>
@@ -104,7 +103,7 @@ function ContactUsSection() {
                       placeholder="Enter phone number here..."
                       value={formData.phone}
                       onChange={handleChange}
-                      className="bg-gray-50 placeholder:text-[16px] h-12"
+                      className="bg-gray-50 placeholder:text-[14px] h-11"
                     />
                   </div>
                   <div className="space-y-2">
@@ -112,7 +111,7 @@ function ContactUsSection() {
                       Subject
                     </Label>
                     <Select onValueChange={handleSelectChange}>
-                      <SelectTrigger className="bg-gray-50 placeholder:text-[16px] h-12">
+                      <SelectTrigger className="bg-gray-50 placeholder:text-[14px] h-11 text-[14px]">
                         <SelectValue placeholder="Select Subject" />
                       </SelectTrigger>
                       <SelectContent>
@@ -144,7 +143,7 @@ function ContactUsSection() {
                     placeholder="Type your message here..."
                     value={formData.message}
                     onChange={handleChange}
-                    className="bg-gray-50 placeholder:text-[16px] min-h-[120px] resize-none"
+                    className="bg-gray-50 placeholder:text-[14px] min-h-[120px] resize-none h-11"
                     rows={4}
                   />
                 </div>
