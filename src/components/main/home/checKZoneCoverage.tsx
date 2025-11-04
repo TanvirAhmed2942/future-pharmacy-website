@@ -158,7 +158,7 @@ export default CheckZoneCoverage;
 
 const NotifyCoverage = ({
   zipCode,
-  isCovered,
+  // isCovered,
   setIsCovered,
 }: {
   zipCode: string;

@@ -6,10 +6,11 @@ import Banner from "@/components/common/banner/Banner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
+import SubscribeModal from "./subsCribeModal";
 
 function BlogLayout() {
   const [selectedFilter, setSelectedFilter] = useState("All");
-
+  const [isOpen, setIsOpen] = useState(false);
   const blog = [
     {
       title: "Dear Doctor: Deborah Cobb, FNP-BC",
@@ -105,6 +106,10 @@ function BlogLayout() {
 
   const filters = ["All", "Policy", "Medicares", "Operations"];
 
+  const handleSubscribe = () => {
+    setIsOpen(true);
+  };
+
   return (
     <div className="bg-white">
       <Banner
@@ -134,11 +139,14 @@ function BlogLayout() {
                 The Optimus Health Solutions Blog
               </p>
               <p className="text-gray-400 text-xs md:text-sm mt-1">
-                478 Followers
+                478 Subscribers
               </p>
             </div>
           </div>
-          <Button className="bg-peter hover:bg-peter-dark text-white px-6 py-2 rounded-lg">
+          <Button
+            className="bg-peter hover:bg-peter-dark text-white px-6 py-2 rounded-lg"
+            onClick={handleSubscribe}
+          >
             Subscribe
           </Button>
         </div>
@@ -174,6 +182,14 @@ function BlogLayout() {
           ))}
         </div>
       </div>
+
+      {isOpen && (
+        <SubscribeModal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          onSubscribe={handleSubscribe}
+        />
+      )}
     </div>
   );
 }
