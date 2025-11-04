@@ -163,14 +163,14 @@ const CalendarModal: React.FC<DateTimePickerModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-4xl">
+      <DialogContent className="sm:max-w-4xl max-w-[95vw] p-3 sm:p-6">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold">
             Select a Date & Time
           </DialogTitle>
         </DialogHeader>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           {/* Calendar Section */}
           <div>
             {/* Month Navigation */}
@@ -205,7 +205,7 @@ const CalendarModal: React.FC<DateTimePickerModalProps> = ({
                 {daysOfWeek.map((day, index) => (
                   <div
                     key={index}
-                    className="text-center text-sm font-medium text-gray-600"
+                    className="text-center text-xs md:text-sm font-medium text-gray-600"
                   >
                     {day}
                   </div>
@@ -220,7 +220,7 @@ const CalendarModal: React.FC<DateTimePickerModalProps> = ({
                     onClick={() => handleDateClick(day)}
                     disabled={!day.isCurrentMonth}
                     className={`
-                      aspect-square flex items-center justify-center rounded-full text-sm
+                      aspect-square flex items-center justify-center rounded-full text-xs md:text-sm
                       ${
                         day.isCurrentMonth
                           ? "text-gray-900 hover:bg-[#d7aad3] cursor-pointer"
@@ -243,21 +243,19 @@ const CalendarModal: React.FC<DateTimePickerModalProps> = ({
           {/* Time Slots Section */}
           <div>
             <div className="mb-0">
-              <span className="text-lg font-medium text-gray-700">
+              <span className="text-lg font-medium text-gray-700 block md:inline">
                 {getSelectedDateName(currentDate, selectedDate)}
               </span>
-            </div>
-
-            <div className="mb-2">
-              <div className=" text-sm text-peter">
-                Select one or more time slots for your appointment
+              <div className="text-sm text-peter mt-1 md:mt-0 md:ml-2">
+                Select one or more time slots
               </div>
             </div>
 
-            <div className="space-y-3 max-h-96 overflow-y-auto border border-gray-200 rounded-lg p-2">
+            {/* Desktop view - vertical scroll */}
+            <div className="hidden md:block space-y-3 max-h-96 overflow-y-auto border border-gray-200 rounded-lg p-2">
               {availableTimes.map((timeSlot, index) => (
                 <button
-                  key={index}
+                  key={`desktop-${index}`}
                   onClick={() => handleTimeClick(timeSlot)}
                   disabled={!timeSlot.available}
                   className={`
@@ -281,6 +279,38 @@ const CalendarModal: React.FC<DateTimePickerModalProps> = ({
                   {timeSlot.time}
                 </button>
               ))}
+            </div>
+
+            {/* Mobile view - horizontal scroll */}
+            <div className="md:hidden border border-gray-200 rounded-lg p-2 overflow-x-auto">
+              <div className="flex flex-nowrap space-x-2 pb-1 scroll-smooth snap-x">
+                {availableTimes.map((timeSlot, index) => (
+                  <button
+                    key={`mobile-${index}`}
+                    onClick={() => handleTimeClick(timeSlot)}
+                    disabled={!timeSlot.available}
+                    className={`
+                      min-w-[90px] py-2 px-2 rounded-lg border-2 text-center text-sm
+                      transition-all relative flex-shrink-0 snap-start
+                      ${
+                        timeSlot.available
+                          ? "border-gray-200 hover:border-peter hover:bg-purple-50 cursor-pointer"
+                          : "border-gray-200 bg-gray-50 text-gray-400 cursor-not-allowed"
+                      }
+                      ${
+                        selectedTimes.includes(timeSlot.time)
+                          ? "border-red-900 bg-[#f3ecf3]"
+                          : ""
+                      }
+                    `}
+                  >
+                    {selectedTimes.includes(timeSlot.time) && (
+                      <div className="absolute left-2 top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                    )}
+                    {timeSlot.time}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </div>
