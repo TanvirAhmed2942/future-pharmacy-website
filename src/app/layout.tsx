@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/userInfo.authProvide";
 import ConditionalLayout from "@/components/common/ConditionalLayout";
-
+// import { GlobalSmoothScroll } from "@/hooks/scroll-smooth";
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
@@ -23,7 +23,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.variable} antialiased bg-gray-50`}>
         <AuthProvider>
-          <ConditionalLayout>{children}</ConditionalLayout>
+          <ConditionalLayout>
+            {/* <GlobalSmoothScroll /> */}
+            {children}
+          </ConditionalLayout>
         </AuthProvider>
       </body>
     </html>

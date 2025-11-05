@@ -252,7 +252,7 @@ const CalendarModal: React.FC<DateTimePickerModalProps> = ({
             </div>
 
             {/* Desktop view - vertical scroll */}
-            <div className="hidden md:block space-y-3 max-h-96 overflow-y-auto border border-gray-200 rounded-lg p-2">
+            <div className="hidden md:block space-y-3 max-h-96 overflow-y-auto border border-gray-200 rounded-lg p-2 scroll-smooth">
               {availableTimes.map((timeSlot, index) => (
                 <button
                   key={`desktop-${index}`}
@@ -282,7 +282,7 @@ const CalendarModal: React.FC<DateTimePickerModalProps> = ({
             </div>
 
             {/* Mobile view - horizontal scroll */}
-            <div className="md:hidden border border-gray-200 rounded-lg p-2 overflow-x-auto">
+            <div className="md:hidden border border-gray-200 rounded-lg p-2 overflow-x-auto scroll-smooth">
               <div className="flex flex-nowrap space-x-2 pb-1 scroll-smooth snap-x">
                 {availableTimes.map((timeSlot, index) => (
                   <button

@@ -2,6 +2,7 @@ import DashboardHeader from "@/components/dashboard/dashboardHeader";
 import { DashboardSidebar } from "@/components/dashboard/dashboardSidebar";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import type { Metadata } from "next";
+// import { GlobalSmoothScroll } from "@/hooks/scroll-smooth";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -18,6 +19,7 @@ export default function DashboardLayout({
       <DashboardSidebar />
       <SidebarInset>
         <DashboardHeader />
+        {/* <GlobalSmoothScroll /> */}
         {children}
       </SidebarInset>
     </SidebarProvider>

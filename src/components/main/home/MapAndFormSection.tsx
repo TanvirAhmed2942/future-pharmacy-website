@@ -6,8 +6,9 @@ import {
   Clock,
   // ShoppingCart,
   ChevronRight,
+  ShoppingCart,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+
 import { Card } from "@/components/ui/card";
 import DatePickerModal from "@/components/ui/date-picker-modal";
 import TimePickerModal from "@/components/ui/time-picker-modal";
@@ -15,7 +16,9 @@ import LocationPickerModal from "@/components/main/home/location-picker-modal";
 import NewCustomerModal from "./checkUserStatusModal";
 import { useAuth } from "@/userInfo.authProvide";
 import { useRouter } from "next/navigation";
+import { TiShoppingCart } from "react-icons/ti";
 import useIcon from "@/hooks/useIcon";
+import { Label } from "@radix-ui/react-label";
 export default function MapAndFormSection() {
   const [pickupLocation, setPickupLocation] = useState("");
   const [dropoffAddress, setDropoffAddress] = useState("");
@@ -120,55 +123,64 @@ export default function MapAndFormSection() {
             <div className="absolute top-14.5 left-6 border-l-3 border-gray-200 h-5 "></div>
           </div>
           {/* Delivery Time Options */}
-          <div className="grid grid-cols-2 gap-4 mb-6">
-            <button
-              onClick={() => setIsDatePickerOpen(true)}
-              className={`p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-[#be95be] ${
-                deliveryTime === "today"
-                  ? "border-peter bg-peter/10"
-                  : "border-gray-200 bg-white hover:border-gray-300"
-              }`}
-            >
-              <div className="flex items-center gap-2">
-                <Calendar className="w-5 h-5 text-gray-600" />
-                <span className="font-medium text-gray-900">
-                  {selectedDate
-                    ? selectedDate.toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                      })
-                    : "Today"}
-                </span>
-              </div>
-            </button>
-            <button
-              onClick={() => setIsTimePickerOpen(true)}
-              className={`p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-[#be95be] ${
-                deliverySpeed === "now"
-                  ? "border-peter bg-peter/10"
-                  : "border-gray-200 bg-white hover:border-gray-300"
-              }`}
-            >
-              <div className="flex items-center gap-2">
-                <Clock className="w-5 h-5 text-gray-600" />
-                <span className="font-medium text-gray-900">
-                  {selectedTime
-                    ? selectedTime.split(" - ")[0] // Show just the start time
-                    : "Now"}
-                </span>
-              </div>
-            </button>
+          <div className="grid grid-cols-2 gap-4 mb-6 ">
+            <div className="w-full flex flex-col items-start gap-2 ">
+              <Label className="text-md text-gray-600">Date</Label>
+              <button
+                onClick={() => setIsDatePickerOpen(true)}
+                className={`p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-[#be95be] w-full ${
+                  deliveryTime === "today"
+                    ? "border-peter bg-peter/10"
+                    : "border-gray-200 bg-white hover:border-gray-300"
+                }`}
+              >
+                <div className="flex items-center gap-2">
+                  <Calendar className="w-5 h-5 text-gray-600" />
+                  <span className="font-medium text-gray-900">
+                    {selectedDate
+                      ? selectedDate.toLocaleDateString("en-US", {
+                          month: "short",
+                          day: "numeric",
+                        })
+                      : "Today"}
+                  </span>
+                </div>
+              </button>
+            </div>
+            <div className="w-full flex flex-col items-start gap-2 ">
+              <Label className="text-md text-gray-600">Time</Label>
+              <button
+                onClick={() => setIsTimePickerOpen(true)}
+                className={`p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-[#be95be] w-full ${
+                  deliverySpeed === "now"
+                    ? "border-peter bg-peter/10"
+                    : "border-gray-200 bg-white hover:border-gray-300"
+                }`}
+              >
+                <div className="flex items-center gap-2">
+                  <Clock className="w-5 h-5 text-gray-600" />
+                  <span className="font-medium text-gray-900">
+                    {selectedTime
+                      ? selectedTime.split(" - ")[0] // Show just the start time
+                      : "Now"}
+                  </span>
+                </div>
+              </button>
+            </div>
           </div>
 
           {/* Checkout Button */}
-          <Button
-            className="w-full bg-peter hover:bg-peter-dark text-white py-6 rounded-lg text-lg font-semibold shadow-lg flex items-center justify-center gap-2"
+          <button
+            className="w-full bg-peter hover:bg-peter-dark text-white  h-12 rounded-lg text-lg font-semibold shadow-lg flex items-center justify-center gap-2 cursor-pointer"
             onClick={() => handleRedirect()}
           >
-            {/* <ShoppingCart className="w-5 h-5 mr-2" /> */}
-            <p>{useIcon({ name: "cart" })}</p>
+            <ShoppingCart className="w-5 h-5 mr-2" />
+            {/* <p className="w-5 h-5 flex items-center justify-center mr-2">
+              {useIcon({ name: "cart" })}
+            </p> */}
+            {/* <TiShoppingCart size={20} /> */}
             Checkout Request
-          </Button>
+          </button>
 
           {/* Pharmacy Suggestions */}
           <div className="mt-8">

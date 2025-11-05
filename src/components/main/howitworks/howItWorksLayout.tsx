@@ -24,9 +24,9 @@ function HowItWorksLayout() {
           make it fast, reliable, and stress-free
         </p>
       </div>
-      <WeWillBeRight />
       {/* <SafetyAndSecuritySection /> */}
       <PharmacyServices />
+      <WeWillBeRight />
       <ReadyToExperience />
     </>
   );
