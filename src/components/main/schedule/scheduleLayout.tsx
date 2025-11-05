@@ -1,7 +1,9 @@
+"use client";
 import RefillTransferSchedule from "@/components/common/commonpage/RefillTransferSchedule";
-import React from "react";
+import React, { useState } from "react";
 
 function ScheduleLayout() {
+  const [isShowPhoneNumberOpen, setIsShowPhoneNumberOpen] = useState(false);
   const refillOptions = [
     {
       icon: "globe" as const,
@@ -17,6 +19,7 @@ function ScheduleLayout() {
       description:
         "Lorem ipsum dolor sit amet consectetur. Tempor quisque velit mi senectus mauris orci auctor.",
       buttonText: "Call Now",
+      onClick: () => setIsShowPhoneNumberOpen(true),
     },
   ];
   return (
@@ -24,6 +27,8 @@ function ScheduleLayout() {
       <RefillTransferSchedule
         pageTitle="Schedule Essential Healthcare Services"
         refillOptions={refillOptions}
+        isShowPhoneNumberOpen={isShowPhoneNumberOpen}
+        setIsShowPhoneNumberOpen={setIsShowPhoneNumberOpen}
       />
     </div>
   );

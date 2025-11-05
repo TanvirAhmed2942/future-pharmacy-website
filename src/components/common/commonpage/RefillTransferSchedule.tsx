@@ -10,6 +10,7 @@ import LoginChoiceModal from "@/components/common/refilltransferscheduleform/Log
 import { useAuth } from "@/userInfo.authProvide";
 
 import useIcon from "@/hooks/useIcon";
+import ShowPhoneNumber from "../commonModal/showPhoneNumber";
 interface RefillOption {
   title: string;
   description: string;
@@ -22,11 +23,15 @@ interface RefillOption {
 interface RefillTransferScheduleProps {
   pageTitle?: string;
   refillOptions: RefillOption[];
+  isShowPhoneNumberOpen: boolean;
+  setIsShowPhoneNumberOpen: (isOpen: boolean) => void;
 }
 
 function RefillTransferSchedule({
   pageTitle = "Refill Your Prescription",
   refillOptions,
+  isShowPhoneNumberOpen,
+  setIsShowPhoneNumberOpen,
 }: RefillTransferScheduleProps) {
   const router = useRouter();
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
@@ -35,7 +40,6 @@ function RefillTransferSchedule({
     string | undefined
   >(undefined);
   const { isLoggedIn } = useAuth();
-
   // Pre-fetch the globe icon
   const globeIcon = useIcon({ name: "globe" });
 
@@ -205,6 +209,13 @@ function RefillTransferSchedule({
         onSignIn={handleSignIn}
         onGuestCheckout={handleGuestCheckout}
         description={`To continue with your ${pageTitle}, please choose one of the following options:`}
+      />
+
+      <ShowPhoneNumber
+        isOpen={isShowPhoneNumberOpen}
+        onClose={() => setIsShowPhoneNumberOpen(false)}
+        phoneNumber={"+353 917 993 0549"}
+        title="Need help? please call or text us at"
       />
     </section>
   );
