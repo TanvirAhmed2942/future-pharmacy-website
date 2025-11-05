@@ -36,5 +36,6 @@ function OtherBusinessLayout() {
     </div>
   );
 }
+// TODO: Add a section for the other businesses that are partnered with us
 
 export default OtherBusinessLayout;

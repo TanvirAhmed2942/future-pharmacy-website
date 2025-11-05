@@ -15,6 +15,7 @@ function Banner({ title, description, image }: Props) {
         src={image}
         alt={title as string}
         fill
+        quality={100}
         className="object-cover"
         priority
       />
