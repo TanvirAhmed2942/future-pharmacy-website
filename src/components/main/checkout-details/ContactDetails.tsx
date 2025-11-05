@@ -3,6 +3,14 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { ChevronDownIcon } from "lucide-react";
+
 interface ContactDetailsProps {
   formData: {
     email: string;
@@ -79,13 +87,54 @@ export default function ContactDetails({
           <label className="block text-sm font-semibold text-gray-900 mb-2">
             Date of Birth
           </label>
-          <Input
-            type="date"
-            placeholder="Birthdate"
-            value={formData.dateOfBirth}
-            onChange={(e) => onInputChange("dateOfBirth", e.target.value)}
-            className="w-full"
-          />
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                className="w-full justify-between text-left font-normal"
+              >
+                {formData.dateOfBirth ? (
+                  `${(new Date(formData.dateOfBirth).getMonth() + 1)
+                    .toString()
+                    .padStart(2, "0")}/${new Date(formData.dateOfBirth)
+                    .getDate()
+                    .toString()
+                    .padStart(2, "0")}/${new Date(
+                    formData.dateOfBirth
+                  ).getFullYear()}`
+                ) : (
+                  <span className="text-muted-foreground">
+                    Select date (MM/DD/YYYY)
+                  </span>
+                )}
+                <ChevronDownIcon className="ml-auto h-4 w-4 opacity-50" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                mode="single"
+                selected={
+                  formData.dateOfBirth
+                    ? new Date(formData.dateOfBirth)
+                    : undefined
+                }
+                onSelect={(date) => {
+                  // Prevent future dates
+                  if (date && date <= new Date()) {
+                    onInputChange(
+                      "dateOfBirth",
+                      date ? date.toISOString() : ""
+                    );
+                  }
+                }}
+                captionLayout="dropdown"
+                fromYear={1900}
+                toYear={new Date().getFullYear()}
+                disabled={(date) => date > new Date()}
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
         </div>
 
         {/* Instructional Text */}
