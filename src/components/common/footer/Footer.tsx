@@ -15,8 +15,8 @@ function Footer() {
           {/* Brand Section */}
           <div className="md:col-span-1">
             <Image
-              src="/nav/dashboard_logo.png"
-              alt="logo"
+              src="/nav/Logo_footer.svg"
+              alt="Optimus Health Solutions Logo"
               width={200}
               height={200}
               className="w-48 h-fit object-cover mb-4"
@@ -29,7 +29,9 @@ function Footer() {
 
           {/* Home Section */}
           <div>
-            <h3 className="font-semibold text-base mb-4">Home</h3>
+            <Link href="/">
+              <h3 className="font-semibold text-base mb-4">Home</h3>
+            </Link>
             <ul className="space-y-3">
               <li>
                 <Link

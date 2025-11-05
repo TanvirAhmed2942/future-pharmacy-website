@@ -10,8 +10,8 @@ function HowItWorksLayout() {
     <>
       <div>
         <Banner
-          title="How Optimus Health Solutions Works"
-          description="From your prescription to doorstep delivery in just a few simple steps."
+          title='How It Works"- Simple, Secure and Local'
+          description="We handle the coordination so you can focus on your health, while your trusted local pharmacy takes care of the rest"
           image="/banner/how_it_works.png"
         />
         <SimpleSteps />

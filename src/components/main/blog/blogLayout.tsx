@@ -113,7 +113,7 @@ function BlogLayout() {
   return (
     <div className="bg-white">
       <Banner
-        title="Hello, Dear - the Optimus Health Solutions Blog"
+        title="Welcome to the Optimus Health Solutions Blog"
         description="Read our latest blog posts and stay up to date with the latest news and updates."
         image="/banner/blog_banner.png"
       />

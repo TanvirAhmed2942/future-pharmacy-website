@@ -72,7 +72,7 @@ function NavBar() {
               <div className="relative w-32 h-8">
                 <Link href="/">
                   <Image
-                    src={"/nav/Logo.svg"}
+                    src={"/nav/Logo_new.svg"}
                     alt="Optimus Health Solutions Logo"
                     width={192}
                     height={48}
@@ -113,7 +113,7 @@ function NavBar() {
               <div className="relative w-48 h-16">
                 <Link href="/">
                   <Image
-                    src={"/nav/Logo.svg"}
+                    src={"/nav/Logo_new.svg"}
                     alt="Optimus Health Solutions Logo"
                     width={192}
                     height={48}

@@ -246,8 +246,8 @@ const CalendarModal: React.FC<DateTimePickerModalProps> = ({
               <span className="text-lg font-medium text-gray-700 block md:inline">
                 {getSelectedDateName(currentDate, selectedDate)}
               </span>
-              <div className="text-sm text-peter mt-1 md:mt-0 md:ml-2">
-                Select one or more time slots
+              <div className="text-sm text-peter mt-1  md:mt-0 mb-2">
+                Select one or more time slots for your appointment
               </div>
             </div>
 

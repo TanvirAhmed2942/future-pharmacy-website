@@ -60,11 +60,10 @@ const SubscribeModal: React.FC<SubscribeModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-lg" showCloseButton={false}>
+      <DialogContent className="sm:max-w-xl" showCloseButton={false}>
         <DialogHeader>
-          <DialogTitle className="text-lg font-bold text-center ">
-            Subscribe <br />
-            to stay updated with our latest news and updates
+          <DialogTitle className="text-base font-medium text-current ">
+            Subscribe to stay updated with our latest industry news and updates
           </DialogTitle>
         </DialogHeader>
 

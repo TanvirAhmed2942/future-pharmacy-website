@@ -486,7 +486,7 @@ function ScheduleOnline() {
               htmlFor="appointmentDateTime"
               className="text-sm font-medium text-gray-700"
             >
-              Select Date & Time
+              Select Available Date & Time
             </Label>
             <Button
               type="button"
@@ -526,7 +526,7 @@ function ScheduleOnline() {
                   </div>
                 </div>
               ) : (
-                <span>Select a Date & Time</span>
+                <span>Date & Time</span>
               )}
               <ChevronDownIcon className="h-4 w-4 opacity-50" />
             </Button>
