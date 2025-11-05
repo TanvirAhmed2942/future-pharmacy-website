@@ -9,14 +9,21 @@ import useIcon from "@/hooks/useIcon";
 export default function RefilSection() {
   const router = useRouter();
 
-  // Smooth scroll function using custom animation
+  // Smooth scroll function using custom animation - with mobile device detection
   const smoothScrollToElement = (element: HTMLElement) => {
-    const offset = -1000; // Offset to scroll a bit above the element (in pixels)
+    // Check if device is mobile (smaller viewport)
+    const isMobile = window.innerWidth <= 768;
+
+    // Adjust offset based on device type
+    const offset = isMobile ? -15000 : -1000;
+
     const elementPosition =
       element.getBoundingClientRect().top + window.pageYOffset + offset;
     const startPosition = window.pageYOffset;
     const distance = elementPosition - startPosition;
-    const duration = 800; // ms - slightly faster for better UX
+
+    // Adjust duration for mobile (faster for better mobile UX)
+    const duration = isMobile ? 600 : 800;
     let start: number | null = null;
 
     const step = (timestamp: number) => {
@@ -31,7 +38,10 @@ export default function RefilSection() {
           : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
       };
 
-      window.scrollTo(0, startPosition + distance * easeInOutCubic(percentage));
+      window.scrollTo({
+        top: startPosition + distance * easeInOutCubic(percentage),
+        behavior: "auto", // Using our custom animation instead of 'smooth'
+      });
 
       if (percentage < 1) {
         window.requestAnimationFrame(step);
