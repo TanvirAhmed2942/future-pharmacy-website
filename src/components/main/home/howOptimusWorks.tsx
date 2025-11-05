@@ -3,6 +3,8 @@ import React, { ReactElement } from "react";
 import { Card } from "@/components/ui/card";
 import { LucideIcon } from "lucide-react";
 import useIcon from "@/hooks/useIcon";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 type WorkItem = {
   title: string;
@@ -13,6 +15,7 @@ type WorkItem = {
 );
 
 export default function HowOptimusWorks() {
+  const router = useRouter();
   const sign_up_for_optimus = useIcon({ name: "sign_up_for_optimus" });
   const schedule_your_free_same_day_delivery = useIcon({
     name: "schedule_your_free_same_day_delivery",
@@ -45,8 +48,8 @@ export default function HowOptimusWorks() {
   ];
 
   return (
-    <div className="container mx-auto bg-gray-50 py-4 md:py-8 lg:py-16 ">
-      <div className=" mx-auto">
+    <div className="container mx-auto bg-gray-50 py-4 md:py-8 lg:py-16  ">
+      <div className=" mx-auto ">
         <div className="w-full max-w-2xl md:max-w-6xl mx-auto mb-10">
           <h2 className="text-3xl md:text-4xl font-bold text-peter mb-4 font-inter text-center">
             How Optimus Health Solutions Works
@@ -82,6 +85,14 @@ export default function HowOptimusWorks() {
               </div>
             </Card>
           ))}
+        </div>
+        <div className="flex justify-center">
+          <Button
+            className=" bg-peter hover:bg-peter-dark text-white py-2 cursor-pointer mt-6 lg:mt-8 2xl:mt-10"
+            onClick={() => router.push("/how-it-works")}
+          >
+            Learn More
+          </Button>
         </div>
       </div>
     </div>
