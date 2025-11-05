@@ -129,7 +129,7 @@ function DriverRegForm() {
                   value={formData.vehicleType}
                   onValueChange={handleSelectChange}
                 >
-                  <SelectTrigger className="mt-1 bg-gray-50">
+                  <SelectTrigger className="mt-1 bg-gray-50 text-[14px]">
                     <SelectValue placeholder="Select your vehicle type here..." />
                   </SelectTrigger>
                   <SelectContent>

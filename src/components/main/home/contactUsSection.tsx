@@ -51,7 +51,7 @@ function ContactUsSection() {
       <div className="container mx-auto px-4 md:px-4">
         {/* Send Us a Message Form */}
         <div id="contact-us" className="max-w-4xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-8">
+          <h2 className="text-2xl md:text-3xl font-bold text-center text-peter mb-8">
             Send Us a Message
           </h2>
 

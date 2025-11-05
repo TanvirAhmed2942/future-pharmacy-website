@@ -7,7 +7,7 @@ function OurStory() {
   return (
     <section className="py-8 md:py-16 px-4 md:px-8">
       <div className="container mx-auto px-4 md:px-4">
-        <h1 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-12">
+        <h1 className="text-3xl md:text-4xl font-bold text-center text-peter mb-12">
           Our Story
         </h1>
 

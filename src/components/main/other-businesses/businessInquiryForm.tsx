@@ -118,7 +118,7 @@ function BusinessInquiryForm() {
                   value={formData.businessType}
                   onValueChange={handleSelectChange}
                 >
-                  <SelectTrigger className="mt-1 bg-gray-50">
+                  <SelectTrigger className="mt-1 bg-gray-50 text-[14px]">
                     <SelectValue placeholder="Select your business type..." />
                   </SelectTrigger>
                   <SelectContent>

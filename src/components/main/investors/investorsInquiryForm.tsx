@@ -120,7 +120,7 @@ function InvestorsInquiryForm() {
                   Investment Interest
                 </Label>
                 <Select onValueChange={handleSelectChange}>
-                  <SelectTrigger className="bg-gray-50">
+                  <SelectTrigger className="bg-gray-50 text-[14px]">
                     <SelectValue placeholder="Select Investment Interest" />
                   </SelectTrigger>
                   <SelectContent>
