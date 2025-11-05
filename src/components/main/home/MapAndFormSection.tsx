@@ -16,8 +16,6 @@ import LocationPickerModal from "@/components/main/home/location-picker-modal";
 import NewCustomerModal from "./checkUserStatusModal";
 import { useAuth } from "@/userInfo.authProvide";
 import { useRouter } from "next/navigation";
-import { TiShoppingCart } from "react-icons/ti";
-import useIcon from "@/hooks/useIcon";
 import { Label } from "@radix-ui/react-label";
 export default function MapAndFormSection() {
   const [pickupLocation, setPickupLocation] = useState("");
