@@ -264,7 +264,7 @@ function BusinessInquiryForm() {
                   htmlFor="regionOfInterest"
                   className="text-sm text-gray-700"
                 >
-                  Region of Interest <span className="text-red-500">*</span>
+                  Region of Interest
                 </Label>
                 <Input
                   id="regionOfInterest"

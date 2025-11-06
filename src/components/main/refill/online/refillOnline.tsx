@@ -33,11 +33,11 @@ type FormValues = {
   phoneNumber: string;
   dateOfBirth: Date | undefined; // Changed back to Date for the calendar
   pharmacyName: string;
-  pharmacyPhone: string;
+  pharmacyPhone?: string;
   pharmacyAddress: string;
-  pharmacyCity: string; // Added for pharmacy city
-  pharmacyState: string; // Added for pharmacy state
-  pharmacyZipCode: string; // Added for pharmacy zip code
+  pharmacyCity?: string; // Added for pharmacy city
+  pharmacyState?: string; // Added for pharmacy state
+  pharmacyZipCode?: string; // Added for pharmacy zip code
   deliveryAddress: string;
   aptUnit: string;
   city: string;
@@ -292,13 +292,13 @@ function RefillOnline() {
                 htmlFor="pharmacyPhone"
                 className="text-sm font-medium text-gray-700"
               >
-                Pharmacy Phone *
+                Pharmacy Phone
               </Label>
               <Input
                 type="tel"
                 id="pharmacyPhone"
                 {...register("pharmacyPhone", {
-                  required: "Pharmacy phone is required",
+                  // required: "Pharmacy phone is required",
                   pattern: {
                     value: /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
                     message: "Please enter a valid phone number",
@@ -338,79 +338,50 @@ function RefillOnline() {
                 htmlFor="pharmacyCity"
                 className="text-sm font-medium text-gray-700"
               >
-                City *
+                City
               </Label>
               <Input
                 type="text"
                 id="pharmacyCity"
-                {...register("pharmacyCity", {
-                  required: "City is required",
-                })}
+                {...register("pharmacyCity")}
                 placeholder="Enter city name here..."
-                className={cn(
-                  "w-full mt-1",
-                  errors.pharmacyCity && "border-red-500"
-                )}
+                className="w-full mt-1"
               />
-              {errors.pharmacyCity && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.pharmacyCity.message}
-                </p>
-              )}
             </div>
             <div>
               <Label
                 htmlFor="pharmacyState"
                 className="text-sm font-medium text-gray-700"
               >
-                State *
+                State
               </Label>
               <Input
                 type="text"
                 id="pharmacyState"
-                {...register("pharmacyState", {
-                  required: "State is required",
-                })}
+                {...register("pharmacyState")}
                 placeholder="Enter state name here..."
-                className={cn(
-                  "w-full mt-1",
-                  errors.pharmacyState && "border-red-500"
-                )}
+                className="w-full mt-1"
               />
-              {errors.pharmacyState && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.pharmacyState.message}
-                </p>
-              )}
             </div>
             <div>
               <Label
                 htmlFor="pharmacyZipCode"
                 className="text-sm font-medium text-gray-700"
               >
-                Zip Code *
+                Zip Code
               </Label>
               <Input
                 type="text"
                 id="pharmacyZipCode"
                 {...register("pharmacyZipCode", {
-                  required: "Zip code is required",
                   pattern: {
                     value: /^\d{5}(-\d{4})?$/,
                     message: "Please enter a valid zip code",
                   },
                 })}
                 placeholder="Enter zip code here..."
-                className={cn(
-                  "w-full mt-1",
-                  errors.pharmacyZipCode && "border-red-500"
-                )}
+                className="w-full mt-1"
               />
-              {errors.pharmacyZipCode && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.pharmacyZipCode.message}
-                </p>
-              )}
             </div>
           </div>
         </div>
@@ -468,73 +439,45 @@ function RefillOnline() {
                 htmlFor="city"
                 className="text-sm font-medium text-gray-700"
               >
-                City *
+                City
               </Label>
               <Input
                 type="text"
                 id="city"
-                {...register("city", {
-                  required: "City is required",
-                })}
+                {...register("city", { required: false })}
                 placeholder="Enter city name here..."
-                className={cn("w-full mt-1", errors.city && "border-red-500")}
+                className="w-full mt-1"
               />
-              {errors.city && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.city.message}
-                </p>
-              )}
             </div>
             <div>
               <Label
                 htmlFor="state"
                 className="text-sm font-medium text-gray-700"
               >
-                State *
+                State
               </Label>
               <Input
                 type="text"
                 id="state"
-                {...register("state", {
-                  required: "State is required",
-                })}
+                {...register("state", { required: false })}
                 placeholder="Enter state name here..."
-                className={cn("w-full mt-1", errors.state && "border-red-500")}
+                className="w-full mt-1"
               />
-              {errors.state && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.state.message}
-                </p>
-              )}
             </div>
             <div>
               <Label
                 htmlFor="zipCode"
                 className="text-sm font-medium text-gray-700"
               >
-                Zip Code *
+                Zip Code
               </Label>
               <Input
                 type="text"
                 id="zipCode"
-                {...register("zipCode", {
-                  required: "Zip code is required",
-                  pattern: {
-                    value: /^\d{5}(-\d{4})?$/,
-                    message: "Please enter a valid zip code",
-                  },
-                })}
+                {...register("zipCode", { required: false })}
                 placeholder="Enter zip code here..."
-                className={cn(
-                  "w-full mt-1",
-                  errors.zipCode && "border-red-500"
-                )}
+                className="w-full mt-1"
               />
-              {errors.zipCode && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.zipCode.message}
-                </p>
-              )}
             </div>
           </div>
         </div>
