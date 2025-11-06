@@ -8,25 +8,26 @@ import { Autoplay, Pagination } from "swiper/modules";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
+import Image from "next/image";
 
 function PartnerTestimonial() {
   const testimonials = [
     {
       name: "Jane Cooper",
       role: "Patient",
-      image: "/testimonials/jane.jpg",
+      image: "/testimonials/user.png",
       text: "Lorem ipsum dolor sit amet consectetur. Sed sit tristique nisl gravida vel. Faucibus gravida eget enim magna. Mauris feugiat venenatis adipiscing pretium. Mollis quis nisi placerat sit amet purus feugiat at. In venenatis integer lectus amet rutrum.",
     },
     {
       name: "Robert Fox",
       role: "Pharmacy Owner",
-      image: "/testimonials/robert.jpg",
+      image: "/testimonials/user.png",
       text: "Lorem ipsum dolor sit amet consectetur. Sed sit tristique nisl gravida vel. Faucibus gravida eget enim magna. Mauris feugiat venenatis adipiscing pretium. Mollis quis nisi placerat sit amet purus feugiat at. In venenatis integer lectus amet rutrum.",
     },
     {
       name: "Sarah Williams",
       role: "Healthcare Provider",
-      image: "/testimonials/sarah.jpg",
+      image: "/testimonials/user.png",
       text: "Lorem ipsum dolor sit amet consectetur. Sed sit tristique nisl gravida vel. Faucibus gravida eget enim magna. Mauris feugiat venenatis adipiscing pretium. Mollis quis nisi placerat sit amet purus feugiat at. In venenatis integer lectus amet rutrum.",
     },
   ];
@@ -88,7 +89,13 @@ function PartnerTestimonial() {
                     <div className="flex flex-col md:flex-row gap-6">
                       {/* Avatar and Info */}
                       <div className="flex items-center gap-4">
-                        <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex-shrink-0" />
+                        <Image
+                          src={testimonial.image}
+                          alt={testimonial.name}
+                          width={100}
+                          height={100}
+                          className="w-16 h-16 md:w-20 md:h-20 rounded-full flex-shrink-0"
+                        />
                         <div>
                           <h3 className="font-semibold text-gray-900 text-lg font-inter">
                             {testimonial.name}
@@ -98,7 +105,7 @@ function PartnerTestimonial() {
                           </p>
                         </div>
                       </div>
-
+                      <div className="h-[12vh] w-[2px] bg-gray-300"></div>
                       {/* Testimonial Text */}
                       <div className="flex-1">
                         <p className="text-gray-600 leading-relaxed text-sm md:text-base font-inter">
