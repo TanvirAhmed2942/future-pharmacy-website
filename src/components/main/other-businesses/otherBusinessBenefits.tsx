@@ -1,32 +1,52 @@
-import React from "react";
-import { Truck, Search, Users } from "lucide-react";
+import React, { ReactElement } from "react";
+import { Truck, Search, Users, LucideIcon } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import useIcon from "@/hooks/useIcon";
 
-function otherBusinessBenefits() {
-  const benefits = [
+type BenefitItem = {
+  title: string;
+  description: string;
+} & (
+  | { iconType: "custom"; customIcon: ReactElement | null }
+  | { iconType: "lucide"; icon: LucideIcon }
+);
+
+function OtherBusinessBenefits() {
+  const dataIcon = useIcon({ name: "data" });
+  const benefits: BenefitItem[] = [
     {
+      iconType: "lucide",
       icon: Truck,
       title: "Improve Adherence",
       description:
         "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere. ",
     },
     {
+      iconType: "lucide",
       icon: Search,
-      title: "Compliance First",
+      title: "Patient Experience",
       description:
         "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere.",
     },
     {
+      iconType: "lucide",
       icon: Users,
       title: "Operational Visibility",
+      description:
+        "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere.",
+    },
+    {
+      iconType: "custom",
+      customIcon: dataIcon,
+      title: "Data Insights",
       description:
         "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere.",
     },
   ];
 
   return (
-    <section className="bg-white py-16 md:py-24 px-4 md:px-8">
-      <div className="max-w-6xl mx-auto">
+    <section className="bg-white py-16 md:py-24 ">
+      <div className=" container  mx-auto px-4 md:px-4">
         {/* Header */}
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -40,9 +60,8 @@ function otherBusinessBenefits() {
         </div>
 
         {/* Benefits Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-8">
           {benefits.map((benefit, index) => {
-            const Icon = benefit.icon;
             return (
               <Card
                 key={index}
@@ -52,7 +71,21 @@ function otherBusinessBenefits() {
                   {/* Icon */}
                   <div className="flex justify-center mb-6">
                     <div className="bg-[#f3ecf3] rounded-full p-4">
-                      <Icon className="w-8 h-8 text-peter" />
+                      {benefit.iconType === "custom" && (
+                        <div className="w-8 h-8 text-peter flex items-center justify-center">
+                          {benefit.customIcon}
+                        </div>
+                      )}
+                      {benefit.iconType === "lucide" && (
+                        <div className=" text-peter flex items-center justify-center">
+                          {React.createElement(
+                            benefit.icon as unknown as React.ElementType,
+                            {
+                              className: "w-8 h-8 text-peter",
+                            }
+                          )}
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -75,4 +108,4 @@ function otherBusinessBenefits() {
   );
 }
 
-export default otherBusinessBenefits;
+export default OtherBusinessBenefits;

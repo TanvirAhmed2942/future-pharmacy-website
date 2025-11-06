@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,39 +12,41 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { useForm, Controller, SubmitHandler } from "react-hook-form";
+import { cn } from "@/lib/utils";
+
+interface FormValues {
+  name: string;
+  emailAddress: string;
+  phoneNumber: string;
+  organizationName: string;
+  organizationType: string;
+  organizationWebsite: string;
+  regionOfInterest: string;
+  message: string;
+}
 
 function BusinessInquiryForm() {
-  const [formData, setFormData] = useState({
-    name: "",
-    emailAddress: "",
-    organizationName: "",
-    businessType: "",
-    otherBusinessType: "",
-    availability: "",
-    regionOfInterest: "",
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<FormValues>({
+    defaultValues: {
+      name: "",
+      emailAddress: "",
+      phoneNumber: "",
+      organizationName: "",
+      organizationType: "",
+      organizationWebsite: "",
+      regionOfInterest: "",
+      message: "",
+    },
   });
 
-  const handleChange = (
-    e:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSelectChange = (value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      businessType: value,
-    }));
-  };
-
-  const handleSubmit = () => {
-    console.log("Form submitted:", formData);
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
+    console.log("Form submitted:", data);
     // Handle form submission logic here
   };
 
@@ -57,7 +59,7 @@ function BusinessInquiryForm() {
               Business Inquiry Form
             </h2>
 
-            <div className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               {/* Name Field */}
               <div>
                 <Label htmlFor="name" className="text-sm text-gray-700">
@@ -65,29 +67,88 @@ function BusinessInquiryForm() {
                 </Label>
                 <Input
                   id="name"
-                  name="name"
                   type="text"
                   placeholder="Enter your name here..."
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="mt-1 bg-gray-50"
+                  className={cn(
+                    "mt-1 bg-gray-50",
+                    errors.name && "border-red-500"
+                  )}
+                  {...register("name", {
+                    required: "Name is required",
+                    minLength: {
+                      value: 2,
+                      message: "Name must be at least 2 characters",
+                    },
+                  })}
                 />
+                {errors.name && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.name.message}
+                  </p>
+                )}
               </div>
 
-              {/* Email Address Field */}
-              <div>
-                <Label htmlFor="emailAddress" className="text-sm text-gray-700">
-                  Email Address
-                </Label>
-                <Input
-                  id="emailAddress"
-                  name="emailAddress"
-                  type="email"
-                  placeholder="Enter your email address here..."
-                  value={formData.emailAddress}
-                  onChange={handleChange}
-                  className="mt-1 bg-gray-50"
-                />
+              {/* Email Address and Phone Number - Two Column Layout */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label
+                    htmlFor="emailAddress"
+                    className="text-sm text-gray-700"
+                  >
+                    Email Address
+                  </Label>
+                  <Input
+                    id="emailAddress"
+                    type="email"
+                    placeholder="Enter your email address here..."
+                    className={cn(
+                      "mt-1 bg-gray-50",
+                      errors.emailAddress && "border-red-500"
+                    )}
+                    {...register("emailAddress", {
+                      required: "Email address is required",
+                      pattern: {
+                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                        message: "Invalid email address",
+                      },
+                    })}
+                  />
+                  {errors.emailAddress && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.emailAddress.message}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <Label
+                    htmlFor="phoneNumber"
+                    className="text-sm text-gray-700"
+                  >
+                    Phone Number
+                  </Label>
+                  <Input
+                    id="phoneNumber"
+                    type="tel"
+                    placeholder="Enter your phone number here..."
+                    className={cn(
+                      "mt-1 bg-gray-50",
+                      errors.phoneNumber && "border-red-500"
+                    )}
+                    {...register("phoneNumber", {
+                      required: "Phone number is required",
+                      pattern: {
+                        value:
+                          /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
+                        message: "Invalid phone number format",
+                      },
+                    })}
+                  />
+                  {errors.phoneNumber && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.phoneNumber.message}
+                    </p>
+                  )}
+                </div>
               </div>
 
               {/* Organization Name Field */}
@@ -100,75 +161,101 @@ function BusinessInquiryForm() {
                 </Label>
                 <Input
                   id="organizationName"
-                  name="organizationName"
                   type="text"
                   placeholder="Select your organization name..."
-                  value={formData.organizationName}
-                  onChange={handleChange}
-                  className="mt-1 bg-gray-50"
+                  className={cn(
+                    "mt-1 bg-gray-50",
+                    errors.organizationName && "border-red-500"
+                  )}
+                  {...register("organizationName", {
+                    required: "Organization name is required",
+                    minLength: {
+                      value: 2,
+                      message:
+                        "Organization name must be at least 2 characters",
+                    },
+                  })}
                 />
+                {errors.organizationName && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.organizationName.message}
+                  </p>
+                )}
               </div>
 
-              {/* Business Type Field */}
+              {/* Organization Type Field */}
               <div>
-                <Label htmlFor="businessType" className="text-sm text-gray-700">
-                  Business Type
-                </Label>
-                <Select
-                  value={formData.businessType}
-                  onValueChange={handleSelectChange}
+                <Label
+                  htmlFor="organizationType"
+                  className="text-sm text-gray-700"
                 >
-                  <SelectTrigger className="mt-1 bg-gray-50 text-[14px]">
-                    <SelectValue placeholder="Select your business type..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="employers">Employers</SelectItem>
-                    <SelectItem value="health-plans">Health Plans</SelectItem>
-                    <SelectItem value="providers-health-systems">
-                      Providers/Health Systems
-                    </SelectItem>
-                    <SelectItem value="mocs">MOCs</SelectItem>
-                    <SelectItem value="acos">ACOs</SelectItem>
-                    <SelectItem value="others">Others</SelectItem>
-                  </SelectContent>
-                </Select>
+                  Organization Type
+                </Label>
+                <Controller
+                  name="organizationType"
+                  control={control}
+                  rules={{ required: "Organization type is required" }}
+                  render={({ field }) => (
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <SelectTrigger
+                        className={cn(
+                          "mt-1 bg-gray-50 text-[14px]",
+                          errors.organizationType && "border-red-500"
+                        )}
+                      >
+                        <SelectValue placeholder="Enter your organization type here..." />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="employers">Employers</SelectItem>
+                        <SelectItem value="health-plans">
+                          Health Plans
+                        </SelectItem>
+                        <SelectItem value="providers-health-systems">
+                          Providers/Health Systems
+                        </SelectItem>
+                        <SelectItem value="mocs">MOCs</SelectItem>
+                        <SelectItem value="acos">ACOs</SelectItem>
+                        <SelectItem value="others">Others</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+                {errors.organizationType && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.organizationType.message}
+                  </p>
+                )}
               </div>
 
-              {/* Other Business Type Field - Conditional */}
-              {formData.businessType === "others" && (
-                <div>
-                  <Label
-                    htmlFor="otherBusinessType"
-                    className="text-sm text-gray-700"
-                  >
-                    Specify Other Business Type
-                  </Label>
-                  <Input
-                    id="otherBusinessType"
-                    name="otherBusinessType"
-                    type="text"
-                    placeholder="Please specify your business type..."
-                    value={formData.otherBusinessType}
-                    onChange={handleChange}
-                    className="mt-1 bg-gray-50"
-                  />
-                </div>
-              )}
-
-              {/* Availability Field */}
+              {/* Add Organization Website Field */}
               <div>
-                <Label htmlFor="availability" className="text-sm text-gray-700">
-                  Availability
+                <Label
+                  htmlFor="organizationWebsite"
+                  className="text-sm text-gray-700"
+                >
+                  Add Organization Website
                 </Label>
                 <Input
-                  id="availability"
-                  name="availability"
-                  type="text"
-                  placeholder="Enter your availability here..."
-                  value={formData.availability}
-                  onChange={handleChange}
-                  className="mt-1 bg-gray-50"
+                  id="organizationWebsite"
+                  type="url"
+                  placeholder="Add your organization website name..."
+                  className={cn(
+                    "mt-1 bg-gray-50",
+                    errors.organizationWebsite && "border-red-500"
+                  )}
+                  {...register("organizationWebsite", {
+                    pattern: {
+                      value:
+                        /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/,
+                      message: "Invalid website URL format",
+                    },
+                  })}
                 />
+                {errors.organizationWebsite && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.organizationWebsite.message}
+                  </p>
+                )}
               </div>
 
               {/* Region of Interest Field */}
@@ -177,26 +264,67 @@ function BusinessInquiryForm() {
                   htmlFor="regionOfInterest"
                   className="text-sm text-gray-700"
                 >
-                  Region of Interest
+                  Region of Interest <span className="text-red-500">*</span>
+                </Label>
+                <Input
+                  id="regionOfInterest"
+                  type="text"
+                  placeholder="e.g., NJ, NY Metro, PA"
+                  className={cn(
+                    "mt-1 bg-gray-50",
+                    errors.regionOfInterest && "border-red-500"
+                  )}
+                  {...register("regionOfInterest", {
+                    required: "Region of interest is required",
+                    minLength: {
+                      value: 2,
+                      message:
+                        "Region of interest must be at least 2 characters",
+                    },
+                  })}
+                />
+                {errors.regionOfInterest && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.regionOfInterest.message}
+                  </p>
+                )}
+              </div>
+
+              {/* Your Message Field */}
+              <div>
+                <Label htmlFor="message" className="text-sm text-gray-700">
+                  Your Message
                 </Label>
                 <Textarea
-                  id="regionOfInterest"
-                  name="regionOfInterest"
+                  id="message"
                   placeholder="Type your message here..."
-                  value={formData.regionOfInterest}
-                  onChange={handleChange}
-                  className="mt-1 bg-gray-50 min-h-[100px]"
+                  className={cn(
+                    "mt-1 bg-gray-50 min-h-[100px]",
+                    errors.message && "border-red-500"
+                  )}
+                  {...register("message", {
+                    required: "Message is required",
+                    minLength: {
+                      value: 10,
+                      message: "Message must be at least 10 characters",
+                    },
+                  })}
                 />
+                {errors.message && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.message.message}
+                  </p>
+                )}
               </div>
 
               {/* Submit Button */}
               <Button
-                onClick={handleSubmit}
+                type="submit"
                 className="w-full bg-peter hover:bg-peter-dark text-white py-2 cursor-pointer"
               >
                 Submit Interest
               </Button>
-            </div>
+            </form>
           </CardContent>
         </Card>
       </div>
