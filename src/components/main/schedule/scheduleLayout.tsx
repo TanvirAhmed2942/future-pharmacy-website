@@ -22,11 +22,29 @@ function ScheduleLayout() {
       onClick: () => setIsShowPhoneNumberOpen(true),
     },
   ];
+  const stepsSchedule = [
+    {
+      title: "Complete Schedule Form",
+      description:
+        "Fill out our secure online schedule form with your prescription details",
+    },
+    {
+      title: "We contact your pharmacy",
+      description:
+        "Our team will contact your pharmacy to schedule your healthcare services",
+    },
+    {
+      title: "Healthcare Services Scheduled",
+      description:
+        "We'll notify you when your healthcare services are scheduled",
+    },
+  ];
   return (
     <div className="container mx-auto bg-white ">
       <RefillTransferSchedule
         pageTitle="Schedule Essential Healthcare Services"
         refillOptions={refillOptions}
+        stepsSchedule={stepsSchedule}
         isShowPhoneNumberOpen={isShowPhoneNumberOpen}
         setIsShowPhoneNumberOpen={setIsShowPhoneNumberOpen}
       />

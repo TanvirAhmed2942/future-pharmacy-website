@@ -25,6 +25,9 @@ interface RefillTransferScheduleProps {
   refillOptions: RefillOption[];
   isShowPhoneNumberOpen: boolean;
   setIsShowPhoneNumberOpen: (isOpen: boolean) => void;
+  stepsRefill?: { title: string; description: string }[];
+  stepsTransfer?: { title: string; description: string }[];
+  stepsSchedule?: { title: string; description: string }[];
 }
 
 function RefillTransferSchedule({
@@ -32,6 +35,9 @@ function RefillTransferSchedule({
   refillOptions,
   isShowPhoneNumberOpen,
   setIsShowPhoneNumberOpen,
+  stepsRefill,
+  stepsTransfer,
+  stepsSchedule,
 }: RefillTransferScheduleProps) {
   const router = useRouter();
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
@@ -96,7 +102,8 @@ function RefillTransferSchedule({
     setIsFormModalOpen(false);
   };
 
-  const steps = [
+  // Default steps for backward compatibility
+  const defaultStepsRefill = [
     {
       title: "Complete Refill From",
       description:
@@ -113,6 +120,53 @@ function RefillTransferSchedule({
         "We'll notify you when your prescriptions are ready for delivery",
     },
   ];
+  const defaultStepsTransfer = [
+    {
+      title: "Complete Transfer Form",
+      description:
+        "Fill out our secure online transfer form with your prescription details",
+    },
+    {
+      title: "We contact your pharmacy",
+      description:
+        "Our team will contact your pharmacy to transfer your prescriptions",
+    },
+    {
+      title: "Prescription Transferred",
+      description: "We'll notify you when your prescriptions are transferred",
+    },
+  ];
+  const defaultStepsSchedule = [
+    {
+      title: "Complete Schedule Form",
+      description:
+        "Fill out our secure online schedule form with your prescription details",
+    },
+    {
+      title: "We contact your pharmacy",
+      description:
+        "Our team will contact your pharmacy to schedule your healthcare services",
+    },
+    {
+      title: "Healthcare Services Scheduled",
+      description:
+        "We'll notify you when your healthcare services are scheduled",
+    },
+  ];
+
+  // Determine which steps to display based on provided props
+  // Priority: stepsTransfer > stepsSchedule > stepsRefill > default based on pageTitle
+  const displaySteps = stepsTransfer
+    ? stepsTransfer
+    : stepsSchedule
+    ? stepsSchedule
+    : stepsRefill
+    ? stepsRefill
+    : pageTitle?.toLowerCase().includes("transfer")
+    ? defaultStepsTransfer
+    : pageTitle?.toLowerCase().includes("schedule")
+    ? defaultStepsSchedule
+    : defaultStepsRefill;
 
   return (
     <section className="bg-white py-8 md:py-16 px-4 md:px-8">
@@ -128,7 +182,7 @@ function RefillTransferSchedule({
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {steps.map((step, index) => (
+            {displaySteps.map((step, index) => (
               <div
                 key={index}
                 className="bg-gray-50 rounded-xl p-6 flex items-start gap-x-3 shadow-sm"

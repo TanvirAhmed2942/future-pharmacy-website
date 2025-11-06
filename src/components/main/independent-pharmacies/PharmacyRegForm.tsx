@@ -244,7 +244,7 @@ function PharmacyRegForm() {
                   htmlFor="experienceBusiness"
                   className="text-sm font-medium"
                 >
-                  Experience Business
+                  Years in Business
                 </Label>
                 <Controller
                   name="experienceBusiness"
@@ -258,7 +258,7 @@ function PharmacyRegForm() {
                           errors.experienceBusiness && "border-red-500"
                         )}
                       >
-                        <SelectValue placeholder="Select your experience business here..." />
+                        <SelectValue placeholder="Select your years in business here..." />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="1-5">1-5 years</SelectItem>

@@ -22,11 +22,28 @@ function TransferLayout() {
       onClick: () => setIsShowPhoneNumberOpen(true),
     },
   ];
+  const stepsTransfer = [
+    {
+      title: "Complete Transfer Form",
+      description:
+        "Fill out our secure online transfer form with your prescription details",
+    },
+    {
+      title: "We contact your pharmacy",
+      description:
+        "Our team will contact your pharmacy to transfer your prescriptions",
+    },
+    {
+      title: "Prescription Transferred",
+      description: "We'll notify you when your prescriptions are transferred",
+    },
+  ];
   return (
     <div className="container mx-auto bg-white  ">
       <RefillTransferSchedule
         pageTitle="Transfer Your Prescription"
         refillOptions={refillOptions}
+        stepsTransfer={stepsTransfer}
         isShowPhoneNumberOpen={isShowPhoneNumberOpen}
         setIsShowPhoneNumberOpen={setIsShowPhoneNumberOpen}
       />
