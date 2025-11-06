@@ -305,29 +305,20 @@ function TransferOnline() {
                 htmlFor="previousPharmacyPhone"
                 className="text-sm font-medium text-gray-700"
               >
-                Previous Pharmacy Phone *
+                Previous Pharmacy Phone
               </Label>
               <Input
                 type="tel"
                 id="previousPharmacyPhone"
                 {...register("previousPharmacyPhone", {
-                  required: "Previous pharmacy phone is required",
                   pattern: {
                     value: /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
                     message: "Please enter a valid phone number",
                   },
-                })}
+                } as const)}
                 placeholder="(XXX) XXX-XXXX"
-                className={cn(
-                  "w-full mt-1",
-                  errors.previousPharmacyPhone && "border-red-500"
-                )}
+                className="w-full mt-1"
               />
-              {errors.previousPharmacyPhone && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.previousPharmacyPhone.message}
-                </p>
-              )}
             </div>
           </div>
           <div className="mb-4">
@@ -351,79 +342,51 @@ function TransferOnline() {
                 htmlFor="previousPharmacyCity"
                 className="text-sm font-medium text-gray-700"
               >
-                City *
+                City
               </Label>
               <Input
                 type="text"
                 id="previousPharmacyCity"
                 {...register("previousPharmacyCity", {
-                  required: "City is required",
+                  required: false,
                 })}
                 placeholder="Enter city name here..."
-                className={cn(
-                  "w-full mt-1",
-                  errors.previousPharmacyCity && "border-red-500"
-                )}
+                className="w-full mt-1"
               />
-              {errors.previousPharmacyCity && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.previousPharmacyCity.message}
-                </p>
-              )}
             </div>
             <div>
               <Label
                 htmlFor="previousPharmacyState"
                 className="text-sm font-medium text-gray-700"
               >
-                State *
+                State
               </Label>
               <Input
                 type="text"
                 id="previousPharmacyState"
                 {...register("previousPharmacyState", {
-                  required: "State is required",
+                  required: false,
                 })}
                 placeholder="Enter state name here..."
-                className={cn(
-                  "w-full mt-1",
-                  errors.previousPharmacyState && "border-red-500"
-                )}
+                className="w-full mt-1"
               />
-              {errors.previousPharmacyState && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.previousPharmacyState.message}
-                </p>
-              )}
             </div>
             <div>
               <Label
                 htmlFor="previousPharmacyZipCode"
                 className="text-sm font-medium text-gray-700"
               >
-                Zip Code *
+                Zip Code
               </Label>
               <Input
                 type="text"
                 id="previousPharmacyZipCode"
                 {...register("previousPharmacyZipCode", {
-                  required: "Zip code is required",
-                  pattern: {
-                    value: /^\d{5}(-\d{4})?$/,
-                    message: "Please enter a valid zip code",
-                  },
+                  required: false,
                 })}
                 placeholder="Enter zip code here..."
-                className={cn(
-                  "w-full mt-1",
-                  errors.previousPharmacyZipCode && "border-red-500"
-                )}
+                className="w-full mt-1"
               />
-              {errors.previousPharmacyZipCode && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.previousPharmacyZipCode.message}
-                </p>
-              )}
             </div>
           </div>
 
@@ -460,29 +423,20 @@ function TransferOnline() {
                 htmlFor="newPharmacyPhone"
                 className="text-sm font-medium text-gray-700"
               >
-                New Pharmacy Phone *
+                New Pharmacy Phone
               </Label>
               <Input
                 type="tel"
                 id="newPharmacyPhone"
                 {...register("newPharmacyPhone", {
-                  required: "New pharmacy phone is required",
                   pattern: {
                     value: /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
                     message: "Please enter a valid phone number",
                   },
-                })}
+                } as const)}
                 placeholder="(XXX) XXX-XXXX"
-                className={cn(
-                  "w-full mt-1",
-                  errors.newPharmacyPhone && "border-red-500"
-                )}
+                className="w-full mt-1"
               />
-              {errors.newPharmacyPhone && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.newPharmacyPhone.message}
-                </p>
-              )}
             </div>
           </div>
           <div>
@@ -495,10 +449,21 @@ function TransferOnline() {
             <Input
               type="text"
               id="newPharmacyAddress"
-              {...register("newPharmacyAddress")}
+              {...register("newPharmacyAddress", {
+                required: "New pharmacy address is required  ",
+              })}
               placeholder="Enter pharmacy address here..."
-              className="w-full mt-1"
+              className={cn(
+                "w-full mt-1",
+                errors.newPharmacyAddress && "border-red-500"
+              )}
             />
+
+            {errors.newPharmacyAddress && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.newPharmacyAddress.message}
+              </p>
+            )}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
             <div>
@@ -506,79 +471,51 @@ function TransferOnline() {
                 htmlFor="newPharmacyCity"
                 className="text-sm font-medium text-gray-700"
               >
-                City *
+                City
               </Label>
               <Input
                 type="text"
                 id="newPharmacyCity"
                 {...register("newPharmacyCity", {
-                  required: "City is required",
+                  required: false,
                 })}
                 placeholder="Enter city name here..."
-                className={cn(
-                  "w-full mt-1",
-                  errors.newPharmacyCity && "border-red-500"
-                )}
+                className="w-full mt-1"
               />
-              {errors.newPharmacyCity && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.newPharmacyCity.message}
-                </p>
-              )}
             </div>
             <div>
               <Label
                 htmlFor="newPharmacyState"
                 className="text-sm font-medium text-gray-700"
               >
-                State *
+                State
               </Label>
               <Input
                 type="text"
                 id="newPharmacyState"
                 {...register("newPharmacyState", {
-                  required: "State is required",
+                  required: false,
                 })}
                 placeholder="Enter state name here..."
-                className={cn(
-                  "w-full mt-1",
-                  errors.newPharmacyState && "border-red-500"
-                )}
+                className="w-full mt-1"
               />
-              {errors.newPharmacyState && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.newPharmacyState.message}
-                </p>
-              )}
             </div>
             <div>
               <Label
                 htmlFor="newPharmacyZipCode"
                 className="text-sm font-medium text-gray-700"
               >
-                Zip Code *
+                Zip Code
               </Label>
               <Input
                 type="text"
                 id="newPharmacyZipCode"
                 {...register("newPharmacyZipCode", {
-                  required: "Zip code is required",
-                  pattern: {
-                    value: /^\d{5}(-\d{4})?$/,
-                    message: "Please enter a valid zip code",
-                  },
+                  required: false,
                 })}
                 placeholder="Enter zip code here..."
-                className={cn(
-                  "w-full mt-1",
-                  errors.newPharmacyZipCode && "border-red-500"
-                )}
+                className="w-full mt-1"
               />
-              {errors.newPharmacyZipCode && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.newPharmacyZipCode.message}
-                </p>
-              )}
             </div>
           </div>
         </div>
