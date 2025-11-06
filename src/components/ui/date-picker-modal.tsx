@@ -170,7 +170,7 @@ export default function DatePickerModal({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-lg bg-white rounded-xl shadow-2xl border-0 p-0">
         {/* Header */}
-        <DialogHeader className="p-6 border-b">
+        <DialogHeader className="p-4 border-b">
           <DialogTitle className="text-xl font-bold text-gray-900">
             Select a Delivery Date
           </DialogTitle>
@@ -193,7 +193,7 @@ export default function DatePickerModal({
         </div>
 
         {/* Calendar */}
-        <div className="p-6">
+        <div className="px-6 py-2">
           {/* Month Navigation */}
           <div className="flex items-center justify-between mb-6">
             <button
