@@ -98,7 +98,7 @@ function PartnerTestimonial() {
                           </p>
                         </div>
                       </div>
-                      <div className="h-[12vh] w-[2px] bg-gray-300"></div>
+                      <div className="h-[12vh] w-[2px] bg-gray-300 hidden md:block"></div>
                       {/* Testimonial Text */}
                       <div className="flex-1">
                         <p className="text-gray-600 leading-relaxed text-sm md:text-base font-inter">
