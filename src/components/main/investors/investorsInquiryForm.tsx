@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,37 +12,41 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { useForm, Controller, SubmitHandler } from "react-hook-form";
+import { cn } from "@/lib/utils";
+
+interface FormValues {
+  fullName: string;
+  emailAddress: string;
+  phoneNumber: string;
+  organizationName: string;
+  website: string;
+  organizationType: string;
+  yearsOfInvestmentExperience: string;
+  message: string;
+}
 
 function InvestorsInquiryForm() {
-  const [formData, setFormData] = useState({
-    name: "",
-    companyName: "",
-    emailAddress: "",
-    investmentInterest: "",
-    message: "",
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<FormValues>({
+    defaultValues: {
+      fullName: "",
+      emailAddress: "",
+      phoneNumber: "",
+      organizationName: "",
+      website: "",
+      organizationType: "",
+      yearsOfInvestmentExperience: "",
+      message: "",
+    },
   });
 
-  const handleChange = (
-    e:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSelectChange = (value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      investmentInterest: value,
-    }));
-  };
-
-  const handleSubmit = () => {
-    console.log("Form submitted:", formData);
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
+    console.log("Form submitted:", data);
     // Handle form submission logic here
   };
 
@@ -57,42 +61,38 @@ function InvestorsInquiryForm() {
         {/* Form Card */}
         <Card className="shadow-lg">
           <CardHeader className="space-y-1 pb-6">
-            <CardTitle className="text-2xl font-bold text-gray-900 text-center">
-              Investor Inquiry Form
+            <CardTitle className="text-2xl font-bold text-gray-900">
+              Inquiry Form
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-6">
-              {/* Name */}
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              {/* Full Name */}
               <div className="space-y-2">
-                <Label htmlFor="name" className="text-sm font-medium">
-                  Name
+                <Label htmlFor="fullName" className="text-sm font-medium">
+                  Full Name
                 </Label>
                 <Input
-                  id="name"
-                  name="name"
+                  id="fullName"
                   type="text"
                   placeholder="Enter your name here..."
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="bg-gray-50"
+                  className={cn(
+                    "bg-gray-50",
+                    errors.fullName && "border-red-500"
+                  )}
+                  {...register("fullName", {
+                    required: "Full name is required",
+                    minLength: {
+                      value: 2,
+                      message: "Full name must be at least 2 characters",
+                    },
+                  })}
                 />
-              </div>
-
-              {/* Company Name */}
-              <div className="space-y-2">
-                <Label htmlFor="companyName" className="text-sm font-medium">
-                  Company Name
-                </Label>
-                <Input
-                  id="companyName"
-                  name="companyName"
-                  type="text"
-                  placeholder="Enter your company name here..."
-                  value={formData.companyName}
-                  onChange={handleChange}
-                  className="bg-gray-50"
-                />
+                {errors.fullName && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.fullName.message}
+                  </p>
+                )}
               </div>
 
               {/* Email Address */}
@@ -102,38 +102,190 @@ function InvestorsInquiryForm() {
                 </Label>
                 <Input
                   id="emailAddress"
-                  name="emailAddress"
                   type="email"
                   placeholder="Enter your email address here..."
-                  value={formData.emailAddress}
-                  onChange={handleChange}
-                  className="bg-gray-50"
+                  className={cn(
+                    "bg-gray-50",
+                    errors.emailAddress && "border-red-500"
+                  )}
+                  {...register("emailAddress", {
+                    required: "Email address is required",
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      message: "Invalid email address",
+                    },
+                  })}
                 />
+                {errors.emailAddress && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.emailAddress.message}
+                  </p>
+                )}
               </div>
 
-              {/* Investment Interest */}
+              {/* Phone Number */}
               <div className="space-y-2">
-                <Label
-                  htmlFor="investmentInterest"
-                  className="text-sm font-medium"
-                >
-                  Investment Interest
+                <Label htmlFor="phoneNumber" className="text-sm font-medium">
+                  Phone Number
                 </Label>
-                <Select onValueChange={handleSelectChange}>
-                  <SelectTrigger className="bg-gray-50 text-[14px]">
-                    <SelectValue placeholder="Select Investment Interest" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="seed">Seed Round</SelectItem>
-                    <SelectItem value="series-a">Series A</SelectItem>
-                    <SelectItem value="series-b">Series B</SelectItem>
-                    <SelectItem value="series-c">Series C</SelectItem>
-                    <SelectItem value="strategic">
-                      Strategic Investment
-                    </SelectItem>
-                    <SelectItem value="other">Other</SelectItem>
-                  </SelectContent>
-                </Select>
+                <Input
+                  id="phoneNumber"
+                  type="tel"
+                  placeholder="Enter your phone number here..."
+                  className={cn(
+                    "bg-gray-50",
+                    errors.phoneNumber && "border-red-500"
+                  )}
+                  {...register("phoneNumber", {
+                    required: "Phone number is required",
+                    pattern: {
+                      value:
+                        /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
+                      message: "Invalid phone number format",
+                    },
+                  })}
+                />
+                {errors.phoneNumber && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.phoneNumber.message}
+                  </p>
+                )}
+              </div>
+
+              {/* Organization Name and Organization Type - Two Column Layout */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label
+                    htmlFor="organizationName"
+                    className="text-sm font-medium"
+                  >
+                    Organization Name
+                  </Label>
+                  <Input
+                    id="organizationName"
+                    type="text"
+                    placeholder="Enter your organization name here..."
+                    className={cn(
+                      "bg-gray-50",
+                      errors.organizationName && "border-red-500"
+                    )}
+                    {...register("organizationName", {
+                      required: "Organization name is required",
+                      minLength: {
+                        value: 2,
+                        message:
+                          "Organization name must be at least 2 characters",
+                      },
+                    })}
+                  />
+                  {errors.organizationName && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.organizationName.message}
+                    </p>
+                  )}
+                </div>
+                <div className="space-y-2">
+                  <Label
+                    htmlFor="organizationType"
+                    className="text-sm font-medium"
+                  >
+                    Organization Type
+                  </Label>
+                  <Input
+                    id="organizationType"
+                    type="text"
+                    placeholder="Enter your organization type here..."
+                    className={cn(
+                      "bg-gray-50",
+                      errors.organizationType && "border-red-500"
+                    )}
+                    {...register("organizationType", {
+                      required: "Organization type is required",
+                      minLength: {
+                        value: 2,
+                        message:
+                          "Organization type must be at least 2 characters",
+                      },
+                    })}
+                  />
+                  {errors.organizationType && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.organizationType.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {/* Website and Years of Investment Experience - Two Column Layout */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="website" className="text-sm font-medium">
+                    Website (optional)
+                  </Label>
+                  <Input
+                    id="website"
+                    type="url"
+                    placeholder="Enter your website here..."
+                    className={cn(
+                      "bg-gray-50",
+                      errors.website && "border-red-500"
+                    )}
+                    {...register("website", {
+                      pattern: {
+                        value:
+                          /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/,
+                        message: "Invalid website URL format",
+                      },
+                    })}
+                  />
+                  {errors.website && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.website.message}
+                    </p>
+                  )}
+                </div>
+                <div className="space-y-2">
+                  <Label
+                    htmlFor="yearsOfInvestmentExperience"
+                    className="text-sm font-medium"
+                  >
+                    Years of Investment Experience
+                  </Label>
+                  <Controller
+                    name="yearsOfInvestmentExperience"
+                    control={control}
+                    rules={{
+                      required: "Years of investment experience is required",
+                    }}
+                    render={({ field }) => (
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}
+                      >
+                        <SelectTrigger
+                          className={cn(
+                            "bg-gray-50 text-[14px]",
+                            errors.yearsOfInvestmentExperience &&
+                              "border-red-500"
+                          )}
+                        >
+                          <SelectValue placeholder="Select investment experience" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="1-3">1-3 years</SelectItem>
+                          <SelectItem value="4-7">4-7 years</SelectItem>
+                          <SelectItem value="8-12">8-12 years</SelectItem>
+                          <SelectItem value="12+">12+ years</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    )}
+                  />
+                  {errors.yearsOfInvestmentExperience && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.yearsOfInvestmentExperience.message}
+                    </p>
+                  )}
+                </div>
               </div>
 
               {/* Your Message */}
@@ -143,26 +295,34 @@ function InvestorsInquiryForm() {
                 </Label>
                 <Textarea
                   id="message"
-                  name="message"
                   placeholder="Type your message here..."
-                  value={formData.message}
-                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                    handleChange(
-                      e as unknown as React.ChangeEvent<HTMLInputElement>
-                    )
-                  }
-                  className="bg-gray-50 min-h-[120px] resize-none"
+                  className={cn(
+                    "bg-gray-50 min-h-[120px] resize-none",
+                    errors.message && "border-red-500"
+                  )}
+                  {...register("message", {
+                    required: "Message is required",
+                    minLength: {
+                      value: 10,
+                      message: "Message must be at least 10 characters",
+                    },
+                  })}
                 />
+                {errors.message && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.message.message}
+                  </p>
+                )}
               </div>
 
               {/* Submit Button */}
               <Button
-                onClick={handleSubmit}
+                type="submit"
                 className="w-full bg-peter hover:bg-peter-dark text-white py-6 text-base font-medium cursor-pointer"
               >
                 Submit Interest
               </Button>
-            </div>
+            </form>
           </CardContent>
         </Card>
       </div>

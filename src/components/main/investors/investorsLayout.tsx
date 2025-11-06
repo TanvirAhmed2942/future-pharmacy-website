@@ -10,7 +10,7 @@ function InvestorsLayout() {
     <div>
       <Banner
         title="Invest in the Future of Prescription Delivery"
-        description="join us in revolutionizing prescription delivery with a scalable business model rooted in local community in rapidly growing healthcare delivery model"
+        description="join us in revolutionizing prescription delivery with a scalable business model rooted in local community healthcare delivery model"
         image="/banner/investors_banner.png"
       />
       <Benefits />

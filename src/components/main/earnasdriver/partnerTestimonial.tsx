@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Star } from "lucide-react";
+// import { Star } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 
