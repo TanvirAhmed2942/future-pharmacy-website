@@ -50,9 +50,9 @@ function Requirements() {
   return (
     <section className="bg-gradient-to-br from-purple-50 to-pink-50 py-8 md:py-16 px-4 sm:px-6 md:px-8 rounded-2xl sm:rounded-none mx-4 sm:mx-0">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center justify-center ">
           {/* Text Content */}
-          <div className="space-y-4 md:space-y-6">
+          <div className="space-y-4 md:space-y-6 ">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-peter font-inter text-center sm:text-left">
               See all our Requirements
             </h2>
@@ -69,14 +69,16 @@ function Requirements() {
           </div>
 
           {/* Heart Image */}
-          <div className="hidden lg:flex justify-start lg:justify-end">
-            <div className="relative w-full max-w-md aspect-square">
+          <div className="hidden lg:flex justify-center items-center ">
+            <div className="relative  max-w-md aspect-square flex items-center justify-center">
               <Image
-                src="/howitworks/heart_shape_1.png"
+                src="/howitworks/car_2.webp"
                 alt="Heart shape made of pills"
                 width={1000}
                 height={1000}
-                className="object-cover scale-105 mx-auto"
+                priority
+                sizes="(max-width: 1024px) 0vw, 100vw"
+                className="object-cover scale-120 mx-auto "
               />
             </div>
           </div>
