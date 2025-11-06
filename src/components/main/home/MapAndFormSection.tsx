@@ -8,7 +8,7 @@ import {
   ChevronRight,
   ShoppingCart,
 } from "lucide-react";
-
+import { FaSortDown } from "react-icons/fa";
 import { Card } from "@/components/ui/card";
 import DatePickerModal from "@/components/ui/date-picker-modal";
 import TimePickerModal from "@/components/ui/time-picker-modal";
@@ -155,13 +155,17 @@ export default function MapAndFormSection() {
                     : "border-gray-200 bg-white hover:border-gray-300"
                 }`}
               >
-                <div className="flex items-center gap-2">
-                  <Clock className="w-5 h-5 text-gray-600" />
-                  <span className="font-medium text-gray-900">
-                    {selectedTime
-                      ? selectedTime.split(" - ")[0] // Show just the start time
-                      : "Now"}
-                  </span>
+                <div className="flex items-center  justify-between">
+                  <div className="flex items-center gap-2">
+                    <Clock className="w-5 h-5 text-gray-600" />
+                    <span className="font-medium text-gray-900">
+                      {selectedTime
+                        ? selectedTime.split(" - ")[0] // Show just the start time
+                        : "Now"}
+                    </span>
+                  </div>
+
+                  <FaSortDown className="w-4 h-4 text-gray-600 -mt-2" />
                 </div>
               </button>
             </div>
