@@ -132,14 +132,14 @@ export default function TimePickerModal({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-2xl bg-white rounded-xl shadow-2xl border-0 p-0 max-h-[80vh] overflow-hiddden">
         {/* Header */}
-        <DialogHeader className="p-6 border-b">
+        <DialogHeader className="p-4 border-b">
           <DialogTitle className="text-xl font-bold text-gray-900">
             Select a Delivery Time
           </DialogTitle>
         </DialogHeader>
 
         {/* Delivery date info */}
-        <div className="px-6 py-4 bg-gray-50">
+        <div className="px-6 py-2 bg-gray-50">
           <p className="text-sm text-gray-600">
             Your order will be delivered on{" "}
             <span className="font-semibold text-peter">
@@ -149,7 +149,7 @@ export default function TimePickerModal({
         </div>
 
         {/* Time slots with scroll area */}
-        <ScrollArea className="h-[400px]">
+        <ScrollArea className="h-[300px] max-h-[350px] lg:h-[400px] lg:max-h-[450px]">
           <div className="p-6">
             {renderTimeSlots(morningSlots, "Morning")}
             {renderTimeSlots(afternoonSlots, "Afternoon")}
