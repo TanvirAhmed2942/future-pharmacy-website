@@ -1,7 +1,7 @@
 import React from "react";
-import { Truck, Search, Users } from "lucide-react";
+import { Truck, Search } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-
+import { GrDocumentVerified } from "react-icons/gr";
 function Benefits() {
   const benefits = [
     {
@@ -13,7 +13,7 @@ function Benefits() {
       title: "Real-Time Delivery Tracking",
     },
     {
-      icon: Users,
+      icon: GrDocumentVerified,
       title: "Safe & Verified Orders",
     },
   ];

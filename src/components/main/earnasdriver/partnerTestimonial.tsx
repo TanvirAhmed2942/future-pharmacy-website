@@ -41,7 +41,7 @@ function PartnerTestimonial() {
           </h2>
 
           {/* Star Rating */}
-          <div className="flex justify-center gap-1 mb-3">
+          {/* <div className="flex justify-center gap-1 mb-3">
             {[...Array(5)].map((_, index) => (
               <Star
                 key={index}
@@ -61,7 +61,7 @@ function PartnerTestimonial() {
 
           <p className="text-gray-700 text-base md:text-lg font-inter">
             Average Google Rating is 4.6
-          </p>
+          </p> */}
         </div>
 
         {/* Swiper Container */}

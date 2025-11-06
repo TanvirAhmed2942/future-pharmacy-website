@@ -23,7 +23,7 @@ function HowIndependentPharmWorks() {
   ];
 
   return (
-    <div className="py-16 ">
+    <div className="py-16 px-4 md:px-0">
       <div className="max-w-2xl mx-auto">
         <h1 className="text-4xl font-bold text-center text-gray-900 my-16">
           How It Works

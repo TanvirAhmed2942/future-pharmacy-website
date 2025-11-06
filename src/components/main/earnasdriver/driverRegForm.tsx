@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,37 +12,41 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useForm, Controller, SubmitHandler } from "react-hook-form";
+import { cn } from "@/lib/utils";
+
+interface FormValues {
+  name: string;
+  emailAddress: string;
+  phoneNumber: string;
+  city: string;
+  zipCode: string;
+  vehicleType: string;
+  yearsWithLicense: string;
+  message: string;
+}
 
 function DriverRegForm() {
-  const [formData, setFormData] = useState({
-    name: "",
-    emailAddress: "",
-    phoneNumber: "",
-    zipCode: "",
-    vehicleType: "",
-    otherVehicleType: "",
-    message: "",
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<FormValues>({
+    defaultValues: {
+      name: "",
+      emailAddress: "",
+      phoneNumber: "",
+      city: "",
+      zipCode: "",
+      vehicleType: "",
+      yearsWithLicense: "",
+      message: "",
+    },
   });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSelectChange = (value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      vehicleType: value,
-    }));
-  };
-
-  const handleSubmit = () => {
-    console.log("Form submitted:", formData);
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
+    console.log("Form submitted:", data);
     // Handle form submission logic here
   };
 
@@ -55,7 +59,7 @@ function DriverRegForm() {
               Apply to become a Driver
             </h2>
 
-            <div className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               {/* Name Field */}
               <div>
                 <Label htmlFor="name" className="text-sm text-gray-700">
@@ -63,13 +67,25 @@ function DriverRegForm() {
                 </Label>
                 <Input
                   id="name"
-                  name="name"
                   type="text"
                   placeholder="Enter your name here..."
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="mt-1 bg-gray-50"
+                  className={cn(
+                    "mt-1 bg-gray-50",
+                    errors.name && "border-red-500"
+                  )}
+                  {...register("name", {
+                    required: "Name is required",
+                    minLength: {
+                      value: 2,
+                      message: "Name must be at least 2 characters",
+                    },
+                  })}
                 />
+                {errors.name && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.name.message}
+                  </p>
+                )}
               </div>
 
               {/* Email Address Field */}
@@ -79,13 +95,25 @@ function DriverRegForm() {
                 </Label>
                 <Input
                   id="emailAddress"
-                  name="emailAddress"
                   type="email"
                   placeholder="Enter your email address here..."
-                  value={formData.emailAddress}
-                  onChange={handleChange}
-                  className="mt-1 bg-gray-50"
+                  className={cn(
+                    "mt-1 bg-gray-50",
+                    errors.emailAddress && "border-red-500"
+                  )}
+                  {...register("emailAddress", {
+                    required: "Email address is required",
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      message: "Invalid email address",
+                    },
+                  })}
                 />
+                {errors.emailAddress && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.emailAddress.message}
+                  </p>
+                )}
               </div>
 
               {/* Phone Number Field */}
@@ -95,74 +123,167 @@ function DriverRegForm() {
                 </Label>
                 <Input
                   id="phoneNumber"
-                  name="phoneNumber"
                   type="tel"
                   placeholder="Enter your phone number here..."
-                  value={formData.phoneNumber}
-                  onChange={handleChange}
-                  className="mt-1 bg-gray-50"
+                  className={cn(
+                    "mt-1 bg-gray-50",
+                    errors.phoneNumber && "border-red-500"
+                  )}
+                  {...register("phoneNumber", {
+                    required: "Phone number is required",
+                    pattern: {
+                      value:
+                        /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
+                      message: "Invalid phone number format",
+                    },
+                  })}
                 />
+                {errors.phoneNumber && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.phoneNumber.message}
+                  </p>
+                )}
               </div>
 
-              {/* Zip Code Field */}
-              <div>
-                <Label htmlFor="zipCode" className="text-sm text-gray-700">
-                  Zip Code
-                </Label>
-                <Input
-                  id="zipCode"
-                  name="zipCode"
-                  type="text"
-                  placeholder="Enter your zip code here..."
-                  value={formData.zipCode}
-                  onChange={handleChange}
-                  className="mt-1 bg-gray-50"
-                />
-              </div>
-
-              {/* Vehicle Type Field */}
-              <div>
-                <Label htmlFor="vehicleType" className="text-sm text-gray-700">
-                  Vehicle Type
-                </Label>
-                <Select
-                  value={formData.vehicleType}
-                  onValueChange={handleSelectChange}
-                >
-                  <SelectTrigger className="mt-1 bg-gray-50 text-[14px]">
-                    <SelectValue placeholder="Select your vehicle type here..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="car">Car</SelectItem>
-                    <SelectItem value="motorcycle">Motorcycle</SelectItem>
-                    <SelectItem value="bicycle">Bicycle</SelectItem>
-                    <SelectItem value="van">Van</SelectItem>
-                    <SelectItem value="truck">Truck</SelectItem>
-                    <SelectItem value="others">Others</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* Other Vehicle Type Field - Conditional */}
-              {formData.vehicleType === "others" && (
+              {/* City and Zip Code - Two Column Layout */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <Label
-                    htmlFor="otherVehicleType"
-                    className="text-sm text-gray-700"
-                  >
-                    Specify Other Vehicle Type
+                  <Label htmlFor="city" className="text-sm text-gray-700">
+                    City
                   </Label>
                   <Input
-                    id="otherVehicleType"
-                    name="otherVehicleType"
+                    id="city"
                     type="text"
-                    placeholder="Please specify your vehicle type..."
-                    value={formData.otherVehicleType}
-                    onChange={handleChange}
-                    className="mt-1 bg-gray-50"
+                    placeholder="Enter your city name here..."
+                    className={cn(
+                      "mt-1 bg-gray-50",
+                      errors.city && "border-red-500"
+                    )}
+                    {...register("city", {
+                      required: "City is required",
+                      minLength: {
+                        value: 2,
+                        message: "City name must be at least 2 characters",
+                      },
+                    })}
                   />
+                  {errors.city && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.city.message}
+                    </p>
+                  )}
                 </div>
-              )}
+                <div>
+                  <Label htmlFor="zipCode" className="text-sm text-gray-700">
+                    Zip Code
+                  </Label>
+                  <Input
+                    id="zipCode"
+                    type="text"
+                    placeholder="Enter your zip code here..."
+                    className={cn(
+                      "mt-1 bg-gray-50",
+                      errors.zipCode && "border-red-500"
+                    )}
+                    {...register("zipCode", {
+                      required: "Zip code is required",
+                      pattern: {
+                        value: /^\d{5}(-\d{4})?$/,
+                        message: "Invalid zip code format",
+                      },
+                    })}
+                  />
+                  {errors.zipCode && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.zipCode.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {/* Vehicle Type and Years with Driver's License - Two Column Layout */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label
+                    htmlFor="vehicleType"
+                    className="text-sm text-gray-700"
+                  >
+                    Vehicle Type
+                  </Label>
+                  <Controller
+                    name="vehicleType"
+                    control={control}
+                    rules={{ required: "Vehicle type is required" }}
+                    render={({ field }) => (
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}
+                      >
+                        <SelectTrigger
+                          className={cn(
+                            "mt-1 bg-gray-50 text-[14px]",
+                            errors.vehicleType && "border-red-500"
+                          )}
+                        >
+                          <SelectValue placeholder="Select your vehicle type here..." />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="car">Car</SelectItem>
+                          <SelectItem value="e-bike">E-bike</SelectItem>
+                          <SelectItem value="motorbike">Motorbike</SelectItem>
+                          <SelectItem value="scooter">Scooter</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    )}
+                  />
+                  {errors.vehicleType && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.vehicleType.message}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <Label
+                    htmlFor="yearsWithLicense"
+                    className="text-sm text-gray-700"
+                  >
+                    Years with Driver&apos;s License
+                  </Label>
+                  <Controller
+                    name="yearsWithLicense"
+                    control={control}
+                    rules={{
+                      required: "Years with driver's license is required",
+                    }}
+                    render={({ field }) => (
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}
+                      >
+                        <SelectTrigger
+                          className={cn(
+                            "mt-1 bg-gray-50 text-[14px]",
+                            errors.yearsWithLicense && "border-red-500"
+                          )}
+                        >
+                          <SelectValue placeholder="Select driver's license years" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="2-5">2-5 years</SelectItem>
+                          <SelectItem value="6-10">6-10 years</SelectItem>
+                          <SelectItem value="11-20">11-20 years</SelectItem>
+                          <SelectItem value="20+">20+ years</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    )}
+                  />
+                  {errors.yearsWithLicense && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.yearsWithLicense.message}
+                    </p>
+                  )}
+                </div>
+              </div>
 
               {/* Message Field */}
               <div>
@@ -171,22 +292,34 @@ function DriverRegForm() {
                 </Label>
                 <Textarea
                   id="message"
-                  name="message"
                   placeholder="Type your message here..."
-                  value={formData.message}
-                  onChange={handleChange}
-                  className="mt-1 bg-gray-50 min-h-[100px]"
+                  className={cn(
+                    "mt-1 bg-gray-50 min-h-[100px]",
+                    errors.message && "border-red-500"
+                  )}
+                  {...register("message", {
+                    required: "Message is required",
+                    minLength: {
+                      value: 10,
+                      message: "Message must be at least 10 characters",
+                    },
+                  })}
                 />
+                {errors.message && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.message.message}
+                  </p>
+                )}
               </div>
 
               {/* Submit Button */}
               <Button
-                onClick={handleSubmit}
+                type="submit"
                 className="w-full bg-peter hover:bg-peter-dark text-white py-2 cursor-pointer"
               >
                 Submit Interest
               </Button>
-            </div>
+            </form>
           </CardContent>
         </Card>
       </div>

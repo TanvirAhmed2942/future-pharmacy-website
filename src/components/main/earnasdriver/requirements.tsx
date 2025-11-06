@@ -1,17 +1,17 @@
 import React from "react";
 import Image from "next/image";
-import { GoCheckCircleFill } from "react-icons/go";
-function WeWillBeRight() {
-  const benefits = [
-    "Convenient home delivery",
-    "Saves time and cost",
-    "Secure prescription handling",
-    "Real-time tracking",
-    "Flexible scheduling",
-    "Zero cost to deliver Rx when using our partner pharmacies",
+import useIcon from "@/hooks/useIcon";
+function Requirements() {
+  const icon = useIcon({ name: "check_round" });
+  const requirements = [
+    "Valid driver's license (at least 2 years)",
+    "Clean driving record (no major violations)",
+    "Reliable vehicle (2005 or newer)",
+    "Smartphone with GPS capability",
+    "Background check required",
+    "Must be 21 years or older",
   ];
 
-  //   <section className="bg-gradient-to-br from-purple-50 to-pink-50 py-6 md:py-16 px-4 md:px-8">
   //     <div className="max-w-7xl mx-auto">
   //       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start ">
   //         {/* Text Content */}
@@ -54,14 +54,14 @@ function WeWillBeRight() {
           {/* Text Content */}
           <div className="space-y-4 md:space-y-6">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-peter font-inter text-center sm:text-left">
-              See all our Benefits
+              See all our Requirements
             </h2>
             <div className="space-y-3 md:space-y-4">
-              {benefits.map((benefit, index) => (
+              {requirements.map((requirement, index) => (
                 <div key={index} className="flex items-start gap-3">
-                  <GoCheckCircleFill className="text-peter size-5 md:size-6 flex-shrink-0 mt-0.5" />
+                  {icon as React.ReactNode}
                   <p className="text-gray-700 text-base md:text-lg leading-snug md:leading-relaxed font-inter text-left font-medium">
-                    {benefit}
+                    {requirement}
                   </p>
                 </div>
               ))}
@@ -86,4 +86,4 @@ function WeWillBeRight() {
   );
 }
 
-export default WeWillBeRight;
+export default Requirements;

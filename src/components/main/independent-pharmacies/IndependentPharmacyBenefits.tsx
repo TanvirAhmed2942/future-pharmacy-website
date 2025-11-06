@@ -1,6 +1,7 @@
 import React from "react";
-import { Truck, Search, Users } from "lucide-react";
+import { Truck, Search } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { PiChartLineUp } from "react-icons/pi";
 import useIcon from "@/hooks/useIcon";
 function IndependentPharmacyBenefits() {
   // Fetch hipaa icon
@@ -22,13 +23,13 @@ function IndependentPharmacyBenefits() {
     },
     {
       icon: Search,
-      title: "Digital Order Tracking",
+      title: "Data Insights",
       description:
         "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere.",
     },
     {
-      icon: Users,
-      title: "Increased Customer Reach",
+      icon: PiChartLineUp,
+      title: "Increase Revenue",
       description:
         "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere.",
     },
