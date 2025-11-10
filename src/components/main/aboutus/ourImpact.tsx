@@ -1,26 +1,120 @@
 "use client";
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
+import { useDevice } from "@/hooks/use-device";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function OurImpact() {
   const stats = [
     {
       value: "100,000+",
       label: "Prescriptions Delivered",
+      numericValue: 100000,
+      suffix: "+",
     },
     {
       value: "50,000+",
       label: "Patients Served",
+      numericValue: 50000,
+      suffix: "+",
     },
     {
       value: "30 Mins",
       label: "Average Delivery Time",
+      numericValue: 30,
+      suffix: " Mins",
     },
   ];
 
+  const statRefs = useRef<(HTMLSpanElement | null)[]>([]);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const device = useDevice();
+
+  // Function to get ScrollTrigger start/end based on device
+  const getScrollTriggerConfig = () => {
+    if (device.isMobile) {
+      return {
+        start: "top 80%",
+        end: "bottom 100%",
+      };
+    } else if (device.isTablet) {
+      return {
+        start: "top 80%",
+        end: "bottom 50%",
+      };
+    } else if (device.isLaptop) {
+      return {
+        start: "top 80%",
+        end: "bottom 20%",
+      };
+    } else if (device.isDesktop || device.isLg) {
+      return {
+        start: "top 100%",
+        end: "bottom 80%",
+      };
+    } else if (device.isXl || device.is2Xl) {
+      return {
+        start: "top 60%",
+        end: "bottom 30%",
+      };
+    }
+    // Default fallback
+    return {
+      start: "top center",
+      end: "bottom center",
+    };
+  };
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const { start, end } = getScrollTriggerConfig();
+
+    statRefs.current.forEach((ref, idx) => {
+      if (!ref) return;
+
+      const stat = stats[idx];
+      const obj = { value: 0 };
+
+      gsap.to(obj, {
+        value: stat.numericValue,
+        duration: 1,
+        ease: "none",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: start,
+          end: end,
+          scrub: true,
+          onUpdate: () => {
+            if (ref) {
+              const formattedValue = Math.floor(obj.value).toLocaleString();
+              ref.textContent = formattedValue + stat.suffix;
+            }
+          },
+        },
+      });
+    });
+
+    // Refresh ScrollTrigger on resize
+    const handleResize = () => {
+      ScrollTrigger.refresh();
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [device.device]);
+
   return (
     <>
-      <div className=" bg-[#f3ecf3]  px-4 py-6 md:py-16">
+      <div className=" bg-[#f3ecf3]  px-4 py-6 md:py-16" ref={containerRef}>
         <div className="max-w-6xl mx-auto ">
           <h1 className="text-4xl font-bold text-center text-peter pb-6 md:pb-16">
             Our Impact
@@ -30,7 +124,13 @@ export default function OurImpact() {
               <Card key={idx} className="bg-peter border-none shadow-lg">
                 <CardContent className="flex flex-col items-center justify-center p-8 text-center">
                   <h2 className="text-4xl md:text-5xl font-bold text-white mb-2">
-                    {stat.value}
+                    <span
+                      ref={(el) => {
+                        statRefs.current[idx] = el;
+                      }}
+                    >
+                      0{stat.suffix}
+                    </span>
                   </h2>
                   <p className="text-white text-sm md:text-base">
                     {stat.label}
