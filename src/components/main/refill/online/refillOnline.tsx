@@ -20,6 +20,7 @@ import {
   Controller,
   SubmitHandler,
 } from "react-hook-form";
+import Backbutton from "@/components/common/backbutton/backbutton";
 
 type MedicationInput = {
   id: number;
@@ -99,9 +100,12 @@ function RefillOnline() {
         onSubmit={handleSubmit(onSubmit)}
         className="space-y-6 md:space-y-8 px-4"
       >
-        <h2 className="text-2xl lg:text-3xl font-bold text-center text-peter font-inter mt-2 mb-4 lg:-mt-8 lg:mb-8 ">
-          Refill Your Prescription
-        </h2>
+        <div className="flex  items-center justify-center mt-2 mb-4 lg:-mt-8 lg:mb-8 ">
+          <Backbutton />
+          <h2 className="text-2xl lg:text-3xl font-bold text-center text-peter font-inter mx-auto">
+            Refill Your Prescription
+          </h2>
+        </div>
 
         {/* Personal Information Section */}
         <div className="bg-white rounded-lg border p-6 shadow-sm">

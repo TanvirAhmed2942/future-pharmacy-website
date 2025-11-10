@@ -23,6 +23,7 @@ import { cn } from "@/lib/utils";
 import React, { useState } from "react";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import CalendarModal from "./calendarModal";
+import Backbutton from "@/components/common/backbutton/backbutton";
 
 type FormValues = {
   firstName: string;
@@ -41,6 +42,9 @@ type FormValues = {
   // Service type
   serviceCategory: string;
   serviceType: string;
+  otherService: string;
+  otherVaccination: string;
+  otherHealthScreening: string;
 
   // Appointment details
   appointmentDate: string;
@@ -74,6 +78,9 @@ function ScheduleOnline() {
       pharmacyZipCode: "",
       serviceCategory: "",
       serviceType: "",
+      otherService: "",
+      otherVaccination: "",
+      otherHealthScreening: "",
       appointmentDate: "",
       appointmentTime: "",
       appointmentAllTimes: [],
@@ -87,16 +94,37 @@ function ScheduleOnline() {
 
   // Watch the service category to update available options in second dropdown
   const selectedCategory = watch("serviceCategory");
+  const selectedServiceType = watch("serviceType");
   const selectedDate = watch("appointmentDate");
   // const selectedTime = watch("appointmentTime");
   const selectedAllTimes = watch("appointmentAllTimes");
 
-  // Reset service type when category changes
+  // Reset service type and other service when category changes
   React.useEffect(() => {
     if (selectedCategory) {
       setValue("serviceType", "");
+      setValue("otherService", "");
+      setValue("otherVaccination", "");
+      setValue("otherHealthScreening", "");
     }
   }, [selectedCategory, setValue]);
+
+  // Reset otherVaccination when serviceType changes
+  React.useEffect(() => {
+    if (selectedServiceType && selectedServiceType !== "vaccinations_others") {
+      setValue("otherVaccination", "");
+    }
+  }, [selectedServiceType, setValue]);
+
+  // Reset otherHealthScreening when serviceType changes
+  React.useEffect(() => {
+    if (
+      selectedServiceType &&
+      selectedServiceType !== "health_screenings_others"
+    ) {
+      setValue("otherHealthScreening", "");
+    }
+  }, [selectedServiceType, setValue]);
 
   const handleSelectDateTime = ({
     date,
@@ -126,9 +154,12 @@ function ScheduleOnline() {
         onSubmit={handleSubmit(onSubmit)}
         className="space-y-6 md:space-y-8 px-4"
       >
-        <h2 className="text-2xl lg:text-3xl font-bold text-center text-peter font-inter mt-2 mb-4 lg:-mt-8 lg:mb-8 ">
-          Schedule Your Prescription
-        </h2>
+        <div className="flex  items-center justify-center mt-2 mb-4 lg:-mt-8 lg:mb-8 ">
+          <Backbutton />
+          <h2 className="text-2xl lg:text-3xl font-bold text-center text-peter font-inter mx-auto">
+            Schedule Your Prescription
+          </h2>
+        </div>
 
         {/* Profile Info Section */}
         <div className="bg-white rounded-lg border p-6 shadow-sm">
@@ -442,6 +473,7 @@ function ScheduleOnline() {
                     <SelectItem value="health_screenings">
                       Health Screenings
                     </SelectItem>
+                    <SelectItem value="service_type_others">Others</SelectItem>
                   </SelectContent>
                 </Select>
               )}
@@ -452,6 +484,165 @@ function ScheduleOnline() {
               </p>
             )}
           </div>
+
+          {/* Specific Service Dropdown - Conditionally shown based on category */}
+          {selectedCategory && selectedCategory !== "service_type_others" && (
+            <div className="mb-4">
+              <Label
+                htmlFor="serviceType"
+                className="text-sm font-medium text-gray-700"
+              >
+                {selectedCategory === "vaccinations"
+                  ? "Vaccinations"
+                  : "Health Screenings"}
+              </Label>
+              <Controller
+                control={control}
+                name="serviceType"
+                rules={{ required: "Please select a specific service" }}
+                render={({ field }) => (
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <SelectTrigger
+                      className={cn(
+                        "w-full mt-1 h-10 text-[14px]",
+                        errors.serviceType && "border-red-500"
+                      )}
+                    >
+                      <SelectValue
+                        placeholder={`Select ${
+                          selectedCategory === "vaccinations"
+                            ? "vaccination"
+                            : "screening"
+                        } type`}
+                      />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {selectedCategory === "vaccinations" ? (
+                        <>
+                          <SelectItem value="flu">Flu</SelectItem>
+                          <SelectItem value="covid">Covid</SelectItem>
+                          <SelectItem value="shingles">Shingles</SelectItem>
+                          <SelectItem value="vaccinations_others">
+                            Others
+                          </SelectItem>
+                        </>
+                      ) : (
+                        <>
+                          <SelectItem value="blood_pressure">
+                            Blood Pressure
+                          </SelectItem>
+                          <SelectItem value="cholesteric">
+                            Cholesteric
+                          </SelectItem>
+                          <SelectItem value="diabetes">Diabetes</SelectItem>
+                          <SelectItem value="health_screenings_others">
+                            Others
+                          </SelectItem>
+                        </>
+                      )}
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+              {errors.serviceType && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.serviceType.message}
+                </p>
+              )}
+            </div>
+          )}
+
+          {/* Other Vaccination Input - Shown when "vaccinations_others" is selected */}
+          {selectedCategory === "vaccinations" &&
+            selectedServiceType === "vaccinations_others" && (
+              <div className="mb-4">
+                <Label
+                  htmlFor="otherVaccination"
+                  className="text-sm font-medium text-gray-700"
+                >
+                  Specify Other Vaccination *
+                </Label>
+                <Input
+                  type="text"
+                  id="otherVaccination"
+                  {...register("otherVaccination", {
+                    required: "Please specify the vaccination type",
+                  })}
+                  placeholder="Enter vaccination type here..."
+                  className={cn(
+                    "w-full mt-1",
+                    errors.otherVaccination && "border-red-500"
+                  )}
+                />
+                {errors.otherVaccination && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.otherVaccination.message}
+                  </p>
+                )}
+              </div>
+            )}
+
+          {/* Other Health Screening Input - Shown when "health_screenings_others" is selected */}
+          {selectedCategory === "health_screenings" &&
+            selectedServiceType === "health_screenings_others" && (
+              <div className="mb-4">
+                <Label
+                  htmlFor="otherHealthScreening"
+                  className="text-sm font-medium text-gray-700"
+                >
+                  Specify Other Health Screening *
+                </Label>
+                <Input
+                  type="text"
+                  id="otherHealthScreening"
+                  {...register("otherHealthScreening", {
+                    required: "Please specify the health screening type",
+                  })}
+                  placeholder="Enter health screening type here..."
+                  className={cn(
+                    "w-full mt-1",
+                    errors.otherHealthScreening && "border-red-500"
+                  )}
+                />
+                {errors.otherHealthScreening && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.otherHealthScreening.message}
+                  </p>
+                )}
+              </div>
+            )}
+
+          {/* Other Service Input - Shown when "Others" is selected */}
+          {selectedCategory === "service_type_others" && (
+            <div className="mb-4">
+              <Label
+                htmlFor="otherService"
+                className="text-sm font-medium text-gray-700"
+              >
+                Specify Other Service *
+              </Label>
+              <Input
+                type="text"
+                id="otherService"
+                {...register("otherService", {
+                  required: "Please specify the service type",
+                })}
+                placeholder="Enter service type here..."
+                className={cn(
+                  "w-full mt-1",
+                  errors.otherService && "border-red-500"
+                )}
+              />
+              {errors.otherService && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.otherService.message}
+                </p>
+              )}
+            </div>
+          )}
 
           {/* Calendar  */}
           <div className="mb-4">
@@ -509,70 +700,6 @@ function ScheduleOnline() {
               </p>
             )}
           </div>
-
-          {/* Specific Service Dropdown - Conditionally shown based on category */}
-          {selectedCategory && (
-            <div className="mb-4">
-              <Label
-                htmlFor="serviceType"
-                className="text-sm font-medium text-gray-700"
-              >
-                {selectedCategory === "vaccinations"
-                  ? "Vaccinations"
-                  : "Health Screenings"}
-              </Label>
-              <Controller
-                control={control}
-                name="serviceType"
-                rules={{ required: "Please select a specific service" }}
-                render={({ field }) => (
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <SelectTrigger
-                      className={cn(
-                        "w-full mt-1",
-                        errors.serviceType && "border-red-500"
-                      )}
-                    >
-                      <SelectValue
-                        placeholder={`Select ${
-                          selectedCategory === "vaccinations"
-                            ? "vaccination"
-                            : "screening"
-                        } type`}
-                      />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {selectedCategory === "vaccinations" ? (
-                        <>
-                          <SelectItem value="flu">Flu</SelectItem>
-                          <SelectItem value="covid">Covid</SelectItem>
-                          <SelectItem value="shingles">Shingles</SelectItem>
-                        </>
-                      ) : (
-                        <>
-                          <SelectItem value="blood_pressure">
-                            Blood Pressure
-                          </SelectItem>
-                          <SelectItem value="cholesteric">
-                            Cholesteric
-                          </SelectItem>
-                          <SelectItem value="diabetes">Diabetes</SelectItem>
-                        </>
-                      )}
-                    </SelectContent>
-                  </Select>
-                )}
-              />
-              {errors.serviceType && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.serviceType.message}
-                </p>
-              )}
-            </div>
-          )}
 
           <Label
             htmlFor="notes"
