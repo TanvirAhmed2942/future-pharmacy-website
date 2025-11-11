@@ -8,7 +8,7 @@ import { FaInstagram } from "react-icons/fa6";
 import { TbBrandYoutube } from "react-icons/tb";
 function Footer() {
   return (
-    <footer className="bg-[#1c121b] text-white rounded-tl-3xl rounded-tr-3xl ">
+    <footer className="bg-[#1c121b] text-white rounded-tl-3xl z-20 rounded-tr-3xl ">
       <div className="container mx-auto px-6 py-12">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8 mb-12">

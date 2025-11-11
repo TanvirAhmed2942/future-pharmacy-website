@@ -7,6 +7,7 @@ import OurImpact from "../aboutus/ourImpact";
 import HowOptimusWorks from "./howOptimusWorks";
 import CheckZoneCoverage from "./checKZoneCoverage";
 import OurStory from "./ourStory";
+import Test from "@/components/test/test";
 
 function Home() {
   return (
@@ -22,6 +23,9 @@ function Home() {
       <div className="bg-white">
         <CheckZoneCoverage />
         <ContactUsSection />
+        <Test />
+        {/* <CheckZoneCoverage />
+        <ContactUsSection /> */}
       </div>
     </div>
   );
