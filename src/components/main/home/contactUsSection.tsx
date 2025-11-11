@@ -128,7 +128,7 @@ function ContactUsSection() {
                         errors.phone && "border-red-500"
                       )}
                       {...register("phone", {
-                        required: "Phone number is required",
+                        required: false,
                         pattern: {
                           value:
                             /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
