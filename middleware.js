@@ -1,7 +1,7 @@
 import createMiddleware from "next-intl/middleware";
 
 const intlMiddleware = createMiddleware({
-  locales: ["en", "fr"],
+  locales: ["en", "es"],
   defaultLocale: "en",
   localePrefix: "never", // Don't add locale prefix to URLs
 });
@@ -11,7 +11,7 @@ export default function middleware(request) {
   const cookieLocale = request.cookies.get("MYNEXTAPP_LOCALE")?.value;
 
   // If cookie exists and is valid, use it
-  if (cookieLocale && ["en", "fr"].includes(cookieLocale)) {
+  if (cookieLocale && ["en", "es"].includes(cookieLocale)) {
     const response = intlMiddleware(request);
     // Add locale to headers so it can be accessed server-side
     response.headers.set("x-locale", cookieLocale);
