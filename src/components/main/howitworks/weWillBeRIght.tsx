@@ -1,6 +1,13 @@
-import React from "react";
+"use client";
+import React, { useRef } from "react";
 import Image from "next/image";
 import { GoCheckCircleFill } from "react-icons/go";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+
 function WeWillBeRight() {
   const benefits = [
     "Convenient home delivery",
@@ -10,7 +17,42 @@ function WeWillBeRight() {
     "Flexible scheduling",
     "Zero cost to deliver Rx when using our partner pharmacies",
   ];
+  const heartImageRef = useRef<HTMLDivElement>(null);
+  const textContentRef = useRef<HTMLDivElement>(null);
 
+  useGSAP(() => {
+    // Set initial positions (off-screen)
+    gsap.set(textContentRef.current, { x: -200, opacity: 0 });
+    gsap.set(heartImageRef.current, { x: 200, opacity: 0 });
+
+    // Animate text from left
+    gsap.to(textContentRef.current, {
+      x: 0,
+      opacity: 1,
+      duration: 1.2,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: textContentRef.current,
+        start: "top 80%",
+        end: "top 50%",
+        toggleActions: "play none none reverse",
+      },
+    });
+
+    // Animate image from right
+    gsap.to(heartImageRef.current, {
+      x: 0,
+      opacity: 1,
+      duration: 1.2,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: heartImageRef.current,
+        start: "top 80%",
+        end: "top 50%",
+        toggleActions: "play none none reverse",
+      },
+    });
+  });
   //   <section className="bg-gradient-to-br from-purple-50 to-pink-50 py-6 md:py-16 px-4 md:px-8">
   //     <div className="max-w-7xl mx-auto">
   //       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start ">
@@ -52,7 +94,7 @@ function WeWillBeRight() {
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
           {/* Text Content */}
-          <div className="space-y-4 md:space-y-6">
+          <div className="space-y-4 md:space-y-6" ref={textContentRef}>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-peter font-inter text-center sm:text-left">
               See all our Benefits
             </h2>
@@ -70,7 +112,10 @@ function WeWillBeRight() {
 
           {/* Heart Image */}
           <div className="hidden lg:flex justify-start lg:justify-end">
-            <div className="relative w-full max-w-md aspect-square">
+            <div
+              className="relative w-full max-w-md aspect-square"
+              ref={heartImageRef}
+            >
               <Image
                 src="/howitworks/heart_shape_1.png"
                 alt="Heart shape made of pills"
