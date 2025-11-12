@@ -37,7 +37,7 @@ function OurStory() {
   }, []);
 
   return (
-    <section className="py-8 md:py-16 border overflow-hidden">
+    <section className="py-8 md:py-16  overflow-hidden">
       <div className="container mx-auto px-4 md:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
           {/* Left Side - Text Content */}

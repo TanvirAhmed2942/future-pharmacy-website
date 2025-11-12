@@ -1,8 +1,18 @@
-import React from "react";
+"use client";
+import React, { useRef } from "react";
 import Image from "next/image";
 import useIcon from "@/hooks/useIcon";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+
 function Requirements() {
   const icon = useIcon({ name: "check_round" });
+  const textContentRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
+
   const requirements = [
     "Valid driver's license (at least 2 years)",
     "Clean driving record (no major violations)",
@@ -11,6 +21,40 @@ function Requirements() {
     "Background check required",
     "Must be 21 years or older",
   ];
+
+  useGSAP(() => {
+    // Set initial positions (off-screen)
+    gsap.set(textContentRef.current, { x: -200, opacity: 0 });
+    gsap.set(imageRef.current, { x: 200, opacity: 0 });
+
+    // Animate text from left
+    gsap.to(textContentRef.current, {
+      x: 0,
+      opacity: 1,
+      duration: 1.2,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: textContentRef.current,
+        start: "top 80%",
+        end: "top 50%",
+        toggleActions: "play none none reverse",
+      },
+    });
+
+    // Animate image from right
+    gsap.to(imageRef.current, {
+      x: 0,
+      opacity: 1,
+      duration: 1.2,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: imageRef.current,
+        start: "top 80%",
+        end: "top 50%",
+        toggleActions: "play none none reverse",
+      },
+    });
+  });
 
   //     <div className="max-w-7xl mx-auto">
   //       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start ">
@@ -52,7 +96,7 @@ function Requirements() {
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center justify-center ">
           {/* Text Content */}
-          <div className="space-y-4 md:space-y-6 ">
+          <div ref={textContentRef} className="space-y-4 md:space-y-6 ">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-peter font-inter text-center sm:text-left">
               See all our Requirements
             </h2>
@@ -68,12 +112,15 @@ function Requirements() {
             </div>
           </div>
 
-          {/* Heart Image */}
-          <div className="hidden lg:flex justify-center items-center ">
+          {/* Image */}
+          <div
+            ref={imageRef}
+            className="hidden lg:flex justify-center items-center "
+          >
             <div className="relative  max-w-md aspect-square flex items-center justify-center">
               <Image
                 src="/howitworks/car_2.webp"
-                alt="Heart shape made of pills"
+                alt="Car image"
                 width={1000}
                 height={1000}
                 priority

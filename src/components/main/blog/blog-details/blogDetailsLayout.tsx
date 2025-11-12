@@ -10,7 +10,7 @@ import {
   FiShare2,
 } from "react-icons/fi";
 
-import { GrCirclePlay } from "react-icons/gr";
+// import { GrCirclePlay } from "react-icons/gr";
 function BlogDetailsLayout() {
   const params = useParams();
   const blogId = params.id as string;
@@ -79,7 +79,7 @@ function BlogDetailsLayout() {
         </h1>
 
         {/* Blog Meta Header - Logo, Subscribe, Date, Read Time */}
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-8 pb-6 border-b border-gray-200">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8 pb-6 border-b border-gray-200">
           {/* Left - Logo with tagline */}
           <div className="flex items-start gap-4 flex-1">
             <div className="w-12 h-12 rounded-full bg-peter bg-opacity-10 flex items-center justify-center flex-shrink-0">
@@ -96,17 +96,19 @@ function BlogDetailsLayout() {
           </div>
 
           {/* Middle - Subscribe Button */}
-          <Button
-            variant="outline"
-            className=" text-gray-700 hover:bg-gray-50 px-6 py-2 text-sm font-medium border-1 border-[#8f4487]"
-          >
-            Subscribe
-          </Button>
+          <div className="w-full flex items-center justify-between gap-4 md:w-auto">
+            <Button
+              variant="outline"
+              className=" text-gray-700 hover:bg-gray-50 px-6 py-2 text-sm font-medium border-1 border-[#8f4487]"
+            >
+              Subscribe
+            </Button>
 
-          {/* Right - Read Time and Date */}
-          <div className="text-right text-sm">
-            <p className="text-gray-600">{blogData.readTime}</p>
-            <p className="text-gray-500 text-xs mt-1">{blogData.date}</p>
+            {/* Right - Read Time and Date */}
+            <div className="text-right text-sm">
+              <p className="text-gray-600">{blogData.readTime}</p>
+              <p className="text-gray-500 text-xs mt-1">{blogData.date}</p>
+            </div>
           </div>
         </div>
 
@@ -122,9 +124,9 @@ function BlogDetailsLayout() {
           <button className="text-gray-600 hover:text-peter transition-colors ml-auto cursor-pointer">
             <FiBookmark className="w-5 h-5" />
           </button>
-          <button className="text-gray-600 hover:text-peter transition-colors cursor-pointer">
+          {/* <button className="text-gray-600 hover:text-peter transition-colors cursor-pointer">
             <GrCirclePlay size={20} className="w-5 h-5" />
-          </button>
+          </button> */}
           <button className="text-gray-600 hover:text-peter transition-colors cursor-pointer">
             <FiShare2 className="w-5 h-5" />
           </button>
