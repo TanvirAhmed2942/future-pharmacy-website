@@ -3,6 +3,7 @@ import Banner from "@/components/common/banner/Banner";
 import MissionSection from "./missionSection";
 import OurStorySection from "./ourStorySection";
 import ReadyToExperience from "@/components/common/readyToExperience/ReadyToExperience";
+import OurValues from "./ourValues";
 
 function AboutUs() {
   return (
@@ -15,6 +16,7 @@ function AboutUs() {
       <div className=" min-h-screen container mx-auto px-4 space-y-16">
         <MissionSection />
         <OurStorySection />
+        <OurValues />
       </div>
       <ReadyToExperience />
     </div>
