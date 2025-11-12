@@ -51,9 +51,11 @@ function Test() {
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           backgroundAttachment: "fixed",
-          opacity: 0.4,
-          //   filter: "blur(px)",
-          //   WebkitFilter: "blur(4px)",
+          backgroundBlendMode: "multiply",
+          backgroundColor: "rgba(0, 0, 0, 0.3)",
+          opacity: 0.3,
+          filter: "blur(px)",
+          WebkitFilter: "blur(4px)",
         }}
       />
 

@@ -14,91 +14,100 @@ function BlogLayout() {
   const blog = [
     {
       title: "Dear Doctor: Deborah Cobb, FNP-BC",
-      description: "Blog description",
+      description:
+        "Lorem ipsum dolor sit amet consectetur. Faucibus impetus potentem vitae aliquam. Adipiscing magna faucibus...",
       image: "/blog/blog.jpg",
       date: "October 22 / Global",
       author: "Dr. Nick Bottaro",
-      category: "Global",
+      category: "Policy 1",
       tags: [],
       content: "Blog content",
     },
     {
       title: "Dear Doctor: Deborah Cobb, FNP-BC",
-      description: "Blog description",
+      description:
+        "Lorem ipsum dolor sit amet consectetur. Faucibus impetus potentem vitae aliquam. Adipiscing magna faucibus...",
       image: "/blog/blog_2.jpg",
       date: "October 22 / Global",
       author: "Dr. Nick Bottaro",
-      category: "Global",
+      category: "Policy",
       tags: [],
       content: "Blog content",
     },
     {
       title: "Dear Doctor: Deborah Cobb, FNP-BC",
-      description: "Blog description",
+      description:
+        "Lorem ipsum dolor sit amet consectetur. Faucibus impetus potentem vitae aliquam. Adipiscing magna faucibus...",
       image: "/blog/blog_3.jpg",
       date: "October 22 / Global",
       author: "Dr. Nick Bottaro",
-      category: "Global",
+      category: "Medicares",
       tags: [],
       content: "Blog content",
     },
     {
       title: "Dear Doctor: Deborah Cobb, FNP-BC",
-      description: "Blog description",
+      description:
+        "Lorem ipsum dolor sit amet consectetur. Faucibus impetus potentem vitae aliquam. Adipiscing magna faucibus...",
       image: "/blog/blog_4.jpg",
       date: "October 22 / Global",
       author: "Dr. Nick Bottaro",
-      category: "Global",
+      category: "Operations",
       tags: [],
       content: "Blog content",
     },
     {
       title: "Dear Doctor: Deborah Cobb, FNP-BC",
-      description: "Blog description",
+      description:
+        "Lorem ipsum dolor sit amet consectetur. Faucibus impetus potentem vitae aliquam. Adipiscing magna faucibus...",
       image: "/blog/blog_5.jpg",
       date: "October 22 / Global",
       author: "Dr. Nick Bottaro",
-      category: "Global",
+      category: "Policy 1",
       tags: [],
       content: "Blog content",
     },
     {
       title: "Dear Doctor: Deborah Cobb, FNP-BC",
-      description: "Blog description",
+      description:
+        "Lorem ipsum dolor sit amet consectetur. Faucibus impetus potentem vitae aliquam. Adipiscing magna faucibus...",
       image: "/blog/blog.jpg",
       date: "October 22 / Global",
       author: "Dr. Nick Bottaro",
-      category: "Global",
+      category: "Medicares",
       tags: [],
       content: "Blog content",
     },
     {
       title: "Dear Doctor: Deborah Cobb, FNP-BC",
-      description: "Blog description",
+      description:
+        "Lorem ipsum dolor sit amet consectetur. Faucibus impetus potentem vitae aliquam. Adipiscing magna faucibus...",
       image: "/blog/blog_2.jpg",
       date: "October 22 / Global",
       author: "Dr. Nick Bottaro",
-      category: "Global",
+      category: "Policy",
       tags: [],
       content: "Blog content",
     },
     {
       title: "Dear Doctor: Deborah Cobb, FNP-BC",
-      description: "Blog description",
+      description:
+        "Lorem ipsum dolor sit amet consectetur. Faucibus impetus potentem vitae aliquam. Adipiscing magna faucibus...",
       image: "/blog/blog_3.jpg",
       date: "October 22 / Global",
       author: "Dr. Nick Bottaro",
-      category: "Global",
+      category: "Operations",
       tags: [],
       content: "Blog content",
     },
     {
       title: "Dear Doctor: Deborah Cobb, FNP-BC",
-      description: "Blog description",
+      description:
+        "Lorem ipsum dolor sit amet consectetur. Faucibus impetus potentem vitae aliquam. Adipiscing magna faucibus...",
       image: "/blog/blog_4.jpg",
       date: "October 22 / Global",
       author: "Dr. Nick Bottaro",
-      category: "Global",
+      category: "Policy 1",
       tags: [],
       content: "Blog content",
     },
@@ -176,7 +185,7 @@ function BlogLayout() {
         </div>
 
         {/* Blog Grid - 3 columns */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-4 2xl:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {blog.map((blog, index) => (
             <BlogCard key={blog.title + blog.date + index} blog={[blog]} />
           ))}
