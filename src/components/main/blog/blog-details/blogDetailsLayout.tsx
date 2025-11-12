@@ -2,7 +2,15 @@
 import React from "react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import {
+  FiThumbsUp,
+  FiMessageCircle,
+  FiBookmark,
+  FiShare2,
+} from "react-icons/fi";
 
+import { GrCirclePlay } from "react-icons/gr";
 function BlogDetailsLayout() {
   const params = useParams();
   const blogId = params.id as string;
@@ -15,7 +23,7 @@ function BlogDetailsLayout() {
     content: [
       {
         type: "paragraph",
-        text: "Dr. Nick Bottaro is an ophthalmologist who specializes in cataract and LASIK surgery. He's passionate about connecting with his patients and using his knowledge and expertise to better their lives. In addition to his training and residency in ophthalmology and his doctorate in osteopathic medicine, he also holds a master's degree in healthcare administration and business administration from Duke University and a master's degree in public health from Georgetown University.",
+        text: "Dr. Nick Bottaro is an ophthalmologist who specializes in cataract and LASIK surgery. He's passionate with his patients and using his knowledge and expertise to better their lives. In addition to his training and residency in ophthalmology and his doctorate in osteopathic medicine, he also holds a master's degree in healthcare administration and business administration from Duke University and a master's degree in public health from Georgetown University.",
       },
       {
         type: "paragraph",
@@ -57,48 +65,105 @@ function BlogDetailsLayout() {
           "How do you de-stress? Spending time with my kids helps me to de-stress after a tough day. I love coming home, throwing them in the pool, and getting to be a kid myself while spending time with them.",
       },
     ],
-    date: "October 31, 2025",
+    date: "Oct 21, 2022",
     author: "Modern Pharmacy Staff",
+    readTime: "6 min read",
   };
 
   return (
     <div className="container mx-auto px-4 py-10">
-      <article className="max-w-4xl mx-auto bg-white rounded-lg overflow-hidden">
-        {/* Blog Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold mb-3">
-            {blogData.title}
-          </h1>
-          <p className="text-gray-600 mb-6">{blogData.subtitle}</p>
+      <article className="max-w-4xl mx-auto">
+        {/* Blog Title */}
+        <h1 className="text-4xl md:text-5xl font-bold mb-8 text-gray-900">
+          {blogData.title}
+        </h1>
+
+        {/* Blog Meta Header - Logo, Subscribe, Date, Read Time */}
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-8 pb-6 border-b border-gray-200">
+          {/* Left - Logo with tagline */}
+          <div className="flex items-start gap-4 flex-1">
+            <div className="w-12 h-12 rounded-full bg-peter bg-opacity-10 flex items-center justify-center flex-shrink-0">
+              <span className="text-peter font-bold text-lg">O</span>
+            </div>
+            <div className="flex-1">
+              <h3 className="font-semibold text-gray-900 text-sm">
+                Optimus Health Solutions
+              </h3>
+              <p className="text-xs text-gray-500 mt-1">
+                Your fast and reliable gateway to local pharmacies.
+              </p>
+            </div>
+          </div>
+
+          {/* Middle - Subscribe Button */}
+          <Button
+            variant="outline"
+            className=" text-gray-700 hover:bg-gray-50 px-6 py-2 text-sm font-medium border-1 border-[#8f4487]"
+          >
+            Subscribe
+          </Button>
+
+          {/* Right - Read Time and Date */}
+          <div className="text-right text-sm">
+            <p className="text-gray-600">{blogData.readTime}</p>
+            <p className="text-gray-500 text-xs mt-1">{blogData.date}</p>
+          </div>
         </div>
 
+        {/* Social Icons */}
+        <div className="flex items-center gap-6 mb-8">
+          <button className="text-gray-600 hover:text-peter flex items-center gap-2 transition-colors cursor-pointer">
+            <FiThumbsUp className="w-5 h-5" />
+            <span className="text-base">4</span>
+          </button>
+          <button className="text-gray-600 hover:text-peter transition-colors cursor-pointer">
+            <FiMessageCircle className="w-5 h-5" />
+          </button>
+          <button className="text-gray-600 hover:text-peter transition-colors ml-auto cursor-pointer">
+            <FiBookmark className="w-5 h-5" />
+          </button>
+          <button className="text-gray-600 hover:text-peter transition-colors cursor-pointer">
+            <GrCirclePlay size={20} className="w-5 h-5" />
+          </button>
+          <button className="text-gray-600 hover:text-peter transition-colors cursor-pointer">
+            <FiShare2 className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Blog Subtitle */}
+        <p className="text-lg text-gray-700 mb-8 leading-relaxed">
+          {blogData.subtitle}
+        </p>
+
         {/* Featured Image */}
-        <div className="relative w-full aspect-video mb-8">
+        <div className="relative w-full aspect-video mb-10 rounded-lg overflow-hidden">
           <Image
             src={blogData.image}
             alt={blogData.title}
             fill
-            className="object-cover rounded-lg"
+            className="object-cover"
             priority
           />
         </div>
 
         {/* Blog Content */}
-        <div className="prose max-w-none">
+        <div className="prose prose-lg max-w-none">
           {blogData.content.map((section, index) => {
             if (section.type === "paragraph") {
               return (
-                <p key={index} className="mb-6 text-gray-800">
+                <p key={index} className="mb-6 text-gray-800 leading-relaxed">
                   {section.text}
                 </p>
               );
             } else if (section.type === "question") {
               return (
                 <div key={index} className="mb-8">
-                  <h3 className="text-xl font-semibold mb-3">
+                  <h3 className="text-2xl font-semibold mb-4 text-gray-900">
                     {section.title}
                   </h3>
-                  <p className="text-gray-800">{section.answer}</p>
+                  <p className="text-gray-800 leading-relaxed">
+                    {section.answer}
+                  </p>
                 </div>
               );
             }
@@ -107,10 +172,10 @@ function BlogDetailsLayout() {
         </div>
 
         {/* Blog Footer */}
-        <div className="mt-10 pt-6 border-t border-gray-200">
+        <div className="mt-12 pt-6 border-t border-gray-200">
           <div className="flex items-center justify-between text-gray-600 text-sm">
-            <span>Published: {blogData.date}</span>
             <span>By: {blogData.author}</span>
+            <span>{blogData.date}</span>
           </div>
         </div>
       </article>
