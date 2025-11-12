@@ -44,9 +44,9 @@ function IndependentPharmacyBenefits() {
             Benefits of Joining For reference purposes network
           </h2>
           <p className="text-gray-600 text-base md:text-lg max-w-4xl mx-auto leading-relaxed">
-            And instead of benefits of joining our network,&quot; change to
-            &quot;Ready to grow your pharmacy&apos;s reach? Become a Partner
-            Pharmacy.&quot;
+            As an Optimus partner, you&apos;ll attract new customers, improve
+            medication adherence, and compete effectively with large chain
+            pharmacies while staying connected to your local community.
           </p>
         </div>
 

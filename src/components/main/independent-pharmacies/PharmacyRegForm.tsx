@@ -59,6 +59,10 @@ function PharmacyRegForm() {
             <CardTitle className="text-2xl font-bold text-gray-900 text-center">
               Interest Form
             </CardTitle>
+            <p className="text-gray-600 text-sm md:text-base max-w-6xl  mx-auto text-center ">
+              Complete the Interest Form and we&apos;ll contact you to schedule
+              for a brief onboarding call to walk you through the process
+            </p>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">

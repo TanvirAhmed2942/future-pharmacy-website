@@ -21,6 +21,7 @@ import {
   SubmitHandler,
 } from "react-hook-form";
 import Backbutton from "@/components/common/backbutton/backbutton";
+import useIcon from "@/hooks/useIcon";
 
 type MedicationInput = {
   id: number;
@@ -526,29 +527,16 @@ function TransferOnline() {
 
         {/* Prescriptions Section */}
         <div className="bg-white rounded-lg border p-6 shadow-sm">
-          <div className="flex items-start ">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="mr-2 mt-1 text-gray-400"
-            >
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="12" y1="8" x2="12" y2="12"></line>
-              <line x1="12" y1="16" x2="12.01" y2="16"></line>
-            </svg>
-            <h3 className="text-lg font-medium text-peter">Prescriptions</h3>
+          <div className="flex items-center ">
+            {useIcon({ name: "medication" })}
+            <h3 className="text-lg font-medium text-peter ml-2">
+              Prescriptions
+            </h3>
           </div>
           <div className="mb-4 text-sm text-gray-600">
             <p className="text-xs text-gray-600 italic">
-              Add the medication name and/or Rx number for all medications
-              you&apos;d like to transfer
+              Add the medication name and/or Rx number for all that you&apos;d
+              like to transfer
             </p>
           </div>
 
