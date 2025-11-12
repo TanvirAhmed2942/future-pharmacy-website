@@ -18,7 +18,7 @@ function HowItWorksLayout() {
       {/* <SimpleSteps /> */}
       <TheProcess />
       <div className="max-w-7xl mx-auto">
-        <p className="text-center text-peter font-semibold text-lg md:text-xl lg:text-2xl 2xl:text-[28px] leading-relaxed mt-0 mb-20 px-4 md:px-8 2xl:px-0">
+        <p className="text-center text-peter font-semibold text-lg md:text-xl lg:text-2xl 2xl:text-[30px] leading-relaxed mt-0 mb-20 px-4 md:px-8 2xl:px-0">
           Whether you&apos;re refilling, transferring, or scheduling care,
           Optimus HS connects you directly with your trusted local pharmacy to
           make it fast, reliable, and stress-free

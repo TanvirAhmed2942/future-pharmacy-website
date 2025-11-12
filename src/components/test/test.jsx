@@ -63,7 +63,7 @@ function Test() {
       <div className="hidden lg:block relative z-10 w-full lg:w-1/2 min-h-80 ">
         {/* Sharp image with diagonal cut */}
         <div
-          className="absolute inset-0 w-full h-full "
+          className="absolute inset-0 w-full h-full  "
           style={{
             clipPath: "polygon(0% 0%, 59% 0%, 100% 33%, 100% 100%, 0 100%)",
             backgroundImage: `url("/test9.png")`,

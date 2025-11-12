@@ -4,13 +4,13 @@ import React from "react";
 
 function TheProcess() {
   const steps = [
+    // {
+    //   title: "Send Your Prescription",
+    //   description:
+    //     "Once your doctor sends your Rx to your selected local pharmacy, Choose your preferred local pharmacy and have your doctor send your prescription there directly. This gives you full control over where your medications are filled.",
+    // },
     {
-      title: "Send Your Prescription",
-      description:
-        "Once your doctor sends your Rx to your selected local pharmacy, Choose your preferred local pharmacy and have your doctor send your prescription there directly. This gives you full control over where your medications are filled.",
-    },
-    {
-      title: "Request Rx Delivery",
+      title: "Request Delivery",
       description:
         "Our team will contact your pharmacy to refill your prescriptionsSimply use our platform to request delivery in minutes. Select pharmacy location, your delivery address, day and time of delivery. You can create an account for easy process or checkout as guest",
     },
@@ -26,11 +26,11 @@ function TheProcess() {
       <div className="max-w-7xl mx-auto">
         {/* Page Title */}
         <h1 className="text-2xl md:text-4xl font-bold text-center text-gray-900 mb-6 md:mb-12">
-          Rx Delivery
+          Prescription Delivery
         </h1>
 
         <div className="mb-12">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {steps.map((step, index) => (
               <div
                 key={index}
