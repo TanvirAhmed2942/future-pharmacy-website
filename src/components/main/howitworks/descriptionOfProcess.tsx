@@ -7,7 +7,7 @@ const servicesData = [
     title: "Transfer Prescription",
     description:
       "It only takes a minute to transfer your prescription from your old pharmacy to your preferred local one. We'll securely send your details to the new pharmacy and confirm the transfer within a day. Once it's ready, you'll be notified to schedule your delivery wherever and whenever you need it.",
-    image: "/howitworks/service_1.svg",
+    image: "/howitworks/Vector_1.png",
     imageAlt: "Pharmacists discussing prescription transfer",
     imagePosition: "right",
   },
@@ -16,7 +16,7 @@ const servicesData = [
     title: "Refill Prescription",
     description:
       "When you need a refill? Simply submit your refill request through our platform. We'll connect with your selected local pharmacy to process it quickly. Once filled, you'll get an instant update to track or schedule your delivery right to your doorstep.",
-    image: "/howitworks/service_2.svg",
+    image: "/howitworks/Vector_2.png",
     imageAlt: "Person holding prescription medication",
     imagePosition: "left",
   },
@@ -25,7 +25,7 @@ const servicesData = [
     title: "Schedule Essential Healthcare Services",
     description:
       "Easily schedule vaccinations, health screenings, or wellness consultations at your preferred local pharmacy. We'll coordinate your appointment details and confirm your slot instantly. It's convenient, community-based care -handled securely and at no extra cost to you.",
-    image: "/howitworks/service_3.svg",
+    image: "/howitworks/Vector_3.png",
     imageAlt: "Pharmacist at computer scheduling services",
     imagePosition: "right",
   },
@@ -48,14 +48,14 @@ function PharmacyServices() {
           </div>
 
           {/* Image */}
-          <div className="relative w-full lg:w-1/4">
-            <div className="relative w-full h-56 sm:h-64 md:h-72 max-w-lg mx-auto lg:w-full lg:max-w-none rounded-xl overflow-hidden shadow-lg">
+          <div className="relative w-full lg:w-1/4 flex justify-center lg:justify-start">
+            <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-full aspect-[317/300] overflow-hidden">
               <Image
                 src={servicesData[0].image}
                 alt={servicesData[0].imageAlt}
                 fill
                 className="object-cover"
-                // sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
               />
             </div>
           </div>
@@ -74,14 +74,14 @@ function PharmacyServices() {
           </div>
 
           {/* Image */}
-          <div className="relative w-full lg:w-1/4">
-            <div className="relative w-full h-56 sm:h-64 md:h-72 max-w-lg mx-auto lg:w-full lg:max-w-none rounded-xl overflow-hidden shadow-lg">
+          <div className="relative w-full lg:w-1/4 flex justify-center lg:justify-end">
+            <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-full aspect-[317/300] overflow-hidden">
               <Image
                 src={servicesData[1].image}
                 alt={servicesData[1].imageAlt}
                 fill
                 className="object-cover"
-                // sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
               />
             </div>
           </div>
@@ -100,14 +100,14 @@ function PharmacyServices() {
           </div>
 
           {/* Image */}
-          <div className="relative w-full lg:w-1/4">
-            <div className="relative w-full h-56 sm:h-64 md:h-72 max-w-lg mx-auto lg:w-full lg:max-w-none rounded-xl overflow-hidden shadow-lg">
+          <div className="relative w-full lg:w-1/4 flex justify-center lg:justify-start">
+            <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-full aspect-[317/300] overflow-hidden">
               <Image
                 src={servicesData[2].image}
                 alt={servicesData[2].imageAlt}
                 fill
                 className="object-cover"
-                // sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
               />
             </div>
           </div>
