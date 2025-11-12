@@ -12,7 +12,6 @@ export default function ConditionalLayout({
   children,
 }: ConditionalLayoutProps) {
   const pathname = usePathname();
-
   // Check if current path is an auth page or dashboard page
   const isAuthPage = pathname.startsWith("/auth");
   const isDashboardPage = pathname.startsWith("/dashboard");

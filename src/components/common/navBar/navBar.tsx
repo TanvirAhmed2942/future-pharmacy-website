@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Clock, User, LogOut } from "lucide-react";
 import Image from "next/image";
@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
 import { useAuth } from "@/userInfo.authProvide";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useTranslations } from "next-intl";
 
 function NavBar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -17,17 +18,71 @@ function NavBar() {
   const [isMobileBusinessOpen, setIsMobileBusinessOpen] = useState(false);
   const [isContactSectionOpen, setIsContactSectionOpen] = useState(false);
   const [isHydrated, setIsHydrated] = useState(false);
+  const [currentLocale, setCurrentLocale] = useState<string>("en");
   const pathname = usePathname();
   const router = useRouter();
   const { isLoggedIn, toggleLogin } = useAuth();
-  const [isSpanish, setIsSpanish] = useState(false);
+  const [isPending, startTransition] = useTransition();
+
+  const t = useTranslations("header");
+
+  // Get locale from cookie or localStorage
+  useEffect(() => {
+    const getLocale = () => {
+      // Try to get from cookie first
+      if (typeof document !== "undefined") {
+        const cookies = document.cookie.split(";");
+        const localeCookie = cookies.find((cookie) =>
+          cookie.trim().startsWith("MYNEXTAPP_LOCALE=")
+        );
+        if (localeCookie) {
+          const locale = localeCookie.split("=")[1]?.trim();
+          if (locale === "es" || locale === "en") {
+            return locale;
+          }
+        }
+        // Fallback to localStorage
+        const storedLocale = localStorage.getItem("locale");
+        if (storedLocale === "es" || storedLocale === "en") {
+          return storedLocale;
+        }
+      }
+      return "en"; // Default to English
+    };
+    setCurrentLocale(getLocale());
+  }, []);
+
+  // Determine if Spanish based on current locale
+  const isSpanish = currentLocale === "es";
+
   // Fix hydration issues by ensuring client-side rendering matches server
   useEffect(() => {
     setIsHydrated(true);
   }, []);
 
+  // Language toggle handler
+  const handleLanguageToggle = () => {
+    const newLocale = isSpanish ? "en" : "es";
+
+    // 1. Update state
+    setCurrentLocale(newLocale);
+
+    // 2. Set cookie (this is what your i18n config reads!)
+    if (typeof document !== "undefined") {
+      document.cookie = `MYNEXTAPP_LOCALE=${newLocale}; path=/; max-age=31536000; SameSite=Lax`;
+
+      // 3. Also update localStorage for backwards compatibility
+      localStorage.setItem("locale", newLocale);
+    }
+
+    // 4. Refresh the router to apply new locale
+    startTransition(() => {
+      router.refresh();
+    });
+  };
+
   const navItems = [
-    { label: "Home", href: "/" },
+    { label: t("navlink.home"), href: "/" },
     { label: "About Us", href: "/about-us" },
     { label: "How It Works", href: "/how-it-works" },
   ];
@@ -38,11 +93,6 @@ function NavBar() {
     { label: "Investors", href: "/investors" },
     { label: "Other Businesses", href: "/other-businesses" },
   ];
-
-  // const languageItems = [
-  //   { label: "English", href: "/en" },
-  //   { label: "Spanish", href: "/es" },
-  // ];
 
   const isActive = (href: string) => {
     if (!isHydrated) return false;
@@ -191,13 +241,16 @@ function NavBar() {
                   </div>
                 )}
               </div>
+
+              {/* Language Switch with next-intl functionality */}
               <div className="flex items-center gap-2">
                 <label className="language-switch" htmlFor="language">
                   <input
                     id="language"
                     type="checkbox"
                     checked={isSpanish}
-                    onChange={() => setIsSpanish(!isSpanish)}
+                    onChange={handleLanguageToggle}
+                    disabled={isPending}
                   />
                   <span className="switch-track">
                     <span className="language-option inactive">EN</span>
@@ -341,7 +394,7 @@ function NavBar() {
               </div>
             </div>
 
-            {/* Language Switch for Mobile */}
+            {/* Language Switch for Mobile with next-intl functionality */}
             <div className="flex items-center justify-between pt-4 border-t border-gray-700">
               <span className="text-white text-sm">Language</span>
               <label className="language-switch" htmlFor="language-mobile">
@@ -349,7 +402,8 @@ function NavBar() {
                   id="language-mobile"
                   type="checkbox"
                   checked={isSpanish}
-                  onChange={() => setIsSpanish(!isSpanish)}
+                  onChange={handleLanguageToggle}
+                  disabled={isPending}
                 />
                 <span className="switch-track">
                   <span className="language-option inactive">EN</span>

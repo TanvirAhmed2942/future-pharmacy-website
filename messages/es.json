@@ -1,0 +1,18 @@
+{
+  "header": {
+    "navlink": {
+      "home": "Inicio",
+      "aboutUs": "Acerca de nosotros",
+      "howItWorks": "Cómo funciona"
+    },
+    "business": {
+      "independentPharmacies": "Farmacias independientes",
+      "earnAsDriver": "Gana como conductor",
+      "investors": "Inversores",
+      "otherBusinesses": "Otras empresas"
+    },
+    "login": "Iniciar sesión",
+    "logout": "Cerrar sesión",
+    "language": "Idioma"
+  }
+}
