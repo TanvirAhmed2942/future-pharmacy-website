@@ -16,11 +16,12 @@ function Banner({ title, description, image }: Props) {
         alt={title as string}
         fill
         quality={100}
-        className="object-cover"
+        className="object-cover "
         priority
       />
       <div className={`absolute inset-0 bg-peter/75`} />
-      <div className="absolute top-0 left-0 w-full h-full  backdrop-blur-[5px]  flex flex-col items-center justify-center px-4">
+      <div className="absolute inset-0 bg-gray-500/40" />
+      <div className="absolute top-0 left-0 w-full h-full  backdrop-blur-[5px] flex flex-col items-center justify-center px-4">
         <h1 className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-2 sm:mb-4 leading-tight">
           {typeof title === "string" ? title : title}
         </h1>

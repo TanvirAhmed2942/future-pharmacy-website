@@ -1,5 +1,6 @@
 import React from "react";
 import Banner from "../common/banner/Banner";
+import Image from "next/image";
 
 function HipaaPolicy() {
   const sections = [
@@ -51,14 +52,14 @@ function HipaaPolicy() {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="  min-h-screen bg-white">
       <Banner
         title="HIPAA Policy"
         description="We are committed to protecting the privacy and security of your health information. This policy outlines how we handle your protected health information (PHI) and ensures compliance with the Health Insurance Portability and Accountability Act (HIPAA)."
         image="/policies/privacy_policy.png"
       />
 
-      <div className="max-w-6xl mx-auto px-4 md:px-8 py-12 md:py-16">
+      <div className="relative max-w-6xl mx-auto px-4 md:px-8 py-12 md:py-16">
         <div className="space-y-8">
           {sections.map((section, index) => (
             <div key={index} className="space-y-3">
@@ -70,6 +71,16 @@ function HipaaPolicy() {
               </p>
             </div>
           ))}
+        </div>
+        <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none">
+          <Image
+            src="/watermark.webp"
+            alt="HIPAA Policy"
+            width={1000}
+            height={1000}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-contain opacity-40 w-full xl:w-[85%] 2xl:w-[95%] h-full"
+          />
         </div>
       </div>
     </div>

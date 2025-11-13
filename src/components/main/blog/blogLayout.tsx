@@ -123,7 +123,7 @@ function BlogLayout() {
     <div className="bg-white">
       <Banner
         title="Welcome to the Optimus Health Solutions Blog"
-        description="Read our latest blog posts and stay up to date with the latest news and updates."
+        description="Where we share insights on industry news, real stories and practical tips for independent pharmacies and the communities we serve"
         image="/banner/blog_banner.png"
       />
       <div className="container mx-auto px-4 md:px-4 py-8 md:py-12">

@@ -9,23 +9,25 @@ gsap.registerPlugin(ScrollTrigger);
 
 const servicesData = [
   {
-    id: 1,
-    title: "Transfer Prescription",
+    id: 2,
+    title: "Refill Prescription",
     description:
-      "It only takes a minute to transfer your prescription from your old pharmacy to your preferred local one. We'll securely send your details to the new pharmacy and confirm the transfer within a day. Once it's ready, you'll be notified to schedule your delivery wherever and whenever you need it.",
+      "When you need a refill? Simply submit your refill request through our platform. We'll connect with your selected local pharmacy to process it quickly. Once filled, you'll get an instant update to track or schedule your delivery right to your doorstep.",
     image: "/howitworks/Vector_1.png",
     imageAlt: "Pharmacists discussing prescription transfer",
     imagePosition: "right",
   },
   {
-    id: 2,
-    title: "Refill Prescription",
+    id: 1,
+    title: "Transfer Prescription",
     description:
-      "When you need a refill? Simply submit your refill request through our platform. We'll connect with your selected local pharmacy to process it quickly. Once filled, you'll get an instant update to track or schedule your delivery right to your doorstep.",
+      "It only takes a minute to transfer your prescription from your old pharmacy to your preferred local one. We'll securely send your details to the new pharmacy and confirm the transfer within a day. Once it's ready, you'll be notified to schedule your delivery wherever and whenever you need it.",
+
     image: "/howitworks/Vector_2.png",
     imageAlt: "Person holding prescription medication",
     imagePosition: "left",
   },
+
   {
     id: 3,
     title: "Schedule Essential Healthcare Services",
@@ -95,8 +97,9 @@ function PharmacyServices() {
   });
 
   return (
-    <section className="bg-white py-12 md:py-16 lg:py-20 container mx-auto px-4 sm:px-6 md:px-8 overflow-hidden">
-      <div className="space-y-16 md:space-y-20 lg:space-y-24">
+    <section className="bg-white py-12 md:py-16 lg:py-20 container mx-auto px-4 sm:px-6 md:px-8 scrollbar-hide ">
+      {/* overflow-hidden */}
+      <div className="space-y-16 md:space-y-20 lg:space-y-24 scrollbar-hide">
         {/* First Service - Transfer Prescription */}
         <div className="flex flex-col lg:flex-row gap-8 md:gap-12 items-center mx-auto">
           {/* Text Content */}
