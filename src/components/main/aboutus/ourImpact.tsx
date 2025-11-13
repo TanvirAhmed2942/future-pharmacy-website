@@ -12,20 +12,23 @@ export default function OurImpact() {
     {
       value: "100,000+",
       label: "Prescriptions Delivered",
-      numericValue: 100000,
+      numericValue: 1500,
+      src: "/howitworks/impact_1.webp",
       suffix: "+",
     },
     {
       value: "50,000+",
       label: "Patients Served",
-      numericValue: 50000,
+      numericValue: 250,
+      src: "/howitworks/impact_2.webp",
       suffix: "+",
     },
     {
       value: "30 Mins",
       label: "Average Delivery Time",
-      numericValue: 30,
+      numericValue: 18,
       suffix: " Mins",
+      src: "/howitworks/impact_3.webp",
     },
   ];
 
@@ -121,8 +124,22 @@ export default function OurImpact() {
           </h1>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 ">
             {stats.map((stat, idx) => (
-              <Card key={idx} className="bg-peter border-none shadow-lg">
-                <CardContent className="flex flex-col items-center justify-center p-8 text-center">
+              <Card
+                key={idx}
+                className=" border-none shadow-lg relative overflow-hidden"
+                // bg-peter
+              >
+                <div
+                  className="absolute inset-0 blur-xs"
+                  style={{
+                    backgroundImage: `url(${stat.src})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat",
+                  }}
+                />
+                <div className="absolute inset-0 bg-black/40" />
+                <CardContent className="relative z-10 flex flex-col items-center justify-center p-8 text-center">
                   <h2 className="text-4xl md:text-5xl font-bold text-white mb-2">
                     <span
                       ref={(el) => {
