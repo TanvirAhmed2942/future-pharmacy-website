@@ -38,25 +38,27 @@ export default function OurValues() {
           </h1>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 ">
             {stats.map((stat, idx) => (
-              <Card
-                key={idx}
-                className="bg-peter border-none shadow-lg p-2"
-                style={{
-                  backgroundImage: `url(${stat.src})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  backgroundRepeat: "no-repeat",
-                }}
-              >
-                <CardContent className="flex flex-col items-center md:items-start justify-center p-8 text-center md:text-left">
-                  <h2 className="text-2xl  font-bold text-white mb-2 text-center md:text-left">
-                    {stat.title}
-                  </h2>
-                  <p className="text-white text-sm md:text-base text-center md:text-left">
-                    {stat.description}
-                  </p>
-                </CardContent>
-              </Card>
+              <div key={idx} className="h-full">
+                <Card className="p-2  border-none shadow-lg h-full relative overflow-hidden">
+                  <div
+                    className="absolute inset-0 blur-xs"
+                    style={{
+                      backgroundImage: `url(${stat.src})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                      backgroundRepeat: "no-repeat",
+                    }}
+                  />
+                  <CardContent className="relative z-10 flex flex-col items-center md:items-start justify-center p-8 text-center md:text-left">
+                    <h2 className="text-2xl  font-bold text-white mb-2 text-center md:text-left">
+                      {stat.title}
+                    </h2>
+                    <p className="text-white text-sm md:text-base text-center md:text-left">
+                      {stat.description}
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
             ))}
           </div>
         </div>
