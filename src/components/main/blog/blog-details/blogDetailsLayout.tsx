@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,7 @@ import {
   FiBookmark,
   FiShare2,
 } from "react-icons/fi";
+import Comment from "./Comment";
 
 // import { GrCirclePlay } from "react-icons/gr";
 function BlogDetailsLayout() {
@@ -70,6 +71,7 @@ function BlogDetailsLayout() {
     readTime: "6 min read",
   };
 
+  const [isCommentSheetOpen, setIsCommentSheetOpen] = useState(false);
   return (
     <div className="container mx-auto px-4 py-10">
       <article className="max-w-4xl mx-auto">
@@ -118,7 +120,10 @@ function BlogDetailsLayout() {
             <FiThumbsUp className="w-5 h-5" />
             <span className="text-base">4</span>
           </button>
-          <button className="text-gray-600 hover:text-peter transition-colors cursor-pointer">
+          <button
+            className="text-gray-600 hover:text-peter transition-colors cursor-pointer"
+            onClick={() => setIsCommentSheetOpen(true)}
+          >
             <FiMessageCircle className="w-5 h-5" />
           </button>
           <button className="text-gray-600 hover:text-peter transition-colors ml-auto cursor-pointer">
@@ -181,6 +186,13 @@ function BlogDetailsLayout() {
           </div>
         </div>
       </article>
+
+      {/* Comment Sheet */}
+      <Comment
+        open={isCommentSheetOpen}
+        onOpenChange={setIsCommentSheetOpen}
+        responseCount={15}
+      />
     </div>
   );
 }
