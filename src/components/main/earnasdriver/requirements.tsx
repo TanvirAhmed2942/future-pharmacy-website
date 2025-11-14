@@ -92,7 +92,7 @@ function Requirements() {
   //   </section>
   // );
   return (
-    <section className="bg-gradient-to-br from-purple-50 to-pink-50 py-8 md:py-16 px-4 sm:px-6 md:px-8 rounded-2xl sm:rounded-none mx-4 sm:mx-0 overflow-hidden">
+    <section className="bg-gradient-to-br from-purple-50 to-pink-50 py-8 md:py-16 px-4 sm:px-6 md:px-8 rounded-2xl sm:rounded-none mx-4 sm:mx-0 overflow-x-scroll no-scrollbar">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center justify-center ">
           {/* Text Content */}

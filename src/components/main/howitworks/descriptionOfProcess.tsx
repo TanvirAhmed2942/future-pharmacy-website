@@ -97,9 +97,9 @@ function PharmacyServices() {
   });
 
   return (
-    <section className="bg-white py-12 md:py-16 lg:py-20 container mx-auto px-4 sm:px-6 md:px-8 scrollbar-hide ">
+    <section className="bg-white py-12 md:py-16 lg:py-20 container mx-auto px-4 sm:px-6 md:px-8 overflow-x-scroll no-scrollbar ">
       {/* overflow-hidden */}
-      <div className="space-y-16 md:space-y-20 lg:space-y-24 scrollbar-hide">
+      <div className="space-y-16 md:space-y-20 lg:space-y-24 ">
         {/* First Service - Transfer Prescription */}
         <div className="flex flex-col lg:flex-row gap-8 md:gap-12 items-center mx-auto">
           {/* Text Content */}
