@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
+import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -12,9 +12,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { cn } from "@/lib/utils";
 
+interface FormValues {
+  name: string;
+  email: string;
+  phone: string;
+  subject: string;
+  otherSubject: string;
+  message: string;
+}
 function Test() {
   const {
     register,
@@ -22,7 +30,7 @@ function Test() {
     watch,
     control,
     formState: { errors },
-  } = useForm({
+  } = useForm<FormValues>({
     defaultValues: {
       name: "",
       email: "",
@@ -35,16 +43,16 @@ function Test() {
 
   const selectedSubject = watch("subject");
 
-  const onSubmit = (data) => {
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
     console.log("Message sent:", data);
     // Handle form submission logic here
   };
 
   return (
-    <section className="relative min-h-screen flex flex-col lg:flex-row ">
+    <section className="relative min-h-screen flex flex-col lg:flex-row">
       {/* Layer 1: Blurred Background Image */}
       <div
-        className="absolute inset-0 w-full h-full z-0  "
+        className="absolute inset-0 w-full h-full z-0"
         style={{
           backgroundImage: `url("/test2.webp")`,
           backgroundSize: "cover",
@@ -54,29 +62,47 @@ function Test() {
           backgroundBlendMode: "multiply",
           backgroundColor: "rgba(0, 0, 0, 0.3)",
           opacity: 0.3,
-          filter: "blur(px)",
+          filter: "blur(4px)",
           WebkitFilter: "blur(4px)",
         }}
       />
 
-      {/* Layer 2: Left Side with Sharp test.png and diagonal cut - Hidden on mobile */}
-      <div className="hidden lg:block relative z-10 w-full lg:w-1/2 min-h-80 ">
-        {/* Sharp image with diagonal cut */}
-        <div
-          className="absolute inset-0 w-full h-full  "
+      {/* Layer 2: Mobile Image - Visible on mobile, hidden on desktop */}
+      <div className="lg:hidden relative z-10 w-full h-64 sm:h-80 md:h-96 overflow-hidden ">
+        <Image
+          src="/test9.png"
+          alt="Contact form image"
+          fill
+          className="object-contain absolute inset-0 w-full h-full mt-4 ml-4 "
           style={{
-            clipPath: "polygon(0% 0%, 59% 0%, 100% 33%, 100% 100%, 0 100%)",
-            backgroundImage: `url("/test9.png")`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            imageResolution: "100% 100%",
-            backgroundRepeat: "no-repeat",
+            objectPosition: "center center",
+            transform: "scale(0.9)",
           }}
+          priority
+          sizes="100vw"
         />
       </div>
 
-      {/* Layer 3: Form Section - Right Side / Full Width on Mobile */}
-      <div className="relative z-20 w-full lg:w-1/2 flex items-center justify-center min-h-screen lg:min-h-full py-8 sm:py-12 px-4 sm:px-6 lg:px-12">
+      {/* Layer 3: Left Side with Sharp test.png and diagonal cut - Desktop only */}
+      <div className="hidden lg:block relative z-10 w-full lg:w-1/2 min-h-screen overflow-hidden ">
+        {/* Sharp image with diagonal cut using Next.js Image */}
+        <div className="absolute inset-0 w-full h-full xl:ml-16 2xl:ml-20">
+          <Image
+            src="/test9.png"
+            alt="Contact form image"
+            fill
+            className="object-cover absolute inset-0 w-full h-full lg:-ml-20 2xl:-ml-10"
+            style={{
+              objectPosition: "25% center",
+            }}
+            priority
+            sizes="(max-width: 1024px) 0vw, (max-width: 1280px) 50vw, (max-width: 1536px) 50vw, 50vw"
+          />
+        </div>
+      </div>
+
+      {/* Layer 4: Form Section - Right Side / Full Width on Mobile */}
+      <div className="relative z-20 w-full lg:w-1/2 flex items-start sm:items-center justify-center min-h-screen lg:min-h-full py-0 sm:py-4 lg:py-12 px-4 sm:px-6 lg:px-12 ">
         <div className="w-full max-w-lg sm:max-w-xl">
           <div className="bg-white rounded-lg shadow-lg p-6 sm:p-8 md:p-10">
             <div className="mb-6">
@@ -84,7 +110,7 @@ function Test() {
                 Send Us a Message
               </h2>
               <p className="text-gray-600 text-sm sm:text-base">
-                We'd love to hear from you — get in touch anytime.
+                We&apos;d love to hear from you — get in touch anytime.
               </p>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
