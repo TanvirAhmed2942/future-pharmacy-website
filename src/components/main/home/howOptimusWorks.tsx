@@ -1,5 +1,5 @@
 "use client";
-import React, { ReactElement, useRef } from "react";
+import React, { ReactElement, useRef, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { LucideIcon } from "lucide-react";
 import useIcon from "@/hooks/useIcon";
@@ -27,7 +27,7 @@ export default function HowOptimusWorks() {
     name: "schedule_your_free_same_day_delivery",
   });
   const we_manage_your_refills = useIcon({ name: "we_manage_your_refills" });
-  
+
   // Refs for each card
   const card1Ref = useRef<HTMLDivElement>(null);
   const card2Ref = useRef<HTMLDivElement>(null);
@@ -42,6 +42,9 @@ export default function HowOptimusWorks() {
 
   // Track scroll state for each card
   const scrollFlippedRef = useRef<boolean[]>([false, false, false]);
+
+  // Store ScrollTrigger instances for cleanup
+  const scrollTriggerInstancesRef = useRef<ScrollTrigger[]>([]);
 
   // Safe video play function
   const safePlayVideo = async (video: HTMLVideoElement | null) => {
@@ -80,7 +83,7 @@ export default function HowOptimusWorks() {
       title: "Sign up for Optimus",
       description:
         "We'll coordinate with your old pharmacy or doctor to get your prescriptions.",
-      videoSrc: "/videos/mosquito.mp4",
+      videoSrc: "/videos/video_1.mp4",
     },
     {
       iconType: "custom",
@@ -88,7 +91,7 @@ export default function HowOptimusWorks() {
       title: "Schedule your free same-day delivery",
       description:
         "We accept your insurance and deliver your prescriptions at a time  and text you when it's  that works for you.",
-      videoSrc: "https://videos.pexels.com/video-files/3045163/3045163-hd_1920_1080_30fps.mp4",
+      videoSrc: "/videos/mosquito.mp4",
     },
     {
       iconType: "custom",
@@ -96,47 +99,179 @@ export default function HowOptimusWorks() {
       title: "We manage your refills",
       description:
         "We'll coordinate with your doctor and text you when it's  time for refills.",
-      videoSrc: "https://videos.pexels.com/video-files/3045163/3045163-hd_1920_1080_30fps.mp4",
+      videoSrc:
+        "https://videos.pexels.com/video-files/3045163/3045163-hd_1920_1080_30fps.mp4",
     },
   ];
 
   useGSAP(() => {
-    cardRefs.forEach((cardRef, index) => {
-      if (cardRef.current) {
-        // Ensure initial state - showing back (rotated 180deg)
-        // The inline style already sets this, but we confirm with GSAP
-        gsap.set(cardRef.current, { rotationY: 180, immediateRender: true });
+    // Use matchMedia to control scroll trigger based on screen size
+    const mm = gsap.matchMedia();
 
-        // Animate flip to front when card enters viewport
-        gsap.to(cardRef.current, {
-          rotationY: 0,
-          duration: 0,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: cardRef.current,
-            start: "top 35%",
-            end: "top 50%",
-            markers: false,
-            toggleActions: "play none none reverse",
-            onEnter: () => {
-              scrollFlippedRef.current[index] = true;
-              // Pause video when flipped to front
-              safePauseVideo(videoRefs[index].current);
-            },
-            onLeaveBack: () => {
-              scrollFlippedRef.current[index] = false;
-              // Resume video when back to initial state
-              safePlayVideo(videoRefs[index].current);
-            },
-          },
-        });
-      }
+    // Helper function to create scroll trigger with specific start/end values
+    const createScrollTrigger = (
+      cardRef: React.RefObject<HTMLDivElement | null>,
+      index: number,
+      start: string,
+      end: string
+    ) => {
+      if (!cardRef.current) return null;
+
+      // Ensure initial state - showing back (rotated 180deg)
+      gsap.set(cardRef.current, { rotationY: 180, immediateRender: true });
+
+      // Create scroll trigger that flips card to front when entering viewport
+      const st = ScrollTrigger.create({
+        trigger: cardRef.current,
+        start: start,
+        end: end,
+        markers: false,
+        onEnter: () => {
+          // Flip to front (0deg) when entering viewport
+          gsap.to(cardRef.current, {
+            rotationY: 0,
+            duration: 0.6,
+            ease: "power2.out",
+          });
+          scrollFlippedRef.current[index] = true;
+          safePauseVideo(videoRefs[index].current);
+        },
+        onLeaveBack: () => {
+          // Flip back to video (180deg) when leaving viewport
+          gsap.to(cardRef.current, {
+            rotationY: 180,
+            duration: 0.6,
+            ease: "power2.out",
+          });
+          scrollFlippedRef.current[index] = false;
+          safePlayVideo(videoRefs[index].current);
+        },
+      });
+
+      // Check if already in viewport after ScrollTrigger is created
+      const checkInitialState = () => {
+        if (st && cardRef.current && !scrollFlippedRef.current[index]) {
+          // Check if scroll position is past the start point
+          const progress = st.progress;
+          if (progress > 0 || st.isActive) {
+            // Manually trigger the flip if in viewport
+            gsap.to(cardRef.current, {
+              rotationY: 0,
+              duration: 0.6,
+              ease: "power2.out",
+            });
+            scrollFlippedRef.current[index] = true;
+            safePauseVideo(videoRefs[index].current);
+          }
+        }
+      };
+
+      // Check after ScrollTrigger has been refreshed
+      setTimeout(checkInitialState, 200);
+
+      return st;
+    };
+
+    // Laptop dimensions (MacBook Air 1280x800 and similar)
+    mm.add("(min-width: 1024px) and (max-width: 1280px)", () => {
+      // Clean up previous instances
+      scrollTriggerInstancesRef.current.forEach((st) => st.kill());
+      scrollTriggerInstancesRef.current = [];
+
+      cardRefs.forEach((cardRef, index) => {
+        const st = createScrollTrigger(cardRef, index, "top 40%", "top 50%");
+        if (st) {
+          scrollTriggerInstancesRef.current.push(st);
+        }
+      });
+
+      // Refresh ScrollTrigger after all animations are created
+      setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 150);
     });
+
+    // Larger desktops and tablets
+    mm.add(
+      "(min-width: 768px) and (max-width: 1023px), (min-width: 1281px)",
+      () => {
+        // Clean up previous instances
+        scrollTriggerInstancesRef.current.forEach((st) => st.kill());
+        scrollTriggerInstancesRef.current = [];
+
+        cardRefs.forEach((cardRef, index) => {
+          const st = createScrollTrigger(cardRef, index, "top 50%", "top 60%");
+          if (st) {
+            scrollTriggerInstancesRef.current.push(st);
+          }
+        });
+
+        // Refresh ScrollTrigger after all animations are created
+        setTimeout(() => {
+          ScrollTrigger.refresh();
+        }, 150);
+      }
+    );
+
+    // Mobile: Disable scroll trigger, show front side by default
+    mm.add("(max-width: 767px)", () => {
+      // Clean up previous instances
+      scrollTriggerInstancesRef.current.forEach((st) => st.kill());
+      scrollTriggerInstancesRef.current = [];
+
+      cardRefs.forEach((cardRef, index) => {
+        if (cardRef.current) {
+          // On mobile, show front side (0deg) by default
+          gsap.set(cardRef.current, { rotationY: 0, immediateRender: true });
+          scrollFlippedRef.current[index] = true;
+          // Ensure video is paused on mobile initially
+          safePauseVideo(videoRefs[index].current);
+        }
+      });
+
+      // Refresh to ensure state is applied
+      setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 100);
+    });
+
+    // Cleanup function
+    return () => {
+      mm.revert();
+      scrollTriggerInstancesRef.current.forEach((st) => st.kill());
+      scrollTriggerInstancesRef.current = [];
+    };
   });
 
-  // Handle hover to flip to video
+  // Refresh ScrollTrigger on mount and resize
+  useEffect(() => {
+    const handleResize = () => {
+      ScrollTrigger.refresh();
+    };
+
+    // Small delay to ensure DOM is ready
+    const timeoutId = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 100);
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  // Handle hover/touch to flip to video
   const handleMouseEnter = (index: number) => {
     if (cardRefs[index].current) {
+      // Temporarily disable ScrollTrigger to prevent conflicts
+      const st = scrollTriggerInstancesRef.current[index];
+      if (st) {
+        st.disable();
+      }
+
+      // Flip to video (180deg) on hover
       gsap.to(cardRefs[index].current, {
         rotationY: 180,
         duration: 0.6,
@@ -150,10 +285,43 @@ export default function HowOptimusWorks() {
   // Handle mouse leave to flip back to front (if scrolled) or stay on back
   const handleMouseLeave = (index: number) => {
     if (cardRefs[index].current) {
+      // Re-enable ScrollTrigger
+      const st = scrollTriggerInstancesRef.current[index];
+      if (st) {
+        st.enable();
+      }
+
       // If scrolled, flip back to front, otherwise stay on back
       const targetRotation = scrollFlippedRef.current[index] ? 0 : 180;
       gsap.to(cardRefs[index].current, {
         rotationY: targetRotation,
+        duration: 0.6,
+        ease: "power2.out",
+      });
+      // Pause video
+      safePauseVideo(videoRefs[index].current);
+    }
+  };
+
+  // Handle touch events for mobile
+  const handleTouchStart = (index: number) => {
+    if (cardRefs[index].current) {
+      // Flip to video (180deg) on touch
+      gsap.to(cardRefs[index].current, {
+        rotationY: 180,
+        duration: 0.6,
+        ease: "power2.out",
+      });
+      // Play video
+      safePlayVideo(videoRefs[index].current);
+    }
+  };
+
+  const handleTouchEnd = (index: number) => {
+    if (cardRefs[index].current) {
+      // On mobile, always flip back to front after touch ends
+      gsap.to(cardRefs[index].current, {
+        rotationY: 0,
         duration: 0.6,
         ease: "power2.out",
       });
@@ -178,6 +346,8 @@ export default function HowOptimusWorks() {
               style={{ perspective: "1000px" }}
               onMouseEnter={() => handleMouseEnter(index)}
               onMouseLeave={() => handleMouseLeave(index)}
+              onTouchStart={() => handleTouchStart(index)}
+              onTouchEnd={() => handleTouchEnd(index)}
             >
               <div
                 ref={cardRefs[index]}
@@ -185,7 +355,7 @@ export default function HowOptimusWorks() {
                 style={{
                   transformStyle: "preserve-3d",
                   transformOrigin: "center center",
-                  transform: "rotateY(180deg)", // Initially show back (video)
+                  // Initial state will be set by GSAP based on screen size
                 }}
               >
                 {/* Back side - Video */}
