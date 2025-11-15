@@ -23,7 +23,7 @@ interface FormValues {
   otherSubject: string;
   message: string;
 }
-function Test() {
+function ManContactUs() {
   const {
     register,
     handleSubmit,
@@ -49,7 +49,10 @@ function Test() {
   };
 
   return (
-    <section className="relative min-h-screen flex flex-col lg:flex-row">
+    <section
+      className="relative min-h-screen flex flex-col lg:flex-row mt-8 lg:mt-28 "
+      id="contact-us"
+    >
       {/* Layer 1: Blurred Background Image */}
       <div
         className="absolute inset-0 w-full h-full z-0"
@@ -337,4 +340,4 @@ function Test() {
   );
 }
 
-export default Test;
+export default ManContactUs;

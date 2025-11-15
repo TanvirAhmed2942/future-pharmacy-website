@@ -2,12 +2,12 @@ import React from "react";
 import MapAndFormSection from "./MapAndFormSection";
 import RefillSection from "./RefillSection";
 import UserTestimonial from "./userTestimonial";
-import ContactUsSection from "./contactUsSection";
+// import ContactUsSection from "./contactUsSection";
 import OurImpact from "../aboutus/ourImpact";
 import HowOptimusWorks from "./howOptimusWorks";
 import CheckZoneCoverage from "./checKZoneCoverage";
 import OurStory from "./ourStory";
-import Test from "@/components/test/test";
+import ManContactUs from "@/components/main/home/manContactUs";
 
 function Home() {
   return (
@@ -22,8 +22,8 @@ function Home() {
       <UserTestimonial />
       <div className="bg-white">
         <CheckZoneCoverage />
-        <ContactUsSection />
-        <Test />
+        {/* <ContactUsSection /> */}
+        <ManContactUs />
         {/* <CheckZoneCoverage />
         <ContactUsSection /> */}
       </div>
