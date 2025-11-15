@@ -11,22 +11,48 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 interface DateTimePickerModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSelectDateTime: (data: {
-    date: string;
-    time: string;
-    allSelectedTimes?: string[];
-  }) => void;
+  onSelectDateTime: (
+    selectedDates: Array<{ date: string; times: string[] }>
+  ) => void;
+  initialSelectedDates?: Array<{ date: string; times: string[] }>;
 }
 
 const CalendarModal: React.FC<DateTimePickerModalProps> = ({
   isOpen,
   onClose,
   onSelectDateTime,
+  initialSelectedDates = [],
 }) => {
   const [currentDate, setCurrentDate] = useState(new Date(2025, 3, 24)); // April 2025
-  const [selectedDate, setSelectedDate] = useState(24);
-  const [selectedTime, setSelectedTime] = useState<string | null>(null);
-  const [selectedTimes, setSelectedTimes] = useState<string[]>([]);
+  const [selectedDates, setSelectedDates] = useState<Set<number>>(new Set());
+  const [selectedDateTimes, setSelectedDateTimes] = useState<
+    Map<number, string[]>
+  >(new Map());
+
+  // Initialize with existing selections when modal opens
+  React.useEffect(() => {
+    if (isOpen && initialSelectedDates.length > 0) {
+      const datesSet = new Set<number>();
+      const timesMap = new Map<number, string[]>();
+
+      initialSelectedDates.forEach((appointment) => {
+        // Parse the date string to get the day number
+        const dateMatch = appointment.date.match(/\d+/);
+        if (dateMatch) {
+          const day = parseInt(dateMatch[0]);
+          datesSet.add(day);
+          timesMap.set(day, appointment.times);
+        }
+      });
+
+      setSelectedDates(datesSet);
+      setSelectedDateTimes(timesMap);
+    } else if (isOpen) {
+      // Reset when modal opens fresh
+      setSelectedDates(new Set());
+      setSelectedDateTimes(new Map());
+    }
+  }, [isOpen, initialSelectedDates]);
 
   // Generate time slots for full 24 hours starting from 6:00 AM with 30-minute intervals
   const generateTimeSlots = () => {
@@ -127,36 +153,50 @@ const CalendarModal: React.FC<DateTimePickerModalProps> = ({
 
   const handleDateClick = (day: { day: number; isCurrentMonth: boolean }) => {
     if (day.isCurrentMonth) {
-      setSelectedDate(day.day);
-      // Reset selections when changing date
-      setSelectedTime(null);
-      setSelectedTimes([]);
+      const newSelectedDates = new Set(selectedDates);
+      if (newSelectedDates.has(day.day)) {
+        // Remove date if already selected
+        newSelectedDates.delete(day.day);
+        const newTimesMap = new Map(selectedDateTimes);
+        newTimesMap.delete(day.day);
+        setSelectedDateTimes(newTimesMap);
+      } else {
+        // Add date if not selected
+        newSelectedDates.add(day.day);
+      }
+      setSelectedDates(newSelectedDates);
     }
   };
 
-  const handleTimeClick = (time: { time: string; available: boolean }) => {
-    if (time.available) {
-      let newSelectedTimes: string[];
+  const handleTimeClick = (
+    time: { time: string; available: boolean },
+    day: number
+  ) => {
+    if (time.available && selectedDates.has(day)) {
+      const currentTimes = selectedDateTimes.get(day) || [];
+      let newTimes: string[];
 
-      if (selectedTimes.includes(time.time)) {
+      if (currentTimes.includes(time.time)) {
         // If already selected, remove it
-        newSelectedTimes = selectedTimes.filter((t) => t !== time.time);
+        newTimes = currentTimes.filter((t) => t !== time.time);
       } else {
         // If not selected, add it
-        newSelectedTimes = [...selectedTimes, time.time];
+        newTimes = [...currentTimes, time.time];
       }
 
-      // Update the state with new selections
-      setSelectedTimes(newSelectedTimes);
-
-      // Also update single selection for compatibility with current implementation
-      // Use the last selected time as the "current" selection
-      const lastSelectedTime =
-        newSelectedTimes.length > 0
-          ? newSelectedTimes[newSelectedTimes.length - 1]
-          : null;
-      setSelectedTime(lastSelectedTime);
+      // Update the map with new times for this date
+      const newTimesMap = new Map(selectedDateTimes);
+      if (newTimes.length > 0) {
+        newTimesMap.set(day, newTimes);
+      } else {
+        newTimesMap.delete(day);
+      }
+      setSelectedDateTimes(newTimesMap);
     }
+  };
+
+  const getSelectedTimesForDate = (day: number): string[] => {
+    return selectedDateTimes.get(day) || [];
   };
 
   const days = getDaysInMonth(currentDate);
@@ -220,20 +260,23 @@ const CalendarModal: React.FC<DateTimePickerModalProps> = ({
                     onClick={() => handleDateClick(day)}
                     disabled={!day.isCurrentMonth}
                     className={`
-                      aspect-square flex items-center justify-center rounded-full text-xs md:text-sm
+                      aspect-square flex items-center justify-center rounded-full text-xs md:text-sm relative
                       ${
                         day.isCurrentMonth
                           ? "text-gray-900 hover:bg-[#d7aad3] cursor-pointer"
                           : "text-gray-400 cursor-not-allowed"
                       }
                       ${
-                        day.isCurrentMonth && day.day === selectedDate
+                        day.isCurrentMonth && selectedDates.has(day.day)
                           ? "bg-peter text-white hover:bg-peter-dark"
                           : ""
                       }
                     `}
                   >
                     {day.day}
+                    {day.isCurrentMonth && selectedDates.has(day.day) && (
+                      <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-white rounded-full"></span>
+                    )}
                   </button>
                 ))}
               </div>
@@ -244,92 +287,142 @@ const CalendarModal: React.FC<DateTimePickerModalProps> = ({
           <div>
             <div className="mb-0">
               <span className="text-lg font-medium text-gray-700 block md:inline">
-                {getSelectedDateName(currentDate, selectedDate)}
+                {selectedDates.size > 0
+                  ? `${selectedDates.size} ${
+                      selectedDates.size === 1 ? "Date" : "Dates"
+                    } Selected`
+                  : "Select Dates"}
               </span>
-              <div className="text-sm text-peter mt-1  md:mt-0 mb-2">
-                Select one or more time slots for your appointment
+              <div className="text-sm text-peter mt-1 md:mt-0 mb-2">
+                {selectedDates.size > 0
+                  ? "Select time slots for each selected date"
+                  : "Click on dates to select, then choose time slots"}
               </div>
             </div>
 
-            {/* Desktop view - vertical scroll */}
-            <div className="hidden md:block space-y-3 max-h-96 overflow-y-auto border border-gray-200 rounded-lg p-2 scroll-smooth">
-              {availableTimes.map((timeSlot, index) => (
-                <button
-                  key={`desktop-${index}`}
-                  onClick={() => handleTimeClick(timeSlot)}
-                  disabled={!timeSlot.available}
-                  className={`
-                    w-full py-3 px-4 rounded-lg border-2 text-center font-medium
-                    transition-all relative
-                    ${
-                      timeSlot.available
-                        ? "border-gray-200 hover:border-peter hover:bg-purple-50 cursor-pointer"
-                        : "border-gray-200 bg-gray-50 text-gray-400 cursor-not-allowed"
-                    }
-                    ${
-                      selectedTimes.includes(timeSlot.time)
-                        ? "border-red-900 bg-[#f3ecf3]"
-                        : ""
-                    }
-                  `}
-                >
-                  {selectedTimes.includes(timeSlot.time) && (
-                    <div className="absolute left-4 top-1/2 -translate-y-1/2 w-2 h-2 bg-green-500 rounded-full"></div>
-                  )}
-                  {timeSlot.time}
-                </button>
-              ))}
-            </div>
+            {/* Display time slots for each selected date */}
+            {selectedDates.size > 0 ? (
+              <div className="space-y-4 max-h-96 overflow-y-auto">
+                {Array.from(selectedDates).map((day) => {
+                  const timesForDate = getSelectedTimesForDate(day);
+                  return (
+                    <div
+                      key={day}
+                      className="border border-gray-200 rounded-lg p-3"
+                    >
+                      <div className="text-sm font-semibold text-gray-900 mb-2">
+                        {getSelectedDateName(currentDate, day)}
+                      </div>
 
-            {/* Mobile view - horizontal scroll */}
-            <div className="md:hidden border border-gray-200 rounded-lg p-2 overflow-x-auto scroll-smooth">
-              <div className="flex flex-nowrap space-x-2 pb-1 scroll-smooth snap-x">
-                {availableTimes.map((timeSlot, index) => (
-                  <button
-                    key={`mobile-${index}`}
-                    onClick={() => handleTimeClick(timeSlot)}
-                    disabled={!timeSlot.available}
-                    className={`
-                      min-w-[90px] py-2 px-2 rounded-lg border-2 text-center text-sm
-                      transition-all relative flex-shrink-0 snap-start
-                      ${
-                        timeSlot.available
-                          ? "border-gray-200 hover:border-peter hover:bg-purple-50 cursor-pointer"
-                          : "border-gray-200 bg-gray-50 text-gray-400 cursor-not-allowed"
-                      }
-                      ${
-                        selectedTimes.includes(timeSlot.time)
-                          ? "border-red-900 bg-[#f3ecf3]"
-                          : ""
-                      }
-                    `}
-                  >
-                    {selectedTimes.includes(timeSlot.time) && (
-                      <div className="absolute left-2 top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-green-500 rounded-full"></div>
-                    )}
-                    {timeSlot.time}
-                  </button>
-                ))}
+                      {/* Desktop view - vertical scroll */}
+                      <div className="hidden md:block space-y-2 max-h-64 overflow-y-auto">
+                        {availableTimes.map((timeSlot, index) => {
+                          const isSelected = timesForDate.includes(
+                            timeSlot.time
+                          );
+                          return (
+                            <button
+                              key={`desktop-${day}-${index}`}
+                              onClick={() => handleTimeClick(timeSlot, day)}
+                              disabled={!timeSlot.available}
+                              className={`
+                                w-full py-2 px-3 rounded-lg border-2 text-center text-sm font-medium
+                                transition-all relative
+                                ${
+                                  timeSlot.available
+                                    ? "border-gray-200 hover:border-peter hover:bg-purple-50 cursor-pointer"
+                                    : "border-gray-200 bg-gray-50 text-gray-400 cursor-not-allowed"
+                                }
+                                ${isSelected ? "border-peter bg-[#f3ecf3]" : ""}
+                              `}
+                            >
+                              {isSelected && (
+                                <div className="absolute left-3 top-1/2 -translate-y-1/2 w-2 h-2 bg-green-500 rounded-full"></div>
+                              )}
+                              {timeSlot.time}
+                            </button>
+                          );
+                        })}
+                      </div>
+
+                      {/* Mobile view - horizontal scroll */}
+                      <div className="md:hidden border border-gray-200 rounded-lg p-2 overflow-x-auto scroll-smooth">
+                        <div className="flex flex-nowrap space-x-2 pb-1 scroll-smooth snap-x">
+                          {availableTimes.map((timeSlot, index) => {
+                            const isSelected = timesForDate.includes(
+                              timeSlot.time
+                            );
+                            return (
+                              <button
+                                key={`mobile-${day}-${index}`}
+                                onClick={() => handleTimeClick(timeSlot, day)}
+                                disabled={!timeSlot.available}
+                                className={`
+                                  min-w-[90px] py-2 px-2 rounded-lg border-2 text-center text-sm
+                                  transition-all relative flex-shrink-0 snap-start
+                                  ${
+                                    timeSlot.available
+                                      ? "border-gray-200 hover:border-peter hover:bg-purple-50 cursor-pointer"
+                                      : "border-gray-200 bg-gray-50 text-gray-400 cursor-not-allowed"
+                                  }
+                                  ${
+                                    isSelected
+                                      ? "border-peter bg-[#f3ecf3]"
+                                      : ""
+                                  }
+                                `}
+                              >
+                                {isSelected && (
+                                  <div className="absolute left-2 top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                                )}
+                                {timeSlot.time}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
-            </div>
+            ) : (
+              <div className="text-center text-gray-500 py-8 border border-gray-200 rounded-lg">
+                Please select dates from the calendar first
+              </div>
+            )}
           </div>
         </div>
         <div className="flex justify-center">
           <Button
             className="bg-peter text-white hover:bg-peter-dark"
             onClick={() => {
-              if (selectedTimes.length > 0 && selectedTime) {
-                // Now we submit the selected times
-                onSelectDateTime?.({
-                  date: getSelectedDateName(currentDate, selectedDate),
-                  time: selectedTime,
-                  allSelectedTimes: selectedTimes,
+              if (selectedDates.size > 0) {
+                // Build array of selected dates with their time slots
+                const selectedDatesArray: Array<{
+                  date: string;
+                  times: string[];
+                }> = [];
+
+                Array.from(selectedDates).forEach((day) => {
+                  const times = getSelectedTimesForDate(day);
+                  if (times.length > 0) {
+                    selectedDatesArray.push({
+                      date: getSelectedDateName(currentDate, day),
+                      times: times,
+                    });
+                  }
                 });
-                onClose();
+
+                if (selectedDatesArray.length > 0) {
+                  onSelectDateTime?.(selectedDatesArray);
+                  onClose();
+                }
               }
             }}
+            disabled={selectedDates.size === 0}
           >
-            Confirm Selection
+            Confirm Selection ({selectedDates.size}{" "}
+            {selectedDates.size === 1 ? "Date" : "Dates"})
           </Button>
         </div>
       </DialogContent>

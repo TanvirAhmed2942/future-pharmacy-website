@@ -96,9 +96,9 @@ function ScheduleOnline() {
   // Watch the service category to update available options in second dropdown
   const selectedCategory = watch("serviceCategory");
   const selectedServiceType = watch("serviceType");
-  const selectedDate = watch("appointmentDate");
-  // const selectedTime = watch("appointmentTime");
-  const selectedAllTimes = watch("appointmentAllTimes");
+  const [selectedAppointmentDates, setSelectedAppointmentDates] = useState<
+    Array<{ date: string; times: string[] }>
+  >([]);
 
   // Reset service type and other service when category changes
   React.useEffect(() => {
@@ -127,21 +127,50 @@ function ScheduleOnline() {
     }
   }, [selectedServiceType, setValue]);
 
-  const handleSelectDateTime = ({
-    date,
-    time,
-    allSelectedTimes,
-  }: {
-    date: string;
-    time: string;
-    allSelectedTimes?: string[];
-  }) => {
-    setValue("appointmentDate", date);
-    setValue("appointmentTime", time);
-    if (allSelectedTimes) {
-      setValue("appointmentAllTimes", allSelectedTimes);
-    }
+  const handleSelectDateTime = (
+    selectedDates: Array<{ date: string; times: string[] }>
+  ) => {
+    setValue(
+      "appointmentDates" as keyof FormValues,
+      selectedDates as unknown as FormValues[keyof FormValues]
+    );
+    setSelectedAppointmentDates(selectedDates);
     setIsCalendarModalOpen(false);
+  };
+
+  const handleRemoveDate = (dateToRemove: string) => {
+    const updatedDates = selectedAppointmentDates.filter(
+      (item) => item.date !== dateToRemove
+    );
+    setValue(
+      "appointmentDates" as keyof FormValues,
+      updatedDates as unknown as FormValues[keyof FormValues]
+    );
+    setSelectedAppointmentDates(updatedDates);
+  };
+
+  const handleRemoveTime = (date: string, timeToRemove: string) => {
+    const updatedDates = selectedAppointmentDates
+      .map((item) => {
+        if (item.date === date) {
+          const updatedTimes = item.times.filter(
+            (time) => time !== timeToRemove
+          );
+          if (updatedTimes.length === 0) {
+            return null; // Remove date if no times left
+          }
+          return { ...item, times: updatedTimes };
+        }
+        return item;
+      })
+      .filter(
+        (item): item is { date: string; times: string[] } => item !== null
+      );
+    setValue(
+      "appointmentDates" as keyof FormValues,
+      updatedDates as unknown as FormValues[keyof FormValues]
+    );
+    setSelectedAppointmentDates(updatedDates);
   };
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
@@ -666,45 +695,88 @@ function ScheduleOnline() {
                 onClick={() => setIsCalendarModalOpen(true)}
                 className={cn(
                   "w-full mt-1 justify-between font-normal text-left",
-                  !selectedDate && "text-muted-foreground"
+                  (!selectedAppointmentDates ||
+                    selectedAppointmentDates.length === 0) &&
+                    "text-muted-foreground"
                 )}
               >
-                {selectedDate &&
-                selectedAllTimes &&
-                selectedAllTimes.length > 0 ? (
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium text-gray-700">
-                      {selectedDate}
-                    </span>
-                    <div className="text-sm text-gray-500  max-h-16 overflow-y-auto pr-2">
-                      {selectedAllTimes.length > 3 ? (
-                        <>
-                          {selectedAllTimes.slice(0, 2).map((time, index) => (
-                            <span key={index}>
-                              {time}
-                              {index < 1 ? ", " : ""}
-                            </span>
-                          ))}
-                          <span> and {selectedAllTimes.length - 2} more</span>
-                        </>
-                      ) : (
-                        selectedAllTimes.map((time, index) => (
-                          <span key={index}>
-                            {time}
-                            {index < selectedAllTimes.length - 1 ? ", " : ""}
-                          </span>
-                        ))
-                      )}
-                    </div>
-                  </div>
+                {selectedAppointmentDates &&
+                selectedAppointmentDates.length > 0 ? (
+                  <span className="text-sm font-medium text-gray-700">
+                    {selectedAppointmentDates.length}{" "}
+                    {selectedAppointmentDates.length === 1 ? "Date" : "Dates"}{" "}
+                    Selected
+                  </span>
                 ) : (
-                  <span>Date & Time</span>
+                  <span>Select Date & Time</span>
                 )}
                 <ChevronDownIcon className="h-4 w-4 opacity-50" />
               </Button>
-              {(errors.appointmentDate || errors.appointmentTime) && (
+
+              {/* Display selected dates and times */}
+              {selectedAppointmentDates &&
+                Array.isArray(selectedAppointmentDates) &&
+                selectedAppointmentDates.length > 0 && (
+                  <div className="mt-3 space-y-3 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                    {selectedAppointmentDates.map(
+                      (
+                        appointment: { date: string; times: string[] },
+                        index: number
+                      ) => (
+                        <div
+                          key={index}
+                          className="bg-white p-3 rounded-md border border-gray-300"
+                        >
+                          <div className="flex items-start justify-between mb-2">
+                            <div className="flex-1">
+                              <h4 className="text-sm font-semibold text-gray-900 mb-1">
+                                {appointment.date}
+                              </h4>
+                              <div className="flex flex-wrap gap-2">
+                                {appointment.times.map(
+                                  (time: string, timeIndex: number) => (
+                                    <div
+                                      key={timeIndex}
+                                      className="inline-flex items-center gap-1 px-2 py-1 bg-peter/10 text-peter rounded-md text-xs"
+                                    >
+                                      <span>{time}</span>
+                                      <button
+                                        type="button"
+                                        onClick={() =>
+                                          handleRemoveTime(
+                                            appointment.date,
+                                            time
+                                          )
+                                        }
+                                        className="ml-1 hover:text-red-600 transition-colors"
+                                        aria-label={`Remove ${time}`}
+                                      >
+                                        ×
+                                      </button>
+                                    </div>
+                                  )
+                                )}
+                              </div>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveDate(appointment.date)}
+                              className="ml-2 text-red-600 hover:text-red-800 text-sm font-medium"
+                              aria-label={`Remove ${appointment.date}`}
+                            >
+                              Remove
+                            </button>
+                          </div>
+                        </div>
+                      )
+                    )}
+                  </div>
+                )}
+
+              {(!selectedAppointmentDates ||
+                selectedAppointmentDates.length === 0) && (
                 <p className="text-red-500 text-xs mt-1">
-                  Please select a date and time
+                  Please select at least one date and time
                 </p>
               )}
             </div>
@@ -781,6 +853,7 @@ function ScheduleOnline() {
         isOpen={isCalendarModalOpen}
         onClose={() => setIsCalendarModalOpen(false)}
         onSelectDateTime={handleSelectDateTime}
+        initialSelectedDates={selectedAppointmentDates || []}
       />
     </div>
   );
