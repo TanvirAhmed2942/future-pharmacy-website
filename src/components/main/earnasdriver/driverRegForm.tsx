@@ -51,15 +51,33 @@ function DriverRegForm() {
   };
 
   return (
-    <div className="bg-white py-10 px-4 md:px-8">
-      <div className="max-w-2xl mx-auto">
-        <Card className="border shadow-sm">
+    <div className="relative min-h-screen flex items-center justify-center py-12 px-4 md:px-8 overflow-hidden">
+      {/* Background Video */}
+      <div className="absolute inset-0 w-full h-full z-0">
+        <video
+          autoPlay
+          loop
+          muted
+          preload="auto"
+          playsInline
+          className="w-full h-full object-cover scale-110 opacity-60 blur-[2px]"
+        >
+          <source src="/videos/driver_1.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        {/* Overlay for better form readability */}
+        <div className="absolute inset-0 bg-black/40 z-10"></div>
+      </div>
+
+      {/* Content Container - Centered */}
+      <div className="relative z-20 w-full max-w-2xl mx-auto">
+        <Card className="border shadow-2xl bg-white/95  backdrop-blur-sm">
           <CardContent className="pt-6">
             <h2 className="text-xl font-semibold text-center mb-6">
               Apply to become a Driver
             </h2>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 ">
               {/* Name Field */}
               <div>
                 <Label htmlFor="name" className="text-sm text-gray-700">
@@ -315,7 +333,7 @@ function DriverRegForm() {
               {/* Submit Button */}
               <Button
                 type="submit"
-                className="w-full bg-peter hover:bg-peter-dark text-white py-2 cursor-pointer"
+                className="w-full bg-peter hover:bg-peter-dark text-white h-10 text-base font-medium cursor-pointer"
               >
                 Submit Interest
               </Button>

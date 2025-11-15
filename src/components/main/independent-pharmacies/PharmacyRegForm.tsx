@@ -310,7 +310,7 @@ function PharmacyRegForm() {
               {/* Submit Button */}
               <Button
                 type="submit"
-                className="w-full bg-peter hover:bg-peter-dark text-white py-6 text-base font-medium"
+                className="w-full bg-peter hover:bg-peter-dark text-white h-10 text-base font-medium"
               >
                 Submit Interest
               </Button>
