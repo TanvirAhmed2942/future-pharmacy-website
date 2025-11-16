@@ -6,26 +6,41 @@ import WeWillBeRight from "./weWillBeRIght";
 import ReadyToExperience from "@/components/common/readyToExperience/ReadyToExperience";
 import TheProcess from "./theProcess";
 import PharmacyServices from "./descriptionOfProcess";
+import { useTranslations } from "next-intl";
 
 function HowItWorksLayout() {
+  const t = useTranslations("howItWorks");
   return (
     <>
       <Banner
-        title='How It Works"- Simple, Secure and Local'
-        description="We handle the coordination so you can focus on your health, while your trusted local pharmacy takes care of the rest"
+        title={t("banner.title")}
+        description={t("banner.description")}
         image="/banner/how_it_works.png"
       />
       {/* <SimpleSteps /> */}
-      <TheProcess />
+      <TheProcess
+        headline={t("headline")}
+        steps={
+          t.raw("steps") as {
+            title: string;
+            description: string;
+          }[]
+        }
+      />
       <div className="max-w-7xl mx-auto">
         <p className="text-center text-peter font-semibold text-lg md:text-xl lg:text-2xl 2xl:text-[30px] leading-relaxed mt-0 mb-20 px-4 md:px-8 2xl:px-0">
-          Whether you&apos;re refilling, transferring, or scheduling care,
-          Optimus HS connects you directly with your trusted local pharmacy to
-          make it fast, reliable, and stress-free
+          {t("message")}
         </p>
       </div>
       {/* <SafetyAndSecuritySection /> */}
-      <PharmacyServices />
+      <PharmacyServices
+        descriptionOfProcess={
+          t.raw("descriptionOfProcess") as {
+            title: string;
+            description: string;
+          }[]
+        }
+      />
       <WeWillBeRight />
       <ReadyToExperience />
     </>

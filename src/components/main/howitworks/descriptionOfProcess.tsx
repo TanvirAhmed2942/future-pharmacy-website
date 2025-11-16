@@ -7,39 +7,35 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const servicesData = [
+// Image data that doesn't need translation
+const imageData = [
   {
-    id: 2,
-    title: "Refill Prescription",
-    description:
-      "When you need a refill? Simply submit your refill request through our platform. We'll connect with your selected local pharmacy to process it quickly. Once filled, you'll get an instant update to track or schedule your delivery right to your doorstep.",
     image: "/howitworks/Vector_1.png",
     imageAlt: "Pharmacists discussing prescription transfer",
     imagePosition: "right",
   },
   {
-    id: 1,
-    title: "Transfer Prescription",
-    description:
-      "It only takes a minute to transfer your prescription from your old pharmacy to your preferred local one. We'll securely send your details to the new pharmacy and confirm the transfer within a day. Once it's ready, you'll be notified to schedule your delivery wherever and whenever you need it.",
-
     image: "/howitworks/Vector_2.png",
     imageAlt: "Person holding prescription medication",
     imagePosition: "left",
   },
-
   {
-    id: 3,
-    title: "Schedule Essential Healthcare Services",
-    description:
-      "Easily schedule vaccinations, health screenings, or wellness consultations at your preferred local pharmacy. We'll coordinate your appointment details and confirm your slot instantly. It's convenient, community-based care -handled securely and at no extra cost to you.",
     image: "/howitworks/Vector_3.png",
     imageAlt: "Pharmacist at computer scheduling services",
     imagePosition: "right",
   },
 ];
 
-function PharmacyServices() {
+function PharmacyServices({
+  descriptionOfProcess,
+}: {
+  descriptionOfProcess: { title: string; description: string }[];
+}) {
+  // Merge translated text with image data
+  const servicesData = descriptionOfProcess.map((item, index) => ({
+    ...item,
+    ...imageData[index],
+  }));
   const image1Ref = useRef<HTMLDivElement>(null);
   const image2Ref = useRef<HTMLDivElement>(null);
   const image3Ref = useRef<HTMLDivElement>(null);

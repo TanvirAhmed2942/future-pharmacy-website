@@ -91,6 +91,49 @@
     "description": "Únete a miles de pacientes satisfechos que confían en nosotros para sus necesidades de entrega de recetas.",
     "buttonText": "Envíanos un mensaje"
   },
+  "howItWorks": {
+    "banner": {
+      "title": "\"Cómo funciona\" - Simple, Seguro y Local",
+      "description": "Nos encargamos de la coordinación para que puedas enfocarte en tu salud, mientras tu farmacia local se encarga del resto"
+    },
+    "headline": "Entrega de recetas",
+    "steps": [
+      {
+        "title": "Solicitar entrega",
+        "description": "Nuestro equipo contactará a tu farmacia para recargar tus recetas. Simplemente usa nuestra plataforma para solicitar entrega en minutos. Selecciona la ubicación de la farmacia, tu dirección de entrega, día y hora de entrega. Puedes crear una cuenta para un proceso más fácil o pagar como invitado"
+      },
+      {
+        "title": "Recibir entrega",
+        "description": "Relájate! Una vez que la farmacia recibe y confirma el cumplimiento para recoger. Nosotros entregaremos tu receta a tu casa, trabajo o cualquier ubicación de tu elección rápidamente (en minutos), de forma segura y convenientemente"
+      }
+    ],
+    "message": "Si estás recargando, transfiriendo o programando cuidados, Optimus HS te conecta directamente con tu farmacia local confiable para que sea rápido, confiable y sin estrés",
+    "descriptionOfProcess": [
+      {
+        "title": "Recargar receta",
+        "description": "Cuando necesitas una recarga? Simplemente envía tu solicitud de recarga a través de nuestra plataforma. Nosotros nos comunicaremos con tu farmacia local seleccionada para procesarla rápidamente. Una vez llena, recibirás una actualización instantánea para rastrear o programar tu entrega directamente a tu puerta."
+      },
+      {
+        "title": "Transferir receta",
+        "description": "Solo toma un minuto transferir tu receta de tu farmacia antigua a tu farmacia local preferida. Nosotros te enviaremos tus detalles de forma segura a la nueva farmacia y te notificaremos dentro de un día. Una vez que esté lista, te notificaremos para programar tu entrega donde y cuando lo necesites."
+      },
+      {
+        "title": "Programar servicios de salud esenciales",
+        "description": "Programa vacunas, exámenes de salud o consultas de bienestar en tu farmacia local preferida de forma fácil. Coordinaremos tus detalles de cita y te confirmaremos tu slot instantáneamente. Es conveniente, cuidado comunitario -manejado de forma segura y sin costo adicional para ti."
+      }
+    ]
+  },
+  "benefit": {
+    "title": "Ver todos nuestros beneficios",
+    "benefits": [
+      "Entrega conveniente a domicilio",
+      "Ahorra tiempo y costo",
+      "Manejo seguro de recetas",
+      "Seguimiento en tiempo real",
+      "Programación flexible",
+      "Sin costo para entregar Rx cuando usamos farmacias asociadas"
+    ]
+  },
   "footer": {
     "slogan": "Conectando comunidades a sus farmacias locales para un acceso rápido y confiable a recetas",
     "links": {

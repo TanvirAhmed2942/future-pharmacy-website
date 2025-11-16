@@ -5,18 +5,12 @@ import { GoCheckCircleFill } from "react-icons/go";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useTranslations } from "next-intl";
 
 gsap.registerPlugin(ScrollTrigger);
 
 function WeWillBeRight() {
-  const benefits = [
-    "Convenient home delivery",
-    "Saves time and cost",
-    "Secure prescription handling",
-    "Real-time tracking",
-    "Flexible scheduling",
-    "Zero cost to deliver Rx when using our partner pharmacies",
-  ];
+  const t = useTranslations("benefit");
   const heartImageRef = useRef<HTMLDivElement>(null);
   const textContentRef = useRef<HTMLDivElement>(null);
 
@@ -96,10 +90,10 @@ function WeWillBeRight() {
           {/* Text Content */}
           <div className="space-y-4 md:space-y-6" ref={textContentRef}>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-peter font-inter text-center sm:text-left">
-              See all our Benefits
+              {t("title")}
             </h2>
             <div className="space-y-3 md:space-y-4">
-              {benefits.map((benefit, index) => (
+              {t.raw("benefits").map((benefit: string, index: number) => (
                 <div key={index} className="flex items-start gap-3">
                   <GoCheckCircleFill className="text-peter size-5 md:size-6 flex-shrink-0 mt-0.5" />
                   <p className="text-gray-700 text-base md:text-lg leading-snug md:leading-relaxed font-inter text-left font-medium">

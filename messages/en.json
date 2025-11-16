@@ -91,6 +91,49 @@
     "description": "Join thousands of satisfied patients who trust us with their prescription delivery needs.",
     "buttonText": "Send us a Message"
   },
+  "howItWorks": {
+    "banner": {
+      "title": "\"How It Works\" - Simple, Secure and Local",
+      "description": "We handle the coordination so you can focus on your health, while your trusted local pharmacy takes care of the rest"
+    },
+    "headline": "Prescription Delivery",
+    "steps": [
+      {
+        "title": "Request Delivery",
+        "description": "Our team will contact your pharmacy to refill your prescriptionsSimply use our platform to request delivery in minutes. Select pharmacy location, your delivery address, day and time of delivery. You can create an account for easy process or checkout as guest"
+      },
+      {
+        "title": "Get it Delivered",
+        "description": "Relax! Once the pharmacy receives and confirms fulfilment for pickup. We will deliver your prescription to your home, workplace, or any location of your choice quickly (in minutes), securely, and conveniently"
+      }
+    ],
+    "message": "Whether you're refilling, transferring, or scheduling care, Optimus HS connects you directly with your trusted local pharmacy to make it fast, reliable, and stress-free",
+    "descriptionOfProcess": [
+      {
+        "title": "Refill Prescription",
+        "description": "When you need a refill? Simply submit your refill request through our platform. We'll connect with your selected local pharmacy to process it quickly. Once filled, you'll get an instant update to track or schedule your delivery right to your doorstep."
+      },
+      {
+        "title": "Transfer Prescription",
+        "description": "It only takes a minute to transfer your prescription from your old pharmacy to your preferred local one. We'll securely send your details to the new pharmacy and confirm the transfer within a day. Once it's ready, you'll be notified to schedule your delivery wherever and whenever you need it."
+      },
+      {
+        "title": "Schedule Essential Healthcare Services",
+        "description": "Easily schedule vaccinations, health screenings, or wellness consultations at your preferred local pharmacy. We'll coordinate your appointment details and confirm your slot instantly. It's convenient, community-based care -handled securely and at no extra cost to you."
+      }
+    ]
+  },
+  "benefit": {
+    "title": "See all our Benefits",
+    "benefits": [
+      "Convenient home delivery",
+      "Saves time and cost",
+      "Secure prescription handling",
+      "Real-time tracking",
+      "Flexible scheduling",
+      "Zero cost to deliver Rx when using our partner pharmacies"
+    ]
+  },
   "footer": {
     "slogan": "Connecting communities to their local pharmacies for fast, reliable access to prescriptions",
     "links": {
