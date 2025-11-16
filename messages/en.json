@@ -78,6 +78,58 @@
         }
       ],
       "learnMore": "Learn More"
+    },
+    "servicesWeOffer": {
+      "headline": "Services We Offer",
+      "description": "When you refill, transfer prescription or schedule essential healthcare services through our platform, you're connecting with our trusted local independent pharmacies near you. Together, we're strengthening our communities and helping independent pharmacies thrive.",
+      "services": [
+        {
+          "title": "Request a Prescription Delivery",
+          "description": "We deliver your prescriptions to your home or workplace.",
+          "buttonText": "Request Now"
+        },
+        {
+          "title": "Refill a Prescription",
+          "description": "We deliver your prescriptions to your home or workplace.",
+          "buttonText": "Refill Now"
+        },
+        {
+          "title": "Transfer a Prescription",
+          "description": "We deliver your prescriptions to your home or workplace.",
+          "buttonText": "Transfer Now"
+        },
+        {
+          "title": "Schedule Essential Healthcare Services",
+          "description": "We deliver your prescriptions to your home or workplace.",
+          "buttonText": "Schedule Now"
+        }
+      ]
+    },
+    "ourStory": {
+      "headline": "Our Story",
+      "description_1st": "We started Optimus Health Solutions with a simple belief that no one should have to struggle to get their prescriptions, and no community should lose its trusted local independent pharmacy.",
+      "description_2nd": "By connecting patients with nearby independent pharmacies, we make care faster, more personal, and closer to home.",
+      "buttonText": "Click to Learn More"
+    },
+    "ourImpact": {
+      "headline": "Our Impact",
+      "stats": [
+        {
+          "label": "Prescriptions Delivered",
+          "suffix": "+"
+        },
+        {
+          "label": "Patients Served",
+          "suffix": "+"
+        },
+        {
+          "label": "Average Delivery Time",
+          "suffix": " Mins"
+        }
+      ]
+    },
+    "userTestimonial": {
+      "headline": "What our Users Say"
     }
   },
 

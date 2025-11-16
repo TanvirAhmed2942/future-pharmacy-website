@@ -4,30 +4,28 @@ import { Card, CardContent } from "@/components/ui/card";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { useDevice } from "@/hooks/use-device";
-
+import { useTranslations } from "next-intl";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function OurImpact() {
+  const t = useTranslations("home.ourImpact");
   const stats = [
     {
-      value: "100,000+",
-      label: "Prescriptions Delivered",
+      label: t("stats.0.label"),
       numericValue: 1500,
       src: "/howitworks/impact_1.webp",
-      suffix: "+",
+      suffix: t("stats.0.suffix"),
     },
     {
-      value: "50,000+",
-      label: "Patients Served",
+      label: t("stats.1.label"),
       numericValue: 250,
       src: "/howitworks/impact_2.webp",
-      suffix: "+",
+      suffix: t("stats.1.suffix"),
     },
     {
-      value: "30 Mins",
-      label: "Average Delivery Time",
+      label: t("stats.2.label"),
       numericValue: 18,
-      suffix: " Mins",
+      suffix: t("stats.2.suffix"),
       src: "/howitworks/impact_3.webp",
     },
   ];
@@ -120,7 +118,7 @@ export default function OurImpact() {
       <div className=" bg-[#f3ecf3]  px-4 py-6 md:py-16" ref={containerRef}>
         <div className="max-w-6xl mx-auto ">
           <h1 className="text-4xl font-bold text-center text-peter pb-6 md:pb-16">
-            Our Impact
+            {t("headline")}
           </h1>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 ">
             {stats.map((stat, idx) => (

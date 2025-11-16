@@ -4,8 +4,9 @@ import Link from "next/link";
 import { HiArrowNarrowRight } from "react-icons/hi";
 import Image from "next/image";
 import gsap from "gsap";
-
+import { useTranslations } from "next-intl";
 function OurStory() {
+  const t = useTranslations("home.ourStory");
   // const blob1Ref = useRef(null);
   const blob2Ref = useRef(null);
   const blob3Ref = useRef(null);
@@ -43,25 +44,22 @@ function OurStory() {
           {/* Left Side - Text Content */}
           <div className="text-center md:text-left">
             <h2 className="text-3xl md:text-4xl font-bold text-peter mb-6">
-              Our Story
+              {t("headline")}
             </h2>
 
             <p className="text-gray-700 text-sm md:text-base leading-relaxed mb-6">
-              We started Optimus Health Solutions with a simple belief that no
-              one should have to struggle to get their prescriptions, and no
-              community should lose its trusted local independent pharmacy.
+              {t("description_1st")}
             </p>
 
             <p className="text-gray-700 text-sm md:text-base leading-relaxed mb-8">
-              By connecting patients with nearby independent pharmacies, we make
-              care faster, more personal, and closer to home.
+              {t("description_2nd")}
             </p>
 
             <Link
               href="/about-us"
               className="inline-flex items-center gap-2 text-peter hover:text-peter-dark font-semibold transition-colors"
             >
-              Click to Learn More
+              {t("buttonText")}
               <HiArrowNarrowRight className="size-5 mt-0.5" />
             </Link>
           </div>

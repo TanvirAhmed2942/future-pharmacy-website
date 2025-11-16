@@ -23,6 +23,7 @@ type WorkItem = {
 export default function HowOptimusWorks() {
   const router = useRouter();
   const t = useTranslations("home.optimusHealthSolutions");
+
   const sign_up_for_optimus = useIcon({ name: "sign_up_for_optimus" });
   const schedule_your_free_same_day_delivery = useIcon({
     name: "schedule_your_free_same_day_delivery",

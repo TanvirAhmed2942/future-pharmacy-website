@@ -5,10 +5,10 @@ import { Card } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import useIcon from "@/hooks/useIcon";
-
+import { useTranslations } from "next-intl";
 export default function RefilSection() {
   const router = useRouter();
-
+  const tServices = useTranslations("home.servicesWeOffer");
   // Smooth scroll function using custom animation - with mobile device detection
   const smoothScrollToElement = (element: HTMLElement) => {
     // Check if device is mobile (smaller viewport)
@@ -59,10 +59,10 @@ export default function RefilSection() {
     {
       icon: prescriptionDelivery,
       iconType: "custom",
-      title: "Request a Prescription Delivery",
+      title: tServices("services.0.title"),
       description:
         "Lorem ipsum dolor sit amet consectetur. Tempor quisque velit mi senectus mauris orci auctor.",
-      buttonText: "Request Now",
+      buttonText: tServices("services.0.buttonText"),
       buttonColor: "bg-peter hover:bg-peter-dark",
       href: "/#request-your-rx-delivered-in-minutes",
       onlineHref: "/request-your-rx-delivered-in-minutes",
@@ -70,10 +70,10 @@ export default function RefilSection() {
     {
       icon: refillPrescription,
       iconType: "custom",
-      title: "Refill a Prescription",
+      title: tServices("services.1.title"),
       description:
         "Lorem ipsum dolor sit amet consectetur. Tempor quisque velit mi senectus mauris orci auctor.",
-      buttonText: "Refill Now",
+      buttonText: tServices("services.1.buttonText"),
       buttonColor: "bg-peter hover:bg-peter-dark",
       href: "/refill-prescription",
       onlineHref: "/refill-prescription/online",
@@ -81,10 +81,10 @@ export default function RefilSection() {
     {
       icon: "/home/transfer.png",
       iconType: "image",
-      title: "Transfer a Prescription",
+      title: tServices("services.2.title"),
       description:
         "Lorem ipsum dolor sit amet consectetur. Tempor quisque velit mi senectus mauris orci auctor.",
-      buttonText: "Transfer Now",
+      buttonText: tServices("services.2.buttonText"),
       buttonColor: "bg-peter hover:bg-peter-dark",
       href: "/transfer-prescription",
       onlineHref: "/transfer-prescription/online",
@@ -92,10 +92,10 @@ export default function RefilSection() {
     {
       icon: calendar,
       iconType: "custom",
-      title: "Schedule Essential Healthcare Services",
+      title: tServices("services.3.title"),
       description:
         "Lorem ipsum dolor sit amet consectetur. mauris orci auctor.",
-      buttonText: "Schedule Now",
+      buttonText: tServices("services.3.buttonText"),
       buttonColor: "bg-peter hover:bg-peter-dark",
       href: "/schedule-now",
       onlineHref: "/schedule-now/online",
@@ -107,14 +107,10 @@ export default function RefilSection() {
       <div className=" mx-auto">
         <div className="w-full max-w-2xl md:max-w-6xl mx-auto mb-10">
           <h2 className="text-3xl md:text-4xl font-bold text-peter mb-4 font-inter text-center">
-            Services We Offer
+            {tServices("headline")}
           </h2>
           <p className="text-gray-700 text-base md:text-lg font-inter text-center px-4 md:px-0">
-            When you refill, transfer prescription or schedule essential
-            healthcare services through our platform, you&apos;re connecting
-            with our trusted local independent pharmacies near you. Together,
-            we&apos;re strengthening our communities and helping independent
-            pharmacies thrive.
+            {tServices("description")}
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-4 gap-4  2xl:gap-10 px-4 md:px-4">
