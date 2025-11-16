@@ -4,10 +4,10 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
-
+import { useTranslations } from "next-intl";
 function ReadyToExperience() {
   const router = useRouter();
-
+  const t = useTranslations("readyToExperience");
   // Smooth scroll function using custom animation
   const smoothScrollToElement = (element: HTMLElement) => {
     const offset = -150; // Offset to scroll a bit above the element (in pixels)
@@ -79,17 +79,16 @@ function ReadyToExperience() {
     <div className="flex justify-center items-center py-16 px-4 bg-white container mx-auto">
       <Card className="bg-white rounded-xl  p-8 md:p-12  w-full text-center ">
         <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-          Ready to experience the convenience <br /> of Optimus Heath Solutions
+          {t("title")}
         </h2>
         <p className="text-base md:text-lg text-gray-600 mb-6 leading-relaxed">
-          Join thousands of satisfied patients who trust us with their
-          prescription delivery needs.
+          {t("description")}
         </p>
         <Button
           onClick={handleNavigateToContact}
           className="w-fit mx-auto bg-peter hover:bg-peter-dark text-white px-8 py-6 rounded-lg text-base font-medium cursor-pointer"
         >
-          Send us a Message
+          {t("buttonText")}
         </Button>
       </Card>
     </div>

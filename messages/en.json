@@ -28,6 +28,69 @@
       "businessHoursText3": "Sun: Closed"
     }
   },
+  "aboutUs": {
+    "banner": {
+      "title": "Your Trusted Partner for Prescription Delivery",
+      "description": "e make prescription delivery faster, safer, and more accessible for patients across the USA."
+    },
+    "headline": "Our Mission & Vision",
+    "mission": {
+      "title": "Our Mission",
+      "description": "We are a team of dedicated professionals who are committed to providing the best possible service to our patients."
+    },
+    "vision": {
+      "title": "Our Vision",
+      "description": "We are a team of dedicated professionals who are committed to providing the best possible service to our patients."
+    },
+    "ourStory": {
+      "headline": "Our Story",
+      "storyTimeline": [
+        {
+          "badge": "H1",
+          "title": "Who we are",
+          "subtitle": "2022",
+          "description": "We are a team of dedicated professionals who are committed to providing the best possible service to our patients."
+        },
+        {
+          "badge": "H2",
+          "title": "Why we do it",
+          "subtitle": "2025",
+          "description": "We are a team of dedicated professionals who are committed to providing the best possible service to our patients."
+        },
+        {
+          "badge": "H3",
+          "title": "Current",
+          "subtitle": "Present",
+          "description": "We are a team of dedicated professionals who are committed to providing the best possible service to our patients."
+        }
+      ]
+    },
+    "ourValues": {
+      "headline": "Our Values",
+      "values": [
+        {
+          "title": "Community First",
+          "description": "Support and strengthen mom-and-pop pharmacy stores for healthier communities.",
+          "src": "/howitworks/value_1.png"
+        },
+        {
+          "title": "Patient Empowerment",
+          "description": "Make access simple. Give people the power to choose their pharmacy with respect, privacy, reliability in every interaction.",
+          "src": "/howitworks/value_2.png"
+        },
+        {
+          "title": "Partnership and Transparency",
+          "description": "Co-design solutions with partner pharmacies to build trust and shared success.",
+          "src": "/howitworks/value_3.png"
+        }
+      ]
+    }
+  },
+  "readyToExperience": {
+    "title": "Ready to experience the convenience of Optimus Heath Solutions",
+    "description": "Join thousands of satisfied patients who trust us with their prescription delivery needs.",
+    "buttonText": "Send us a Message"
+  },
   "footer": {
     "slogan": "Connecting communities to their local pharmacies for fast, reliable access to prescriptions",
     "links": {

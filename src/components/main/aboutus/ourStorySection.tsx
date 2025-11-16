@@ -1,35 +1,24 @@
 import React from "react";
 
-function OurStorySection() {
-  const items = [
-    {
-      badge: "H1",
-      title: "Who we are",
-      subtitle: "2022",
-      description:
-        "Lorem ipsum dolor sit amet consectetur. Dignissim aenean vitae nulla nunc velit semper at pretium. Ridiculus viverra ultrices mattis vitae nec suscipit elit sagittis nulla.",
-    },
-    {
-      badge: "H2",
-      title: "Why we do it",
-      subtitle: "2025",
-      description:
-        "Lorem ipsum dolor sit amet consectetur. Dignissim aenean vitae nulla nunc velit semper at pretium. Ridiculus viverra ultrices mattis vitae nec suscipit elit sagittis nulla.",
-    },
-    {
-      badge: "H3",
-      title: "Current",
-      subtitle: "Present",
-      description:
-        "Lorem ipsum dolor sit amet consectetur. Dignissim aenean vitae nulla nunc velit semper at pretium. Ridiculus viverra ultrices mattis vitae nec suscipit elit sagittis nulla.",
-    },
-  ];
+function OurStorySection({
+  headline,
+  storyTimeline,
+}: {
+  headline: string;
+  storyTimeline: {
+    badge: string;
+    title: string;
+    subtitle: string;
+    description: string;
+  }[];
+}) {
+  const items = storyTimeline;
 
   return (
     <div className="py-16 ">
       <div className="max-w-2xl mx-auto">
         <h1 className="text-4xl font-bold text-center text-gray-900 my-16">
-          Our Story
+          {headline}
         </h1>
 
         <div className="relative">

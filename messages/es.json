@@ -15,7 +15,7 @@
     "login": "Iniciar sesión",
     "signup": "Registrarse",
     "logout": "Cerrar sesión",
-    "dashboard": "Dashboard",
+    "dashboard": "Panel de control",
     "language": "Idioma",
     "bottomHeader": {
       "contactInformation": "Información de contacto",
@@ -27,6 +27,69 @@
       "businessHoursText2": "Sábado: 8a.m.-1p.m.",
       "businessHoursText3": "Domingo: Cerrado"
     }
+  },
+  "aboutUs": {
+    "banner": {
+      "title": "Tu socio de confianza para la entrega de recetas",
+      "description": "Hacemos la entrega de recetas más rápida, segura y accesible para los pacientes en Estados Unidos de América."
+    },
+    "headline": "Nuestra misión y visión",
+    "mission": {
+      "title": "Nuestra misión",
+      "description": "Somos un equipo de profesionales dedicados que estamos comprometidos a proporcionar el mejor servicio posible a nuestros pacientes."
+    },
+    "vision": {
+      "title": "Nuestra visión",
+      "description": "Somos un equipo de profesionales dedicados que estamos comprometidos a proporcionar el mejor servicio posible a nuestros pacientes."
+    },
+    "ourStory": {
+      "headline": "Nuestra historia",
+      "storyTimeline": [
+        {
+          "badge": "H1",
+          "title": "Quiénes somos",
+          "subtitle": "2022",
+          "description": "Somos un equipo de profesionales dedicados que estamos comprometidos a proporcionar el mejor servicio posible a nuestros pacientes."
+        },
+        {
+          "badge": "H2",
+          "title": "Por qué lo hacemos",
+          "subtitle": "2025",
+          "description": "Somos un equipo de profesionales dedicados que estamos comprometidos a proporcionar el mejor servicio posible a nuestros pacientes."
+        },
+        {
+          "badge": "H3",
+          "title": "Actual",
+          "subtitle": "Presente",
+          "description": "Somos un equipo de profesionales dedicados que estamos comprometidos a proporcionar el mejor servicio posible a nuestros pacientes."
+        }
+      ]
+    },
+    "ourValues": {
+      "headline": "Nuestros valores",
+      "values": [
+        {
+          "title": "Community First",
+          "description": "Apoyar y fortalecer las farmacias independientes para comunidades más saludables.",
+          "src": "/howitworks/value_1.png"
+        },
+        {
+          "title": "Patient Empowerment",
+          "description": "Hacer el acceso simple. Dar a la gente el poder de elegir su farmacia con respeto, privacidad, confiabilidad en cada interacción.",
+          "src": "/howitworks/value_2.png"
+        },
+        {
+          "title": "Partnership and Transparency",
+          "description": "Co-diseñar soluciones con farmacias asociadas para construir confianza y éxito compartido.",
+          "src": "/howitworks/value_3.png"
+        }
+      ]
+    }
+  },
+  "readyToExperience": {
+    "title": "Listo para experimentar la conveniencia de Optimus Heath Solutions",
+    "description": "Únete a miles de pacientes satisfechos que confían en nosotros para sus necesidades de entrega de recetas.",
+    "buttonText": "Envíanos un mensaje"
   },
   "footer": {
     "slogan": "Conectando comunidades a sus farmacias locales para un acceso rápido y confiable a recetas",

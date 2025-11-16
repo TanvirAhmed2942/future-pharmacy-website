@@ -2,11 +2,23 @@ import React from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import useIcon from "@/hooks/useIcon";
 
-function MissionSection() {
+function MissionSection({
+  missionTitle,
+  missionDescription,
+  visionTitle,
+  visionDescription,
+  headline,
+}: {
+  missionTitle: string;
+  missionDescription: string;
+  visionTitle: string;
+  visionDescription: string;
+  headline: string;
+}) {
   return (
     <div className="my-8 sm:my-12 md:my-16 px-4 sm:px-6 md:px-8 max-w-7xl mx-auto">
       <h2 className="heading-text text-center text-2xl sm:text-3xl md:text-4xl font-bold my-8 sm:my-12 md:my-16">
-        Our Mission & Vision
+        {headline}
       </h2>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 md:gap-10">
@@ -19,14 +31,10 @@ function MissionSection() {
           </CardHeader>
           <CardContent className="text-center px-4 sm:px-6 md:px-8">
             <h3 className="text-lg sm:text-xl font-semibold text-gray-900">
-              Our Mission
+              {missionTitle}
             </h3>
             <p className="mt-2 sm:mt-3 text-sm sm:text-base leading-6 text-gray-600">
-              Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus ac
-              adipiscing diam cursus adipiscing aliquam posuere. Interdum
-              tincidunt varius nec dictum in. Aenean eu blandit varius facilisi
-              mauris gravida nisi risus quam. Orci viverra euismod ornare tellus
-              turpis amet...
+              {missionDescription}
             </p>
           </CardContent>
         </Card>
@@ -40,14 +48,10 @@ function MissionSection() {
           </CardHeader>
           <CardContent className="text-center px-4 sm:px-6 md:px-8">
             <h3 className="text-lg sm:text-xl font-semibold text-gray-900">
-              Our Vision
+              {visionTitle}
             </h3>
             <p className="mt-2 sm:mt-3 text-sm sm:text-base leading-6 text-gray-600">
-              Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus ac
-              adipiscing diam cursus adipiscing aliquam posuere. Interdum
-              tincidunt varius nec dictum in. Aenean eu blandit varius facilisi
-              mauris gravida nisi risus quam. Orci viverra euismod ornare tellus
-              turpis amet...
+              {visionDescription}
             </p>
           </CardContent>
         </Card>
