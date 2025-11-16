@@ -27,5 +27,28 @@
       "businessHoursText2": "Sat: 8a.m.-1p.m.",
       "businessHoursText3": "Sun: Closed"
     }
+  },
+  "footer": {
+    "slogan": "Connecting communities to their local pharmacies for fast, reliable access to prescriptions",
+    "links": {
+      "home": "Home",
+      "aboutUs": "About Us",
+      "howItWorks": "How It Works",
+      "independentPharmacies": "For Independent Pharmacies",
+      "blog": "Blog"
+    },
+    "contactUs": {
+      "contactUs": "Contact Us",
+      "callUs": "Call Us",
+      "emailUs": "Email Us"
+    },
+    "socialMedia": "Social Media",
+    "hipaaCertified": "HIPAA Certified",
+    "policies": {
+      "hipaa": "HIPAA Policy",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service"
+    },
+    "footerText": "Optimus Health Solutions. All rights reserved."
   }
 }

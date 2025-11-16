@@ -6,7 +6,9 @@ import useIcon from "@/hooks/useIcon";
 import { IoLogoTiktok } from "react-icons/io5";
 import { FaInstagram } from "react-icons/fa6";
 import { TbBrandYoutube } from "react-icons/tb";
+import { useTranslations } from "next-intl";
 function Footer() {
+  const t = useTranslations("footer");
   return (
     <footer className="bg-[#1c121b] text-white rounded-tl-3xl z-20 rounded-tr-3xl ">
       <div className="container mx-auto px-6 py-12">
@@ -22,15 +24,16 @@ function Footer() {
               className="w-48 h-fit object-cover mb-4"
             />
             <p className="text-sm text-gray-300 leading-relaxed">
-              Connecting communities to their local pharmacies for fast,
-              reliable access to prescriptions
+              {t("slogan")}
             </p>
           </div>
 
           {/* Home Section */}
           <div>
             <Link href="/">
-              <h3 className="font-semibold text-base mb-4">Home</h3>
+              <h3 className="font-semibold text-base mb-4">
+                {t("links.home")}
+              </h3>
             </Link>
             <ul className="space-y-3">
               <li>
@@ -38,7 +41,7 @@ function Footer() {
                   href="/about-us"
                   className="text-sm text-gray-300 hover:text-white transition"
                 >
-                  About Us
+                  {t("links.aboutUs")}
                 </Link>
               </li>
               <li>
@@ -46,7 +49,7 @@ function Footer() {
                   href="/how-it-works"
                   className="text-sm text-gray-300 hover:text-white transition"
                 >
-                  How It Works
+                  {t("links.howItWorks")}
                 </Link>
               </li>
               <li>
@@ -54,7 +57,7 @@ function Footer() {
                   href="/independent-pharmacies"
                   className="text-sm text-gray-300 hover:text-white transition"
                 >
-                  For Independent Pharmacies
+                  {t("links.independentPharmacies")}
                 </Link>
               </li>
               <li>
@@ -62,7 +65,7 @@ function Footer() {
                   href="/blog"
                   className="text-sm text-gray-300 hover:text-white transition"
                 >
-                  Blog
+                  {t("links.blog")}
                 </Link>
               </li>
             </ul>
@@ -70,10 +73,12 @@ function Footer() {
 
           {/* Need Help Section */}
           <div>
-            <h3 className="font-semibold text-base mb-4">Contact Us</h3>
+            <h3 className="font-semibold text-base mb-4">
+              {t("contactUs.contactUs")}
+            </h3>
             <ul className="space-y-3">
               <li className="text-sm text-gray-300">
-                Call Us:{" "}
+                {t("contactUs.callUs")}:{" "}
                 <Link
                   href="tel:8889101808"
                   className="hover:text-white transition"
@@ -82,7 +87,7 @@ function Footer() {
                 </Link>
               </li>
               <li className="text-sm text-gray-300">
-                Email Us:{" "}
+                {t("contactUs.emailUs")}:{" "}
                 <Link
                   href="mailto:help@optimus.com"
                   className="hover:text-white transition"
@@ -95,7 +100,7 @@ function Footer() {
 
           {/* Social Media Section */}
           <div>
-            <h3 className="font-semibold text-base mb-4">Social Media</h3>
+            <h3 className="font-semibold text-base mb-4">{t("socialMedia")}</h3>
             <div className="flex gap-4 flex-wrap max-w-42">
               <Link
                 href="#"
@@ -137,34 +142,34 @@ function Footer() {
           </div>
           {/* Hipaa Section */}
           <div>
-            <h3 className="font-semibold text-base mb-4">HIPAA Certified</h3>
+            <h3 className="font-semibold text-base mb-4">
+              {t("hipaaCertified")}
+            </h3>
             <div className="flex gap-4">{useIcon({ name: "hipaa" })}</div>
           </div>
         </div>
 
         {/* Bottom Bar */}
         <div className="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-gray-400">
-            © 2025 Optimus Health Solutions. All rights reserved.
-          </p>
+          <p className="text-sm text-gray-400">© 2025 {t("footerText")}</p>
           <div className="flex gap-6">
             <Link
               href="/policies/hipaa-policy"
               className="text-sm text-gray-400 hover:text-white underline transition"
             >
-              HIPAA policy
+              {t("policies.hipaa")}
             </Link>
             <Link
               href="/policies/privacy-policy"
               className="text-sm text-gray-400 hover:text-white underline transition"
             >
-              Privacy policy
+              {t("policies.privacy")}
             </Link>
             <Link
               href="/policies/terms-of-service"
               className="text-sm text-gray-400 hover:text-white underline transition"
             >
-              Terms of Service
+              {t("policies.terms")}
             </Link>
           </div>
         </div>
