@@ -66,7 +66,7 @@ function UserTestimonial() {
           </p> */}
         </div>
 
-        {/* Swiper Container */}
+        {/* Swiper Container (user testimonials) */}
         <div className="mb-12">
           <Swiper
             modules={[Autoplay, Pagination]}
