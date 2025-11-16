@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
+import { useTranslations } from "next-intl";
 gsap.registerPlugin(ScrollTrigger);
 
 type WorkItem = {
@@ -22,6 +22,7 @@ type WorkItem = {
 
 export default function HowOptimusWorks() {
   const router = useRouter();
+  const t = useTranslations("home.optimusHealthSolutions");
   const sign_up_for_optimus = useIcon({ name: "sign_up_for_optimus" });
   const schedule_your_free_same_day_delivery = useIcon({
     name: "schedule_your_free_same_day_delivery",
@@ -80,25 +81,22 @@ export default function HowOptimusWorks() {
     {
       iconType: "custom",
       customIcon: sign_up_for_optimus,
-      title: "Sign up for Optimus",
-      description:
-        "We'll coordinate with your old pharmacy or doctor to get your prescriptions.",
+      title: t("steps.0.title"),
+      description: t("steps.0.description"),
       videoSrc: "/videos/video_1.mp4",
     },
     {
       iconType: "custom",
       customIcon: schedule_your_free_same_day_delivery,
-      title: "Schedule your free same-day delivery",
-      description:
-        "We accept your insurance and deliver your prescriptions at a time  and text you when it's  that works for you.",
+      title: t("steps.1.title"),
+      description: t("steps.1.description"),
       videoSrc: "/videos/mosquito.mp4",
     },
     {
       iconType: "custom",
       customIcon: we_manage_your_refills,
-      title: "We manage your refills",
-      description:
-        "We'll coordinate with your doctor and text you when it's  time for refills.",
+      title: t("steps.2.title"),
+      description: t("steps.2.description"),
       videoSrc:
         "https://videos.pexels.com/video-files/3045163/3045163-hd_1920_1080_30fps.mp4",
     },
@@ -335,7 +333,7 @@ export default function HowOptimusWorks() {
       <div className=" mx-auto ">
         <div className="w-full max-w-2xl md:max-w-6xl mx-auto mb-10">
           <h2 className="text-3xl md:text-4xl font-bold text-peter mb-4 font-inter text-center">
-            How Optimus Health Solutions Works
+            {t("headline")}
           </h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-4 2xl:gap-10 px-4 md:px-6">
@@ -420,7 +418,7 @@ export default function HowOptimusWorks() {
             className=" bg-peter hover:bg-peter-dark text-white py-2 cursor-pointer mt-6 lg:mt-8 2xl:mt-10"
             onClick={() => router.push("/how-it-works")}
           >
-            Learn More
+            {t("learnMore")}
           </Button>
         </div>
       </div>

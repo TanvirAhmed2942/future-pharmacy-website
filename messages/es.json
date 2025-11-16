@@ -59,6 +59,24 @@
       "morning": "Mañana",
       "afternoon": "Tarde",
       "evening": "Noche"
+    },
+    "optimusHealthSolutions": {
+      "headline": "Cómo funciona Optimus Health Solutions",
+      "steps": [
+        {
+          "title": "Regístrate para Optimus",
+          "description": "Coordinaremos con tu farmacia o doctor para obtener tus recetas."
+        },
+        {
+          "title": "Programa tu entrega gratuita misma-día",
+          "description": "Aceptamos tu seguro y entregamos tus recetas en un tiempo y te notificamos cuando sea que funcione para ti."
+        },
+        {
+          "title": "Gestionamos tus recargas",
+          "description": "Coordinaremos con tu doctor y te notificaremos cuando sea que sea tiempo para recargas."
+        }
+      ],
+      "learnMore": "Aprender más"
     }
   },
 
