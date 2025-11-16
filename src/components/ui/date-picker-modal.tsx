@@ -8,6 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { useTranslations } from "next-intl";
 
 interface DatePickerModalProps {
   isOpen: boolean;
@@ -15,7 +16,6 @@ interface DatePickerModalProps {
   onDateSelect: (date: Date) => void;
   selectedDate?: Date;
 }
-
 export default function DatePickerModal({
   isOpen,
   onClose,
@@ -23,6 +23,7 @@ export default function DatePickerModal({
   selectedDate,
 }: DatePickerModalProps) {
   const [currentDate, setCurrentDate] = useState(selectedDate || new Date());
+  const t = useTranslations("home.datePickerModal");
 
   const today = new Date();
   const currentMonth = currentDate.getMonth();
@@ -172,14 +173,14 @@ export default function DatePickerModal({
         {/* Header */}
         <DialogHeader className="p-4 border-b">
           <DialogTitle className="text-xl font-bold text-gray-900">
-            Select a Delivery Date
+            {t("title")}
           </DialogTitle>
         </DialogHeader>
 
         {/* Next delivery info */}
         <div className="px-6 py-2 bg-gray-50">
           <p className="text-sm text-gray-600">
-            Your next delivery is scheduled for{" "}
+            {t("description")}{" "}
             <span className="font-semibold text-gray-900">
               {selectedDate
                 ? selectedDate.toLocaleDateString("en-US", {
@@ -236,7 +237,7 @@ export default function DatePickerModal({
             variant="outline"
             className="flex-1 border-gray-300 text-gray-700 hover:bg-gray-50"
           >
-            Cancel
+            {t("cancel")}
           </Button>
           <Button
             onClick={() => {
@@ -248,7 +249,7 @@ export default function DatePickerModal({
             className="flex-1 bg-peter hover:bg-peter-dark text-white"
             disabled={!selectedDate}
           >
-            Confirm Date
+            {t("confirmDate")}
           </Button>
         </div>
       </DialogContent>

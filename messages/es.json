@@ -28,6 +28,40 @@
       "businessHoursText3": "Domingo: Cerrado"
     }
   },
+  "home": {
+    "mapAndFormSection": {
+      "title": "Solicita tu receta entregada en minutos",
+      "titleforMobileView": "Solicita tu receta\nentregada en minutos",
+      "changeCityOrZipCode": "Cambiar ciudad o código postal",
+      "pharmacySuggestions": "Sugerencias de farmacias",
+      "modalDescription": "Crea una cuenta de Optimus Health Solutions para un checkout más rápido más tarde. ¿No tienes tiempo ahora? No hay problema. Puedes hacer checkout como invitado."
+    },
+    "form": {
+      "pickupLocation": "Ubicación de recogida",
+      "dropoffAddress": "Dirección de entrega",
+      "date": "Fecha",
+      "time": "Hora",
+      "checkoutRequest": "Solicitar checkout",
+      "now": "Ahora",
+      "today": "Hoy"
+    },
+    "datePickerModal": {
+      "title": "Selecciona una fecha de entrega",
+      "description": "Tu próxima entrega está programada para",
+      "confirmDate": "Confirmar fecha",
+      "cancel": "Cancelar"
+    },
+    "timePickerModal": {
+      "title": "Selecciona una hora de entrega",
+      "description": "Tu orden será entregada el",
+      "confirmTime": "Confirmar hora",
+      "cancel": "Cancelar",
+      "morning": "Mañana",
+      "afternoon": "Tarde",
+      "evening": "Noche"
+    }
+  },
+
   "aboutUs": {
     "banner": {
       "title": "Tu socio de confianza para la entrega de recetas",

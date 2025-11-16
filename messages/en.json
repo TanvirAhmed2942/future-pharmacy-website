@@ -28,6 +28,41 @@
       "businessHoursText3": "Sun: Closed"
     }
   },
+
+  "home": {
+    "mapAndFormSection": {
+      "title": "Request Your Prescriptions Delivered in Minutes",
+      "titleforMobileView": "Request Your Prescriptions\nDelivered in Minutes",
+      "changeCityOrZipCode": "Change City or Zip Code",
+      "pharmacySuggestions": "Pharmacy Suggestions",
+      "modalDescription": "Create a Optimus health Solutions account for faster checkout later. No time right now? No problem. You can check out as guest."
+    },
+    "form": {
+      "pickupLocation": "Pickup Location",
+      "dropoffAddress": "Drop-off Address",
+      "date": "Date",
+      "time": "Time",
+      "checkoutRequest": "Checkout Request",
+      "now": "Now",
+      "today": "Today"
+    },
+    "datePickerModal": {
+      "title": "Select a Delivery Date",
+      "description": "Your next delivery is scheduled for",
+      "confirmDate": "Confirm Date",
+      "cancel": "Cancel"
+    },
+    "timePickerModal": {
+      "title": "Select a Delivery Time",
+      "description": "Your order will be delivered on",
+      "confirmTime": "Confirm Time",
+      "cancel": "Cancel",
+      "morning": "Morning",
+      "afternoon": "Afternoon",
+      "evening": "Evening"
+    }
+  },
+
   "aboutUs": {
     "banner": {
       "title": "Your Trusted Partner for Prescription Delivery",

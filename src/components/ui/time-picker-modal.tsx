@@ -8,7 +8,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
-
+import { useTranslations } from "next-intl";
 interface TimePickerModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -25,7 +25,7 @@ export default function TimePickerModal({
   selectedDate,
 }: TimePickerModalProps) {
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(selectedTime || "");
-
+  const t = useTranslations("home.timePickerModal");
   // Generate time slots with AM/PM format
   const generateTimeSlots = () => {
     const morningSlots = [];
@@ -134,14 +134,14 @@ export default function TimePickerModal({
         {/* Header */}
         <DialogHeader className="p-4 border-b">
           <DialogTitle className="text-xl font-bold text-gray-900">
-            Select a Delivery Time
+            {t("title")}
           </DialogTitle>
         </DialogHeader>
 
         {/* Delivery date info */}
         <div className="px-6 py-2 bg-gray-50">
           <p className="text-sm text-gray-600">
-            Your order will be delivered on{" "}
+            {t("description")}{" "}
             <span className="font-semibold text-peter">
               {selectedDate ? formatDate(selectedDate) : "Tuesday, July 23"}
             </span>
@@ -151,9 +151,9 @@ export default function TimePickerModal({
         {/* Time slots with scroll area */}
         <ScrollArea className="h-[300px] max-h-[350px] lg:h-[400px] lg:max-h-[450px]">
           <div className="p-6">
-            {renderTimeSlots(morningSlots, "Morning")}
-            {renderTimeSlots(afternoonSlots, "Afternoon")}
-            {renderTimeSlots(eveningSlots, "Evening")}
+            {renderTimeSlots(morningSlots, t("morning"))}
+            {renderTimeSlots(afternoonSlots, t("afternoon"))}
+            {renderTimeSlots(eveningSlots, t("evening"))}
           </div>
         </ScrollArea>
         {/* Action buttons */}
@@ -163,14 +163,14 @@ export default function TimePickerModal({
             variant="outline"
             className="flex-1 border-gray-300 text-gray-700 hover:bg-gray-50"
           >
-            Cancel
+            {t("cancel")}
           </Button>
           <Button
             onClick={handleConfirm}
             className="flex-1 bg-peter hover:bg-peter-dark text-white"
             disabled={!selectedTimeSlot}
           >
-            Confirm Time
+            {t("confirmTime")}
           </Button>
         </div>
       </DialogContent>

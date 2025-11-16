@@ -17,7 +17,10 @@ import NewCustomerModal from "./checkUserStatusModal";
 import { useAuth } from "@/userInfo.authProvide";
 import { useRouter } from "next/navigation";
 import { Label } from "@radix-ui/react-label";
+import { useTranslations } from "next-intl";
 export default function MapAndFormSection() {
+  const t = useTranslations("home.mapAndFormSection");
+  const tForm = useTranslations("home.form");
   const [pickupLocation, setPickupLocation] = useState("");
   const [dropoffAddress, setDropoffAddress] = useState("");
   const [deliveryTime, setDeliveryTime] = useState("today");
@@ -66,20 +69,20 @@ export default function MapAndFormSection() {
                 onClick={() => setIsLocationPickerOpen(true)}
                 className="text-peter hover:text-peter-dark sm:ml-2 hover:underline cursor-pointer"
               >
-                Change City or Zip Code
+                {t("changeCityOrZipCode")}
               </button>
             </div>
             <h1
               id="request-your-rx-delivered-in-minutes"
               className="hidden sm:block text-2xl lg:text-xl 2xl:text-2xl font-bold text-gray-900 "
             >
-              Request Your Prescriptions Delivered in Minutes
+              {t("title")}
             </h1>
             <h1
               id="request-your-rx-delivered-in-minutes"
               className="block sm:hidden text-2xl lg:text-xl 2xl:text-2xl font-medium text-gray-900 text-center"
             >
-              Request Your Prescriptions <br /> Delivered in Minutes
+              {t("titleforMobileView")}
             </h1>
           </div>
 
@@ -91,7 +94,7 @@ export default function MapAndFormSection() {
                   <div className="w-4.5 h-4 rounded-full bg-black"></div>
                   <input
                     type="text"
-                    placeholder="Pickup Location"
+                    placeholder={tForm("pickupLocation")}
                     value={pickupLocation}
                     onChange={(e) => setPickupLocation(e.target.value)}
                     className="text-gray-700 bg-transparent border-none outline-none placeholder:text-gray-400 w-full"
@@ -110,7 +113,7 @@ export default function MapAndFormSection() {
                   </div>
                   <input
                     type="text"
-                    placeholder="Drop-off address"
+                    placeholder={tForm("dropoffAddress")}
                     value={dropoffAddress}
                     onChange={(e) => setDropoffAddress(e.target.value)}
                     className="text-gray-700 bg-transparent border-none outline-none placeholder:text-gray-400 w-full "
@@ -123,7 +126,7 @@ export default function MapAndFormSection() {
           {/* Delivery Time Options */}
           <div className="grid grid-cols-2 gap-4 mb-6 ">
             <div className="w-full flex flex-col items-start gap-2 ">
-              <Label className="text-md text-gray-600">Date</Label>
+              <Label className="text-md text-gray-600">{tForm("date")}</Label>
               <button
                 onClick={() => setIsDatePickerOpen(true)}
                 className={`p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-[#be95be] w-full ${
@@ -140,13 +143,13 @@ export default function MapAndFormSection() {
                           month: "short",
                           day: "numeric",
                         })
-                      : "Today"}
+                      : tForm("today")}
                   </span>
                 </div>
               </button>
             </div>
             <div className="w-full flex flex-col items-start gap-2 ">
-              <Label className="text-md text-gray-600">Time</Label>
+              <Label className="text-md text-gray-600">{tForm("time")}</Label>
               <button
                 onClick={() => setIsTimePickerOpen(true)}
                 className={`p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-[#be95be] w-full ${
@@ -161,7 +164,7 @@ export default function MapAndFormSection() {
                     <span className="font-medium text-gray-900">
                       {selectedTime
                         ? selectedTime.split(" - ")[0] // Show just the start time
-                        : "Now"}
+                        : tForm("now")}
                     </span>
                   </div>
 
@@ -181,13 +184,13 @@ export default function MapAndFormSection() {
               {useIcon({ name: "cart" })}
             </p> */}
             {/* <TiShoppingCart size={20} /> */}
-            Checkout Request
+            {tForm("checkoutRequest")}
           </button>
 
           {/* Pharmacy Suggestions */}
           <div className="mt-8">
             <h2 className="text-xl font-bold text-gray-900 mb-4">
-              Pharmacy Suggestions
+              {t("pharmacySuggestions")}
             </h2>
             <div className="space-y-3">
               <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer">
@@ -269,7 +272,7 @@ export default function MapAndFormSection() {
       <NewCustomerModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        description="Create a Optimus health Solutions account for faster checkout later. No time right now? No problem. You can check out as guest."
+        description={t("modalDescription")}
       />
     </div>
   );
