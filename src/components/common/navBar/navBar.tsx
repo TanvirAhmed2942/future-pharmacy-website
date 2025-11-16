@@ -83,15 +83,18 @@ function NavBar() {
 
   const navItems = [
     { label: t("navlink.home"), href: "/" },
-    { label: "About Us", href: "/about-us" },
-    { label: "How It Works", href: "/how-it-works" },
+    { label: t("navlink.aboutUs"), href: "/about-us" },
+    { label: t("navlink.howItWorks"), href: "/how-it-works" },
   ];
 
   const businessItems = [
-    { label: "Independent Pharmacies", href: "/independent-pharmacies" },
-    { label: "Earn as a Driver", href: "/earn-as-driver" },
-    { label: "Investors", href: "/investors" },
-    { label: "Other Businesses", href: "/other-businesses" },
+    {
+      label: t("business.independentPharmacies"),
+      href: "/independent-pharmacies",
+    },
+    { label: t("business.earnAsDriver"), href: "/earn-as-driver" },
+    { label: t("business.investors"), href: "/investors" },
+    { label: t("business.otherBusinesses"), href: "/other-businesses" },
   ];
 
   const isActive = (href: string) => {
@@ -208,7 +211,7 @@ function NavBar() {
                         "border-b-2 border-[#8d4585]"
                     )}
                   >
-                    Business
+                    {t("business.business")}
                   </span>
                   <div
                     className="ml-1 cursor-pointer"
@@ -277,12 +280,12 @@ function NavBar() {
                 {isLoggedIn ? (
                   <>
                     <LogOut className="w-4 h-4" />
-                    Logout Test
+                    {t("logout")}
                   </>
                 ) : (
                   <>
                     <User className="w-4 h-4" />
-                    Login Test
+                    {t("login")}
                   </>
                 )}
               </Button>
@@ -292,7 +295,7 @@ function NavBar() {
                   className="bg-white text-gray-800 hover:bg-gray-100 border-white"
                   onClick={() => router.push("/dashboard/overview")}
                 >
-                  Dashboard
+                  {t("dashboard")}
                 </Button>
               ) : (
                 <>
@@ -300,13 +303,13 @@ function NavBar() {
                     className="bg-white text-gray-800 hover:bg-gray-100 border-white"
                     onClick={() => router.push("/auth/login")}
                   >
-                    Login
+                    {t("login")}
                   </Button>
                   <Button
                     className="bg-peter hover:bg-peter-dark text-white"
                     onClick={() => router.push("/auth/signup")}
                   >
-                    Sign Up
+                    {t("signup")}
                   </Button>
                 </>
               )}
@@ -356,7 +359,7 @@ function NavBar() {
                       "border-b-2 border-[#8d4585]"
                   )}
                 >
-                  Business
+                  {t("business.business")}
                 </span>
                 <ChevronDown
                   className={cn(
@@ -417,10 +420,10 @@ function NavBar() {
 
             <div className="flex flex-col space-y-2 pt-4">
               <Button className="bg-white text-gray-800 hover:bg-gray-100 border-white w-full">
-                Login
+                {t("login")}
               </Button>
               <Button className="bg-peter hover:bg-peter-dark text-white w-full">
-                Sign Up
+                {t("signup")}
               </Button>
             </div>
           </div>
@@ -437,7 +440,7 @@ function NavBar() {
               onClick={() => setIsContactSectionOpen(!isContactSectionOpen)}
               className="flex items-center justify-between w-full text-left text-sm text-white hover:text-peter transition-colors"
             >
-              <span>Contact Information</span>
+              <span>{t("bottomHeader.contactInformation")}</span>
               <ChevronDown
                 className={cn(
                   "w-4 h-4 transition-transform duration-200",
@@ -458,9 +461,9 @@ function NavBar() {
               <div className="space-y-2 text-sm text-white">
                 {/* Contact Details */}
                 <div className="space-y-1">
-                  <div>Contact Us? Please Call or Text</div>
+                  <div>{t("bottomHeader.contactUsText")}</div>
                   <div className="text-peter font-medium">917-993-0549</div>
-                  <div>Email us:</div>
+                  <div>{t("bottomHeader.mailUs")}</div>
                   <a
                     href="mailto:support@optimushs.com"
                     className="text-peter hover:underline font-medium"
@@ -473,8 +476,11 @@ function NavBar() {
                 <div className="flex items-start gap-2 pt-2 mr-4">
                   <Clock className="w-4 h-4 text-purple-400 mt-0.5" />
                   <div className="text-sm">
-                    <div>Mon-Fri: 8a.m.-7p.m. | Sat: 8a.m.-1p.m.</div>
-                    <div>Sun: Closed</div>
+                    <div>
+                      {t("bottomHeader.businessHoursText")} |{" "}
+                      {t("bottomHeader.businessHoursText2")}
+                    </div>
+                    <div>{t("bottomHeader.businessHoursText3")}</div>
                   </div>
                 </div>
               </div>
@@ -485,10 +491,10 @@ function NavBar() {
           <div className="hidden sm:flex items-center justify-between text-sm text-white">
             {/* Contact Section */}
             <div className="flex items-center gap-4">
-              <span>Contact Us? Please Call or Text</span>
+              <span>{t("bottomHeader.contactUsText")}</span>
               <span className="text-peter font-medium">917-993-0549</span>
               <div className="w-px h-4 bg-gray-600"></div>
-              <span>Email us:</span>
+              <span>{t("bottomHeader.mailUs")}</span>
               <a
                 href="mailto:support@optimushs.com"
                 className="text-peter hover:underline font-medium"
@@ -502,12 +508,12 @@ function NavBar() {
               <Clock className="w-4 h-4 text-purple-400" />
               <div className="flex items-center gap-4 text-sm">
                 <span className="border-r border-gray-600 pr-2">
-                  Mon-Fri: 8a.m.-7p.m.
+                  {t("bottomHeader.businessHoursText")}
                 </span>
                 <span className="border-r border-gray-600 pr-2">
-                  Sat: 8a.m.-1p.m.
+                  {t("bottomHeader.businessHoursText2")}
                 </span>
-                <span>Sun: Closed</span>
+                <span>{t("bottomHeader.businessHoursText3")}</span>
               </div>
             </div>
           </div>

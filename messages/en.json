@@ -6,13 +6,26 @@
       "howItWorks": "How It Works"
     },
     "business": {
+      "business": "Business",
       "independentPharmacies": "Independent Pharmacies",
       "earnAsDriver": "Earn as a Driver",
       "investors": "Investors",
       "otherBusinesses": "Other Businesses"
     },
     "login": "Login",
+    "signup": "Sign Up",
     "logout": "Logout",
-    "language": "Language"
+    "dashboard": "Dashboard",
+    "language": "Language",
+    "bottomHeader": {
+      "contactInformation": "Contact Information",
+      "contactUsText": "Please Call or Text",
+      "contactUsPhone": "917-993-0549",
+      "mailUs": "Email us:",
+      "businessHours": "Business Hours",
+      "businessHoursText": "Mon-Fri: 8a.m.-7p.m.",
+      "businessHoursText2": "Sat: 8a.m.-1p.m.",
+      "businessHoursText3": "Sun: Closed"
+    }
   }
 }

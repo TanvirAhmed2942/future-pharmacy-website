@@ -6,13 +6,26 @@
       "howItWorks": "Cómo funciona"
     },
     "business": {
+      "business": "Negocios",
       "independentPharmacies": "Farmacias independientes",
       "earnAsDriver": "Gana como conductor",
       "investors": "Inversores",
       "otherBusinesses": "Otras empresas"
     },
     "login": "Iniciar sesión",
+    "signup": "Registrarse",
     "logout": "Cerrar sesión",
-    "language": "Idioma"
+    "dashboard": "Dashboard",
+    "language": "Idioma",
+    "bottomHeader": {
+      "contactInformation": "Información de contacto",
+      "contactUsText": "Llámanos o envíanos un mensaje",
+      "contactUsPhone": "917-993-0549",
+      "mailUs": "Envíanos un mensaje:",
+      "businessHours": "Horarios de atención",
+      "businessHoursText": "Lunes a Viernes: 8a.m.-7p.m.",
+      "businessHoursText2": "Sábado: 8a.m.-1p.m.",
+      "businessHoursText3": "Domingo: Cerrado"
+    }
   }
 }
