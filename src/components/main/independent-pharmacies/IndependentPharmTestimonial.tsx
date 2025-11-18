@@ -9,8 +9,9 @@ import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import Image from "next/image";
-
+import { useTranslations } from "next-intl";
 function IndependentPharmTestimonial() {
+  const t = useTranslations("independentPharmacies.testimonials");
   const testimonials = [
     {
       name: "Jane Cooper",
@@ -38,7 +39,7 @@ function IndependentPharmTestimonial() {
         {/* Header */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 font-inter">
-            What our Partners Say
+            {t("headline")}
           </h2>
 
           {/* Star Rating */}

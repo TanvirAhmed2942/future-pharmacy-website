@@ -1,24 +1,25 @@
 import React from "react";
-
+import { useTranslations } from "next-intl";
 function HowIndependentPharmWorks() {
+  const t = useTranslations("independentPharmacies.howItWorks");
   const items = [
     {
       badge: "H1",
-      title: "Register your pharmacy",
+      title: t("steps.0.title") as string,
 
-      description: "Complete the online registration form.",
+      description: t("steps.0.description") as string,
     },
     {
       badge: "H2",
-      title: "Upload necessary licenses",
+      title: t("steps.1.title") as string,
 
-      description: "Provide valid pharmacy licenses and certifications.",
+      description: t("steps.1.description") as string,
     },
     {
       badge: "H3",
-      title: "Start receiving delivery requests",
+      title: t("steps.2.title") as string,
 
-      description: "Manage and Fulfil delivery requests through our platform.",
+      description: t("steps.2.description") as string,
     },
   ];
 
@@ -26,7 +27,7 @@ function HowIndependentPharmWorks() {
     <div className="py-16 px-4 md:px-0">
       <div className="max-w-2xl mx-auto">
         <h1 className="text-4xl font-bold text-center text-gray-900 my-16">
-          How It Works
+          {t("headline")}
         </h1>
 
         <div className="relative">

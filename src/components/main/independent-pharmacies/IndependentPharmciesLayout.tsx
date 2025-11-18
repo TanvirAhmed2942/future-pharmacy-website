@@ -4,13 +4,14 @@ import PharmacyRegForm from "./PharmacyRegForm";
 import HowIndependentPharmWorks from "./HowIndependentPharmWorks";
 import IndependentPharmacyBenefits from "./IndependentPharmacyBenefits";
 import IndependentPharmTestimonial from "./IndependentPharmTestimonial";
-
+import { useTranslations } from "next-intl";
 function IndependentPharmciesLayout() {
+  const t = useTranslations("independentPharmacies.banner");
   return (
     <div className="bg-white">
       <Banner
-        title="Partner with Our Prescription Delivery Network"
-        description="Grow your pharmacy’s reach and deliver medicines seamlessly to your customers."
+        title={t("title") as string}
+        description={t("description") as string}
         image="/banner/business_banner.png"
       />
       <IndependentPharmacyBenefits />

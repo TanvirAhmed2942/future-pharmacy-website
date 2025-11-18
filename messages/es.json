@@ -239,6 +239,85 @@
       "Sin costo para entregar Rx cuando usamos farmacias asociadas"
     ]
   },
+
+  "independentPharmacies": {
+    "banner": {
+      "title": "Para farmacias independientes",
+      "description": "Únete a nuestra red de farmacias independientes y ofrecemos recetas a domicilio a tus pacientes."
+    },
+    "benefits": [
+      {
+        "title": "Entrega Rápida y Confiable",
+        "description": "Entrega recetas de forma rápida y confiable a tus clientes con nuestra red de entrega eficiente."
+      },
+      {
+        "title": "Cumplimiento HIPAA",
+        "description": "Asegura la seguridad de los datos de los pacientes y el cumplimiento de las regulaciones HIPAA a través de nuestra plataforma segura."
+      },
+      {
+        "title": "Análisis de Datos",
+        "description": "Accede a análisis e información valiosa para comprender tu base de clientes y optimizar operaciones."
+      },
+      {
+        "title": "Aumenta los Ingresos",
+        "description": "Amplía tu alcance de clientes y aumenta los ingresos ofreciendo servicios de entrega convenientes a más pacientes."
+      }
+    ],
+    "headline": "Beneficios de unirse a nuestra red de farmacias independientes",
+    "description": "Como socio de Optimus, atraerás nuevos clientes, mejorarás la adherencia a la medicación y competirás efectivamente con las farmacias de cadena mientras te mantienes conectado a tu comunidad local.",
+    "howItWorks": {
+      "headline": "Cómo funciona",
+      "steps": [
+        {
+          "title": "Regístrate en nuestra plataforma",
+          "description": "Completa el formulario de registro en línea."
+        },
+        {
+          "title": "Carga tus licencias necesarias",
+          "description": "Proporciona licencias y certificaciones de farmacia válidas."
+        },
+        {
+          "title": "Comienza a recibir solicitudes de entrega",
+          "description": "Gestiona y cumple con las solicitudes de entrega a través de nuestra plataforma."
+        }
+      ]
+    },
+    "testimonials": {
+      "headline": "Lo que dicen nuestros usuarios"
+    },
+    "formSection": {
+      "headline": "Formulario de interés",
+      "description": "Completa el formulario de interés y nos contactaremos contigo para programar una llamada de incorporación breve para guiarte a través del proceso",
+      "form": {
+        "pharmacyName": "Nombre de la farmacia",
+        "pharmacyAddress": "Dirección de la farmacia",
+        "phoneNumber": "Número de teléfono",
+        "emailAddress": "Correo electrónico",
+        "contactPerson": "Persona de contacto",
+        "title": "Título",
+        "experienceBusiness": "Años en el negocio",
+        "message": "Tu mensaje",
+        "submitButton": "Enviar interés",
+        "placeholders": {
+          "pharmacyName": "Ingresa el nombre de tu farmacia aquí...",
+          "pharmacyAddress": "Ingresa la dirección de tu farmacia aquí...",
+          "phoneNumber": "Ingresa tu número de teléfono aquí...",
+          "emailAddress": "Ingresa tu correo electrónico aquí...",
+          "contactPerson": "Ingresa tu persona de contacto aquí...",
+          "title": "Ingresa tu título aquí...",
+          "experienceBusiness": "Selecciona tus años en el negocio aquí...",
+          "message": "Escribe tu mensaje aquí..."
+        },
+        "options": {
+          "years1-5": "1-5 años",
+          "years6-10": "6-10 años",
+          "years11-20": "11-20 años",
+          "years20+": "20+ años"
+        }
+      }
+    }
+  },
+
   "footer": {
     "slogan": "Conectando comunidades a sus farmacias locales para un acceso rápido y confiable a recetas",
     "links": {

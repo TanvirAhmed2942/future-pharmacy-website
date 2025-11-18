@@ -3,35 +3,34 @@ import { Truck, Search } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { PiChartLineUp } from "react-icons/pi";
 import useIcon from "@/hooks/useIcon";
+import { useTranslations } from "next-intl";
 function IndependentPharmacyBenefits() {
+  const t = useTranslations("independentPharmacies.benefits");
+  const tSection = useTranslations("independentPharmacies");
   // Fetch hipaa icon
   const hipaaIcon = useIcon({ name: "hipaaIcon" });
 
   const benefits = [
     {
       icon: Truck,
-      title: "Fast & Reliable Delivery",
-      description:
-        "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere.",
+      title: t("0.title") as string,
+      description: t("0.description") as string,
     },
     {
       icon: "hipaaIcon",
       customIcon: true,
-      title: "HIPAA Compliant",
-      description:
-        "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere.",
+      title: t("1.title") as string,
+      description: t("1.description") as string,
     },
     {
       icon: Search,
-      title: "Data Insights",
-      description:
-        "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere.",
+      title: t("2.title") as string,
+      description: t("2.description") as string,
     },
     {
       icon: PiChartLineUp,
-      title: "Increase Revenue",
-      description:
-        "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere.",
+      title: t("3.title") as string,
+      description: t("3.description") as string,
     },
   ];
 
@@ -41,12 +40,10 @@ function IndependentPharmacyBenefits() {
         {/* Header */}
         <div className="text-center mb-12 md:mb-16 ">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Benefits of Joining For reference purposes network
+            {tSection("headline")}
           </h2>
           <p className="text-gray-600 text-base md:text-lg max-w-4xl mx-auto leading-relaxed">
-            As an Optimus partner, you&apos;ll attract new customers, improve
-            medication adherence, and compete effectively with large chain
-            pharmacies while staying connected to your local community.
+            {tSection("description")}
           </p>
         </div>
 

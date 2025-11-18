@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/select";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { cn } from "@/lib/utils";
-
+import { useTranslations } from "next-intl";
 interface FormValues {
   pharmacyName: string;
   pharmacyAddress: string;
@@ -27,6 +27,8 @@ interface FormValues {
 }
 
 function PharmacyRegForm() {
+  const t = useTranslations("independentPharmacies.formSection");
+  const tForm = useTranslations("independentPharmacies.formSection.form");
   const {
     register,
     handleSubmit,
@@ -57,11 +59,10 @@ function PharmacyRegForm() {
         <Card className="shadow-lg">
           <CardHeader className="space-y-1 pb-6">
             <CardTitle className="text-2xl font-bold text-gray-900 text-center">
-              Interest Form
+              {t("headline")}
             </CardTitle>
             <p className="text-gray-600 text-sm md:text-base max-w-6xl  mx-auto text-center ">
-              Complete the Interest Form and we&apos;ll contact you to schedule
-              for a brief onboarding call to walk you through the process
+              {t("description")}
             </p>
           </CardHeader>
           <CardContent>
@@ -70,12 +71,12 @@ function PharmacyRegForm() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="pharmacyName" className="text-sm font-medium">
-                    Pharmacy Name
+                    {tForm("pharmacyName")}
                   </Label>
                   <Input
                     id="pharmacyName"
                     type="text"
-                    placeholder="Enter your pharmacy name here..."
+                    placeholder={tForm("placeholders.pharmacyName")}
                     className={cn(
                       "bg-gray-50",
                       errors.pharmacyName && "border-red-500"
@@ -99,12 +100,12 @@ function PharmacyRegForm() {
                     htmlFor="pharmacyAddress"
                     className="text-sm font-medium"
                   >
-                    Pharmacy Address
+                    {tForm("pharmacyAddress")}
                   </Label>
                   <Input
                     id="pharmacyAddress"
                     type="text"
-                    placeholder="Enter your pharmacy address here..."
+                    placeholder={tForm("placeholders.pharmacyAddress")}
                     className={cn(
                       "bg-gray-50",
                       errors.pharmacyAddress && "border-red-500"
@@ -128,12 +129,12 @@ function PharmacyRegForm() {
               {/* Phone Number */}
               <div className="space-y-2">
                 <Label htmlFor="phoneNumber" className="text-sm font-medium">
-                  Phone Number
+                  {tForm("phoneNumber")}
                 </Label>
                 <Input
                   id="phoneNumber"
                   type="tel"
-                  placeholder="Enter your phone number here..."
+                  placeholder={tForm("placeholders.phoneNumber")}
                   className={cn(
                     "bg-gray-50",
                     errors.phoneNumber && "border-red-500"
@@ -157,12 +158,12 @@ function PharmacyRegForm() {
               {/* Email Address */}
               <div className="space-y-2">
                 <Label htmlFor="emailAddress" className="text-sm font-medium">
-                  Email Address
+                  {tForm("emailAddress")}
                 </Label>
                 <Input
                   id="emailAddress"
                   type="email"
-                  placeholder="Enter your email address here..."
+                  placeholder={tForm("placeholders.emailAddress")}
                   className={cn(
                     "bg-gray-50",
                     errors.emailAddress && "border-red-500"
@@ -189,12 +190,12 @@ function PharmacyRegForm() {
                     htmlFor="contactPerson"
                     className="text-sm font-medium"
                   >
-                    Contact Person
+                    {tForm("contactPerson")}
                   </Label>
                   <Input
                     id="contactPerson"
                     type="text"
-                    placeholder="Enter your contact person here..."
+                    placeholder={tForm("placeholders.contactPerson")}
                     className={cn(
                       "bg-gray-50",
                       errors.contactPerson && "border-red-500"
@@ -216,12 +217,12 @@ function PharmacyRegForm() {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="title" className="text-sm font-medium">
-                    Title
+                    {tForm("title")}
                   </Label>
                   <Input
                     id="title"
                     type="text"
-                    placeholder="Enter your title here..."
+                    placeholder={tForm("placeholders.title")}
                     className={cn(
                       "bg-gray-50",
                       errors.title && "border-red-500"
@@ -248,7 +249,7 @@ function PharmacyRegForm() {
                   htmlFor="experienceBusiness"
                   className="text-sm font-medium"
                 >
-                  Years in Business
+                  {tForm("experienceBusiness")}
                 </Label>
                 <Controller
                   name="experienceBusiness"
@@ -262,13 +263,23 @@ function PharmacyRegForm() {
                           errors.experienceBusiness && "border-red-500"
                         )}
                       >
-                        <SelectValue placeholder="Select your years in business here..." />
+                        <SelectValue
+                          placeholder={tForm("placeholders.experienceBusiness")}
+                        />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="1-5">1-5 years</SelectItem>
-                        <SelectItem value="6-10">6-10 years</SelectItem>
-                        <SelectItem value="11-20">11-20 years</SelectItem>
-                        <SelectItem value="20+">20+ years</SelectItem>
+                        <SelectItem value="1-5">
+                          {tForm("options.years1-5")}
+                        </SelectItem>
+                        <SelectItem value="6-10">
+                          {tForm("options.years6-10")}
+                        </SelectItem>
+                        <SelectItem value="11-20">
+                          {tForm("options.years11-20")}
+                        </SelectItem>
+                        <SelectItem value="20+">
+                          {tForm("options.years20+")}
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   )}
@@ -283,11 +294,11 @@ function PharmacyRegForm() {
               {/* Your Message */}
               <div className="space-y-2">
                 <Label htmlFor="message" className="text-sm font-medium">
-                  Your Message
+                  {tForm("message")}
                 </Label>
                 <Textarea
                   id="message"
-                  placeholder="Type your message here..."
+                  placeholder={tForm("placeholders.message")}
                   className={cn(
                     "bg-gray-50 min-h-[100px]",
                     errors.message && "border-red-500"
@@ -312,7 +323,7 @@ function PharmacyRegForm() {
                 type="submit"
                 className="w-full bg-peter hover:bg-peter-dark text-white h-10 text-base font-medium"
               >
-                Submit Interest
+                {tForm("submitButton")}
               </Button>
             </form>
           </CardContent>

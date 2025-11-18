@@ -239,6 +239,84 @@
       "Zero cost to deliver Rx when using our partner pharmacies"
     ]
   },
+
+  "independentPharmacies": {
+    "banner": {
+      "title": "For Independent Pharmacies",
+      "description": "Grow your pharmacy’s reach and deliver medicines seamlessly to your customers."
+    },
+    "benefits": [
+      {
+        "title": "Fast & Reliable Delivery",
+        "description": "Deliver prescriptions quickly and reliably to your customers with our efficient delivery network."
+      },
+      {
+        "title": "HIPAA Compliant",
+        "description": "Ensure patient data security and compliance with HIPAA regulations through our secure platform."
+      },
+      {
+        "title": "Data Insights",
+        "description": "Access valuable analytics and insights to understand your customer base and optimize operations."
+      },
+      {
+        "title": "Increase Revenue",
+        "description": "Expand your customer reach and grow revenue by offering convenient delivery services to more patients."
+      }
+    ],
+    "headline": "Benefits of Joining Our Network",
+    "description": "As an Optimus partner, you’ll attract new customers, improve medication adherence, and compete effectively with large chain pharmacies while staying connected to your local community.",
+    "howItWorks": {
+      "headline": "How It Works",
+      "steps": [
+        {
+          "title": "Register your pharmacy",
+          "description": "Complete the online registration form."
+        },
+        {
+          "title": "Upload necessary licenses",
+          "description": "Provide valid pharmacy licenses and certifications."
+        },
+        {
+          "title": "Start receiving delivery requests",
+          "description": "Manage and Fulfil delivery requests through our platform."
+        }
+      ]
+    },
+    "testimonials": {
+      "headline": "What our Users Say"
+    },
+    "formSection": {
+      "headline": "Get Started Today",
+      "description": "Join our growing network of trusted local independent pharmacies delivering care directly to patients' doors. As an Optimus partner, you'll attract new customers, improve medication adherence, and compete effectively with large chain pharmacies while staying connected to your local community.",
+      "form": {
+        "pharmacyName": "Pharmacy Name",
+        "pharmacyAddress": "Pharmacy Address",
+        "phoneNumber": "Phone Number",
+        "emailAddress": "Email Address",
+        "contactPerson": "Contact Person",
+        "title": "Title",
+        "experienceBusiness": "Years in Business",
+        "message": "Your Message",
+        "submitButton": "Submit Interest",
+        "placeholders": {
+          "pharmacyName": "Enter your pharmacy name here...",
+          "pharmacyAddress": "Enter your pharmacy address here...",
+          "phoneNumber": "Enter your phone number here...",
+          "emailAddress": "Enter your email address here...",
+          "contactPerson": "Enter your contact person here...",
+          "title": "Enter your title here...",
+          "experienceBusiness": "Select your years in business here...",
+          "message": "Type your message here..."
+        },
+        "options": {
+          "years1-5": "1-5 years",
+          "years6-10": "6-10 years",
+          "years11-20": "11-20 years",
+          "years20+": "20+ years"
+        }
+      }
+    }
+  },
   "footer": {
     "slogan": "Connecting communities to their local pharmacies for fast, reliable access to prescriptions",
     "links": {
