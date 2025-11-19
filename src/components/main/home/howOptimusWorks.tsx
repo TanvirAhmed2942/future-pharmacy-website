@@ -129,7 +129,7 @@ export default function HowOptimusWorks() {
           // Flip to front (0deg) when entering viewport
           gsap.to(cardRef.current, {
             rotationY: 0,
-            duration: 0.6,
+            duration: 1,
             ease: "power2.out",
           });
           scrollFlippedRef.current[index] = true;
@@ -139,7 +139,7 @@ export default function HowOptimusWorks() {
           // Flip back to video (180deg) when leaving viewport
           gsap.to(cardRef.current, {
             rotationY: 180,
-            duration: 0.6,
+            duration: 1,
             ease: "power2.out",
           });
           scrollFlippedRef.current[index] = false;
@@ -156,7 +156,7 @@ export default function HowOptimusWorks() {
             // Manually trigger the flip if in viewport
             gsap.to(cardRef.current, {
               rotationY: 0,
-              duration: 0.6,
+              duration: 1,
               ease: "power2.out",
             });
             scrollFlippedRef.current[index] = true;
