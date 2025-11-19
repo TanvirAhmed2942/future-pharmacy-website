@@ -130,6 +130,34 @@
     },
     "userTestimonial": {
       "headline": "What our Users Say"
+    },
+    "formSection":{
+        "formTitle": "Send Us a Message",
+        "formDescription": "We'd love to hear from you — get in touch anytime.",
+        "fullName": "Your Name",
+        "fullNamePlaceholder": "Enter your name here...",
+        "fullNameRequired": "Name is required",
+        "fullNameMinLength": "Name must be at least 2 characters",
+        "emailAddress": "Email Address",
+        "emailAddressPlaceholder": "Enter your email address here...",
+        "emailAddressRequired": "Email address is required",
+        "emailAddressInvalid": "Invalid email address",
+        "phoneNumber": "Phone Number",
+        "phoneNumberPlaceholder": "Enter your phone number here...",
+        "phoneNumberRequired": "Phone number is required",
+        "phoneNumberInvalid": "Invalid phone number format",
+        "subject": "Subject",
+        "subjectPlaceholder": "Select your subject here...",
+        "subjectRequired": "Subject is required",
+        "otherspecify": "Other (please specify)",
+        "otherspecifyPlaceholder": "Enter your other specify here...",
+        "otherspecifyRequired": "Other specify is required",
+        "otherspecifyMinLength": "Other specify must be at least 2 characters",
+        "message": "Message",
+        "messagePlaceholder": "Enter your message here...",
+        "messageRequired": "Message is required",
+        "messageMinLength": "Message must be at least 10 characters",
+        "submitButton": "Submit Interest"
     }
   },
 

@@ -14,6 +14,8 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
+
 
 interface FormValues {
   name: string;
@@ -24,6 +26,7 @@ interface FormValues {
   message: string;
 }
 function ManContactUs() {
+  const t = useTranslations("home.formSection");
   const {
     register,
     handleSubmit,
@@ -110,10 +113,10 @@ function ManContactUs() {
           <div className="bg-white rounded-lg shadow-lg p-6 sm:p-8 md:p-10">
             <div className="mb-6">
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2 sm:mb-3">
-                Send Us a Message
+                {t("formTitle")}
               </h2>
               <p className="text-gray-600 text-sm sm:text-base">
-                We&apos;d love to hear from you — get in touch anytime.
+                {t("formDescription")}
               </p>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -124,18 +127,18 @@ function ManContactUs() {
                     htmlFor="name"
                     className="text-sm sm:text-base font-medium"
                   >
-                    Your Name
+                    {t("fullName")}
                   </Label>
                   <Input
                     id="name"
                     type="text"
-                    placeholder="Enter your name here..."
+                    placeholder={t("fullNamePlaceholder")}
                     className={cn(
                       "bg-gray-50 placeholder:text-xs sm:placeholder:text-[14px] h-10 sm:h-11 text-sm",
                       errors.name && "border-red-500"
                     )}
                     {...register("name", {
-                      required: "Name is required",
+                      required: t("fullNameRequired"),
                     })}
                   />
                   {errors.name && (
@@ -149,21 +152,21 @@ function ManContactUs() {
                     htmlFor="email"
                     className="text-sm sm:text-base font-medium"
                   >
-                    Email Address
+                    {t("emailAddress")}
                   </Label>
                   <Input
                     id="email"
                     type="email"
-                    placeholder="Enter your email here..."
+                    placeholder={t("emailAddressPlaceholder")}
                     className={cn(
                       "bg-gray-50 placeholder:text-xs sm:placeholder:text-[14px] h-10 sm:h-11 text-sm",
                       errors.email && "border-red-500"
                     )}
                     {...register("email", {
-                      required: "Email is required",
+                      required: t("emailAddressRequired"),
                       pattern: {
                         value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                        message: "Invalid email address",
+                        message: t("emailAddressInvalid"),
                       },
                     })}
                   />
@@ -182,12 +185,12 @@ function ManContactUs() {
                     htmlFor="phone"
                     className="text-sm sm:text-base font-medium"
                   >
-                    Phone Number
+                    {t("phoneNumber")}
                   </Label>
                   <Input
                     id="phone"
                     type="tel"
-                    placeholder="Enter phone number here..."
+                    placeholder={t("phoneNumberPlaceholder")}
                     className={cn(
                       "bg-gray-50 placeholder:text-xs sm:placeholder:text-[14px] h-10 sm:h-11 text-sm",
                       errors.phone && "border-red-500"
@@ -197,7 +200,7 @@ function ManContactUs() {
                       pattern: {
                         value:
                           /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
-                        message: "Invalid phone number format",
+                          message: t("phoneNumberInvalid"),
                       },
                     })}
                   />
@@ -212,12 +215,12 @@ function ManContactUs() {
                     htmlFor="subject"
                     className="text-sm sm:text-base font-medium"
                   >
-                    Subject
+                    {t("subject")}
                   </Label>
                   <Controller
                     name="subject"
                     control={control}
-                    rules={{ required: "Subject is required" }}
+                    rules={{ required: t("subjectRequired") }}
                     render={({ field }) => (
                       <Select
                         onValueChange={field.onChange}
@@ -229,7 +232,7 @@ function ManContactUs() {
                             errors.subject && "border-red-500"
                           )}
                         >
-                          <SelectValue placeholder="Select Subject" />
+                          <SelectValue placeholder={t("subjectPlaceholder")} />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="general">
@@ -267,12 +270,12 @@ function ManContactUs() {
                     htmlFor="otherSubject"
                     className="text-sm sm:text-base font-medium"
                   >
-                    Please Specify
+                    {t("otherspecify")}
                   </Label>
                   <Input
                     id="otherSubject"
                     type="text"
-                    placeholder="Please specify your subject..."
+                    placeholder={t("otherspecifyPlaceholder")}
                     className={cn(
                       "bg-gray-50 placeholder:text-xs sm:placeholder:text-[14px] h-10 sm:h-11 text-sm",
                       errors.otherSubject && "border-red-500"
@@ -280,7 +283,7 @@ function ManContactUs() {
                     {...register("otherSubject", {
                       required:
                         selectedSubject === "other"
-                          ? "Please specify your subject"
+                          ? t("otherspecifyRequired")
                           : false,
                     })}
                   />
@@ -298,21 +301,21 @@ function ManContactUs() {
                   htmlFor="message"
                   className="text-sm sm:text-base font-medium"
                 >
-                  Your Message
+                  {t("message")}
                 </Label>
                 <Textarea
                   id="message"
-                  placeholder="Type your message here..."
+                  placeholder={t("messagePlaceholder")}
                   className={cn(
                     "bg-gray-50 placeholder:text-xs sm:placeholder:text-[14px] min-h-[100px] sm:min-h-[120px] resize-none text-sm",
                     errors.message && "border-red-500"
                   )}
                   rows={4}
                   {...register("message", {
-                    required: "Message is required",
+                    required: t("messageRequired"),
                     minLength: {
                       value: 10,
-                      message: "Message should be at least 10 characters",
+                      message: t("messageMinLength"),
                     },
                   })}
                 />
@@ -329,7 +332,7 @@ function ManContactUs() {
                   type="submit"
                   className="bg-[#8A4D9F] hover:bg-[#7A3D8F] text-white px-6 sm:px-10 py-3 sm:py-6 text-sm sm:text-base font-medium rounded-md transition-colors w-full sm:w-auto"
                 >
-                  Send Message
+                  {t("submitButton")}
                 </Button>
               </div>
             </form>

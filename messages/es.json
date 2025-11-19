@@ -130,7 +130,36 @@
     },
     "userTestimonial": {
       "headline": "Lo que dicen nuestros usuarios"
-    }
+    },
+    "formSection": {
+  "formTitle": "Envíanos un mensaje",
+  "formDescription": "Nos encantaría escuchar de usted — contacta en cualquier momento.",
+  "fullName": "Su Nombre",
+  "fullNamePlaceholder": "Ingrese su nombre aquí...",
+  "fullNameRequired": "El nombre es obligatorio",
+  "fullNameMinLength": "El nombre debe tener al menos 2 caracteres",
+  "emailAddress": "Correo Electrónico",
+  "emailAddressPlaceholder": "Ingrese su correo electrónico aquí...",
+  "emailAddressRequired": "El correo electrónico es obligatorio",
+  "emailAddressInvalid": "Correo electrónico inválido",
+  "phoneNumber": "Número de Teléfono",
+  "phoneNumberPlaceholder": "Ingrese su número de teléfono aquí...",
+  "phoneNumberRequired": "El número de teléfono es obligatorio",
+  "phoneNumberInvalid": "Formato de número de teléfono inválido",
+  "subject": "Asunto",
+  "subjectPlaceholder": "Seleccione su asunto aquí...",
+  "subjectRequired": "El asunto es obligatorio",
+    "otherspecify": "Otro (por favor especifique)",
+  "otherspecifyPlaceholder": "Ingrese su opción aquí...",
+  "otherspecifyRequired": "La especificación es obligatoria",
+  "otherspecifyMinLength": "La especificación debe tener al menos 2 caracteres",
+  "message": "Mensaje",
+  "messagePlaceholder": "Ingrese su mensaje aquí...",
+  "messageRequired": "El mensaje es obligatorio",
+  "messageMinLength": "El mensaje debe tener al menos 10 caracteres",
+  "submitButton": "Enviar Interés"
+}
+
   },
 
   "aboutUs": {
@@ -527,7 +556,9 @@
         "description": "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere."
       }
     ]
-  },"businessInquiryForm": {
+  },
+  
+  "businessInquiryForm": {
   "headline": "Complete el formulario para expresar interés",
   "description": "Complete el formulario para expresar su interés en trabajar con Optimus Health Solutions.",
   "form": {
