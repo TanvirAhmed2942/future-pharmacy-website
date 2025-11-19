@@ -1,8 +1,10 @@
 import React from "react";
 import Banner from "../common/banner/Banner";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 function PrivacyPolicy() {
+  const tPrivacy = useTranslations("policies.privacy");
   const sections = [
     {
       title: "Introduction",
@@ -54,8 +56,8 @@ function PrivacyPolicy() {
   return (
     <div className="min-h-screen bg-white">
       <Banner
-        title="Privacy Policy"
-        description="Your privacy matters. Learn how we protect your personal data and ensure secure prescription delivery."
+        title={tPrivacy("title")}
+        description={tPrivacy("description")}
         image="/policies/privacy_policy.png"
       />
 

@@ -2,7 +2,10 @@ import React from "react";
 import Banner from "../common/banner/Banner";
 import Image from "next/image";
 
+import { useTranslations } from "next-intl";
+
 function HipaaPolicy() {
+  const tHipaa = useTranslations("policies.hipaa");
   const sections = [
     {
       title: "Introduction",
@@ -54,8 +57,8 @@ function HipaaPolicy() {
   return (
     <div className="  min-h-screen bg-white">
       <Banner
-        title="HIPAA Policy"
-        description="We are committed to protecting the privacy and security of your health information. This policy outlines how we handle your protected health information (PHI) and ensures compliance with the Health Insurance Portability and Accountability Act (HIPAA)."
+        title={tHipaa("title")}
+        description={tHipaa("description")}
         image="/policies/privacy_policy.png"
       />
 

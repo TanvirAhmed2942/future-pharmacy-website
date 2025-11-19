@@ -601,14 +601,20 @@
 },
 
 
-
-
-
-
-
-
-
-
+"policies": { 
+  "hipaa": {
+    "title": "Política HIPAA",
+    "description": "Nos comprometemos a proteger la privacidad y seguridad de su información de salud. Esta política describe cómo manejamos su información de salud protegida (PHI) y garantiza el cumplimiento con el Health Insurance Portability and Accountability Act (HIPAA)."
+  },
+  "privacy": {
+    "title": "Política de privacidad",
+    "description": "Su privacidad importa. Aprenda cómo protegemos sus datos personales y garantizamos la entrega segura de recetas."
+  },
+  "terms": {
+    "title": "Política de términos de servicio",
+    "description": "Por favor, lea estos términos cuidadosamente antes de usar nuestros servicios."
+  }
+},
 
 
   "footer": {

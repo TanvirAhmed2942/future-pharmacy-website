@@ -1,8 +1,9 @@
 import React from "react";
 import Banner from "../common/banner/Banner";
 import Image from "next/image";
-
+import { useTranslations } from "next-intl";
 function TermsOfService() {
+  const tTerms = useTranslations("policies.terms");
   const sections = [
     {
       title: "Introduction",
@@ -54,8 +55,8 @@ function TermsOfService() {
   return (
     <div className="min-h-screen bg-white">
       <Banner
-        title="Terms of Service"
-        description="Please read these terms carefully before using our services."
+        title={tTerms("title")}
+        description={tTerms("description")}
         image="/policies/terms_of_service.png"
       />
 
