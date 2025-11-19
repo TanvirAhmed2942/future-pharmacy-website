@@ -42,16 +42,16 @@ function OurStory() {
       <div className="container mx-auto px-4 md:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
           {/* Left Side - Text Content */}
-          <div className="text-center md:text-left">
-            <h2 className="text-3xl md:text-4xl font-bold text-peter mb-6">
+          <div className="text-center md:text-left ">
+            <h2 className="text-3xl md:text-5xl font-bold text-peter mb-6">
               {t("headline")}
             </h2>
 
-            <p className="text-gray-700 text-sm md:text-base leading-relaxed mb-6">
+            <p className="text-gray-700 text-sm md:text-lg leading-relaxed mb-6">
               {t("description_1st")}
             </p>
 
-            <p className="text-gray-700 text-sm md:text-base leading-relaxed mb-8">
+            <p className="text-gray-700 text-sm md:text-lg leading-relaxed mb-8">
               {t("description_2nd")}
             </p>
 
