@@ -65,15 +65,15 @@
       "description": "Cuando recargas, transfieres recetas o programas servicios de salud esenciales a través de nuestra plataforma, te conectas con nuestras farmacias independientes locales confiables cerca de ti. Juntos, estamos fortaleciendo nuestras comunidades y ayudando a que las farmacias independientes prosperen.",
       "steps": [
         {
-          "title": "Regístrate para Optimus",
+          "title": "Regístrate",
           "description": "Coordinaremos con tu farmacia o doctor para obtener tus recetas."
         },
         {
-          "title": "Programa tu entrega gratuita misma-día",
+          "title": "Solicitar",
           "description": "Aceptamos tu seguro y entregamos tus recetas en un tiempo y te notificamos cuando sea que funcione para ti."
         },
         {
-          "title": "Gestionamos tus recargas",
+          "title": "Entregamos!",
           "description": "Coordinaremos con tu doctor y te notificaremos cuando sea que sea tiempo para recargas."
         }
       ],

@@ -91,7 +91,7 @@ export default function HowOptimusWorks() {
       customIcon: schedule_your_free_same_day_delivery,
       title: t("steps.1.title"),
       description: t("steps.1.description"),
-      videoSrc: "/videos/mosquito.mp4",
+      videoSrc: "/videos/request.mp4",
     },
     {
       iconType: "custom",
@@ -99,7 +99,7 @@ export default function HowOptimusWorks() {
       title: t("steps.2.title"),
       description: t("steps.2.description"),
       videoSrc:
-        "https://videos.pexels.com/video-files/3045163/3045163-hd_1920_1080_30fps.mp4",
+        "/videos/deliver.mp4",
     },
   ];
 

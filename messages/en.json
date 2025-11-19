@@ -65,15 +65,15 @@
       "headline": "How Optimus Health Solutions Works",
       "steps": [
         {
-          "title": "Sign up for Optimus",
+          "title": "Sign-up",
           "description": "We'll coordinate with your old pharmacy or doctor to get your prescriptions."
         },
         {
-          "title": "Schedule your free same-day delivery",
+          "title": "Request",
           "description": "We accept your insurance and deliver your prescriptions at a time  and text you when it's  that works for you."
         },
         {
-          "title": "We manage your refills",
+          "title": "We Deliver!",
           "description": "We'll coordinate with your doctor and text you when it's  time for refills."
         }
       ],
