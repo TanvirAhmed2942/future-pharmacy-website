@@ -428,6 +428,73 @@
   }
  },
 
+ "investors":{
+  "banner": {
+    "title": "Invest in the Future of Prescription Delivery",
+    "description": "join us in revolutionizing prescription delivery with a scalable business model rooted in local community healthcare delivery model"
+  },
+  "whyInvestWithUs": {
+    "headline": "Why Invest with Us?",
+    "description": "Discover the Compelling reasons to invest in Optimus Health Solutions, a leader in prescription delivery.",
+    "features": [
+      {
+        "title": "Growing Market",
+        "description": "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere. "
+      },
+      {
+        "title": "HIPAA Compliant",
+        "description": "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere. "
+      },
+      {
+        "title": "Scalable Platform",
+        "description": "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere. "
+      },
+      {
+        "title": "Experience Team",
+        "description": "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere. "
+      }
+    ]
+  },
+  "investorsInquiryForm": {
+    "Headline": "Complete form to express interest",
+    "description": "Complete the form to express your interest in investing in Optimus Health Solutions.",
+    "form": {
+      "formTitle": "Inquiry Form",
+      "fullName": "Full Name",
+      "fullNamePlaceholder": "Enter your full name here...",
+      "fullNameRequired": "Full name is required",
+      "fullNameMinLength": "Full name must be at least 2 characters",
+      "emailAddress": "Email Address",
+      "emailAddressPlaceholder": "Enter your email address here...",
+      "emailAddressRequired": "Email address is required",
+      "emailAddressInvalid": "Invalid email address",
+      "phoneNumber": "Phone Number",
+      "phoneNumberPlaceholder": "Enter your phone number here...",
+      "phoneNumberRequired": "Phone number is required",
+      "phoneNumberInvalid": "Invalid phone number format",
+      "organizationName": "Organization Name",
+      "organizationNamePlaceholder": "Enter your organization name here...",
+      "organizationNameRequired": "Organization name is required",
+      "organizationNameMinLength": "Organization name must be at least 2 characters",
+      "website": "Website (optional)",
+      "websitePlaceholder": "Enter your website here...",
+      "websiteInvalid": "Invalid website URL format",
+      "organizationType": "Organization Type",
+      "organizationTypePlaceholder": "Enter your organization type here...",
+      "organizationTypeRequired": "Organization type is required",
+      "organizationTypeMinLength": "Organization type must be at least 2 characters",
+      "yearsOfInvestmentExperience": "Years of Investment Experience",
+      "yearsOfInvestmentExperiencePlaceholder": "Enter your years of investment experience here...",
+      "yearsOfInvestmentExperienceRequired": "Years of investment experience is required",
+      "message": "Message",
+      "messagePlaceholder": "Enter your message here...",
+      "messageRequired": "Message is required",
+      "messageMinLength": "Message must be at least 10 characters",
+      "submitButton": "Submit Interest",
+      "years": "years"
+    }
+  }
+ },
 
 
 

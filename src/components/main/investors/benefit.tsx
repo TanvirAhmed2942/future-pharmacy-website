@@ -4,7 +4,7 @@ import React, { ReactElement } from "react";
 import { Users, LucideIcon } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import useIcon from "@/hooks/useIcon";
-
+import { useTranslations } from "next-intl";
 type BenefitItem = {
   title: string;
   description: string;
@@ -14,6 +14,7 @@ type BenefitItem = {
 );
 
 function Benefits() {
+  const tWhyInvestWithUs = useTranslations("investors.whyInvestWithUs");
   const growing_market = useIcon({ name: "growing_market" });
   const hipaaIcon = useIcon({ name: "hipaaIcon" });
   const teamIcon = useIcon({ name: "team" });
@@ -21,30 +22,30 @@ function Benefits() {
     {
       iconType: "custom",
       customIcon: growing_market,
-      title: "Growing Market",
+      title: tWhyInvestWithUs("features.0.title"),
       description:
-        "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere. ",
+        tWhyInvestWithUs("features.0.description"),
     },
     {
       iconType: "custom",
       customIcon: hipaaIcon,
-      title: "HIPAA Compliant",
+      title: tWhyInvestWithUs("features.1.title"),
       description:
-        "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere.",
+        tWhyInvestWithUs("features.1.description"),
     },
     {
       iconType: "lucide",
       icon: Users,
-      title: "Scalable Platform",
+      title: tWhyInvestWithUs("features.2.title"),
       description:
-        "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere.",
+        tWhyInvestWithUs("features.2.description"),
     },
     {
       iconType: "custom",
       customIcon: teamIcon,
-      title: "Experience Team",
+      title: tWhyInvestWithUs("features.3.title"),
       description:
-        "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere.",
+        tWhyInvestWithUs("features.3.description"),
     },
   ];
 
@@ -54,11 +55,10 @@ function Benefits() {
         {/* Header */}
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Why Invest with Us?
+            {tWhyInvestWithUs("headline")}
           </h2>
           <p className="text-gray-600 text-base md:text-lg max-w-3xl mx-auto leading-relaxed">
-            Discover the Compelling reasons to invest in Optimus Health
-            Solutions, a leader in prescription delivery.
+            {tWhyInvestWithUs("description")}
           </p>
         </div>
 

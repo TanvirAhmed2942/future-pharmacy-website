@@ -14,6 +14,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 interface FormValues {
   fullName: string;
@@ -27,6 +28,8 @@ interface FormValues {
 }
 
 function InvestorsInquiryForm() {
+  const tInvestorsInquiryForm = useTranslations("investors.investorsInquiryForm");
+  const tForm = useTranslations("investors.investorsInquiryForm.form");
   const {
     register,
     handleSubmit,
@@ -73,7 +76,7 @@ function InvestorsInquiryForm() {
       <div className="relative z-20 w-full max-w-2xl mx-auto">
         {/* Page Title */}
         <h1 className="text-3xl md:text-4xl font-bold text-center text-white mb-8 md:mb-12 drop-shadow-lg">
-          Complete form to express interest
+          {tInvestorsInquiryForm("Headline")}
         </h1>
 
         {/* Form Card */}
@@ -81,7 +84,7 @@ function InvestorsInquiryForm() {
           <Card className="shadow-2xl bg-white/95 backdrop-blur-sm">
             <CardHeader className="space-y-1 pb-6">
               <CardTitle className="text-2xl font-bold text-gray-900">
-                Inquiry Form
+                {tForm("formTitle")}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -89,21 +92,21 @@ function InvestorsInquiryForm() {
                 {/* Full Name */}
                 <div className="space-y-2">
                   <Label htmlFor="fullName" className="text-sm font-medium">
-                    Full Name
+                    {tForm("fullName")}
                   </Label>
                   <Input
                     id="fullName"
                     type="text"
-                    placeholder="Enter your name here..."
+                    placeholder={tForm("fullNamePlaceholder")}
                     className={cn(
                       "bg-gray-50",
                       errors.fullName && "border-red-500"
                     )}
                     {...register("fullName", {
-                      required: "Full name is required",
+                      required: tForm("fullNameRequired"),
                       minLength: {
                         value: 2,
-                        message: "Full name must be at least 2 characters",
+                        message: tForm("fullNameMinLength"),
                       },
                     })}
                   />
@@ -117,21 +120,21 @@ function InvestorsInquiryForm() {
                 {/* Email Address */}
                 <div className="space-y-2">
                   <Label htmlFor="emailAddress" className="text-sm font-medium">
-                    Email Address
+                    {tForm("emailAddress")}
                   </Label>
                   <Input
                     id="emailAddress"
                     type="email"
-                    placeholder="Enter your email address here..."
+                    placeholder={tForm("emailAddressPlaceholder")}
                     className={cn(
                       "bg-gray-50",
                       errors.emailAddress && "border-red-500"
                     )}
                     {...register("emailAddress", {
-                      required: "Email address is required",
+                      required: tForm("emailAddressRequired"),
                       pattern: {
                         value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                        message: "Invalid email address",
+                        message: tForm("emailAddressInvalid"),
                       },
                     })}
                   />
@@ -145,22 +148,22 @@ function InvestorsInquiryForm() {
                 {/* Phone Number */}
                 <div className="space-y-2">
                   <Label htmlFor="phoneNumber" className="text-sm font-medium">
-                    Phone Number
+                    {tForm("phoneNumber")}
                   </Label>
                   <Input
                     id="phoneNumber"
                     type="tel"
-                    placeholder="Enter your phone number here..."
+                    placeholder={tForm("phoneNumberPlaceholder")}
                     className={cn(
                       "bg-gray-50",
                       errors.phoneNumber && "border-red-500"
                     )}
                     {...register("phoneNumber", {
-                      required: "Phone number is required",
+                      required: tForm("phoneNumberRequired"),
                       pattern: {
                         value:
                           /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
-                        message: "Invalid phone number format",
+                        message: tForm("phoneNumberInvalid"),
                       },
                     })}
                   />
@@ -178,22 +181,22 @@ function InvestorsInquiryForm() {
                       htmlFor="organizationName"
                       className="text-sm font-medium"
                     >
-                      Organization Name
+                      {tForm("organizationName")}
                     </Label>
                     <Input
                       id="organizationName"
                       type="text"
-                      placeholder="Enter your organization name here..."
+                      placeholder={tForm("organizationNamePlaceholder")}
                       className={cn(
                         "bg-gray-50",
                         errors.organizationName && "border-red-500"
                       )}
                       {...register("organizationName", {
-                        required: "Organization name is required",
+                        required: tForm("organizationNameRequired"),
                         minLength: {
                           value: 2,
                           message:
-                            "Organization name must be at least 2 characters",
+                            tForm("organizationNameMinLength"),
                         },
                       })}
                     />
@@ -208,22 +211,22 @@ function InvestorsInquiryForm() {
                       htmlFor="organizationType"
                       className="text-sm font-medium"
                     >
-                      Organization Type
+                      {tForm("organizationType")}
                     </Label>
                     <Input
                       id="organizationType"
                       type="text"
-                      placeholder="Enter your organization type here..."
+                      placeholder={tForm("organizationTypePlaceholder")}
                       className={cn(
                         "bg-gray-50",
                         errors.organizationType && "border-red-500"
                       )}
                       {...register("organizationType", {
-                        required: "Organization type is required",
+                        required: tForm("organizationTypeRequired"),
                         minLength: {
                           value: 2,
                           message:
-                            "Organization type must be at least 2 characters",
+                            tForm("organizationTypeMinLength"),
                         },
                       })}
                     />
@@ -239,12 +242,12 @@ function InvestorsInquiryForm() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="website" className="text-sm font-medium">
-                      Website (optional)
+                      {tForm("website")}
                     </Label>
                     <Input
                       id="website"
                       type="url"
-                      placeholder="Enter your website here..."
+                      placeholder={tForm("websitePlaceholder")}
                       className={cn(
                         "bg-gray-50",
                         errors.website && "border-red-500"
@@ -253,7 +256,7 @@ function InvestorsInquiryForm() {
                         pattern: {
                           value:
                             /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/,
-                          message: "Invalid website URL format",
+                          message: tForm("websiteInvalid"),
                         },
                       })}
                     />
@@ -268,13 +271,13 @@ function InvestorsInquiryForm() {
                       htmlFor="yearsOfInvestmentExperience"
                       className="text-sm font-medium"
                     >
-                      Years of Investment Experience
+                      {tForm("yearsOfInvestmentExperience")}
                     </Label>
                     <Controller
                       name="yearsOfInvestmentExperience"
                       control={control}
                       rules={{
-                        required: "Years of investment experience is required",
+                        required: tForm("yearsOfInvestmentExperienceRequired"),
                       }}
                       render={({ field }) => (
                         <Select
@@ -288,13 +291,13 @@ function InvestorsInquiryForm() {
                                 "border-red-500"
                             )}
                           >
-                            <SelectValue placeholder="Select investment experience" />
+                            <SelectValue placeholder={tForm("yearsOfInvestmentExperiencePlaceholder")} />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="1-3">1-3 years</SelectItem>
-                            <SelectItem value="4-7">4-7 years</SelectItem>
-                            <SelectItem value="8-12">8-12 years</SelectItem>
-                            <SelectItem value="12+">12+ years</SelectItem>
+                            <SelectItem value="1-3">1-3 {tForm("years")}</SelectItem>
+                            <SelectItem value="4-7">4-7 {tForm("years")}</SelectItem>
+                            <SelectItem value="8-12">8-12 {tForm("years")}</SelectItem>
+                            <SelectItem value="12+">12+ {tForm("years")}</SelectItem>
                           </SelectContent>
                         </Select>
                       )}
@@ -310,20 +313,20 @@ function InvestorsInquiryForm() {
                 {/* Your Message */}
                 <div className="space-y-2">
                   <Label htmlFor="message" className="text-sm font-medium">
-                    Your Message
+                    {tForm("message")}
                   </Label>
                   <Textarea
                     id="message"
-                    placeholder="Type your message here..."
+                    placeholder={tForm("messagePlaceholder")}
                     className={cn(
                       "bg-gray-50 min-h-[120px] resize-none",
                       errors.message && "border-red-500"
                     )}
                     {...register("message", {
-                      required: "Message is required",
+                      required: tForm("messageRequired"),
                       minLength: {
                         value: 10,
-                        message: "Message must be at least 10 characters",
+                        message: tForm("messageMinLength"),
                       },
                     })}
                   />
@@ -339,7 +342,7 @@ function InvestorsInquiryForm() {
                   type="submit"
                   className="w-full bg-peter hover:bg-peter-dark text-white h-10 text-base font-medium cursor-pointer"
                 >
-                  Submit Interest
+                  {tForm("submitButton")}
                 </Button>
               </form>
             </CardContent>

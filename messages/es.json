@@ -419,12 +419,95 @@
     "messagePlaceholder": "Ingrese su mensaje aquí...",
     "messageRequired": "El mensaje es obligatorio",
     "messageMinLength": "El mensaje debe tener al menos 10 caracteres",
-    "years":"años",
     "submitButton": "Enviar Interés"
   }
 }
 
   },
+
+  "investors":{
+    "banner": {
+      "title": "Invierte en el futuro de la entrega de recetas",
+      "description": "Únete a la comunidad de inversores que apoyan a las farmacias locales y ayudan a los pacientes a obtener las recetas que necesitan mientras ganas un ingreso flexible."
+    },
+    "whyInvestWithUs": {
+      "headline": "¿Por qué invertir con nosotros?",
+      "description": "Descubre las razones convincentes para invertir en Optimus Health Solutions, un líder en la entrega de recetas.",
+      "features": [
+        {
+          "title": "Mercado en crecimiento",
+          "description": "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere. "
+        },
+        {
+          "title": "HIPAA compliant",
+          "description": "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere. "
+        },
+        {
+          "title": "Plataforma escalable",
+          "description": "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere. "
+        },
+        {
+          "title": "Equipo experto",
+          "description": "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere. "
+        }
+      ]
+    },
+    "investorsInquiryForm": {
+  "Headline": "Complete el formulario para expresar interés",
+  "description": "Complete el formulario para expresar su interés en invertir en Optimus Health Solutions.",
+  "form": {
+    "formTitle": "Formulario de Consulta",
+    "fullName": "Nombre Completo",
+    "fullNamePlaceholder": "Ingrese su nombre completo aquí...",
+    "fullNameRequired": "El nombre completo es obligatorio",
+    "fullNameMinLength": "El nombre completo debe tener al menos 2 caracteres",
+    "emailAddress": "Correo Electrónico",
+    "emailAddressPlaceholder": "Ingrese su correo electrónico aquí...",
+    "emailAddressRequired": "El correo electrónico es obligatorio",
+    "emailAddressInvalid": "Correo electrónico inválido",
+    "phoneNumber": "Número de Teléfono",
+    "phoneNumberPlaceholder": "Ingrese su número de teléfono aquí...",
+    "phoneNumberRequired": "El número de teléfono es obligatorio",
+    "phoneNumberInvalid": "Formato de número de teléfono inválido",
+    "organizationName": "Nombre de la Organización",
+    "organizationNamePlaceholder": "Ingrese el nombre de su organización aquí...",
+    "organizationNameRequired": "El nombre de la organización es obligatorio",
+    "organizationNameMinLength": "El nombre de la organización debe tener al menos 2 caracteres",
+    "website": "Sitio Web (opcional)",
+    "websitePlaceholder": "Ingrese su sitio web aquí...",
+    "websiteInvalid": "Formato de URL del sitio web inválido",
+    "organizationType": "Tipo de Organización",
+    "organizationTypePlaceholder": "Ingrese el tipo de su organización aquí...",
+    "organizationTypeRequired": "El tipo de organización es obligatorio",
+    "organizationTypeMinLength": "El tipo de organización debe tener al menos 2 caracteres",
+    "yearsOfInvestmentExperience": "Años de Experiencia en Inversiones",
+    "yearsOfInvestmentExperiencePlaceholder": "Ingrese sus años de experiencia en inversiones aquí...",
+    "yearsOfInvestmentExperienceRequired": "Los años de experiencia en inversiones son obligatorios",
+    "message": "Mensaje",
+    "messagePlaceholder": "Ingrese su mensaje aquí...",
+    "messageRequired": "El mensaje es obligatorio",
+    "messageMinLength": "El mensaje debe tener al menos 10 caracteres",
+    "submitButton": "Enviar Interés",
+    "years": "años"
+  }
+}
+
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   "footer": {
     "slogan": "Conectando comunidades a sus farmacias locales para un acceso rápido y confiable a recetas",
