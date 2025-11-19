@@ -14,6 +14,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 interface FormValues {
   name: string;
@@ -27,6 +28,7 @@ interface FormValues {
 }
 
 function BusinessInquiryForm() {
+  const tOtherBusinesses = useTranslations("otherBusinesses.businessInquiryForm");
   const {
     register,
     handleSubmit,
@@ -56,28 +58,28 @@ function BusinessInquiryForm() {
         <Card className="border shadow-sm">
           <CardContent className="pt-6 pb-6">
             <h2 className="text-xl font-semibold text-center mb-6">
-              Business Inquiry Form
+              {tOtherBusinesses("form.formTitle")}
             </h2>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               {/* Name Field */}
               <div>
                 <Label htmlFor="name" className="text-sm text-gray-700">
-                  Name
+                  {tOtherBusinesses("form.fullName")}
                 </Label>
                 <Input
                   id="name"
                   type="text"
-                  placeholder="Enter your name here..."
+                  placeholder={tOtherBusinesses("form.fullNamePlaceholder")}
                   className={cn(
                     "mt-1 bg-gray-50",
                     errors.name && "border-red-500"
                   )}
                   {...register("name", {
-                    required: "Name is required",
+                    required: tOtherBusinesses("form.fullNameRequired"),
                     minLength: {
                       value: 2,
-                      message: "Name must be at least 2 characters",
+                      message: tOtherBusinesses("form.fullNameMinLength"),
                     },
                   })}
                 />
@@ -95,21 +97,21 @@ function BusinessInquiryForm() {
                     htmlFor="emailAddress"
                     className="text-sm text-gray-700"
                   >
-                    Email Address
+                    {tOtherBusinesses("form.emailAddress")}
                   </Label>
                   <Input
                     id="emailAddress"
                     type="email"
-                    placeholder="Enter your email address here..."
+                    placeholder={tOtherBusinesses("form.emailAddressPlaceholder")}
                     className={cn(
                       "mt-1 bg-gray-50",
                       errors.emailAddress && "border-red-500"
                     )}
                     {...register("emailAddress", {
-                      required: "Email address is required",
+                      required: tOtherBusinesses("form.emailAddressRequired"),
                       pattern: {
                         value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                        message: "Invalid email address",
+                        message: tOtherBusinesses("form.emailAddressInvalid"),
                       },
                     })}
                   />
@@ -124,22 +126,22 @@ function BusinessInquiryForm() {
                     htmlFor="phoneNumber"
                     className="text-sm text-gray-700"
                   >
-                    Phone Number
+                    {tOtherBusinesses("form.phoneNumber")}
                   </Label>
                   <Input
                     id="phoneNumber"
                     type="tel"
-                    placeholder="Enter your phone number here..."
+                    placeholder={tOtherBusinesses("form.phoneNumberPlaceholder")}
                     className={cn(
                       "mt-1 bg-gray-50",
                       errors.phoneNumber && "border-red-500"
                     )}
                     {...register("phoneNumber", {
-                      required: "Phone number is required",
+                      required: tOtherBusinesses("form.phoneNumberRequired"),
                       pattern: {
                         value:
                           /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
-                        message: "Invalid phone number format",
+                        message: tOtherBusinesses("form.phoneNumberInvalid"),
                       },
                     })}
                   />
@@ -157,22 +159,21 @@ function BusinessInquiryForm() {
                   htmlFor="organizationName"
                   className="text-sm text-gray-700"
                 >
-                  Organization name
+                  {tOtherBusinesses("form.organizationName")}
                 </Label>
                 <Input
                   id="organizationName"
                   type="text"
-                  placeholder="Select your organization name..."
+                  placeholder={tOtherBusinesses("form.organizationNamePlaceholder")}
                   className={cn(
                     "mt-1 bg-gray-50",
                     errors.organizationName && "border-red-500"
                   )}
                   {...register("organizationName", {
-                    required: "Organization name is required",
+                    required: tOtherBusinesses("form.organizationNameRequired"),
                     minLength: {
                       value: 2,
-                      message:
-                        "Organization name must be at least 2 characters",
+                      message: tOtherBusinesses("form.organizationNameMinLength"),
                     },
                   })}
                 />
@@ -189,12 +190,12 @@ function BusinessInquiryForm() {
                   htmlFor="organizationType"
                   className="text-sm text-gray-700"
                 >
-                  Organization Type
+                  {tOtherBusinesses("form.organizationType")}
                 </Label>
                 <Controller
                   name="organizationType"
                   control={control}
-                  rules={{ required: "Organization type is required" }}
+                  rules={{ required: tOtherBusinesses("form.organizationTypeRequired") }}
                   render={({ field }) => (
                     <Select onValueChange={field.onChange} value={field.value}>
                       <SelectTrigger
@@ -203,7 +204,7 @@ function BusinessInquiryForm() {
                           errors.organizationType && "border-red-500"
                         )}
                       >
-                        <SelectValue placeholder="Enter your organization type here..." />
+                        <SelectValue placeholder={tOtherBusinesses("form.organizationTypePlaceholder")} />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="employers">Employers</SelectItem>
@@ -233,12 +234,12 @@ function BusinessInquiryForm() {
                   htmlFor="organizationWebsite"
                   className="text-sm text-gray-700"
                 >
-                  Add Organization Website
+                  {tOtherBusinesses("form.website")}
                 </Label>
                 <Input
                   id="organizationWebsite"
                   type="url"
-                  placeholder="Add your organization website name..."
+                  placeholder={tOtherBusinesses("form.websitePlaceholder")}
                   className={cn(
                     "mt-1 bg-gray-50",
                     errors.organizationWebsite && "border-red-500"
@@ -247,7 +248,7 @@ function BusinessInquiryForm() {
                     pattern: {
                       value:
                         /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/,
-                      message: "Invalid website URL format",
+                      message: tOtherBusinesses("form.websiteInvalid"),
                     },
                   })}
                 />
@@ -264,22 +265,21 @@ function BusinessInquiryForm() {
                   htmlFor="regionOfInterest"
                   className="text-sm text-gray-700"
                 >
-                  Region of Interest
+                  {tOtherBusinesses("form.regionOfInterest")}
                 </Label>
                 <Input
                   id="regionOfInterest"
                   type="text"
-                  placeholder="e.g., NJ, NY Metro, PA"
+                  placeholder={tOtherBusinesses("form.regionOfInterestPlaceholder")}
                   className={cn(
                     "mt-1 bg-gray-50",
                     errors.regionOfInterest && "border-red-500"
                   )}
                   {...register("regionOfInterest", {
-                    required: "Region of interest is required",
+                    required: tOtherBusinesses("form.regionOfInterestRequired"),
                     minLength: {
                       value: 2,
-                      message:
-                        "Region of interest must be at least 2 characters",
+                      message: tOtherBusinesses("form.regionOfInterestMinLength"),
                     },
                   })}
                 />
@@ -293,20 +293,20 @@ function BusinessInquiryForm() {
               {/* Your Message Field */}
               <div>
                 <Label htmlFor="message" className="text-sm text-gray-700">
-                  Your Message
+                  {tOtherBusinesses("form.message")}
                 </Label>
                 <Textarea
                   id="message"
-                  placeholder="Type your message here..."
+                  placeholder={tOtherBusinesses("form.messagePlaceholder")}
                   className={cn(
                     "mt-1 bg-gray-50 min-h-[100px]",
                     errors.message && "border-red-500"
                   )}
                   {...register("message", {
-                    required: "Message is required",
+                    required: tOtherBusinesses("form.messageRequired"),
                     minLength: {
                       value: 10,
-                      message: "Message must be at least 10 characters",
+                      message: tOtherBusinesses("form.messageMinLength"),
                     },
                   })}
                 />
@@ -322,7 +322,7 @@ function BusinessInquiryForm() {
                 type="submit"
                 className="w-full bg-peter hover:bg-peter-dark text-white py-2 cursor-pointer"
               >
-                Submit Interest
+                {tOtherBusinesses("form.submitButton")}
               </Button>
             </form>
           </CardContent>

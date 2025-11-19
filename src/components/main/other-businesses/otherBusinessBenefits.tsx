@@ -2,6 +2,7 @@ import React, { ReactElement } from "react";
 import { Truck, Search, Users, LucideIcon } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import useIcon from "@/hooks/useIcon";
+import { useTranslations } from "next-intl";
 
 type BenefitItem = {
   title: string;
@@ -12,35 +13,36 @@ type BenefitItem = {
 );
 
 function OtherBusinessBenefits() {
-  const dataIcon = useIcon({ name: "data" });
+  const dataIcon = useIcon({ name: "data" }); 
+  const tOtherBusinesses = useTranslations("otherBusinesses.whyWorkWithUs");
   const benefits: BenefitItem[] = [
     {
       iconType: "lucide",
       icon: Truck,
-      title: "Improve Adherence",
+      title: tOtherBusinesses("features.0.title"),  
       description:
-        "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere. ",
+        tOtherBusinesses("features.0.description"),
     },
     {
       iconType: "lucide",
       icon: Search,
-      title: "Patient Experience",
+      title: tOtherBusinesses("features.1.title"),
       description:
-        "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere.",
+        tOtherBusinesses("features.1.description"),
     },
     {
       iconType: "lucide",
       icon: Users,
-      title: "Operational Visibility",
+      title: tOtherBusinesses("features.2.title"),
       description:
-        "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere.",
+        tOtherBusinesses("features.2.description"),
     },
     {
       iconType: "custom",
       customIcon: dataIcon,
-      title: "Data Insights",
+      title: tOtherBusinesses("features.3.title"),
       description:
-        "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere.",
+        tOtherBusinesses("features.3.description"),
     },
   ];
 
@@ -50,12 +52,10 @@ function OtherBusinessBenefits() {
         {/* Header */}
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Why Work with Us
+            {tOtherBusinesses("headline")}
           </h2>
           <p className="text-gray-600 text-base md:text-lg max-w-3xl mx-auto leading-relaxed">
-            We provide our support to organizations that care about how their
-            members get access to their medications. Our trusted services ensure
-            fast, reliable delivery across your local community.
+            {tOtherBusinesses("description")}
           </p>
         </div>
 

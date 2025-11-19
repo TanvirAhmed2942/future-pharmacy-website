@@ -3,14 +3,16 @@ import Banner from "@/components/common/banner/Banner";
 import React from "react";
 import OtherBusinessBenefits from "./otherBusinessBenefits";
 import BusinessInquiryForm from "./businessInquiryForm";
+import { useTranslations } from "next-intl";
 
 function OtherBusinessLayout() {
+  const tOtherBusinesses = useTranslations("otherBusinesses");
   return (
     <div>
       <Banner
         title={
           <p>
-            Explore how{" "}
+            {tOtherBusinesses("banner.title.first")} {" "}
             <span
               className="relative font-bold bg-clip-text"
               style={{
@@ -25,10 +27,10 @@ function OtherBusinessLayout() {
             >
               Optimus Health Solutions
             </span>{" "}
-            can best serve you
+            {tOtherBusinesses("banner.title.second")}
           </p>
         }
-        description="Partner with Optimus Health to reliably meet the last‑mile delivery needs of your members and patients while improving outcomes and reducing costs."
+        description={tOtherBusinesses("banner.description")}
         image="/banner/investors_banner.png"
       />
       <OtherBusinessBenefits />

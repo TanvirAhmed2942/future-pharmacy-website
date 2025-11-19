@@ -496,7 +496,76 @@
   }
  },
 
-
+ "otherBusinesses": {
+  "banner": {
+    "title": {
+      "first": "Explore how",
+      "second": "can best serve you"
+    },
+    "description": "Partner with Optimus Health to reliably meet the last‑mile delivery needs of your members and patients while improving outcomes and reducing costs."
+  },
+  "whyWorkWithUs": {
+    "headline": "Why Work with Us?",
+    "description": "We provide our support to organizations that care about how their members get access to their medications. Our trusted services ensure fast, reliable delivery across your local community.",
+    "features": [
+      {
+        "title": "Improve Adherence",
+        "description": "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere. "
+      },
+      {
+        "title": "Patient Experience",
+        "description": "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere. "
+      },
+      {
+        "title": "Operational Visibility",
+        "description": "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere. "
+      },
+      {
+        "title": "Data Insights",
+        "description": "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere. "
+      }
+    ]
+  },
+  "businessInquiryForm": {
+    "headline": "Complete form to express interest",
+    "description": "Complete the form to express your interest in working with Optimus Health Solutions.",
+    "form": {
+      "formTitle": "Business Inquiry Form",
+      "fullName": "Full Name",
+      "fullNamePlaceholder": "Enter your full name here...",
+      "fullNameRequired": "Full name is required",
+      "fullNameMinLength": "Full name must be at least 2 characters",
+      "emailAddress": "Email Address",
+      "emailAddressPlaceholder": "Enter your email address here...",
+      "emailAddressRequired": "Email address is required",
+      "emailAddressInvalid": "Invalid email address",
+      "phoneNumber": "Phone Number",
+      "phoneNumberPlaceholder": "Enter your phone number here...",
+      "phoneNumberRequired": "Phone number is required",
+      "phoneNumberInvalid": "Invalid phone number format",
+      "organizationName": "Organization Name",
+      "organizationNamePlaceholder": "Enter your organization name here...",
+      "organizationNameRequired": "Organization name is required",
+      "organizationNameMinLength": "Organization name must be at least 2 characters",
+      "organizationType": "Organization Type",
+      "organizationTypePlaceholder": "Enter your organization type here...",
+      "organizationTypeRequired": "Organization type is required",
+      "website": "Add Organization Website (optional)",
+      "websitePlaceholder": "Add your organization website name...",
+      "websiteInvalid": "Invalid website URL format",
+      "regionOfInterest": "Region of Interest",
+      "regionOfInterestPlaceholder": "e.g., NJ, NY Metro, PA",
+      "regionOfInterestRequired": "Region of interest is required",
+      "regionOfInterestMinLength": "Region of interest must be at least 2 characters",
+      "message": "Message",
+      "messagePlaceholder": "Enter your message here...",
+      "messageRequired": "Message is required",
+      "messageMinLength": "Message must be at least 10 characters",
+      "years": "years",
+      "submitButton": "Submit Interest"
+    }
+  }
+ },
 
 
 

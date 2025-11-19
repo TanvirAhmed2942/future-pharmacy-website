@@ -497,6 +497,77 @@
 
 
 
+"otherBusinesses": {
+  "banner": {
+    "title": {
+      "first": "Descubra cómo",
+      "second": "puede servirle mejor"
+    },
+
+    "description": "Asóciese con Optimus Health para satisfacer de manera confiable las necesidades de entrega de última milla de sus miembros y pacientes, mejorando los resultados y reduciendo los costos."
+  },
+  "whyWorkWithUs": {
+    "headline": "¿Por Qué Trabajar con Nosotros?",
+    "description": "Brindamos nuestro apoyo a organizaciones que se preocupan por cómo sus miembros acceden a sus medicamentos. Nuestros servicios confiables garantizan una entrega rápida y segura en su comunidad local.",
+    "features": [
+      {
+        "title": "Mejorar la Adherencia",
+        "description": "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere."
+      },
+      {
+        "title": "Experiencia del Paciente",
+        "description": "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere."
+      },
+      {
+        "title": "Visibilidad Operativa",
+        "description": "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere."
+      },
+      {
+        "title": "Información Basada en Datos",
+        "description": "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere."
+      }
+    ]
+  },"businessInquiryForm": {
+  "headline": "Complete el formulario para expresar interés",
+  "description": "Complete el formulario para expresar su interés en trabajar con Optimus Health Solutions.",
+  "form": {
+    "formTitle": "Formulario de Consulta Empresarial",
+    "fullName": "Nombre Completo",
+    "fullNamePlaceholder": "Ingrese su nombre completo aquí...",
+    "fullNameRequired": "El nombre completo es obligatorio",
+    "fullNameMinLength": "El nombre completo debe tener al menos 2 caracteres",
+    "emailAddress": "Correo Electrónico",
+    "emailAddressPlaceholder": "Ingrese su correo electrónico aquí...",
+    "emailAddressRequired": "El correo electrónico es obligatorio",
+    "emailAddressInvalid": "Correo electrónico inválido",
+    "phoneNumber": "Número de Teléfono",
+    "phoneNumberPlaceholder": "Ingrese su número de teléfono aquí...",
+    "phoneNumberRequired": "El número de teléfono es obligatorio",
+    "phoneNumberInvalid": "Formato de número de teléfono inválido",
+    "organizationName": "Nombre de la Organización",
+    "organizationNamePlaceholder": "Ingrese el nombre de su organización aquí...",
+    "organizationNameRequired": "El nombre de la organización es obligatorio",
+    "organizationNameMinLength": "El nombre de la organización debe tener al menos 2 caracteres",
+    "organizationType": "Tipo de Organización",
+    "organizationTypePlaceholder": "Ingrese el tipo de su organización aquí...",
+    "organizationTypeRequired": "El tipo de organización es obligatorio",
+    "website": "Agregar Sitio Web de la Organización (opcional)",
+    "websitePlaceholder": "Agregue el sitio web de su organización...",
+    "websiteInvalid": "Formato de URL del sitio web inválido",
+    "regionOfInterest": "Región de Interés",
+    "regionOfInterestPlaceholder": "por ejemplo, NJ, NY Metro, PA",
+    "regionOfInterestRequired": "La región de interés es obligatoria",
+    "regionOfInterestMinLength": "La región de interés debe tener al menos 2 caracteres",
+    "message": "Mensaje",
+    "messagePlaceholder": "Ingrese su mensaje aquí...",
+    "messageRequired": "El mensaje es obligatorio",
+    "messageMinLength": "El mensaje debe tener al menos 10 caracteres",
+    "years": "años",
+    "submitButton": "Enviar Interés"
+  }
+}
+
+},
 
 
 
