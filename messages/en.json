@@ -373,6 +373,58 @@
         "description": "Once approved, you will get delivery details to pick up Rx from local pharmacies, and deliver them to user’s preferred locations safely, securely and with care."
       }
     ]
+  },
+  "requirements": {
+    "headline": "See all our Requirements",
+    "requirements": [
+      "Valid driver's license (at least 2 years)",
+      "Clean driving record (no major violations)",
+      "Reliable vehicle (2005 or newer)",
+      "Smartphone with GPS capability",
+      "Background check required",
+      "Must be 21 years or older"
+    ]
+  },
+
+  "testimonials": {
+    "headline": "Ready to Join Us?"
+  },
+  "formSection": {
+    "form": {
+      "formTitle": "Driver Application Form",
+      "name": "Name",
+      "namePlaceholder": "Enter your name here...",
+      "nameRequired": "Name is required",
+      "nameMinLength": "Name must be at least 2 characters",
+      "emailAddress": "Email Address",
+      "emailAddressPlaceholder": "Enter your email address here...",
+      "emailAddressRequired": "Email address is required",
+      "emailAddressInvalid": "Invalid email address",
+      "phoneNumber": "Phone Number",
+      "phoneNumberPlaceholder": "Enter your phone number here...",
+      "phoneNumberRequired": "Phone number is required",
+      "phoneNumberInvalid": "Invalid phone number format",
+      "city": "City",
+      "cityPlaceholder": "Enter your city name here...",
+      "cityRequired": "City is required",
+      "cityMinLength": "City name must be at least 2 characters",
+      "zipCode": "Zip Code",
+      "zipCodePlaceholder": "Enter your zip code here...",
+      "zipCodeRequired": "Zip code is required",
+      "zipCodeInvalid": "Invalid zip code format",
+      "vehicleType": "Vehicle Type",
+      "vehicleTypePlaceholder": "Select your vehicle type here...",
+      "vehicleTypeRequired": "Vehicle type is required",
+      "yearsWithLicense": "Years with License",
+      "yearsWithLicensePlaceholder": "Select driver's license years",
+      "yearsWithLicenseRequired": "Years with driver's license is required",
+      "message": "Message",
+      "messagePlaceholder": "Enter your message here...",
+      "messageRequired": "Message is required",
+      "messageMinLength": "Message must be at least 10 characters",
+      "years":"years",
+      "submitButton": "Submit Interest"
+    }
   }
  },
 

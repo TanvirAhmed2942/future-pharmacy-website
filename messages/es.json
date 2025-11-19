@@ -371,7 +371,59 @@
           "description": "Una vez aprobada su solicitud, recibirá los detalles de entrega para recoger los medicamentos recetados en las farmacias locales y entregarlos en las ubicaciones preferidas del usuario de forma segura y con cuidado."
         }
       ]
-    }
+    },
+    "requirements": {
+      "headline": "Ver todos nuestros Requisitos",
+      "requirements": [
+        "Licencia de conducir válida (con al menos 2 años de antigüedad)",
+        "Historial de conducción limpio (sin infracciones graves)",
+        "Vehículo confiable (2005 o posterior)",
+        "Smartphone con capacidad de GPS",
+        "Se requiere verificación de antecedentes",
+        "Debe tener 21 años o más"
+      ]
+    },
+    "testimonials": {
+      "headline": "¿Listo para unirse a nosotros?"
+    },
+    "formSection": {
+  "form": {
+    "formTitle": "Formulario de Solicitud de Conductor",
+    "name": "Nombre",
+    "namePlaceholder": "Ingrese su nombre aquí...",
+    "nameRequired": "El nombre es obligatorio",
+    "nameMinLength": "El nombre debe tener al menos 2 caracteres",
+    "emailAddress": "Correo Electrónico",
+    "emailAddressPlaceholder": "Ingrese su correo electrónico aquí...",
+    "emailAddressRequired": "El correo electrónico es obligatorio",
+    "emailAddressInvalid": "Correo electrónico inválido",
+    "phoneNumber": "Número de Teléfono",
+    "phoneNumberPlaceholder": "Ingrese su número de teléfono aquí...",
+    "phoneNumberRequired": "El número de teléfono es obligatorio",
+    "phoneNumberInvalid": "Formato de número de teléfono inválido",
+    "city": "Ciudad",
+    "cityPlaceholder": "Ingrese el nombre de su ciudad aquí...",
+    "cityRequired": "La ciudad es obligatoria",
+    "cityMinLength": "El nombre de la ciudad debe tener al menos 2 caracteres",
+    "zipCode": "Código Postal",
+    "zipCodePlaceholder": "Ingrese su código postal aquí...",
+    "zipCodeRequired": "El código postal es obligatorio",
+    "zipCodeInvalid": "Formato de código postal inválido",
+    "vehicleType": "Tipo de Vehículo",
+    "vehicleTypePlaceholder": "Seleccione su tipo de vehículo aquí...",
+    "vehicleTypeRequired": "El tipo de vehículo es obligatorio",
+    "yearsWithLicense": "Años con Licencia",
+    "yearsWithLicensePlaceholder": "Seleccione los años con licencia de conducir",
+    "yearsWithLicenseRequired": "Los años con licencia de conducir son obligatorios",
+    "message": "Mensaje",
+    "messagePlaceholder": "Ingrese su mensaje aquí...",
+    "messageRequired": "El mensaje es obligatorio",
+    "messageMinLength": "El mensaje debe tener al menos 10 caracteres",
+    "years":"años",
+    "submitButton": "Enviar Interés"
+  }
+}
+
   },
 
   "footer": {

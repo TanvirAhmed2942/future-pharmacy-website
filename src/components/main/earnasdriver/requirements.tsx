@@ -5,21 +5,23 @@ import useIcon from "@/hooks/useIcon";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useTranslations } from "next-intl";
 
 gsap.registerPlugin(ScrollTrigger);
 
 function Requirements() {
+  const tRequirements = useTranslations("earnAsDriver.requirements");
   const icon = useIcon({ name: "check_round" });
   const textContentRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
 
   const requirements = [
-    "Valid driver's license (at least 2 years)",
-    "Clean driving record (no major violations)",
-    "Reliable vehicle (2005 or newer)",
-    "Smartphone with GPS capability",
-    "Background check required",
-    "Must be 21 years or older",
+    tRequirements("requirements.0"),
+    tRequirements("requirements.1"),
+    tRequirements("requirements.2"),
+    tRequirements("requirements.3"),
+    tRequirements("requirements.4"),
+    tRequirements("requirements.5"),
   ];
 
   useGSAP(() => {
@@ -98,7 +100,7 @@ function Requirements() {
           {/* Text Content */}
           <div ref={textContentRef} className="space-y-4 md:space-y-6 ">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-peter font-inter text-center sm:text-left">
-              See all our Requirements
+              {tRequirements("headline")}
             </h2>
             <div className="space-y-3 md:space-y-4">
               {requirements.map((requirement, index) => (

@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/select";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { cn } from "@/lib/utils";
-
+import { useTranslations } from "next-intl";
 interface FormValues {
   name: string;
   emailAddress: string;
@@ -27,6 +27,7 @@ interface FormValues {
 }
 
 function DriverRegForm() {
+  const tForm = useTranslations("earnAsDriver.formSection.form");
   const {
     register,
     handleSubmit,
@@ -74,28 +75,28 @@ function DriverRegForm() {
         <Card className="border shadow-2xl bg-white/95  backdrop-blur-sm">
           <CardContent className="pt-6">
             <h2 className="text-xl font-semibold text-center mb-6">
-              Apply to become a Driver
+              {tForm("formTitle")}
             </h2>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 ">
               {/* Name Field */}
               <div>
                 <Label htmlFor="name" className="text-sm text-gray-700">
-                  Name
+                  {tForm("name")}
                 </Label>
                 <Input
                   id="name"
                   type="text"
-                  placeholder="Enter your name here..."
+                  placeholder={tForm("namePlaceholder")}
                   className={cn(
                     "mt-1 bg-gray-50",
                     errors.name && "border-red-500"
                   )}
                   {...register("name", {
-                    required: "Name is required",
+                    required: tForm("nameRequired"),
                     minLength: {
                       value: 2,
-                      message: "Name must be at least 2 characters",
+                      message: tForm("nameMinLength"),
                     },
                   })}
                 />
@@ -109,21 +110,21 @@ function DriverRegForm() {
               {/* Email Address Field */}
               <div>
                 <Label htmlFor="emailAddress" className="text-sm text-gray-700">
-                  Email Address
+                  {tForm("emailAddress")}
                 </Label>
                 <Input
                   id="emailAddress"
                   type="email"
-                  placeholder="Enter your email address here..."
+                  placeholder={tForm("emailAddressPlaceholder")}
                   className={cn(
                     "mt-1 bg-gray-50",
                     errors.emailAddress && "border-red-500"
                   )}
                   {...register("emailAddress", {
-                    required: "Email address is required",
+                    required: tForm("emailAddressRequired"),
                     pattern: {
                       value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                      message: "Invalid email address",
+                      message: tForm("emailAddressInvalid"),
                     },
                   })}
                 />
@@ -137,22 +138,22 @@ function DriverRegForm() {
               {/* Phone Number Field */}
               <div>
                 <Label htmlFor="phoneNumber" className="text-sm text-gray-700">
-                  Phone Number
+                  {tForm("phoneNumber")}
                 </Label>
                 <Input
                   id="phoneNumber"
                   type="tel"
-                  placeholder="Enter your phone number here..."
+                  placeholder={tForm("phoneNumberPlaceholder")}
                   className={cn(
                     "mt-1 bg-gray-50",
                     errors.phoneNumber && "border-red-500"
                   )}
                   {...register("phoneNumber", {
-                    required: "Phone number is required",
+                    required: tForm("phoneNumberRequired"),
                     pattern: {
                       value:
                         /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
-                      message: "Invalid phone number format",
+                      message: tForm("phoneNumberInvalid"),
                     },
                   })}
                 />
@@ -167,21 +168,21 @@ function DriverRegForm() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="city" className="text-sm text-gray-700">
-                    City
+                    {tForm("city")}
                   </Label>
                   <Input
                     id="city"
                     type="text"
-                    placeholder="Enter your city name here..."
+                    placeholder={tForm("cityPlaceholder")}
                     className={cn(
                       "mt-1 bg-gray-50",
                       errors.city && "border-red-500"
                     )}
                     {...register("city", {
-                      required: "City is required",
+                      required: tForm("cityRequired"),
                       minLength: {
                         value: 2,
-                        message: "City name must be at least 2 characters",
+                        message: tForm("cityMinLength"),
                       },
                     })}
                   />
@@ -193,21 +194,21 @@ function DriverRegForm() {
                 </div>
                 <div>
                   <Label htmlFor="zipCode" className="text-sm text-gray-700">
-                    Zip Code
+                    {tForm("zipCode")}
                   </Label>
                   <Input
                     id="zipCode"
                     type="text"
-                    placeholder="Enter your zip code here..."
+                    placeholder={tForm("zipCodePlaceholder")}
                     className={cn(
                       "mt-1 bg-gray-50",
                       errors.zipCode && "border-red-500"
                     )}
                     {...register("zipCode", {
-                      required: "Zip code is required",
+                      required: tForm("zipCodeRequired"),
                       pattern: {
                         value: /^\d{5}(-\d{4})?$/,
-                        message: "Invalid zip code format",
+                        message: tForm("zipCodeInvalid"),
                       },
                     })}
                   />
@@ -226,12 +227,12 @@ function DriverRegForm() {
                     htmlFor="vehicleType"
                     className="text-sm text-gray-700"
                   >
-                    Vehicle Type
+                    {tForm("vehicleType")}
                   </Label>
                   <Controller
                     name="vehicleType"
                     control={control}
-                    rules={{ required: "Vehicle type is required" }}
+                    rules={{ required: tForm("vehicleTypeRequired") }}
                     render={({ field }) => (
                       <Select
                         onValueChange={field.onChange}
@@ -243,7 +244,7 @@ function DriverRegForm() {
                             errors.vehicleType && "border-red-500"
                           )}
                         >
-                          <SelectValue placeholder="Select your vehicle type here..." />
+                          <SelectValue placeholder={tForm("vehicleTypePlaceholder")} />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="car">Car</SelectItem>
@@ -265,13 +266,13 @@ function DriverRegForm() {
                     htmlFor="yearsWithLicense"
                     className="text-sm text-gray-700"
                   >
-                    Years with Driver&apos;s License
+                    {tForm("yearsWithLicense")}
                   </Label>
                   <Controller
                     name="yearsWithLicense"
                     control={control}
                     rules={{
-                      required: "Years with driver's license is required",
+                      required: tForm("yearsWithLicenseRequired"),
                     }}
                     render={({ field }) => (
                       <Select
@@ -284,13 +285,13 @@ function DriverRegForm() {
                             errors.yearsWithLicense && "border-red-500"
                           )}
                         >
-                          <SelectValue placeholder="Select driver's license years" />
+                          <SelectValue placeholder={tForm("yearsWithLicensePlaceholder")} />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="2-5">2-5 years</SelectItem>
-                          <SelectItem value="6-10">6-10 years</SelectItem>
-                          <SelectItem value="11-20">11-20 years</SelectItem>
-                          <SelectItem value="20+">20+ years</SelectItem>
+                          <SelectItem value="2-5">2-5 {tForm("years")}</SelectItem>
+                          <SelectItem value="6-10">6-10 {tForm("years")}</SelectItem>
+                          <SelectItem value="11-20">11-20 {tForm("years")}</SelectItem>
+                          <SelectItem value="20+">20+ {tForm("years")}</SelectItem>
                         </SelectContent>
                       </Select>
                     )}
@@ -306,20 +307,20 @@ function DriverRegForm() {
               {/* Message Field */}
               <div>
                 <Label htmlFor="message" className="text-sm text-gray-700">
-                  Your Message
+                  {tForm("message")}
                 </Label>
                 <Textarea
                   id="message"
-                  placeholder="Type your message here..."
+                  placeholder={tForm("messagePlaceholder")}
                   className={cn(
                     "mt-1 bg-gray-50 min-h-[100px]",
                     errors.message && "border-red-500"
                   )}
                   {...register("message", {
-                    required: "Message is required",
+                    required: tForm("messageRequired"),
                     minLength: {
                       value: 10,
-                      message: "Message must be at least 10 characters",
+                      message: tForm("messageMinLength"),
                     },
                   })}
                 />
@@ -335,7 +336,7 @@ function DriverRegForm() {
                 type="submit"
                 className="w-full bg-peter hover:bg-peter-dark text-white h-10 text-base font-medium cursor-pointer"
               >
-                Submit Interest
+                {tForm("submitButton")}
               </Button>
             </form>
           </CardContent>
