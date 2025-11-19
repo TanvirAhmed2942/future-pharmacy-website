@@ -289,6 +289,8 @@
       "headline": "Get Started Today",
       "description": "Join our growing network of trusted local independent pharmacies delivering care directly to patients' doors. As an Optimus partner, you'll attract new customers, improve medication adherence, and compete effectively with large chain pharmacies while staying connected to your local community.",
       "form": {
+        "formTitle": "Interest Form",
+        "formDescription": "Complete the Interest Form  and we'll contact you to schedule for a brief onboarding call to walk you through the process.",
         "pharmacyName": "Pharmacy Name",
         "pharmacyAddress": "Pharmacy Address",
         "phoneNumber": "Phone Number",
@@ -300,13 +302,28 @@
         "submitButton": "Submit Interest",
         "placeholders": {
           "pharmacyName": "Enter your pharmacy name here...",
+          "pharmacyNameRequired": "Pharmacy name is required",
+          "pharmacyNameMinLength": "Pharmacy name must be at least 2 characters",
           "pharmacyAddress": "Enter your pharmacy address here...",
+          "pharmacyAddressRequired": "Pharmacy address is required",
+          "pharmacyAddressMinLength": "Pharmacy address must be at least 5 characters",
           "phoneNumber": "Enter your phone number here...",
+          "phoneNumberRequired": "Phone number is required",
+          "phoneNumberInvalid": "Invalid phone number format",
           "emailAddress": "Enter your email address here...",
+          "emailAddressRequired": "Email address is required",
+          "emailAddressInvalid": "Invalid email address",
           "contactPerson": "Enter your contact person here...",
+          "contactPersonRequired": "Contact person is required",
+          "contactPersonMinLength": "Contact person name must be at least 2 characters",
           "title": "Enter your title here...",
+          "titleRequired": "Title is required",
+          "titleMinLength": "Title must be at least 2 characters",
           "experienceBusiness": "Select your years in business here...",
-          "message": "Type your message here..."
+          "experienceBusinessRequired": "Experience business is required",
+          "message": "Type your message here...",
+          "messageRequired": "Message is required",
+          "messageMinLength": "Message must be at least 10 characters"
         },
         "options": {
           "years1-5": "1-5 years",
@@ -317,6 +334,62 @@
       }
     }
   },
+
+ "earnAsDriver": {
+  "banner": {
+    "title": "Earn with Every Delivery",
+    "description": "Join the community of independent courier drivers supporting local pharmacies and helping patients get the prescriptions they need while you .while earning a flexible income."
+  },
+  "whyDriveWithUs": {
+    "headline": "Why Drive with Us?",
+    "description": "Discover the benefits of joining the Optimus Health Solutions",
+    "features": [
+      {
+        "title": "Flexible Schedule"
+       
+      },
+      {
+        "title": "Real-Time Delivery Tracking"
+     
+      },
+      {
+        "title": "Safe & Verified Orders"
+      }
+    ]
+  },
+  "howItWorks": {
+    "headline": "How It Works",
+    "steps": [
+      {
+        "title": "Apply to become a driver",
+        "description": "Start by completing our short driver application form with your basic information, vehicle type etc."
+      },
+      {
+        "title": "Get verified",
+        "description": "Our team will contact you with next steps. This process will include background check, driver’s license and insurance verification and vehicle inspection(if applicable), compliance training"
+      },
+      {
+        "title": "Get activated and begin earning",
+        "description": "Once approved, you will get delivery details to pick up Rx from local pharmacies, and deliver them to user’s preferred locations safely, securely and with care."
+      }
+    ]
+  }
+ },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   "footer": {
     "slogan": "Connecting communities to their local pharmacies for fast, reliable access to prescriptions",
     "links": {

@@ -1,27 +1,29 @@
+import { useTranslations } from "next-intl";
 import React from "react";
 
 function HowItWorksSection() {
+  const tHowItWorks = useTranslations("earnAsDriver.howItWorks");
   const items = [
     {
       badge: "H1",
-      title: "Apply to become a driver",
+      title: tHowItWorks("steps.0.title"),
 
       description:
-        "How It Works H1 Apply to become a driver 2022 Create your account in minutes. H2 Get Verified 2025 Complete our background check. H3 Start Delivery & Earning Present Hit the ",
+        tHowItWorks("steps.0.description"),
     },
     {
       badge: "H2",
-      title: "Get Verified",
+      title: tHowItWorks("steps.1.title"),
 
       description:
-        "Our staff will get in touch with you to discuss the next steps. Background checks, driver's license and insurance verification, vehicle inspections (if applicable), and compliance training are all part of this procedure.",
+        tHowItWorks("steps.1.description"),
     },
     {
       badge: "H3",
-      title: "Get activated and begin earning",
+      title: tHowItWorks("steps.2.title"),
 
       description:
-        "After being accepted, you will receive delivery information to pick up prescription drugs from nearby pharmacies and deliver them to users' preferred locations in a safe, secure, and considerate manner.",
+        tHowItWorks("steps.2.description"),
     },
   ];
 
@@ -29,7 +31,7 @@ function HowItWorksSection() {
     <div className="py-16 px-4 md:px-0">
       <div className="max-w-2xl mx-auto">
         <h1 className="text-4xl font-bold text-center text-gray-900 my-16">
-          How It Works
+          {tHowItWorks("headline")}
         </h1>
 
         <div className="relative">

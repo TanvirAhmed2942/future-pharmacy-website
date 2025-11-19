@@ -286,9 +286,11 @@
       "headline": "Lo que dicen nuestros usuarios"
     },
     "formSection": {
-      "headline": "Formulario de interés",
-      "description": "Completa el formulario de interés y nos contactaremos contigo para programar una llamada de incorporación breve para guiarte a través del proceso",
+      "headline": "Comience hoy",
+      "description": "Únete a nuestra creciente red de farmacias locales independientes de confianza que brindan atención médica directamente a domicilio. Como socio de Optimus, atraerás nuevos clientes, mejorarás la adherencia al tratamiento y competirás eficazmente con las grandes cadenas de farmacias, manteniendo a la vez el vínculo con tu comunidad local.",
       "form": {
+        "formTitle": "Formulario de interés",
+        "formDescription": "Completa el formulario de interés y nos contactaremos contigo para programar una llamada de incorporación breve para guiarte a través del proceso",
         "pharmacyName": "Nombre de la farmacia",
         "pharmacyAddress": "Dirección de la farmacia",
         "phoneNumber": "Número de teléfono",
@@ -300,13 +302,29 @@
         "submitButton": "Enviar interés",
         "placeholders": {
           "pharmacyName": "Ingresa el nombre de tu farmacia aquí...",
+          "pharmacyNameRequired": "El nombre de la farmacia es requerido",
+          "pharmacyNameMinLength": "El nombre de la farmacia debe tener al menos 2 caracteres",
           "pharmacyAddress": "Ingresa la dirección de tu farmacia aquí...",
+          "pharmacyAddressRequired": "La dirección de la farmacia es requerida",
+          "pharmacyAddressMinLength": "La dirección de la farmacia debe tener al menos 5 caracteres",
           "phoneNumber": "Ingresa tu número de teléfono aquí...",
+          "phoneNumberRequired": "El número de teléfono es requerido",
+          "phoneNumberInvalid": "Formato de número de teléfono inválido",
           "emailAddress": "Ingresa tu correo electrónico aquí...",
+          "emailAddressRequired": "El correo electrónico es requerido",
+          "emailAddressInvalid": "Correo electrónico inválido",
           "contactPerson": "Ingresa tu persona de contacto aquí...",
+          "contactPersonRequired": "La persona de contacto es requerida",
+          "contactPersonMinLength": "La persona de contacto debe tener al menos 2 caracteres",
           "title": "Ingresa tu título aquí...",
+          "titleRequired": "El título es requerido",
+          "titleMinLength": "El título debe tener al menos 2 caracteres",
           "experienceBusiness": "Selecciona tus años en el negocio aquí...",
-          "message": "Escribe tu mensaje aquí..."
+          "experienceBusinessRequired": "Los años en el negocio son requeridos",
+          "message": "Escribe tu mensaje aquí...",
+          "messageRequired": "El mensaje es requerido",
+          "messageMinLength": "El mensaje debe tener al menos 10 caracteres"
+
         },
         "options": {
           "years1-5": "1-5 años",
@@ -315,6 +333,44 @@
           "years20+": "20+ años"
         }
       }
+    }
+  },
+  "earnAsDriver": {
+    "banner": {
+      "title": "Gana con cada entrega",
+      "description": "Únete a la comunidad de conductores independientes que apoyan a las farmacias locales y ayudan a los pacientes a obtener las recetas que necesitan mientras ganas un ingreso flexible."
+    },
+    "whyDriveWithUs": {
+      "headline": "¿Por qué conducir con nosotros?",
+      "description": "Descubra los beneficios de unirse a Optimus Health Solutions",
+      "features": [
+        {
+          "title": "Horario flexible"
+        },
+        {
+          "title": "Seguimiento en tiempo real de la entrega"
+        },
+        {
+          "title": "Pedidos seguros y verificados"
+        }
+      ]
+    },
+    "howItWorks": {
+      "headline": "Cómo funciona",
+      "steps": [
+        {
+          "title": "Regístrate en nuestra plataforma",
+          "description": "Comience por completar nuestro breve formulario de solicitud de conductor con su información básica, tipo de vehículo, etc."
+        },
+        {
+          "title": "Obtener verificado",
+          "description": "Nuestro equipo se pondrá en contacto con usted para indicarle los siguientes pasos. Este proceso incluirá verificación de antecedentes, verificación de la licencia de conducir y del seguro, inspección del vehículo (si corresponde) y capacitación sobre cumplimiento normativo."
+        },
+        {
+          "title": "¡Actívate y empieza a ganar!",
+          "description": "Una vez aprobada su solicitud, recibirá los detalles de entrega para recoger los medicamentos recetados en las farmacias locales y entregarlos en las ubicaciones preferidas del usuario de forma segura y con cuidado."
+        }
+      ]
     }
   },
 

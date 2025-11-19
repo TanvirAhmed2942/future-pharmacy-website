@@ -2,19 +2,21 @@ import React from "react";
 import { Truck, Search } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { GrDocumentVerified } from "react-icons/gr";
+import { useTranslations } from "next-intl";
 function Benefits() {
+  const tWhyDriveWithUs = useTranslations("earnAsDriver.whyDriveWithUs");
   const benefits = [
     {
       icon: Truck,
-      title: "Flexible Schedule",
+      title: tWhyDriveWithUs("features.0.title"),
     },
     {
       icon: Search,
-      title: "Real-Time Delivery Tracking",
+      title: tWhyDriveWithUs("features.1.title"),
     },
     {
       icon: GrDocumentVerified,
-      title: "Safe & Verified Orders",
+      title: tWhyDriveWithUs("features.2.title"),
     },
   ];
 
@@ -24,10 +26,10 @@ function Benefits() {
         {/* Header */}
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Why Drive with Us?
+            {tWhyDriveWithUs("headline")}
           </h2>
           <p className="text-gray-600 text-base md:text-lg max-w-3xl mx-auto leading-relaxed">
-            Discover the benefits of joining the Optimus Health Solutions
+            {tWhyDriveWithUs("description")}
           </p>
         </div>
 

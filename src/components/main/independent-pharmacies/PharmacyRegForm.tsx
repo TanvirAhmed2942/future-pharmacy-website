@@ -27,7 +27,7 @@ interface FormValues {
 }
 
 function PharmacyRegForm() {
-  const t = useTranslations("independentPharmacies.formSection");
+
   const tForm = useTranslations("independentPharmacies.formSection.form");
   const {
     register,
@@ -59,10 +59,10 @@ function PharmacyRegForm() {
         <Card className="shadow-lg">
           <CardHeader className="space-y-1 pb-6">
             <CardTitle className="text-2xl font-bold text-gray-900 text-center">
-              {t("headline")}
+              {tForm("formTitle")}
             </CardTitle>
             <p className="text-gray-600 text-sm md:text-base max-w-6xl  mx-auto text-center ">
-              {t("description")}
+              {tForm("formDescription")}
             </p>
           </CardHeader>
           <CardContent>
@@ -82,10 +82,10 @@ function PharmacyRegForm() {
                       errors.pharmacyName && "border-red-500"
                     )}
                     {...register("pharmacyName", {
-                      required: "Pharmacy name is required",
+                      required: tForm("placeholders.pharmacyNameRequired"), 
                       minLength: {
                         value: 2,
-                        message: "Pharmacy name must be at least 2 characters",
+                        message: tForm("placeholders.pharmacyNameMinLength"),
                       },
                     })}
                   />
@@ -111,10 +111,10 @@ function PharmacyRegForm() {
                       errors.pharmacyAddress && "border-red-500"
                     )}
                     {...register("pharmacyAddress", {
-                      required: "Pharmacy address is required",
+                      required: tForm("placeholders.pharmacyAddressRequired"),
                       minLength: {
                         value: 5,
-                        message: "Address must be at least 5 characters",
+                        message: tForm("placeholders.pharmacyAddressMinLength"),
                       },
                     })}
                   />
@@ -140,11 +140,11 @@ function PharmacyRegForm() {
                     errors.phoneNumber && "border-red-500"
                   )}
                   {...register("phoneNumber", {
-                    required: "Phone number is required",
+                    required: tForm("placeholders.phoneNumberRequired"),
                     pattern: {
                       value:
                         /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
-                      message: "Invalid phone number format",
+                      message: tForm("placeholders.phoneNumberInvalid"),
                     },
                   })}
                 />
@@ -169,10 +169,10 @@ function PharmacyRegForm() {
                     errors.emailAddress && "border-red-500"
                   )}
                   {...register("emailAddress", {
-                    required: "Email address is required",
+                    required: tForm("placeholders.emailAddressRequired"),
                     pattern: {
                       value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                      message: "Invalid email address",
+                      message: tForm("placeholders.emailAddressInvalid"),
                     },
                   })}
                 />
@@ -201,11 +201,11 @@ function PharmacyRegForm() {
                       errors.contactPerson && "border-red-500"
                     )}
                     {...register("contactPerson", {
-                      required: "Contact person is required",
+                      required: tForm("placeholders.contactPersonRequired"),
                       minLength: {
                         value: 2,
                         message:
-                          "Contact person name must be at least 2 characters",
+                          tForm("placeholders.contactPersonMinLength"),
                       },
                     })}
                   />
@@ -228,10 +228,10 @@ function PharmacyRegForm() {
                       errors.title && "border-red-500"
                     )}
                     {...register("title", {
-                      required: "Title is required",
+                      required: tForm("placeholders.titleRequired"),
                       minLength: {
                         value: 2,
-                        message: "Title must be at least 2 characters",
+                        message: tForm("placeholders.titleMinLength"),
                       },
                     })}
                   />
@@ -254,7 +254,7 @@ function PharmacyRegForm() {
                 <Controller
                   name="experienceBusiness"
                   control={control}
-                  rules={{ required: "Experience business is required" }}
+                  rules={{ required: tForm("placeholders.experienceBusinessRequired") }}
                   render={({ field }) => (
                     <Select onValueChange={field.onChange} value={field.value}>
                       <SelectTrigger
@@ -304,10 +304,10 @@ function PharmacyRegForm() {
                     errors.message && "border-red-500"
                   )}
                   {...register("message", {
-                    required: "Message is required",
+                    required: tForm("placeholders.messageRequired"),
                     minLength: {
                       value: 10,
-                      message: "Message must be at least 10 characters",
+                      message: tForm("placeholders.messageMinLength"),
                     },
                   })}
                 />

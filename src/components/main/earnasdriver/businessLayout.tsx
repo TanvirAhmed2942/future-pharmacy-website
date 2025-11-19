@@ -5,13 +5,15 @@ import HowItWorksSection from "./howItWorks";
 import PartnerRegistrationForm from "./driverRegForm";
 import PartnerTestimonial from "./partnerTestimonial";
 import Requirements from "./requirements";
+import { useTranslations } from "next-intl";
 
 function EarnAsDriverLayout() {
+  const tBanner = useTranslations("earnAsDriver.banner");
   return (
     <div>
       <Banner
-        title="Earn with Every Delivery"
-        description="Join the community of independent courier drivers supporting local pharmacies and helping patients get the prescriptions they need while you .while earning a flexible income."
+        title={tBanner("title")}
+        description={tBanner("description")}
         image="/banner/earn_as_driver.png"
       />
       <Benefits />
