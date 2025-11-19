@@ -111,11 +111,11 @@ function WeWillBeRight() {
               ref={heartImageRef}
             >
               <Image
-                src="/howitworks/love_capsule_3.png"
+                src="/howitworks/heart_image.png"
                 alt="Heart shape made of pills"
                 width={1000}
                 height={1000}
-                className="object-cover scale-140 mx-auto"
+                className="object-cover scale-100 mx-auto"
               />
             </div>
           </div>

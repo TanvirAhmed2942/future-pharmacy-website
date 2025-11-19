@@ -445,6 +445,7 @@
     "yearsWithLicensePlaceholder": "Seleccione los años con licencia de conducir",
     "yearsWithLicenseRequired": "Los años con licencia de conducir son obligatorios",
     "message": "Mensaje",
+    "years": "años",
     "messagePlaceholder": "Ingrese su mensaje aquí...",
     "messageRequired": "El mensaje es obligatorio",
     "messageMinLength": "El mensaje debe tener al menos 10 caracteres",
