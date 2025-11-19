@@ -104,7 +104,7 @@ export default function HowOptimusWorks() {
   ];
 
   useGSAP(() => {
-    // Use matchMedia to control scroll trigger based on screen size
+    
     const mm = gsap.matchMedia();
 
     // Helper function to create scroll trigger with specific start/end values
