@@ -183,7 +183,7 @@ function RefillTransferSchedule({
             Need help? please call or text us at 917-993-0549
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {displaySteps.map((step, index) => (
               <div
                 key={index}
@@ -206,12 +206,12 @@ function RefillTransferSchedule({
         </div>
 
         {/* Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {refillOptions.map((option, index) => (
             <Card key={index} className="bg-gray-50  border-none shadow-sm  ">
-              <CardContent className="p-8 md:p-10 text-center">
+              <CardContent className="p-8 md:p-8 text-center">
                 {/* Icon */}
-                <div className="flex justify-center mb-6">
+                <div className="flex justify-center mb-4">
                   <div>
                     {option.icon === "laptop" ? (
                       <Laptop className="w-12 h-12 text-peter" />
@@ -229,7 +229,7 @@ function RefillTransferSchedule({
                 </h2>
 
                 {/* Description */}
-                <p className="text-gray-600 text-sm md:text-base mb-6">
+                <p className="text-gray-600 text-sm md:text-base mb-4">
                   {option.description}
                 </p>
 
