@@ -157,7 +157,7 @@
         "messagePlaceholder": "Enter your message here...",
         "messageRequired": "Message is required",
         "messageMinLength": "Message must be at least 10 characters",
-        "submitButton": "Submit Interest"
+        "submitButton": "Send Message"
     }
   },
 

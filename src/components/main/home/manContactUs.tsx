@@ -92,7 +92,7 @@ function ManContactUs() {
       {/* Layer 3: Left Side with Sharp test.png and diagonal cut - Desktop only */}
       <div className="hidden lg:block relative z-10 w-full lg:w-1/2 min-h-screen overflow-hidden ">
         {/* Sharp image with diagonal cut using Next.js Image */}
-        <div className="absolute inset-0 w-full h-full xl:ml-16 2xl:ml-20">
+        <div className="absolute inset-0 w-full h-full xl:-ml-36 2xl:-ml-72">
           <Image
             src="/test9.png"
             alt="Contact form image"
@@ -108,7 +108,7 @@ function ManContactUs() {
       </div>
 
       {/* Layer 4: Form Section - Right Side / Full Width on Mobile */}
-      <div className="relative z-20 w-full lg:w-1/2 flex items-start sm:items-center justify-center min-h-screen lg:min-h-full py-0 sm:py-4 lg:py-12 px-4 sm:px-6 lg:px-12 ">
+      <div className="relative z-20 w-full lg:w-1/2 flex items-start sm:items-center justify-center min-h-screen lg:min-h-full py-0 sm:py-4 lg:py-12 px-4 sm:px-6 lg:px-12 xl:-ml-72 2xl:-ml-[25rem] ">
         <div className="w-full max-w-lg sm:max-w-xl">
           <div className="bg-white rounded-lg shadow-lg p-6 sm:p-8 md:p-10">
             <div className="mb-6">
