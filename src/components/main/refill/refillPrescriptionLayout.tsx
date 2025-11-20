@@ -22,7 +22,7 @@ function RefillPrescriptionLayout() {
     },
   ];
   return (
-    <div className="container mx-auto bg-white  ">
+    <div className="container mx-auto bg-transparent  ">
       <RefillTransferSchedule
         pageTitle="Refill Your Prescription"
         refillOptions={refillOptions}

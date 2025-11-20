@@ -11,6 +11,7 @@ import { useAuth } from "@/userInfo.authProvide";
 
 import useIcon from "@/hooks/useIcon";
 import ShowPhoneNumber from "../commonModal/showPhoneNumber";
+
 interface RefillOption {
   title: string;
   description: string;
@@ -169,8 +170,9 @@ function RefillTransferSchedule({
     : defaultStepsRefill;
 
   return (
-    <section className="bg-white py-8 md:py-16 px-4 md:px-8">
-      <div className="max-w-7xl mx-auto">
+    <section className="bg-transparent py-8 md:py-16 px-4 md:px-8 ">
+      
+      <div className="max-w-7xl mx-auto relative z-10">
         {/* Page Title */}
         <h1 className="text-2xl md:text-4xl font-bold text-center text-gray-900 mb-6 md:mb-12">
           {pageTitle}
@@ -206,7 +208,7 @@ function RefillTransferSchedule({
         {/* Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {refillOptions.map((option, index) => (
-            <Card key={index} className="bg-gray-50 border-none shadow-sm">
+            <Card key={index} className="bg-gray-50  border-none shadow-sm  ">
               <CardContent className="p-8 md:p-10 text-center">
                 {/* Icon */}
                 <div className="flex justify-center mb-6">
