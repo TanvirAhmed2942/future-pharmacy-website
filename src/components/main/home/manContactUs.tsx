@@ -16,7 +16,6 @@ import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
-
 interface FormValues {
   name: string;
   email: string;
@@ -200,7 +199,7 @@ function ManContactUs() {
                       pattern: {
                         value:
                           /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
-                          message: t("phoneNumberInvalid"),
+                        message: t("phoneNumberInvalid"),
                       },
                     })}
                   />
@@ -327,7 +326,7 @@ function ManContactUs() {
               </div>
 
               {/* Submit Button */}
-              <div className="flex justify-start pt-2">
+              <div className="flex justify-center pt-2">
                 <Button
                   type="submit"
                   className="bg-[#8A4D9F] hover:bg-[#7A3D8F] text-white px-6 sm:px-10 py-3 sm:py-6 text-sm sm:text-base font-medium rounded-md transition-colors w-full sm:w-auto"

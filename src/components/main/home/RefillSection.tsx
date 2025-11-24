@@ -60,8 +60,7 @@ export default function RefilSection() {
       icon: prescriptionDelivery,
       iconType: "custom",
       title: tServices("services.0.title"),
-      description:
-        "Lorem ipsum dolor sit amet consectetur. Tempor quisque velit mi senectus mauris orci auctor.",
+      description: tServices("services.0.description"),
       buttonText: tServices("services.0.buttonText"),
       buttonColor: "bg-peter hover:bg-peter-dark",
       href: "/#request-your-rx-delivered-in-minutes",
@@ -71,8 +70,7 @@ export default function RefilSection() {
       icon: refillPrescription,
       iconType: "custom",
       title: tServices("services.1.title"),
-      description:
-        "Lorem ipsum dolor sit amet consectetur. Tempor quisque velit mi senectus mauris orci auctor.",
+      description: tServices("services.1.description"),
       buttonText: tServices("services.1.buttonText"),
       buttonColor: "bg-peter hover:bg-peter-dark",
       href: "/refill-prescription",
@@ -82,8 +80,7 @@ export default function RefilSection() {
       icon: "/home/transfer.png",
       iconType: "image",
       title: tServices("services.2.title"),
-      description:
-        "Lorem ipsum dolor sit amet consectetur. Tempor quisque velit mi senectus mauris orci auctor.",
+      description: tServices("services.2.description"),
       buttonText: tServices("services.2.buttonText"),
       buttonColor: "bg-peter hover:bg-peter-dark",
       href: "/transfer-prescription",
@@ -93,8 +90,7 @@ export default function RefilSection() {
       icon: calendar,
       iconType: "custom",
       title: tServices("services.3.title"),
-      description:
-        "Lorem ipsum dolor sit amet consectetur. mauris orci auctor.",
+      description: tServices("services.3.description"),
       buttonText: tServices("services.3.buttonText"),
       buttonColor: "bg-peter hover:bg-peter-dark",
       href: "/schedule-now",
