@@ -14,7 +14,9 @@ function Home() {
     <div className="min-h-screen  ">
       <div className="container mx-auto space-y-4">
         <MapAndFormSection />
-        <HowOptimusWorks />
+      </div>
+      <HowOptimusWorks />
+      <div className="container mx-auto space-y-4">
         <RefillSection />
       </div>
       <OurStory />

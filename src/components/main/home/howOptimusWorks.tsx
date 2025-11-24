@@ -47,8 +47,31 @@ export default function HowOptimusWorks() {
   ];
 
   return (
-    <div className="container mx-auto bg-gray-50 py-4 md:py-8 lg:py-16  ">
-      <div className=" mx-auto ">
+    <div className="relative mx-auto py-4 md:py-8 lg:py-16 overflow-hidden">
+      {/* Background Images with Blur */}
+      <div className="absolute inset-0 z-0">
+        <div
+          className="absolute inset-0 bg-cover bg-center blur-xs"
+          style={{
+            backgroundImage: 'url("/home/bg_image.webp")',
+          }}
+        />
+        {/* Overlay for better readability */}
+        <div className="absolute inset-0 bg-black/20" />
+      </div>
+
+      {/* Unblurred section on the right */}
+      <div className="absolute right-0 top-0 bottom-0 w-1/4 z-10 hidden lg:block">
+        <div
+          className="h-full bg-cover bg-center"
+          style={{
+            backgroundImage: 'url("/home/image 25.webp")',
+          }}
+        />
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10 mx-auto">
         <div className="w-full max-w-2xl md:max-w-6xl mx-auto mb-10">
           <h2 className="text-3xl md:text-4xl font-bold text-peter mb-4 font-inter text-center">
             {t("headline")}
@@ -58,7 +81,7 @@ export default function HowOptimusWorks() {
           {items.map((item, index) => (
             <Card
               key={index}
-              className="bg-white p-8 text-center hover:shadow-lg transition-shadow flex flex-col border-none shadow-none h-full"
+              className="bg-white/80 backdrop-blur-md p-8 text-center hover:shadow-lg transition-shadow flex flex-col border-none shadow-lg h-full"
             >
               {/* Icon section - fixed height */}
               <div className="flex justify-center mb-4 h-20 items-center">
