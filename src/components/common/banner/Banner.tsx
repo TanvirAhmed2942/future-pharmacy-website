@@ -10,7 +10,7 @@ type Props = {
 };
 function Banner({ title, description, image }: Props) {
   return (
-    <div className="relative w-full h-[400px] sm:h-[500px] md:h-[600px] lg:h-[500px]">
+    <div className="relative w-full h-[400px] sm:h-[500px] md:h-[600px] lg:h-[300px] 2xl:h-[400px]">
       <Image
         src={image}
         alt={title as string}
