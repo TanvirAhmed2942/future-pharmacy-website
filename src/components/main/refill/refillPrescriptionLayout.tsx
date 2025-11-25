@@ -8,15 +8,14 @@ function RefillPrescriptionLayout() {
       icon: "globe" as const,
       title: "Refill Online",
       description:
-        "Lorem ipsum dolor sit amet consectetur. Tempor quisque velit mi senectus mauris orci auctor.",
+        "Use our secure form to refill your prescriptions quickly, securely and conveniently",
       buttonText: "Refill Now",
       onlineHref: "/refill-prescription/online",
     },
     {
       icon: "phone" as const,
       title: "Refill by phone",
-      description:
-        "Lorem ipsum dolor sit amet consectetur. Tempor quisque velit mi senectus mauris orci auctor.",
+      description: "Call our trusted team to complete the Refill Form by phone",
       buttonText: "Call Now",
       onClick: () => setIsShowPhoneNumberOpen(true),
     },

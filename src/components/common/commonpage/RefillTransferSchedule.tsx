@@ -11,6 +11,7 @@ import { useAuth } from "@/userInfo.authProvide";
 
 import useIcon from "@/hooks/useIcon";
 import ShowPhoneNumber from "../commonModal/showPhoneNumber";
+import Backbutton from "@/components/common/backbutton/backbutton";
 
 interface RefillOption {
   title: string;
@@ -170,15 +171,17 @@ function RefillTransferSchedule({
     : defaultStepsRefill;
 
   return (
-    <section className="bg-transparent py-8 md:py-16 px-4 md:px-8 ">
-      
+    <section className="bg-transparent py-8 md:py-16 xl:py-8 2xl:py-16 px-4 md:px-8 ">
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Page Title */}
-        <h1 className="text-2xl md:text-4xl font-bold text-center text-gray-900 mb-6 md:mb-12">
-          {pageTitle}
-        </h1>
+        <div className="flex items-center justify-center gap-x-4 mb-6 md:mb-12 xl:mb-8 2xl:mb-12 ">
+          <Backbutton />
+          <h1 className="text-2xl md:text-4xl font-bold text-center text-gray-900 ">
+            {pageTitle}
+          </h1>
+        </div>
 
-        <div className="mb-12">
+        <div className="mb-12 xl:mb-6 2xl:mb-8 ">
           <p className="text-gray-800 text-sm md:text-base mb-6 text-center md:text-left">
             Need help? please call or text us at 917-993-0549
           </p>
@@ -208,8 +211,11 @@ function RefillTransferSchedule({
         {/* Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {refillOptions.map((option, index) => (
-            <Card key={index} className="bg-gray-50  border-none shadow-sm  ">
-              <CardContent className="p-8 md:p-8 text-center">
+            <Card
+              key={index}
+              className="bg-gray-50  border-none shadow-sm xl:p-2 "
+            >
+              <CardContent className="p-8 md:p-8 xl:p-4 2xl:p-8 text-center">
                 {/* Icon */}
                 <div className="flex justify-center mb-4">
                   <div>

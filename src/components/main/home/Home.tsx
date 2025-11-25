@@ -1,7 +1,7 @@
 import React from "react";
 import MapAndFormSection from "./MapAndFormSection";
 import RefillSection from "./RefillSection";
-import UserTestimonial from "./userTestimonial";
+// import UserTestimonial from "./userTestimonial";
 // import ContactUsSection from "./contactUsSection";
 import OurImpact from "../aboutus/ourImpact";
 import HowOptimusWorks from "./howOptimusWorks";
@@ -21,7 +21,7 @@ function Home() {
       </div>
       <OurStory />
       <OurImpact />
-      <UserTestimonial />
+      {/* <UserTestimonial /> */}
       <div className="bg-white">
         <CheckZoneCoverage />
         {/* <ContactUsSection /> */}

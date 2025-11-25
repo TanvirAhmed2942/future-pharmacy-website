@@ -9,7 +9,7 @@ function ScheduleLayout() {
       icon: "globe" as const,
       title: "Schedule Online",
       description:
-        "Lorem ipsum dolor sit amet consectetur. Tempor quisque velit mi senectus mauris orci auctor.",
+        "Use our secure form to book your pharmacy appointment fast, safe, and convenient.",
       buttonText: "Schedule Online",
       onlineHref: "/schedule-now/online",
     },
@@ -17,7 +17,7 @@ function ScheduleLayout() {
       icon: "phone" as const,
       title: "Schedule by phone",
       description:
-        "Lorem ipsum dolor sit amet consectetur. Tempor quisque velit mi senectus mauris orci auctor.",
+        "Call our trusted team to schedule your appointment  by phone",
       buttonText: "Call Now",
       onClick: () => setIsShowPhoneNumberOpen(true),
     },
