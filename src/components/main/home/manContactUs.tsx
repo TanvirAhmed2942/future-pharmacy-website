@@ -15,6 +15,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
 
 interface FormValues {
   name: string;
@@ -26,13 +27,18 @@ interface FormValues {
 }
 function ManContactUs() {
   const t = useTranslations("home.formSection");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState<string>("");
+
   const {
     register,
     handleSubmit,
     watch,
     control,
-    formState: { errors },
+    reset,
+    formState: { errors, isValid },
   } = useForm<FormValues>({
+    mode: "onChange",
     defaultValues: {
       name: "",
       email: "",
@@ -45,9 +51,24 @@ function ManContactUs() {
 
   const selectedSubject = watch("subject");
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log("Message sent:", data);
-    // Handle form submission logic here
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    setIsSubmitting(true);
+    setSubmitMessage("");
+
+    try {
+      console.log("Message sent:", data);
+      // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      // Handle form submission logic here
+      setSubmitMessage("Message sent successfully!");
+      reset(); // Reset form after successful submission
+    } catch (error) {
+      console.error("Error sending message:", error);
+      setSubmitMessage("Error sending message. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -109,7 +130,7 @@ function ManContactUs() {
       {/* Layer 4: Form Section - Right Side / Full Width on Mobile */}
       <div className="relative z-20 w-full lg:w-1/2 flex items-start sm:items-center justify-center min-h-screen lg:min-h-full py-0 sm:py-4 lg:py-12 px-4 sm:px-6 lg:px-12 xl:-ml-72 2xl:-ml-[25rem] ">
         <div className="w-full max-w-lg sm:max-w-xl">
-          <div className="bg-white rounded-lg shadow-lg p-6 sm:p-8 md:p-10">
+          <div className="bg-white rounded-lg shadow-lg p-6 sm:p-8 md:p-10 ">
             <div className="mb-6">
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2 sm:mb-3">
                 {t("formTitle")}
@@ -118,7 +139,10 @@ function ManContactUs() {
                 {t("formDescription")}
               </p>
             </div>
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="space-y-6 relative"
+            >
               {/* Name and Email Row */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div className="space-y-2">
@@ -326,13 +350,34 @@ function ManContactUs() {
               </div>
 
               {/* Submit Button */}
-              <div className="flex justify-center pt-2">
+              <div className="flex flex-col items-center pt-2 space-y-3">
                 <Button
                   type="submit"
-                  className="bg-[#8A4D9F] hover:bg-[#7A3D8F] text-white px-6 sm:px-10 py-3 sm:py-6 text-sm sm:text-base font-medium rounded-md transition-colors w-full sm:w-auto"
+                  // disabled={isSubmitting || !isValid}
+                  className="bg-[#8A4D9F] hover:bg-[#7A3D8F] disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-6 sm:px-10 py-3 sm:py-6 text-sm sm:text-base font-medium rounded-md transition-colors w-full sm:w-auto"
                 >
-                  {t("submitButton")}
+                  {isSubmitting ? "Sending..." : t("submitButton")}
                 </Button>
+                {submitMessage && (
+                  <p
+                    className={`text-sm ${
+                      submitMessage.includes("Error")
+                        ? "text-red-500"
+                        : "text-green-500"
+                    }`}
+                  >
+                    {submitMessage}
+                  </p>
+                )}
+              </div>
+              <div className="absolute inset-0 w-full h-full flex items-center justify-center pointer-events-none z-10">
+                <Image
+                  src="/watermark.webp"
+                  alt="watermark"
+                  width={1000}
+                  height={1000}
+                  className="object-contain w-60 h-60 -rotate-45 opacity-100"
+                />
               </div>
             </form>
           </div>
