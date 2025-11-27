@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -28,7 +29,9 @@ interface FormValues {
 }
 
 function BusinessInquiryForm() {
-  const tOtherBusinesses = useTranslations("otherBusinesses.businessInquiryForm");
+  const tOtherBusinesses = useTranslations(
+    "otherBusinesses.businessInquiryForm"
+  );
   const {
     register,
     handleSubmit,
@@ -73,13 +76,16 @@ function BusinessInquiryForm() {
 
       {/* Content Container - Centered */}
       <div className="relative z-20 w-full max-w-2xl mx-auto">
-        <Card className="border shadow-2xl bg-white/95 backdrop-blur-sm">
+        <Card className="border shadow-2xl bg-white opacity-85 backdrop-blur-sm">
           <CardContent className="pt-6 pb-6">
             <h2 className="text-xl font-semibold text-center mb-6">
               {tOtherBusinesses("form.formTitle")}
             </h2>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="space-y-4 relative"
+            >
               {/* Name Field */}
               <div>
                 <Label htmlFor="name" className="text-sm text-gray-700">
@@ -120,7 +126,9 @@ function BusinessInquiryForm() {
                   <Input
                     id="emailAddress"
                     type="email"
-                    placeholder={tOtherBusinesses("form.emailAddressPlaceholder")}
+                    placeholder={tOtherBusinesses(
+                      "form.emailAddressPlaceholder"
+                    )}
                     className={cn(
                       "mt-1 bg-gray-50",
                       errors.emailAddress && "border-red-500"
@@ -149,7 +157,9 @@ function BusinessInquiryForm() {
                   <Input
                     id="phoneNumber"
                     type="tel"
-                    placeholder={tOtherBusinesses("form.phoneNumberPlaceholder")}
+                    placeholder={tOtherBusinesses(
+                      "form.phoneNumberPlaceholder"
+                    )}
                     className={cn(
                       "mt-1 bg-gray-50",
                       errors.phoneNumber && "border-red-500"
@@ -182,7 +192,9 @@ function BusinessInquiryForm() {
                 <Input
                   id="organizationName"
                   type="text"
-                  placeholder={tOtherBusinesses("form.organizationNamePlaceholder")}
+                  placeholder={tOtherBusinesses(
+                    "form.organizationNamePlaceholder"
+                  )}
                   className={cn(
                     "mt-1 bg-gray-50",
                     errors.organizationName && "border-red-500"
@@ -191,7 +203,9 @@ function BusinessInquiryForm() {
                     required: tOtherBusinesses("form.organizationNameRequired"),
                     minLength: {
                       value: 2,
-                      message: tOtherBusinesses("form.organizationNameMinLength"),
+                      message: tOtherBusinesses(
+                        "form.organizationNameMinLength"
+                      ),
                     },
                   })}
                 />
@@ -213,7 +227,9 @@ function BusinessInquiryForm() {
                 <Controller
                   name="organizationType"
                   control={control}
-                  rules={{ required: tOtherBusinesses("form.organizationTypeRequired") }}
+                  rules={{
+                    required: tOtherBusinesses("form.organizationTypeRequired"),
+                  }}
                   render={({ field }) => (
                     <Select onValueChange={field.onChange} value={field.value}>
                       <SelectTrigger
@@ -222,7 +238,11 @@ function BusinessInquiryForm() {
                           errors.organizationType && "border-red-500"
                         )}
                       >
-                        <SelectValue placeholder={tOtherBusinesses("form.organizationTypePlaceholder")} />
+                        <SelectValue
+                          placeholder={tOtherBusinesses(
+                            "form.organizationTypePlaceholder"
+                          )}
+                        />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="employers">Employers</SelectItem>
@@ -288,7 +308,9 @@ function BusinessInquiryForm() {
                 <Input
                   id="regionOfInterest"
                   type="text"
-                  placeholder={tOtherBusinesses("form.regionOfInterestPlaceholder")}
+                  placeholder={tOtherBusinesses(
+                    "form.regionOfInterestPlaceholder"
+                  )}
                   className={cn(
                     "mt-1 bg-gray-50",
                     errors.regionOfInterest && "border-red-500"
@@ -297,7 +319,9 @@ function BusinessInquiryForm() {
                     required: tOtherBusinesses("form.regionOfInterestRequired"),
                     minLength: {
                       value: 2,
-                      message: tOtherBusinesses("form.regionOfInterestMinLength"),
+                      message: tOtherBusinesses(
+                        "form.regionOfInterestMinLength"
+                      ),
                     },
                   })}
                 />
@@ -342,6 +366,17 @@ function BusinessInquiryForm() {
               >
                 {tOtherBusinesses("form.submitButton")}
               </Button>
+
+              {/* Watermark */}
+              <div className="absolute inset-0 w-full h-full flex items-center justify-center pointer-events-none z-10">
+                <Image
+                  src="/watermark.webp"
+                  alt="watermark"
+                  width={1000}
+                  height={1000}
+                  className="object-contain w-60 h-60 xl:w-80 xl:h-80 -rotate-45 opacity-100"
+                />
+              </div>
             </form>
           </CardContent>
         </Card>

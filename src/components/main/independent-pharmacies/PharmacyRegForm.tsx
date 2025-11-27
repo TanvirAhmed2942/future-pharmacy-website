@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -27,7 +28,6 @@ interface FormValues {
 }
 
 function PharmacyRegForm() {
-
   const tForm = useTranslations("independentPharmacies.formSection.form");
   const {
     register,
@@ -66,7 +66,10 @@ function PharmacyRegForm() {
             </p>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="space-y-6 relative"
+            >
               {/* Pharmacy Name and Pharmacy Address - Two Column Layout */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
@@ -82,7 +85,7 @@ function PharmacyRegForm() {
                       errors.pharmacyName && "border-red-500"
                     )}
                     {...register("pharmacyName", {
-                      required: tForm("placeholders.pharmacyNameRequired"), 
+                      required: tForm("placeholders.pharmacyNameRequired"),
                       minLength: {
                         value: 2,
                         message: tForm("placeholders.pharmacyNameMinLength"),
@@ -204,8 +207,7 @@ function PharmacyRegForm() {
                       required: tForm("placeholders.contactPersonRequired"),
                       minLength: {
                         value: 2,
-                        message:
-                          tForm("placeholders.contactPersonMinLength"),
+                        message: tForm("placeholders.contactPersonMinLength"),
                       },
                     })}
                   />
@@ -254,7 +256,9 @@ function PharmacyRegForm() {
                 <Controller
                   name="experienceBusiness"
                   control={control}
-                  rules={{ required: tForm("placeholders.experienceBusinessRequired") }}
+                  rules={{
+                    required: tForm("placeholders.experienceBusinessRequired"),
+                  }}
                   render={({ field }) => (
                     <Select onValueChange={field.onChange} value={field.value}>
                       <SelectTrigger
@@ -325,6 +329,17 @@ function PharmacyRegForm() {
               >
                 {tForm("submitButton")}
               </Button>
+
+              {/* Watermark */}
+              <div className="absolute inset-0 w-full h-full flex items-center justify-center pointer-events-none z-10">
+                <Image
+                  src="/watermark.webp"
+                  alt="watermark"
+                  width={1000}
+                  height={1000}
+                  className="object-contain w-60 h-60 xl:w-80 xl:h-80 -rotate-45 opacity-100"
+                />
+              </div>
             </form>
           </CardContent>
         </Card>

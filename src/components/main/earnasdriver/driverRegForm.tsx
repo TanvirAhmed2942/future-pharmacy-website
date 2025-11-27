@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -72,13 +73,16 @@ function DriverRegForm() {
 
       {/* Content Container - Centered */}
       <div className="relative z-20 w-full max-w-2xl mx-auto">
-        <Card className="border shadow-2xl bg-white/95  backdrop-blur-sm">
+        <Card className="border shadow-2xl bg-white  backdrop-blur-sm opacity-85">
           <CardContent className="pt-6">
             <h2 className="text-xl font-semibold text-center mb-6">
               {tForm("formTitle")}
             </h2>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 ">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="space-y-4 relative"
+            >
               {/* Name Field */}
               <div>
                 <Label htmlFor="name" className="text-sm text-gray-700">
@@ -244,7 +248,9 @@ function DriverRegForm() {
                             errors.vehicleType && "border-red-500"
                           )}
                         >
-                          <SelectValue placeholder={tForm("vehicleTypePlaceholder")} />
+                          <SelectValue
+                            placeholder={tForm("vehicleTypePlaceholder")}
+                          />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="car">Car</SelectItem>
@@ -285,13 +291,23 @@ function DriverRegForm() {
                             errors.yearsWithLicense && "border-red-500"
                           )}
                         >
-                          <SelectValue placeholder={tForm("yearsWithLicensePlaceholder")} />
+                          <SelectValue
+                            placeholder={tForm("yearsWithLicensePlaceholder")}
+                          />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="2-5">2-5 {tForm("years")}</SelectItem>
-                          <SelectItem value="6-10">6-10 {tForm("years")}</SelectItem>
-                          <SelectItem value="11-20">11-20 {tForm("years")}</SelectItem>
-                          <SelectItem value="20+">20+ {tForm("years")}</SelectItem>
+                          <SelectItem value="2-5">
+                            2-5 {tForm("years")}
+                          </SelectItem>
+                          <SelectItem value="6-10">
+                            6-10 {tForm("years")}
+                          </SelectItem>
+                          <SelectItem value="11-20">
+                            11-20 {tForm("years")}
+                          </SelectItem>
+                          <SelectItem value="20+">
+                            20+ {tForm("years")}
+                          </SelectItem>
                         </SelectContent>
                       </Select>
                     )}
@@ -338,6 +354,17 @@ function DriverRegForm() {
               >
                 {tForm("submitButton")}
               </Button>
+
+              {/* Watermark */}
+              <div className="absolute inset-0 w-full h-full flex items-center justify-center pointer-events-none z-10">
+                <Image
+                  src="/watermark.webp"
+                  alt="watermark"
+                  width={1000}
+                  height={1000}
+                  className="object-contain w-60 h-60 xl:w-80 xl:h-80 -rotate-45 opacity-100"
+                />
+              </div>
             </form>
           </CardContent>
         </Card>

@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -28,7 +29,9 @@ interface FormValues {
 }
 
 function InvestorsInquiryForm() {
-  const tInvestorsInquiryForm = useTranslations("investors.investorsInquiryForm");
+  const tInvestorsInquiryForm = useTranslations(
+    "investors.investorsInquiryForm"
+  );
   const tForm = useTranslations("investors.investorsInquiryForm.form");
   const {
     register,
@@ -81,14 +84,17 @@ function InvestorsInquiryForm() {
 
         {/* Form Card */}
         <div id="bg video">
-          <Card className="shadow-2xl bg-white/95 backdrop-blur-sm">
+          <Card className="shadow-2xl bg-white opacity-85 backdrop-blur-sm">
             <CardHeader className="space-y-1 pb-6">
               <CardTitle className="text-2xl font-bold text-gray-900">
                 {tForm("formTitle")}
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="space-y-6 relative"
+              >
                 {/* Full Name */}
                 <div className="space-y-2">
                   <Label htmlFor="fullName" className="text-sm font-medium">
@@ -195,8 +201,7 @@ function InvestorsInquiryForm() {
                         required: tForm("organizationNameRequired"),
                         minLength: {
                           value: 2,
-                          message:
-                            tForm("organizationNameMinLength"),
+                          message: tForm("organizationNameMinLength"),
                         },
                       })}
                     />
@@ -225,8 +230,7 @@ function InvestorsInquiryForm() {
                         required: tForm("organizationTypeRequired"),
                         minLength: {
                           value: 2,
-                          message:
-                            tForm("organizationTypeMinLength"),
+                          message: tForm("organizationTypeMinLength"),
                         },
                       })}
                     />
@@ -291,13 +295,25 @@ function InvestorsInquiryForm() {
                                 "border-red-500"
                             )}
                           >
-                            <SelectValue placeholder={tForm("yearsOfInvestmentExperiencePlaceholder")} />
+                            <SelectValue
+                              placeholder={tForm(
+                                "yearsOfInvestmentExperiencePlaceholder"
+                              )}
+                            />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="1-3">1-3 {tForm("years")}</SelectItem>
-                            <SelectItem value="4-7">4-7 {tForm("years")}</SelectItem>
-                            <SelectItem value="8-12">8-12 {tForm("years")}</SelectItem>
-                            <SelectItem value="12+">12+ {tForm("years")}</SelectItem>
+                            <SelectItem value="1-3">
+                              1-3 {tForm("years")}
+                            </SelectItem>
+                            <SelectItem value="4-7">
+                              4-7 {tForm("years")}
+                            </SelectItem>
+                            <SelectItem value="8-12">
+                              8-12 {tForm("years")}
+                            </SelectItem>
+                            <SelectItem value="12+">
+                              12+ {tForm("years")}
+                            </SelectItem>
                           </SelectContent>
                         </Select>
                       )}
@@ -344,6 +360,17 @@ function InvestorsInquiryForm() {
                 >
                   {tForm("submitButton")}
                 </Button>
+
+                {/* Watermark */}
+                <div className="absolute inset-0 w-full h-full flex items-center justify-center pointer-events-none z-10">
+                  <Image
+                    src="/watermark.webp"
+                    alt="watermark"
+                    width={1000}
+                    height={1000}
+                    className="object-contain w-60 h-60 xl:w-80 xl:h-80 -rotate-45 opacity-100"
+                  />
+                </div>
               </form>
             </CardContent>
           </Card>
