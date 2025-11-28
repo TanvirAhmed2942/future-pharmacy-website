@@ -103,7 +103,7 @@ export default function LocationPickerModal({
                 <History className="w-4 h-4" />
                 Recent Locations
               </h3>
-              <div className="space-y-2">
+              <div className="space-y-2 max-h-20 overflow-y-auto">
                 {locationHistory.map((location, index) => (
                   <Card
                     key={index}

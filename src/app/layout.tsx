@@ -5,6 +5,7 @@ import { AuthProvider } from "@/userInfo.authProvide";
 import ConditionalLayout from "@/components/common/ConditionalLayout";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getLocale } from "next-intl/server";
+import ReduxProvider from "@/store/ReduxProvider";
 // import { GlobalSmoothScroll } from "@/hooks/scroll-smooth";
 const inter = Inter({
   variable: "--font-inter",
@@ -26,14 +27,16 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} antialiased bg-gray-50 `}>
-        <AuthProvider>
-          <NextIntlClientProvider messages={messages} locale={locale}>
-            <ConditionalLayout>
-              {/* <GlobalSmoothScroll /> */}
-              {children}
-            </ConditionalLayout>
-          </NextIntlClientProvider>
-        </AuthProvider>
+        <ReduxProvider>
+          <AuthProvider>
+            <NextIntlClientProvider messages={messages} locale={locale}>
+              <ConditionalLayout>
+                {/* <GlobalSmoothScroll /> */}
+                {children}
+              </ConditionalLayout>
+            </NextIntlClientProvider>
+          </AuthProvider>
+        </ReduxProvider>
       </body>
     </html>
   );

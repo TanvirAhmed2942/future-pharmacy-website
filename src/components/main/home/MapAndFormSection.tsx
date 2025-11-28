@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   MapPin,
   Calendar,
@@ -18,11 +18,37 @@ import { useAuth } from "@/userInfo.authProvide";
 import { useRouter } from "next/navigation";
 import { Label } from "@radix-ui/react-label";
 import { useTranslations } from "next-intl";
+import MapComponent from "./Map";
+import GoogleMapsProvider from "./Map/GoogleMapsProvider";
+import AddressAutocomplete from "./Map/AddressAutocomplete";
+import { Location, Pharmacy } from "./Map/types";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import {
+  setPickupAddress,
+  setDropoffAddress,
+  setPickupLocation,
+  setDropoffLocation,
+  setZipCode,
+  setCity,
+  setState,
+  setCurrentLocation,
+} from "@/store/slices/mapSlice";
 export default function MapAndFormSection() {
   const t = useTranslations("home.mapAndFormSection");
   const tForm = useTranslations("home.form");
-  const [pickupLocation, setPickupLocation] = useState("");
-  const [dropoffAddress, setDropoffAddress] = useState("");
+  const dispatch = useAppDispatch();
+  
+  // Redux state
+  const pickupAddress = useAppSelector((state) => state.map.pickupAddress);
+  const dropoffAddress = useAppSelector((state) => state.map.dropoffAddress);
+  const pickupLocationCoords = useAppSelector((state) => state.map.pickupLocation);
+  const dropoffLocationCoords = useAppSelector((state) => state.map.dropoffLocation);
+  const zipCode = useAppSelector((state) => state.map.zipCode);
+  const city = useAppSelector((state) => state.map.city);
+  const state = useAppSelector((state) => state.map.state);
+  const currentLocation = useAppSelector((state) => state.map.currentLocation);
+
+  // Local state for UI
   const [deliveryTime, setDeliveryTime] = useState("today");
   const [deliverySpeed, setDeliverySpeed] = useState("now");
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
@@ -32,13 +58,30 @@ export default function MapAndFormSection() {
   const [selectedTime, setSelectedTime] = useState<string | undefined>(
     undefined
   );
-  const [currentLocation, setCurrentLocation] = useState(
-    "1901 Thornridge Cir. Shiloh, Hawaii 81063"
-  );
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const router = useRouter();
   const { isLoggedIn } = useAuth();
+
+  // Parse location string to extract zipcode, city, state
+  useEffect(() => {
+    const parseLocation = () => {
+      // Try to extract zipcode (5 digits)
+      const zipMatch = currentLocation.match(/\b\d{5}\b/);
+      if (zipMatch) {
+        dispatch(setZipCode(zipMatch[0]));
+      }
+
+      // Try to extract city and state (format: "City, State ZIP")
+      const cityStateMatch = currentLocation.match(/([^,]+),\s*([A-Z]{2})\s+\d{5}/);
+      if (cityStateMatch) {
+        dispatch(setCity(cityStateMatch[1].trim()));
+        dispatch(setState(cityStateMatch[2].trim()));
+      }
+    };
+
+    parseLocation();
+  }, [currentLocation, dispatch]);
 
   const checkIsLoggedIn = () => {
     return isLoggedIn;
@@ -51,6 +94,21 @@ export default function MapAndFormSection() {
     } else {
       setIsModalOpen(true);
     }
+  };
+
+  const handlePickupSelect = (location: Location, address: string) => {
+    dispatch(setPickupAddress(address));
+    dispatch(setPickupLocation(location));
+  };
+
+  const handleDropoffSelect = (location: Location, address: string) => {
+    dispatch(setDropoffAddress(address));
+    dispatch(setDropoffLocation(location));
+  };
+
+  const handlePharmacyClick = (pharmacy: Pharmacy) => {
+    console.log("Pharmacy clicked:", pharmacy);
+    // You can add modal or navigation logic here
   };
 
   return (
@@ -92,13 +150,17 @@ export default function MapAndFormSection() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3 w-10/12">
                   <div className="w-4.5 h-4 rounded-full bg-black"></div>
-                  <input
-                    type="text"
-                    placeholder={tForm("pickupLocation")}
-                    value={pickupLocation}
-                    onChange={(e) => setPickupLocation(e.target.value)}
-                    className="text-gray-700 bg-transparent border-none outline-none placeholder:text-gray-400 w-full"
-                  />
+                  <GoogleMapsProvider>
+                    <div className="w-full relative">
+                      <AddressAutocomplete
+                        value={pickupAddress}
+                        onChange={(value) => dispatch(setPickupAddress(value))}
+                        onSelect={handlePickupSelect}
+                        placeholder={tForm("pickupLocation")}
+                        className="bg-transparent border-none outline-none placeholder:text-gray-400 text-gray-700 w-full"
+                      />
+                    </div>
+                  </GoogleMapsProvider>
                 </div>
                 <ChevronRight className="w-5 h-5 text-gray-400" />
               </div>
@@ -111,13 +173,17 @@ export default function MapAndFormSection() {
                   <div className="w-4 h-4 bg-peter flex items-center justify-center border border-black">
                     <span className="w-1 h-1 bg-black  z-10"></span>
                   </div>
-                  <input
-                    type="text"
-                    placeholder={tForm("dropoffAddress")}
-                    value={dropoffAddress}
-                    onChange={(e) => setDropoffAddress(e.target.value)}
-                    className="text-gray-700 bg-transparent border-none outline-none placeholder:text-gray-400 w-full "
-                  />
+                  <GoogleMapsProvider>
+                    <div className="w-full relative">
+                      <AddressAutocomplete
+                        value={dropoffAddress}
+                        onChange={(value) => dispatch(setDropoffAddress(value))}
+                        onSelect={handleDropoffSelect}
+                        placeholder={tForm("dropoffAddress")}
+                        className="bg-transparent border-none outline-none placeholder:text-gray-400 text-gray-700 w-full"
+                      />
+                    </div>
+                  </GoogleMapsProvider>
                 </div>
               </div>
             </Card>
@@ -227,11 +293,16 @@ export default function MapAndFormSection() {
       </div>
 
       {/* Right Section - Map */}
-      <div className=" lg:block md:w-full lg:w-1/2 px-4 md:px-0 relative rounded-xl">
-        <iframe
-          src="https://www.openstreetmap.org/export/embed.html?bbox=-74.2097%2C40.7014%2C-74.1497%2C40.7614&layer=mapnik&marker=40.7314,-74.1794"
-          className="w-full h-full border-0 rounded-xl"
-          title="Map of Newark, NJ"
+      <div className="lg:block md:w-full lg:w-1/2 px-4 md:px-0 relative rounded-xl" style={{ minHeight: "600px" }}>
+        <MapComponent
+          pickupAddress={pickupAddress}
+          dropoffAddress={dropoffAddress}
+          zipCode={zipCode}
+          city={city}
+          state={state}
+          onPharmacyClick={handlePharmacyClick}
+          showRoute={!!pickupLocationCoords && !!dropoffLocationCoords}
+          height="100%"
         />
       </div>
 
@@ -263,7 +334,7 @@ export default function MapAndFormSection() {
         isOpen={isLocationPickerOpen}
         onClose={() => setIsLocationPickerOpen(false)}
         onLocationSelect={(location) => {
-          setCurrentLocation(location);
+          dispatch(setCurrentLocation(location));
         }}
         currentLocation={currentLocation}
       />
