@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
 
@@ -21,8 +22,8 @@ export default function OrderSummary({
   onComplete,
 }: OrderSummaryProps) {
   return (
-    <div className="px-6">
-      <div className="flex items-center gap-3 mb-6">
+    <div className="px-6 relative min-h-[600px]">
+      <div className="flex items-center gap-3 mb-6 relative z-20">
         <Button
           onClick={onPrevious}
           variant="outline"
@@ -36,7 +37,7 @@ export default function OrderSummary({
         </h2>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-4 relative z-20">
         {/* Contact and Delivery Details */}
         <div className="space-y-3">
           <div className="flex justify-between py-2 border-b border-gray-200">
@@ -120,6 +121,17 @@ export default function OrderSummary({
         >
           Complete Payment On Stripe
         </Button>
+      </div>
+
+      {/* Watermark */}
+      <div className="absolute inset-0 w-full h-full flex items-center justify-center pointer-events-none z-0">
+        <Image
+          src="/watermark.webp"
+          alt="watermark"
+          width={1000}
+          height={1000}
+          className="object-contain w-60 h-60 -rotate-45 opacity-100"
+        />
       </div>
     </div>
   );

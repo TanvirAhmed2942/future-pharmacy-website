@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -10,6 +11,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { ChevronDownIcon } from "lucide-react";
+import Backbutton from "@/components/common/backbutton/backbutton";
 
 interface ContactDetailsProps {
   formData: {
@@ -29,10 +31,13 @@ export default function ContactDetails({
   onNext,
 }: ContactDetailsProps) {
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">Contact Details</h2>
+    <div className="p-6 relative min-h-[600px]">
+      <div className="flex items-center gap-2 mb-6 relative z-20">
+        <Backbutton />
+        <h2 className="text-2xl font-bold text-gray-900 ">Contact Details</h2>
+      </div>
 
-      <div className="space-y-4">
+      <div className="space-y-4 relative z-20">
         {/* Email Address */}
         <div>
           <label className="block text-sm font-semibold text-gray-900 mb-2">
@@ -173,6 +178,17 @@ export default function ContactDetails({
         >
           Agree and Continue
         </Button>
+      </div>
+
+      {/* Watermark */}
+      <div className="absolute inset-0 w-full h-full flex items-center justify-center pointer-events-none z-0">
+        <Image
+          src="/watermark.webp"
+          alt="watermark"
+          width={1000}
+          height={1000}
+          className="object-contain w-60 h-60 -rotate-45 opacity-100"
+        />
       </div>
     </div>
   );
