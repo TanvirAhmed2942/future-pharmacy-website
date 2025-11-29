@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Location } from "./types";
 
 interface AddressAutocompleteProps {
@@ -9,6 +9,9 @@ interface AddressAutocompleteProps {
   placeholder?: string;
   className?: string;
   disabled?: boolean;
+  zipCode?: string;
+  city?: string;
+  state?: string;
 }
 
 interface AutocompleteSuggestion {
@@ -27,92 +30,128 @@ export default function AddressAutocomplete({
   placeholder = "Enter address",
   className = "",
   disabled = false,
+  zipCode,
+  city,
+  state,
 }: AddressAutocompleteProps) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [suggestions, setSuggestions] = useState<AutocompleteSuggestion[]>([]);
-  const [ready, setReady] = useState(false);
 
-  // Initialize Google Places Autocomplete
-  useEffect(() => {
+  const getPredictions = (
+    input: string,
+    locationBias?: { lat: number; lng: number }
+  ) => {
     if (
-      typeof window !== "undefined" &&
-      window.google &&
-      inputRef.current &&
-      !autocompleteRef.current
+      typeof window === "undefined" ||
+      !window.google ||
+      !window.google.maps ||
+      !window.google.maps.places ||
+      !window.google.maps.places.AutocompleteService
     ) {
-      const autocomplete = new window.google.maps.places.Autocomplete(
-        inputRef.current,
-        {
-          componentRestrictions: { country: "us" },
-          fields: ["place_id", "geometry", "formatted_address"],
-        }
-      );
-
-      const placeChangedHandler = () => {
-        const place = autocomplete.getPlace();
-        if (place.geometry?.location) {
-          const location: Location = {
-            lat: place.geometry.location.lat(),
-            lng: place.geometry.location.lng(),
-            address: place.formatted_address || value,
-          };
-          onSelect(location, place.formatted_address || value);
-          setShowSuggestions(false);
-        }
-      };
-
-      autocomplete.addListener("place_changed", placeChangedHandler);
-
-      autocompleteRef.current = autocomplete;
-      setReady(true);
+      console.warn("Google Maps Places API not loaded");
+      return;
     }
 
-    return () => {
-      if (autocompleteRef.current && typeof window !== "undefined" && window.google) {
-        window.google.maps.event.clearInstanceListeners(autocompleteRef.current);
-        autocompleteRef.current = null;
-      }
+    const service = new window.google.maps.places.AutocompleteService();
+    const requestOptions: google.maps.places.AutocompletionRequest = {
+      input,
+      componentRestrictions: { country: "us" },
+      // Don't restrict types - let Google return all relevant results
+      // We'll prioritize addresses in the UI
     };
-  }, [onSelect, value]);
+
+    // Add location bias if we have coordinates
+    if (locationBias) {
+      const radius = 80467; // ~50 miles in meters
+      requestOptions.locationBias = `circle:${radius}@${locationBias.lat},${locationBias.lng}`;
+    }
+
+    service.getPlacePredictions(requestOptions, (predictions, status) => {
+      console.log("Autocomplete response:", {
+        status,
+        predictionsCount: predictions?.length || 0,
+      });
+
+      if (
+        status === window.google.maps.places.PlacesServiceStatus.OK &&
+        predictions &&
+        predictions.length > 0
+      ) {
+        // Show all geocode results (which includes addresses)
+        // Limit to 8 results for better UX
+        const resultsToShow = predictions.slice(0, 8);
+
+        setSuggestions(
+          resultsToShow.map((p) => ({
+            place_id: p.place_id,
+            description: p.description,
+            structured_formatting: {
+              main_text: p.structured_formatting.main_text,
+              secondary_text: p.structured_formatting.secondary_text,
+            },
+          }))
+        );
+        setShowSuggestions(true);
+        console.log("Suggestions set:", resultsToShow.length);
+      } else {
+        // Log error for debugging
+        if (
+          status !== window.google.maps.places.PlacesServiceStatus.ZERO_RESULTS
+        ) {
+          console.warn("Autocomplete error:", status);
+        }
+        setSuggestions([]);
+        setShowSuggestions(false);
+      }
+    });
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     onChange(newValue);
     setSelectedIndex(-1);
 
-    // Get predictions for suggestions dropdown
-    if (newValue.length > 2 && typeof window !== "undefined" && window.google) {
-      const service = new window.google.maps.places.AutocompleteService();
-      service.getPlacePredictions(
-        {
-          input: newValue,
-          componentRestrictions: { country: "us" },
-        },
-        (predictions, status) => {
-          if (
-            status === window.google.maps.places.PlacesServiceStatus.OK &&
-            predictions
-          ) {
-            setSuggestions(
-              predictions.map((p) => ({
-                place_id: p.place_id,
-                description: p.description,
-                structured_formatting: {
-                  main_text: p.structured_formatting.main_text,
-                  secondary_text: p.structured_formatting.secondary_text,
-                },
-              }))
-            );
-            setShowSuggestions(true);
-          } else {
-            setSuggestions([]);
-            setShowSuggestions(false);
-          }
+    // Get predictions for suggestions dropdown (minimum 2 characters)
+    if (newValue.length >= 2) {
+      // Check if Google Maps is available
+      if (
+        typeof window === "undefined" ||
+        !window.google ||
+        !window.google.maps ||
+        !window.google.maps.places ||
+        !window.google.maps.places.AutocompleteService
+      ) {
+        console.warn("Google Maps Places API not available yet");
+        return;
+      }
+      // If we have location context, geocode it first to get coordinates for bias
+      if (zipCode || (city && state)) {
+        const locationBias =
+          zipCode || (city && state ? `${city}, ${state}` : "");
+
+        if (locationBias) {
+          const geocoder = new window.google.maps.Geocoder();
+          geocoder.geocode({ address: locationBias }, (results, status) => {
+            if (status === "OK" && results && results[0]?.geometry?.location) {
+              const location = results[0].geometry.location;
+              getPredictions(newValue, {
+                lat: location.lat(),
+                lng: location.lng(),
+              });
+            } else {
+              // Fallback: get predictions without location bias
+              getPredictions(newValue);
+            }
+          });
+        } else {
+          getPredictions(newValue);
         }
-      );
+      } else {
+        // No location context
+        getPredictions(newValue);
+      }
     } else {
       setSuggestions([]);
       setShowSuggestions(false);
@@ -202,9 +241,9 @@ export default function AddressAutocomplete({
         onFocus={handleFocus}
         onBlur={handleBlur}
         placeholder={placeholder}
-        disabled={disabled || !ready}
+        disabled={disabled}
         className={`w-full bg-transparent border-none outline-none placeholder:text-gray-400 ${className} ${
-          disabled || !ready ? "cursor-not-allowed" : ""
+          disabled ? "cursor-not-allowed" : ""
         }`}
       />
       {showSuggestions && suggestions.length > 0 && (
@@ -234,7 +273,7 @@ export default function AddressAutocomplete({
           ))}
         </ul>
       )}
-      {showSuggestions && suggestions.length === 0 && value.length > 2 && (
+      {showSuggestions && suggestions.length === 0 && value.length >= 2 && (
         <ul className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg">
           <li className="px-4 py-2 text-sm text-gray-500">No results found</li>
         </ul>
@@ -242,4 +281,3 @@ export default function AddressAutocomplete({
     </div>
   );
 }
-

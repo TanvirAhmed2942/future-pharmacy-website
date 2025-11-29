@@ -31,8 +31,11 @@ export default function MapComponent({
   const [dropoffLocation, setDropoffLocation] = useState<Location | null>(null);
   const [mapCenter, setMapCenter] = useState<Location | null>(null);
   const { geocodeAddress, geocodeByZipCode, geocodeByCityState } = useGeocode();
-  const { pharmacies, searchPharmaciesByLocation, loading: pharmacyLoading } =
-    usePharmacySearch();
+  const {
+    pharmacies,
+    searchPharmaciesByLocation,
+    loading: pharmacyLoading,
+  } = usePharmacySearch();
 
   // Update map center based on zipCode, city, or state
   useEffect(() => {
@@ -53,7 +56,14 @@ export default function MapComponent({
     };
 
     updateLocation();
-  }, [zipCode, city, state, geocodeByZipCode, geocodeByCityState, searchPharmaciesByLocation]);
+  }, [
+    zipCode,
+    city,
+    state,
+    geocodeByZipCode,
+    geocodeByCityState,
+    searchPharmaciesByLocation,
+  ]);
 
   // Geocode pickup address
   useEffect(() => {
@@ -89,10 +99,19 @@ export default function MapComponent({
     };
 
     geocodeDropoff();
-  }, [dropoffAddress, geocodeAddress, mapCenter, pickupLocation, searchPharmaciesByLocation]);
+  }, [
+    dropoffAddress,
+    geocodeAddress,
+    mapCenter,
+    pickupLocation,
+    searchPharmaciesByLocation,
+  ]);
 
   return (
-    <div style={{ height }} className="w-full rounded-xl overflow-hidden">
+    <div
+      style={{ height: height === "100%" ? "100%" : height }}
+      className="w-full h-full rounded-xl overflow-hidden relative"
+    >
       <GoogleMapsProvider>
         <PharmacyMap
           pickupLocation={pickupLocation}
@@ -104,11 +123,10 @@ export default function MapComponent({
         />
       </GoogleMapsProvider>
       {pharmacyLoading && (
-        <div className="absolute top-4 right-4 bg-white px-4 py-2 rounded-lg shadow-lg">
+        <div className="absolute top-4 right-4 bg-white px-4 py-2 rounded-lg shadow-lg z-10">
           <p className="text-sm text-gray-600">Loading pharmacies...</p>
         </div>
       )}
     </div>
   );
 }
-

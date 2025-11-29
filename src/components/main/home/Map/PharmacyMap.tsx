@@ -30,8 +30,11 @@ export default function PharmacyMap({
   onPharmacyClick,
   showRoute = false,
 }: PharmacyMapProps) {
-  const [directions, setDirections] = useState<google.maps.DirectionsResult | null>(null);
-  const [selectedPharmacy, setSelectedPharmacy] = useState<Pharmacy | null>(null);
+  const [directions, setDirections] =
+    useState<google.maps.DirectionsResult | null>(null);
+  const [selectedPharmacy, setSelectedPharmacy] = useState<Pharmacy | null>(
+    null
+  );
 
   // Calculate map center and bounds
   const mapCenter = useMemo(() => {
@@ -59,15 +62,24 @@ export default function PharmacyMap({
     if (typeof window === "undefined" || !window.google) return undefined;
 
     const bounds = new window.google.maps.LatLngBounds();
-    
+
     if (pickupLocation) {
-      bounds.extend(new window.google.maps.LatLng(pickupLocation.lat, pickupLocation.lng));
+      bounds.extend(
+        new window.google.maps.LatLng(pickupLocation.lat, pickupLocation.lng)
+      );
     }
     if (dropoffLocation) {
-      bounds.extend(new window.google.maps.LatLng(dropoffLocation.lat, dropoffLocation.lng));
+      bounds.extend(
+        new window.google.maps.LatLng(dropoffLocation.lat, dropoffLocation.lng)
+      );
     }
     pharmacies.forEach((pharmacy) => {
-      bounds.extend(new window.google.maps.LatLng(pharmacy.location.lat, pharmacy.location.lng));
+      bounds.extend(
+        new window.google.maps.LatLng(
+          pharmacy.location.lat,
+          pharmacy.location.lng
+        )
+      );
     });
 
     return bounds.isEmpty() ? undefined : bounds;
@@ -81,8 +93,14 @@ export default function PharmacyMap({
 
     directionsService.route(
       {
-        origin: new window.google.maps.LatLng(pickupLocation.lat, pickupLocation.lng),
-        destination: new window.google.maps.LatLng(dropoffLocation.lat, dropoffLocation.lng),
+        origin: new window.google.maps.LatLng(
+          pickupLocation.lat,
+          pickupLocation.lng
+        ),
+        destination: new window.google.maps.LatLng(
+          dropoffLocation.lat,
+          dropoffLocation.lng
+        ),
         travelMode: window.google.maps.TravelMode.DRIVING,
       },
       (result, status) => {
@@ -111,18 +129,22 @@ export default function PharmacyMap({
     [onPharmacyClick]
   );
 
-  const onLoad = useCallback((map: google.maps.Map) => {
-    if (bounds) {
-      map.fitBounds(bounds);
-      // Add padding to bounds
-      const padding = 50;
-      map.fitBounds(bounds, padding);
-    }
-  }, [bounds]);
+  const onLoad = useCallback(
+    (map: google.maps.Map) => {
+      if (bounds) {
+        map.fitBounds(bounds);
+        // Add padding to bounds
+        const padding = 50;
+        map.fitBounds(bounds, padding);
+      }
+    },
+    [bounds]
+  );
 
   return (
     <GoogleMap
       mapContainerClassName="w-full h-full rounded-xl"
+      mapContainerStyle={{ width: "100%", height: "100%" }}
       center={mapCenter}
       zoom={zoom}
       options={mapOptions}
@@ -187,4 +209,3 @@ export default function PharmacyMap({
     </GoogleMap>
   );
 }
-

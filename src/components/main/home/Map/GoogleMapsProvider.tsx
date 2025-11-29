@@ -5,6 +5,7 @@ import { LoadScript } from "@react-google-maps/api";
 const libraries: ("places" | "drawing" | "geometry" | "visualization")[] = [
   "places",
   "geometry",
+  "drawing",
 ];
 
 interface GoogleMapsProviderProps {
@@ -20,9 +21,11 @@ export default function GoogleMapsProvider({
     console.warn(
       "Google Maps API key is not set. Please add NEXT_PUBLIC_GOOGLE_MAPS_API_KEY to your .env.local file"
     );
-    return <div className="w-full h-full flex items-center justify-center bg-gray-100 rounded-xl">
-      <p className="text-gray-500">Google Maps API key not configured</p>
-    </div>;
+    return (
+      <div className="w-full h-full flex items-center justify-center bg-gray-100 rounded-xl">
+        <p className="text-gray-500">Google Maps API key not configured</p>
+      </div>
+    );
   }
 
   return (
@@ -31,4 +34,3 @@ export default function GoogleMapsProvider({
     </LoadScript>
   );
 }
-

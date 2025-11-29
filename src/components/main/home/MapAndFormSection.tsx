@@ -37,12 +37,16 @@ export default function MapAndFormSection() {
   const t = useTranslations("home.mapAndFormSection");
   const tForm = useTranslations("home.form");
   const dispatch = useAppDispatch();
-  
+
   // Redux state
   const pickupAddress = useAppSelector((state) => state.map.pickupAddress);
   const dropoffAddress = useAppSelector((state) => state.map.dropoffAddress);
-  const pickupLocationCoords = useAppSelector((state) => state.map.pickupLocation);
-  const dropoffLocationCoords = useAppSelector((state) => state.map.dropoffLocation);
+  const pickupLocationCoords = useAppSelector(
+    (state) => state.map.pickupLocation
+  );
+  const dropoffLocationCoords = useAppSelector(
+    (state) => state.map.dropoffLocation
+  );
   const zipCode = useAppSelector((state) => state.map.zipCode);
   const city = useAppSelector((state) => state.map.city);
   const state = useAppSelector((state) => state.map.state);
@@ -63,20 +67,64 @@ export default function MapAndFormSection() {
   const router = useRouter();
   const { isLoggedIn } = useAuth();
 
-  // Parse location string to extract zipcode, city, state
+  // Parse location string to extract zipcode, city, state using geocoding
   useEffect(() => {
-    const parseLocation = () => {
-      // Try to extract zipcode (5 digits)
+    const parseLocation = async () => {
+      if (!currentLocation || typeof window === "undefined" || !window.google) {
+        return;
+      }
+
+      // First try simple regex parsing
       const zipMatch = currentLocation.match(/\b\d{5}\b/);
       if (zipMatch) {
         dispatch(setZipCode(zipMatch[0]));
       }
 
-      // Try to extract city and state (format: "City, State ZIP")
-      const cityStateMatch = currentLocation.match(/([^,]+),\s*([A-Z]{2})\s+\d{5}/);
+      const cityStateMatch = currentLocation.match(
+        /([^,]+),\s*([A-Z]{2})\s+\d{5}/
+      );
       if (cityStateMatch) {
         dispatch(setCity(cityStateMatch[1].trim()));
         dispatch(setState(cityStateMatch[2].trim()));
+      }
+
+      // Also use geocoding to get more accurate location details
+      try {
+        const geocoder = new window.google.maps.Geocoder();
+        geocoder.geocode({ address: currentLocation }, (results, status) => {
+          if (status === "OK" && results && results[0]) {
+            const addressComponents = results[0].address_components;
+
+            // Extract zipcode
+            const postalCode = addressComponents.find((component) =>
+              component.types.includes("postal_code")
+            );
+            if (postalCode) {
+              dispatch(setZipCode(postalCode.long_name));
+            }
+
+            // Extract city
+            const cityComponent = addressComponents.find(
+              (component) =>
+                component.types.includes("locality") ||
+                component.types.includes("sublocality") ||
+                component.types.includes("sublocality_level_1")
+            );
+            if (cityComponent) {
+              dispatch(setCity(cityComponent.long_name));
+            }
+
+            // Extract state
+            const stateComponent = addressComponents.find((component) =>
+              component.types.includes("administrative_area_level_1")
+            );
+            if (stateComponent) {
+              dispatch(setState(stateComponent.short_name));
+            }
+          }
+        });
+      } catch (error) {
+        console.error("Error geocoding location:", error);
       }
     };
 
@@ -158,6 +206,9 @@ export default function MapAndFormSection() {
                         onSelect={handlePickupSelect}
                         placeholder={tForm("pickupLocation")}
                         className="bg-transparent border-none outline-none placeholder:text-gray-400 text-gray-700 w-full"
+                        zipCode={zipCode}
+                        city={city}
+                        state={state}
                       />
                     </div>
                   </GoogleMapsProvider>
@@ -181,6 +232,9 @@ export default function MapAndFormSection() {
                         onSelect={handleDropoffSelect}
                         placeholder={tForm("dropoffAddress")}
                         className="bg-transparent border-none outline-none placeholder:text-gray-400 text-gray-700 w-full"
+                        zipCode={zipCode}
+                        city={city}
+                        state={state}
                       />
                     </div>
                   </GoogleMapsProvider>
@@ -292,8 +346,8 @@ export default function MapAndFormSection() {
         </div>
       </div>
 
-      {/* Right Section - Map */}
-      <div className="lg:block md:w-full lg:w-1/2 px-4 md:px-0 relative rounded-xl" style={{ minHeight: "600px" }}>
+      {/* Right Section - Map - Visible on all devices */}
+      <div className="flex w-full lg:w-1/2 px-4 md:px-0 relative rounded-xl h-[400px] sm:h-[450px] md:h-[500px] lg:h-auto lg:min-h-[600px]">
         <MapComponent
           pickupAddress={pickupAddress}
           dropoffAddress={dropoffAddress}
