@@ -10,3 +10,5 @@ function page() {
 }
 
 export default page;
+
+// messages/en.json
