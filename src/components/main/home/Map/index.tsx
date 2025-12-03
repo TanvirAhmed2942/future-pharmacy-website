@@ -37,6 +37,21 @@ export default function MapComponent({
     loading: pharmacyLoading,
   } = usePharmacySearch();
 
+  // Initial load: search pharmacies with default center if no location provided
+  useEffect(() => {
+    const defaultCenter: Location = {
+      lat: 40.7128,
+      lng: -74.006,
+    };
+
+    // If no location context is provided, use default center and search pharmacies
+    if (!zipCode && !city && !state && !pickupAddress && !dropoffAddress) {
+      setMapCenter(defaultCenter);
+      searchPharmaciesByLocation(defaultCenter);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Only run once on mount
+
   // Update map center based on zipCode, city, or state
   useEffect(() => {
     const updateLocation = async () => {

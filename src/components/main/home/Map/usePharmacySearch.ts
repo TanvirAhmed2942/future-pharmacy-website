@@ -1,40 +1,38 @@
 "use client";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { Pharmacy, Location } from "./types";
 
 // Mock pharmacy data - Replace with your actual pharmacy data source
+// Using locations closer to NYC default center for better visibility
 const mockPharmacies: Pharmacy[] = [
   {
     id: "1",
     name: "CVS Pharmacy - Downtown",
-    location: { lat: 40.7357, lng: -74.1724 },
-    address: "123 Main St, Newark, NJ 07102",
+    location: { lat: 40.7128, lng: -74.006 }, // NYC coordinates
+    address: "123 Main St, New York, NY 10001",
     phone: "(973) 555-0100",
     hours: "Mon-Fri: 8AM-9PM",
   },
   {
     id: "2",
     name: "Walgreens - Medical Center",
-    location: { lat: 40.7411, lng: -74.1745 },
-    address: "456 Broad St, Newark, NJ 07102",
+    location: { lat: 40.715, lng: -74.008 }, // Slightly offset from NYC
+    address: "456 Broad St, New York, NY 10002",
     phone: "(973) 555-0200",
     hours: "Mon-Sun: 7AM-10PM",
   },
   {
     id: "3",
     name: "Rite Aid - University Heights",
-    location: { lat: 40.7289, lng: -74.1701 },
-    address: "789 Market St, Newark, NJ 07102",
+    location: { lat: 40.71, lng: -74.004 }, // Slightly offset from NYC
+    address: "789 Market St, New York, NY 10003",
     phone: "(973) 555-0300",
     hours: "Mon-Sat: 9AM-8PM",
   },
 ];
 
 // Calculate distance between two points using Haversine formula
-function calculateDistance(
-  loc1: Location,
-  loc2: Location
-): number {
+function calculateDistance(loc1: Location, loc2: Location): number {
   const R = 3959; // Earth's radius in miles
   const dLat = ((loc2.lat - loc1.lat) * Math.PI) / 180;
   const dLon = ((loc2.lng - loc1.lng) * Math.PI) / 180;
@@ -54,13 +52,14 @@ export function usePharmacySearch() {
   const [error, setError] = useState<string | null>(null);
 
   const searchPharmacies = useCallback(
-    async (center: Location, radiusMiles: number = 10): Promise<Pharmacy[]> => {
+    async (center: Location, radiusMiles: number = 50): Promise<Pharmacy[]> => {
       setLoading(true);
       setError(null);
 
       try {
         // In a real app, you would call your API here
         // For now, we'll filter mock data by distance
+        // Increased radius to 50 miles to show demo pharmacies
         const nearbyPharmacies = mockPharmacies
           .map((pharmacy) => ({
             ...pharmacy,
@@ -74,7 +73,9 @@ export function usePharmacySearch() {
         return nearbyPharmacies;
       } catch (err) {
         setLoading(false);
-        setError(err instanceof Error ? err.message : "Failed to search pharmacies");
+        setError(
+          err instanceof Error ? err.message : "Failed to search pharmacies"
+        );
         return [];
       }
     },
@@ -82,7 +83,7 @@ export function usePharmacySearch() {
   );
 
   const searchPharmaciesByLocation = useCallback(
-    async (location: Location | null, radiusMiles: number = 10) => {
+    async (location: Location | null, radiusMiles: number = 50) => {
       if (!location) {
         setPharmacies([]);
         return;
@@ -100,4 +101,3 @@ export function usePharmacySearch() {
     error,
   };
 }
-

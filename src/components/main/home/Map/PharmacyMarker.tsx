@@ -2,6 +2,7 @@
 import React from "react";
 import { Marker, InfoWindow } from "@react-google-maps/api";
 import { Pharmacy } from "./types";
+import { PiMapPin } from "react-icons/pi";
 
 interface PharmacyMarkerProps {
   pharmacy: Pharmacy;
@@ -60,8 +61,8 @@ export default function PharmacyMarker({
               <p className="text-sm text-gray-600 mb-1">🕐 {pharmacy.hours}</p>
             )}
             {pharmacy.distance && (
-              <p className="text-sm text-peter font-semibold">
-                📍 {pharmacy.distance.toFixed(1)} miles away
+              <p className="text-sm text-peter font-semibold flex items-center gap-1">
+                <PiMapPin /> {pharmacy.distance.toFixed(1)} miles away
               </p>
             )}
             <button

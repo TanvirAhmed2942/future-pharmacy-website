@@ -1,6 +1,7 @@
 "use client";
 import React, { useRef, useState } from "react";
 import { Location } from "./types";
+import { PiMapPin } from "react-icons/pi";
 
 interface AddressAutocompleteProps {
   value: string;
@@ -124,6 +125,8 @@ export default function AddressAutocomplete({
         !window.google.maps.places.AutocompleteService
       ) {
         console.warn("Google Maps Places API not available yet");
+        setSuggestions([]);
+        setShowSuggestions(false);
         return;
       }
       // If we have location context, geocode it first to get coordinates for bias
@@ -149,7 +152,7 @@ export default function AddressAutocomplete({
           getPredictions(newValue);
         }
       } else {
-        // No location context
+        // No location context - get predictions without bias
         getPredictions(newValue);
       }
     } else {
@@ -259,7 +262,9 @@ export default function AddressAutocomplete({
               }`}
             >
               <div className="flex items-start gap-2">
-                <span className="text-gray-400 mt-1">📍</span>
+                <span className="text-gray-800 mt-1">
+                  <PiMapPin />
+                </span>
                 <div>
                   <p className="text-sm font-medium text-gray-900">
                     {suggestion.structured_formatting.main_text}
