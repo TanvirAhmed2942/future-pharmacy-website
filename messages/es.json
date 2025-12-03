@@ -979,5 +979,71 @@
       "required": "Debes consentir para continuar"
     },
     "submitButton": "Enviar Solicitud de Programación"
+  },
+
+  "contactDetails": {
+    "title": "Detalles de Contacto",
+    "emailAddress": {
+      "label": "Dirección de Correo Electrónico",
+      "placeholder": "Te enviaremos por correo electrónico la confirmación del viaje y los recibos."
+    },
+    "contactNumber": {
+      "label": "Número de Contacto",
+      "placeholder": "Te contactaremos con el estado de la entrega."
+    },
+    "legalName": {
+      "label": "Nombre Legal",
+      "firstNamePlaceholder": "Nombre en la identificación",
+      "lastNamePlaceholder": "Apellido en la identificación"
+    },
+    "dateOfBirth": {
+      "label": "Fecha de Nacimiento",
+      "placeholder": "Selecciona fecha (MM/DD/AAAA)"
+    },
+    "instructionalText": {
+      "text": "Para registrarte, necesitas usar el nombre que aparece en tu identificación gubernamental. Si usas otro nombre, puedes",
+      "addPreferredName": "agregar un nombre de preferencia"
+    },
+    "termsAndConditions": {
+      "text": "Al seleccionar aceptar y continuar, acepto los",
+      "termsOfService": "Términos de Servicio",
+      "paymentsTermsOfService": "Términos de Servicio de Pagos",
+      "nondiscriminationPolicy": "Política de No Discriminación",
+      "privacyPolicy": "Política de Privacidad",
+      "and": "y",
+      "acknowledge": "reconozco la"
+    },
+    "agreeAndContinue": "Aceptar y Continuar"
+  },
+
+  "orderSummary": {
+    "title": "Resumen/Confirmación de Pedido",
+    "details": {
+      "name": "Nombre:",
+      "contactNumber": "Número de Contacto:",
+      "pickupAddress": "Dirección de recogida:",
+      "deliverAddress": "Dirección de entrega:",
+      "date": "Fecha:",
+      "time": "Hora:",
+      "today": "Hoy",
+      "now": "Ahora"
+    },
+    "priceDetails": {
+      "title": "Detalles del Precio",
+      "deliveryFee": "Tarifa de Entrega:",
+      "serviceFee": "Tarifa de Servicio:",
+      "processingFee": "Tarifa de Procesamiento:",
+      "totalUSD": "Total USD:"
+    },
+    "legalAgreement": {
+      "text": "Al hacer clic en realizar pedido, aceptas los",
+      "termsOfService": "Términos de Servicio",
+      "paymentsTermsOfService": "Términos de Servicio de Pagos",
+      "and": "y",
+      "nondiscriminationPolicy": "Política de No Discriminación",
+      "acknowledge": "y reconoces la",
+      "privacyPolicy": "Política de Privacidad"
+    },
+    "completePayment": "Completar Pago en Stripe"
   }
 }

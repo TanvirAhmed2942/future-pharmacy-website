@@ -3,7 +3,7 @@ import React from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
+import { useTranslations } from "next-intl";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
@@ -30,22 +30,23 @@ export default function ContactDetails({
   onInputChange,
   onNext,
 }: ContactDetailsProps) {
+  const t = useTranslations("contactDetails");
   return (
     <div className="p-6 relative min-h-[600px]">
       <div className="flex items-center gap-2 mb-6 relative z-20">
         <Backbutton />
-        <h2 className="text-2xl font-bold text-gray-900 ">Contact Details</h2>
+        <h2 className="text-2xl font-bold text-gray-900 ">{t("title")}</h2>
       </div>
 
       <div className="space-y-4 relative z-20">
         {/* Email Address */}
         <div>
           <label className="block text-sm font-semibold text-gray-900 mb-2">
-            E-mail Address
+            {t("emailAddress.label")}
           </label>
           <Input
             type="email"
-            placeholder="We'll email you trip confirmation and receipts."
+            placeholder={t("emailAddress.placeholder")}
             value={formData.email}
             onChange={(e) => onInputChange("email", e.target.value)}
             className="w-full"
@@ -55,11 +56,11 @@ export default function ContactDetails({
         {/* Contact Number */}
         <div>
           <label className="block text-sm font-semibold text-gray-900 mb-2">
-            Contact Number
+            {t("contactNumber.label")}
           </label>
           <Input
             type="tel"
-            placeholder="We'll contact you with delivery status."
+            placeholder={t("contactNumber.placeholder")}
             value={formData.contactNumber}
             onChange={(e) => onInputChange("contactNumber", e.target.value)}
             className="w-full"
@@ -69,18 +70,18 @@ export default function ContactDetails({
         {/* Legal Name */}
         <div>
           <label className="block text-sm font-semibold text-gray-900 mb-2">
-            Legal Name
+            {t("legalName.label")}
           </label>
           <div className="grid grid-cols-2 gap-3">
             <Input
               type="text"
-              placeholder="First name on ID"
+              placeholder={t("legalName.firstNamePlaceholder")}
               value={formData.firstName}
               onChange={(e) => onInputChange("firstName", e.target.value)}
             />
             <Input
               type="text"
-              placeholder="Last name on ID"
+              placeholder={t("legalName.lastNamePlaceholder")}
               value={formData.lastName}
               onChange={(e) => onInputChange("lastName", e.target.value)}
             />
@@ -90,7 +91,7 @@ export default function ContactDetails({
         {/* Date of Birth */}
         <div>
           <label className="block text-sm font-semibold text-gray-900 mb-2">
-            Date of Birth
+            {t("dateOfBirth.label")}
           </label>
           <Popover>
             <PopoverTrigger asChild>
@@ -109,7 +110,7 @@ export default function ContactDetails({
                   ).getFullYear()}`
                 ) : (
                   <span className="text-muted-foreground">
-                    Select date (MM/DD/YYYY)
+                    {t("dateOfBirth.placeholder")}
                   </span>
                 )}
                 <ChevronDownIcon className="ml-auto h-4 w-4 opacity-50" />
@@ -144,30 +145,31 @@ export default function ContactDetails({
 
         {/* Instructional Text */}
         <p className="text-sm text-gray-600">
-          To sign up, you need to be name on your government ID. If you go by
-          another name, you can{" "}
+          {t("instructionalText.text")}{" "}
           <button className="text-peter hover:underline">
-            add a preferred first name
+            {t("instructionalText.addPreferredName")}
           </button>
           .
         </p>
 
         {/* Terms and Conditions */}
         <p className="text-sm text-gray-600">
-          By selecting agree and continue, I agree to Optimums health Solutions{" "}
+          {t("termsAndConditions.text")}{" "}
           <button className="text-peter hover:underline">
-            Terms of Service
+            {t("termsAndConditions.termsOfService")}
           </button>
           ,{" "}
           <button className="text-peter hover:underline">
-            Payments Terms of service
+            {t("termsAndConditions.paymentsTermsOfService")}
           </button>{" "}
-          and{" "}
+          {t("termsAndConditions.and")}{" "}
           <button className="text-peter hover:underline">
-            Nondiscrimination Policy
+            {t("termsAndConditions.nondiscriminationPolicy")}
           </button>
-          , and acknowledge the{" "}
-          <button className="text-peter hover:underline">Privacy Policy</button>
+          , {t("termsAndConditions.acknowledge")}{" "}
+          <button className="text-peter hover:underline">
+            {t("termsAndConditions.privacyPolicy")}
+          </button>
           .
         </p>
 
@@ -176,7 +178,7 @@ export default function ContactDetails({
           onClick={onNext}
           className="w-full bg-peter hover:bg-peter-dark text-white py-3 rounded-lg font-semibold"
         >
-          Agree and Continue
+          {t("agreeAndContinue")}
         </Button>
       </div>
 

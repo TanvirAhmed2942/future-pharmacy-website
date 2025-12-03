@@ -979,5 +979,71 @@
       "required": "You must consent to proceed"
     },
     "submitButton": "Submit Schedule Request"
+  },
+
+  "contactDetails": {
+    "title": "Contact Details",
+    "emailAddress": {
+      "label": "E-mail Address",
+      "placeholder": "We'll email you trip confirmation and receipts."
+    },
+    "contactNumber": {
+      "label": "Contact Number",
+      "placeholder": "We'll contact you with delivery status."
+    },
+    "legalName": {
+      "label": "Legal Name",
+      "firstNamePlaceholder": "First name on ID",
+      "lastNamePlaceholder": "Last name on ID"
+    },
+    "dateOfBirth": {
+      "label": "Date of Birth",
+      "placeholder": "Select date (MM/DD/YYYY)"
+    },
+    "instructionalText": {
+      "text": "To sign up, you need to be name on your government ID. If you go by another name, you can",
+      "addPreferredName": "add a preferred first name"
+    },
+    "termsAndConditions": {
+      "text": "By selecting agree and continue, I agree to Optimus Health Solutions",
+      "termsOfService": "Terms of Service",
+      "paymentsTermsOfService": "Payments Terms of service",
+      "and": "and",
+      "nondiscriminationPolicy": "Nondiscrimination Policy",
+      "acknowledge": "and acknowledge the",
+      "privacyPolicy": "Privacy Policy"
+    },
+    "agreeAndContinue": "Agree and Continue"
+  },
+
+  "orderSummary": {
+    "title": "Order summary/confirmation",
+    "details": {
+      "name": "Name:",
+      "contactNumber": "Contact Number:",
+      "pickupAddress": "Pick up address:",
+      "deliverAddress": "Deliver address:",
+      "date": "Date:",
+      "time": "Time:",
+      "today": "Today",
+      "now": "Now"
+    },
+    "priceDetails": {
+      "title": "Price Details",
+      "deliveryFee": "Delivery Fee:",
+      "serviceFee": "Service Fee:",
+      "processingFee": "Processing Fee:",
+      "totalUSD": "Total USD:"
+    },
+    "legalAgreement": {
+      "text": "By clicking place order, you agree to Optimus Health Solutions",
+      "termsOfService": "Terms of Service",
+      "paymentsTermsOfService": "Payments Terms of service",
+      "and": "and",
+      "nondiscriminationPolicy": "Nondiscrimination Policy",
+      "acknowledge": "and acknowledge the",
+      "privacyPolicy": "Privacy Policy"
+    },
+    "completePayment": "Complete Payment On Stripe"
   }
 }
