@@ -76,10 +76,25 @@ export default function HowOptimusWorks() {
           {/* Title */}
           <div className="mb-10 lg:mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-peter mb-4 font-inter text-center lg:text-center">
-              {t("headline")}
+              {t("headline1")}{" "}
+              <span
+                className="relative font-bold bg-clip-text"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(90deg, #ffffff, #d771d0, #ffffff, #c276c2, #ffffff)",
+                  WebkitBackgroundClip: "text",
+                  backgroundClip: "text",
+                  color: "transparent",
+                  backgroundSize: "400% 100%",
+                  animation: "shimmer 8s linear infinite",
+                }}
+              >
+                Optimus Health Solutions
+              </span>{" "}
+              {t("headline2")}
             </h2>
           </div>
-          
+
           {/* Cards Grid - arranged horizontally, constrained to left side */}
           <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-4 2xl:gap-10 mb-6">
             {items.map((item, index) => (
@@ -112,7 +127,7 @@ export default function HowOptimusWorks() {
               </Card>
             ))}
           </div>
-          
+
           {/* Learn More Button - centered */}
           <div className="flex justify-center">
             <Button

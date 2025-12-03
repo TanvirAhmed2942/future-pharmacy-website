@@ -61,7 +61,8 @@
       "evening": "Noche"
     },
     "optimusHealthSolutions": {
-      "headline": "Cómo funciona Optimus Health Solutions",
+      "headline1": "Cómo",
+      "headline2": "Funciona",
       "description": "Cuando recargas, transfieres recetas o programas servicios de salud esenciales a través de nuestra plataforma, te conectas con nuestras farmacias independientes locales confiables cerca de ti. Juntos, estamos fortaleciendo nuestras comunidades y ayudando a que las farmacias independientes prosperen.",
       "steps": [
         {

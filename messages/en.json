@@ -62,7 +62,8 @@
       "evening": "Evening"
     },
     "optimusHealthSolutions": {
-      "headline": "How Optimus Health Solutions Works",
+      "headline1": "How",
+      "headline2": "Works",
       "steps": [
         {
           "title": "Sign-up",
