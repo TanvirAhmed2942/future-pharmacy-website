@@ -801,5 +801,183 @@
       "terms": "Terms of Service"
     },
     "footerText": "Optimus Health Solutions. All rights reserved."
+  },
+
+  "transferOnline": {
+    "pageTitle": "Transfer Your Prescription",
+    "personalInformation": {
+      "title": "Personal Information",
+      "firstName": "First Name",
+      "firstNamePlaceholder": "Enter your first name here...",
+      "firstNameRequired": "First name is required",
+      "lastName": "Last Name",
+      "lastNamePlaceholder": "Enter your last name here...",
+      "lastNameRequired": "Last name is required",
+      "phoneNumber": "Phone Number",
+      "phoneNumberPlaceholder": "(XXX) XXX-XXXX",
+      "phoneNumberRequired": "Phone number is required",
+      "phoneNumberInvalid": "Please enter a valid phone number",
+      "dateOfBirth": "Date of Birth",
+      "dateOfBirthPlaceholder": "Select date (MM/DD/YYYY)",
+      "dateOfBirthRequired": "Date of birth is required"
+    },
+    "pharmacyInformation": {
+      "title": "Pharmacy Information",
+      "previousPharmacy": {
+        "title": "Previous Pharmacy",
+        "pharmacyName": "Previous Pharmacy Name",
+        "pharmacyNamePlaceholder": "e.g. CVS, Walgreens, etc.",
+        "pharmacyNameRequired": "Previous pharmacy name is required",
+        "pharmacyPhone": "Previous Pharmacy Phone",
+        "pharmacyPhonePlaceholder": "(XXX) XXX-XXXX",
+        "pharmacyPhoneInvalid": "Please enter a valid phone number",
+        "pharmacyAddress": "Previous Pharmacy Address",
+        "pharmacyAddressPlaceholder": "Enter pharmacy address here...",
+        "city": "City",
+        "cityPlaceholder": "Enter city name here...",
+        "state": "State",
+        "statePlaceholder": "Enter state name here...",
+        "zipCode": "Zip Code",
+        "zipCodePlaceholder": "Enter zip code here..."
+      },
+      "newPharmacy": {
+        "title": "New Pharmacy",
+        "pharmacyName": "New Pharmacy Name",
+        "pharmacyNamePlaceholder": "e.g. CVS, Walgreens, etc.",
+        "pharmacyNameRequired": "New pharmacy name is required",
+        "pharmacyPhone": "New Pharmacy Phone",
+        "pharmacyPhonePlaceholder": "(XXX) XXX-XXXX",
+        "pharmacyPhoneInvalid": "Please enter a valid phone number",
+        "pharmacyAddress": "New Pharmacy Address",
+        "pharmacyAddressPlaceholder": "Enter pharmacy address here...",
+        "pharmacyAddressRequired": "New pharmacy address is required",
+        "city": "City",
+        "cityPlaceholder": "Enter city name here...",
+        "state": "State",
+        "statePlaceholder": "Enter state name here...",
+        "zipCode": "Zip Code",
+        "zipCodePlaceholder": "Enter zip code here..."
+      }
+    },
+    "prescriptions": {
+      "title": "Prescriptions",
+      "instruction": "Add the medication name and/or Rx number for all that you'd like to transfer",
+      "transferAll": "Transfer all of my medications",
+      "medicationName": "Medication Name",
+      "medicationNamePlaceholder": "Enter your medication name here...",
+      "rxNumber": "Rx Number",
+      "rxNumberPlaceholder": "Enter your Rx number here...",
+      "addAnother": "+ ADD ANOTHER MEDICATION"
+    },
+    "additionalInformation": {
+      "title": "Additional Information",
+      "notesLabel": "Additional Notes or Special Instructions for the pharmacy",
+      "notesPlaceholder": "Any special instructions, allergies, or additional information we should know..."
+    },
+    "consent": {
+      "label": "I consent to Optimus Health Solutions contacting my current pharmacy to transfer my prescriptions and understand that this process may take 1-3 business days.",
+      "required": "You must consent to transfer your prescriptions"
+    },
+    "submitButton": "Submit Transfer Request"
+  },
+
+  "scheduleOnline": {
+    "pageTitle": "Schedule Essential Healthcare Services",
+    "profileInfo": {
+      "title": "Profile Info",
+      "firstName": "First Name",
+      "firstNamePlaceholder": "Enter your first name here...",
+      "firstNameRequired": "First name is required",
+      "lastName": "Last Name",
+      "lastNamePlaceholder": "Enter your last name here...",
+      "lastNameRequired": "Last name is required",
+      "phoneNumber": "Phone Number",
+      "phoneNumberPlaceholder": "(XXX) XXX-XXXX",
+      "phoneNumberRequired": "Phone number is required",
+      "phoneNumberInvalid": "Please enter a valid phone number",
+      "dateOfBirth": "Date of Birth",
+      "dateOfBirthPlaceholder": "Select date (MM/DD/YYYY)",
+      "dateOfBirthRequired": "Date of birth is required"
+    },
+    "pharmacyInformation": {
+      "title": "Pharmacy Information",
+      "pharmacyName": "Pharmacy Name",
+      "pharmacyNamePlaceholder": "e.g. CVS, Walgreens, etc.",
+      "pharmacyNameRequired": "Pharmacy name is required",
+      "pharmacyPhone": "Pharmacy Phone",
+      "pharmacyPhonePlaceholder": "(XXX) XXX-XXXX",
+      "pharmacyPhoneInvalid": "Please enter a valid phone number",
+      "pharmacyAddress": "Pharmacy Address",
+      "pharmacyAddressPlaceholder": "Enter pharmacy address here...",
+      "pharmacyAddressRequired": "Pharmacy address is required",
+      "city": "City",
+      "cityPlaceholder": "Enter city name here...",
+      "state": "State",
+      "statePlaceholder": "Enter state name here...",
+      "zipCode": "Zip Code",
+      "zipCodePlaceholder": "Enter zip code here..."
+    },
+    "services": {
+      "serviceCategory": {
+        "label": "Services Type",
+        "placeholder": "Services Type",
+        "required": "Please select a service category",
+        "vaccinations": "Vaccinations",
+        "health_screenings": "Health Screenings",
+        "others": "Others"
+      },
+      "serviceType": {
+        "vaccinations": {
+          "label": "Vaccinations",
+          "placeholder": "Select vaccination type",
+          "required": "Please select a specific service",
+          "flu": "Flu",
+          "covid": "Covid",
+          "shingles": "Shingles",
+          "others": "Others"
+        },
+        "health_screenings": {
+          "label": "Health Screenings",
+          "placeholder": "Select screening type",
+          "required": "Please select a specific service",
+          "blood_pressure": "Blood Pressure",
+          "cholesteric": "Cholesteric",
+          "diabetes": "Diabetes",
+          "others": "Others"
+        },
+        "otherVaccination": {
+          "label": "Specify Other Vaccination",
+          "placeholder": "Enter vaccination type here...",
+          "required": "Please specify the vaccination type"
+        },
+        "otherHealthScreening": {
+          "label": "Specify Other Health Screening",
+          "placeholder": "Enter health screening type here...",
+          "required": "Please specify the health screening type"
+        },
+        "otherService": {
+          "label": "Specify Other Service",
+          "placeholder": "Enter service type here...",
+          "required": "Please specify the service type"
+        }
+      }
+    },
+    "appointment": {
+      "label": "Select Available Date & Time",
+      "placeholder": "Select Date & Time",
+      "datesSelected": "Date Selected",
+      "datesSelectedPlural": "Dates Selected",
+      "remove": "Remove",
+      "required": "Please select at least one date and time"
+    },
+    "additionalNotes": {
+      "label": "Additional Notes or Special Instructions",
+      "placeholder": "Any special instructions, allergies, or additional information we should know..."
+    },
+    "consent": {
+      "label": "I consent to Optimus Health Solutions scheduling my appointment and understand that this process may take 1-3 business days. *",
+      "required": "You must consent to proceed"
+    },
+    "submitButton": "Submit Schedule Request"
   }
 }

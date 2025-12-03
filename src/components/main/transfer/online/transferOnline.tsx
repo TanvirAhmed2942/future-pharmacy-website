@@ -20,6 +20,7 @@ import {
   Controller,
   SubmitHandler,
 } from "react-hook-form";
+import { useTranslations } from "next-intl";
 import Backbutton from "@/components/common/backbutton/backbutton";
 import useIcon from "@/hooks/useIcon";
 import Image from "next/image";
@@ -59,6 +60,7 @@ type FormValues = {
 };
 
 function TransferOnline() {
+  const t = useTranslations("transferOnline");
   const {
     register,
     control,
@@ -115,14 +117,14 @@ function TransferOnline() {
           <div className="flex  items-center justify-center mt-2 mb-4 lg:-mt-8 lg:mb-8 ">
             <Backbutton />
             <h2 className="text-2xl lg:text-3xl font-bold text-center text-peter font-inter mx-auto">
-              Transfer Your Prescription
+              {t("pageTitle")}
             </h2>
           </div>
 
           {/* Personal Information Section */}
           <div className="bg-white rounded-lg border p-6 shadow-sm">
             <h3 className="text-lg font-medium text-peter mb-4">
-              Personal Information
+              {t("personalInformation.title")}
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
@@ -130,15 +132,15 @@ function TransferOnline() {
                   htmlFor="firstName"
                   className="text-sm font-medium text-gray-700"
                 >
-                  First Name *
+                  {t("personalInformation.firstName")} *
                 </Label>
                 <Input
                   type="text"
                   id="firstName"
                   {...register("firstName", {
-                    required: "First name is required",
+                    required: t("personalInformation.firstNameRequired"),
                   })}
-                  placeholder="Enter your first name here..."
+                  placeholder={t("personalInformation.firstNamePlaceholder")}
                   className={cn(
                     "w-full mt-1",
                     errors.firstName && "border-red-500"
@@ -155,15 +157,15 @@ function TransferOnline() {
                   htmlFor="lastName"
                   className="text-sm font-medium text-gray-700"
                 >
-                  Last Name *
+                  {t("personalInformation.lastName")} *
                 </Label>
                 <Input
                   type="text"
                   id="lastName"
                   {...register("lastName", {
-                    required: "Last name is required",
+                    required: t("personalInformation.lastNameRequired"),
                   })}
-                  placeholder="Enter your last name here..."
+                  placeholder={t("personalInformation.lastNamePlaceholder")}
                   className={cn(
                     "w-full mt-1",
                     errors.lastName && "border-red-500"
@@ -182,20 +184,20 @@ function TransferOnline() {
                   htmlFor="phoneNumber"
                   className="text-sm font-medium text-gray-700"
                 >
-                  Phone Number *
+                  {t("personalInformation.phoneNumber")} *
                 </Label>
                 <Input
                   type="tel"
                   id="phoneNumber"
                   {...register("phoneNumber", {
-                    required: "Phone number is required",
+                    required: t("personalInformation.phoneNumberRequired"),
                     pattern: {
                       value:
                         /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
-                      message: "Please enter a valid phone number",
+                      message: t("personalInformation.phoneNumberInvalid"),
                     },
                   })}
-                  placeholder="(XXX) XXX-XXXX"
+                  placeholder={t("personalInformation.phoneNumberPlaceholder")}
                   className={cn(
                     "w-full mt-1",
                     errors.phoneNumber && "border-red-500"
@@ -212,12 +214,14 @@ function TransferOnline() {
                   htmlFor="dateOfBirth"
                   className="text-sm font-medium text-gray-700"
                 >
-                  Date of Birth *
+                  {t("personalInformation.dateOfBirth")} *
                 </Label>
                 <Controller
                   control={control}
                   name="dateOfBirth"
-                  rules={{ required: "Date of birth is required" }}
+                  rules={{
+                    required: t("personalInformation.dateOfBirthRequired"),
+                  }}
                   render={({ field }) => (
                     <Popover>
                       <PopoverTrigger asChild>
@@ -239,7 +243,9 @@ function TransferOnline() {
                               .toString()
                               .padStart(2, "0")}/${field.value.getFullYear()}`
                           ) : (
-                            <span>Select date (MM/DD/YYYY)</span>
+                            <span>
+                              {t("personalInformation.dateOfBirthPlaceholder")}
+                            </span>
                           )}
                           <ChevronDownIcon className="h-4 w-4 opacity-50" />
                         </Button>
@@ -276,11 +282,11 @@ function TransferOnline() {
           {/* Previous Pharmacy Information Section */}
           <div className="bg-white rounded-lg border p-6 shadow-sm">
             <h3 className="text-lg font-medium text-peter mb-4">
-              Pharmacy Information
+              {t("pharmacyInformation.title")}
             </h3>
 
             <h4 className="text-md font-medium text-peter mb-2">
-              Previous Pharmacy
+              {t("pharmacyInformation.previousPharmacy.title")}
             </h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
@@ -288,15 +294,19 @@ function TransferOnline() {
                   htmlFor="previousPharmacyName"
                   className="text-sm font-medium text-gray-700"
                 >
-                  Previous Pharmacy Name *
+                  {t("pharmacyInformation.previousPharmacy.pharmacyName")} *
                 </Label>
                 <Input
                   type="text"
                   id="previousPharmacyName"
                   {...register("previousPharmacyName", {
-                    required: "Previous pharmacy name is required",
+                    required: t(
+                      "pharmacyInformation.previousPharmacy.pharmacyNameRequired"
+                    ),
                   })}
-                  placeholder="e.g. CVS, Walgreens, etc."
+                  placeholder={t(
+                    "pharmacyInformation.previousPharmacy.pharmacyNamePlaceholder"
+                  )}
                   className={cn(
                     "w-full mt-1",
                     errors.previousPharmacyName && "border-red-500"
@@ -313,7 +323,7 @@ function TransferOnline() {
                   htmlFor="previousPharmacyPhone"
                   className="text-sm font-medium text-gray-700"
                 >
-                  Previous Pharmacy Phone
+                  {t("pharmacyInformation.previousPharmacy.pharmacyPhone")}
                 </Label>
                 <Input
                   type="tel"
@@ -322,10 +332,14 @@ function TransferOnline() {
                     pattern: {
                       value:
                         /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
-                      message: "Please enter a valid phone number",
+                      message: t(
+                        "pharmacyInformation.previousPharmacy.pharmacyPhoneInvalid"
+                      ),
                     },
                   } as const)}
-                  placeholder="(XXX) XXX-XXXX"
+                  placeholder={t(
+                    "pharmacyInformation.previousPharmacy.pharmacyPhonePlaceholder"
+                  )}
                   className="w-full mt-1"
                 />
               </div>
@@ -335,13 +349,15 @@ function TransferOnline() {
                 htmlFor="previousPharmacyAddress"
                 className="text-sm font-medium text-gray-700"
               >
-                Previous Pharmacy Address
+                {t("pharmacyInformation.previousPharmacy.pharmacyAddress")}
               </Label>
               <Input
                 type="text"
                 id="previousPharmacyAddress"
                 {...register("previousPharmacyAddress")}
-                placeholder="Enter pharmacy address here..."
+                placeholder={t(
+                  "pharmacyInformation.previousPharmacy.pharmacyAddressPlaceholder"
+                )}
                 className="w-full mt-1"
               />
             </div>
@@ -351,7 +367,7 @@ function TransferOnline() {
                   htmlFor="previousPharmacyCity"
                   className="text-sm font-medium text-gray-700"
                 >
-                  City
+                  {t("pharmacyInformation.previousPharmacy.city")}
                 </Label>
                 <Input
                   type="text"
@@ -359,7 +375,9 @@ function TransferOnline() {
                   {...register("previousPharmacyCity", {
                     required: false,
                   })}
-                  placeholder="Enter city name here..."
+                  placeholder={t(
+                    "pharmacyInformation.previousPharmacy.cityPlaceholder"
+                  )}
                   className="w-full mt-1"
                 />
               </div>
@@ -368,7 +386,7 @@ function TransferOnline() {
                   htmlFor="previousPharmacyState"
                   className="text-sm font-medium text-gray-700"
                 >
-                  State
+                  {t("pharmacyInformation.previousPharmacy.state")}
                 </Label>
                 <Input
                   type="text"
@@ -376,7 +394,9 @@ function TransferOnline() {
                   {...register("previousPharmacyState", {
                     required: false,
                   })}
-                  placeholder="Enter state name here..."
+                  placeholder={t(
+                    "pharmacyInformation.previousPharmacy.statePlaceholder"
+                  )}
                   className="w-full mt-1"
                 />
               </div>
@@ -385,7 +405,7 @@ function TransferOnline() {
                   htmlFor="previousPharmacyZipCode"
                   className="text-sm font-medium text-gray-700"
                 >
-                  Zip Code
+                  {t("pharmacyInformation.previousPharmacy.zipCode")}
                 </Label>
                 <Input
                   type="text"
@@ -393,7 +413,9 @@ function TransferOnline() {
                   {...register("previousPharmacyZipCode", {
                     required: false,
                   })}
-                  placeholder="Enter zip code here..."
+                  placeholder={t(
+                    "pharmacyInformation.previousPharmacy.zipCodePlaceholder"
+                  )}
                   className="w-full mt-1"
                 />
               </div>
@@ -401,7 +423,7 @@ function TransferOnline() {
 
             {/* New Pharmacy Information */}
             <h4 className="text-md font-medium text-peter mb-2">
-              New Pharmacy
+              {t("pharmacyInformation.newPharmacy.title")}
             </h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
@@ -409,15 +431,19 @@ function TransferOnline() {
                   htmlFor="newPharmacyName"
                   className="text-sm font-medium text-gray-700"
                 >
-                  New Pharmacy Name *
+                  {t("pharmacyInformation.newPharmacy.pharmacyName")} *
                 </Label>
                 <Input
                   type="text"
                   id="newPharmacyName"
                   {...register("newPharmacyName", {
-                    required: "New pharmacy name is required",
+                    required: t(
+                      "pharmacyInformation.newPharmacy.pharmacyNameRequired"
+                    ),
                   })}
-                  placeholder="e.g. CVS, Walgreens, etc."
+                  placeholder={t(
+                    "pharmacyInformation.newPharmacy.pharmacyNamePlaceholder"
+                  )}
                   className={cn(
                     "w-full mt-1",
                     errors.newPharmacyName && "border-red-500"
@@ -434,7 +460,7 @@ function TransferOnline() {
                   htmlFor="newPharmacyPhone"
                   className="text-sm font-medium text-gray-700"
                 >
-                  New Pharmacy Phone
+                  {t("pharmacyInformation.newPharmacy.pharmacyPhone")}
                 </Label>
                 <Input
                   type="tel"
@@ -443,10 +469,14 @@ function TransferOnline() {
                     pattern: {
                       value:
                         /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
-                      message: "Please enter a valid phone number",
+                      message: t(
+                        "pharmacyInformation.newPharmacy.pharmacyPhoneInvalid"
+                      ),
                     },
                   } as const)}
-                  placeholder="(XXX) XXX-XXXX"
+                  placeholder={t(
+                    "pharmacyInformation.newPharmacy.pharmacyPhonePlaceholder"
+                  )}
                   className="w-full mt-1"
                 />
               </div>
@@ -456,15 +486,19 @@ function TransferOnline() {
                 htmlFor="newPharmacyAddress"
                 className="text-sm font-medium text-gray-700"
               >
-                New Pharmacy Address
+                {t("pharmacyInformation.newPharmacy.pharmacyAddress")}
               </Label>
               <Input
                 type="text"
                 id="newPharmacyAddress"
                 {...register("newPharmacyAddress", {
-                  required: "New pharmacy address is required  ",
+                  required: t(
+                    "pharmacyInformation.newPharmacy.pharmacyAddressRequired"
+                  ),
                 })}
-                placeholder="Enter pharmacy address here..."
+                placeholder={t(
+                  "pharmacyInformation.newPharmacy.pharmacyAddressPlaceholder"
+                )}
                 className={cn(
                   "w-full mt-1",
                   errors.newPharmacyAddress && "border-red-500"
@@ -483,7 +517,7 @@ function TransferOnline() {
                   htmlFor="newPharmacyCity"
                   className="text-sm font-medium text-gray-700"
                 >
-                  City
+                  {t("pharmacyInformation.newPharmacy.city")}
                 </Label>
                 <Input
                   type="text"
@@ -491,7 +525,9 @@ function TransferOnline() {
                   {...register("newPharmacyCity", {
                     required: false,
                   })}
-                  placeholder="Enter city name here..."
+                  placeholder={t(
+                    "pharmacyInformation.newPharmacy.cityPlaceholder"
+                  )}
                   className="w-full mt-1"
                 />
               </div>
@@ -500,7 +536,7 @@ function TransferOnline() {
                   htmlFor="newPharmacyState"
                   className="text-sm font-medium text-gray-700"
                 >
-                  State
+                  {t("pharmacyInformation.newPharmacy.state")}
                 </Label>
                 <Input
                   type="text"
@@ -508,7 +544,9 @@ function TransferOnline() {
                   {...register("newPharmacyState", {
                     required: false,
                   })}
-                  placeholder="Enter state name here..."
+                  placeholder={t(
+                    "pharmacyInformation.newPharmacy.statePlaceholder"
+                  )}
                   className="w-full mt-1"
                 />
               </div>
@@ -517,7 +555,7 @@ function TransferOnline() {
                   htmlFor="newPharmacyZipCode"
                   className="text-sm font-medium text-gray-700"
                 >
-                  Zip Code
+                  {t("pharmacyInformation.newPharmacy.zipCode")}
                 </Label>
                 <Input
                   type="text"
@@ -525,7 +563,9 @@ function TransferOnline() {
                   {...register("newPharmacyZipCode", {
                     required: false,
                   })}
-                  placeholder="Enter zip code here..."
+                  placeholder={t(
+                    "pharmacyInformation.newPharmacy.zipCodePlaceholder"
+                  )}
                   className="w-full mt-1"
                 />
               </div>
@@ -537,13 +577,12 @@ function TransferOnline() {
             <div className="flex items-center ">
               {useIcon({ name: "medication" })}
               <h3 className="text-lg font-medium text-peter ml-2">
-                Prescriptions
+                {t("prescriptions.title")}
               </h3>
             </div>
             <div className="mb-4 text-sm text-gray-600">
               <p className="text-xs text-gray-600 italic">
-                Add the medication name and/or Rx number for all that you&apos;d
-                like to transfer
+                {t("prescriptions.instruction")}
               </p>
             </div>
 
@@ -563,7 +602,7 @@ function TransferOnline() {
                 htmlFor="transferAll"
                 className="ml-2 text-sm text-gray-700"
               >
-                Transfer all of my medications
+                {t("prescriptions.transferAll")}
               </label>
             </div>
 
@@ -577,13 +616,13 @@ function TransferOnline() {
                     htmlFor={`medications.${index}.name`}
                     className="text-sm font-medium text-gray-700"
                   >
-                    Medication Name
+                    {t("prescriptions.medicationName")}
                   </Label>
                   <Input
                     type="text"
                     id={`medications.${index}.name`}
                     {...register(`medications.${index}.name` as const)}
-                    placeholder="Enter your medication name here..."
+                    placeholder={t("prescriptions.medicationNamePlaceholder")}
                     className="w-full mt-1"
                   />
                 </div>
@@ -592,13 +631,13 @@ function TransferOnline() {
                     htmlFor={`medications.${index}.rxNumber`}
                     className="text-sm font-medium text-gray-700"
                   >
-                    Rx Number
+                    {t("prescriptions.rxNumber")}
                   </Label>
                   <Input
                     type="text"
                     id={`medications.${index}.rxNumber`}
                     {...register(`medications.${index}.rxNumber` as const)}
-                    placeholder="Enter your Rx number here..."
+                    placeholder={t("prescriptions.rxNumberPlaceholder")}
                     className="w-full mt-1"
                   />
                 </div>
@@ -611,26 +650,26 @@ function TransferOnline() {
               variant="outline"
               className="border-peter text-peter hover:bg-peter/10"
             >
-              + ADD ANOTHER MEDICATION
+              {t("prescriptions.addAnother")}
             </Button>
           </div>
 
           {/* Additional Information Section */}
           <div className="bg-white rounded-lg border p-6 shadow-sm">
             <h3 className="text-lg font-medium text-peter mb-4">
-              Additional Information
+              {t("additionalInformation.title")}
             </h3>
 
             <Label
               htmlFor="notes"
               className="text-sm font-medium text-gray-700 block mb-2"
             >
-              Additional Notes or Special Instructions for the pharmacy
+              {t("additionalInformation.notesLabel")}
             </Label>
             <Textarea
               id="notes"
               {...register("notes")}
-              placeholder="Any special instructions, allergies, or additional information we should know..."
+              placeholder={t("additionalInformation.notesPlaceholder")}
               className="w-full h-24"
             />
           </div>
@@ -642,7 +681,7 @@ function TransferOnline() {
                 control={control}
                 name="consent"
                 rules={{
-                  required: "You must consent to transfer your prescriptions",
+                  required: t("consent.required"),
                 }}
                 render={({ field }) => (
                   <Checkbox
@@ -658,9 +697,7 @@ function TransferOnline() {
                 )}
               />
               <label htmlFor="consent" className="ml-2 text-xs text-gray-700">
-                I consent to Optimus Health Solutions contacting my current
-                pharmacy to transfer my prescriptions and understand that this
-                process may take 1-3 business days.
+                {t("consent.label")}
               </label>
             </div>
             {errors.consent && (
@@ -675,7 +712,7 @@ function TransferOnline() {
             type="submit"
             className="w-full bg-peter hover:bg-peter-dark text-white py-3 rounded-md font-medium"
           >
-            Submit Transfer Request
+            {t("submitButton")}
           </Button>
         </form>
       </div>
