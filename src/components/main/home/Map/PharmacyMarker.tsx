@@ -2,7 +2,6 @@
 import React from "react";
 import { Marker, InfoWindow } from "@react-google-maps/api";
 import { Pharmacy } from "./types";
-import { MapPin } from "lucide-react";
 
 interface PharmacyMarkerProps {
   pharmacy: Pharmacy;
@@ -50,22 +49,15 @@ export default function PharmacyMarker({
         title={pharmacy.name}
       />
       {showInfo && (
-        <InfoWindow
-          position={pharmacy.location}
-          onCloseClick={handleClose}
-        >
+        <InfoWindow position={pharmacy.location} onCloseClick={handleClose}>
           <div className="p-2 max-w-xs">
             <h3 className="font-bold text-gray-900 mb-1">{pharmacy.name}</h3>
             <p className="text-sm text-gray-600 mb-2">{pharmacy.address}</p>
             {pharmacy.phone && (
-              <p className="text-sm text-gray-600 mb-1">
-                📞 {pharmacy.phone}
-              </p>
+              <p className="text-sm text-gray-600 mb-1">📞 {pharmacy.phone}</p>
             )}
             {pharmacy.hours && (
-              <p className="text-sm text-gray-600 mb-1">
-                🕐 {pharmacy.hours}
-              </p>
+              <p className="text-sm text-gray-600 mb-1">🕐 {pharmacy.hours}</p>
             )}
             {pharmacy.distance && (
               <p className="text-sm text-peter font-semibold">
@@ -87,4 +79,3 @@ export default function PharmacyMarker({
     </>
   );
 }
-
