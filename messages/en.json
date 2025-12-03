@@ -608,6 +608,176 @@
     }
   },
 
+  "refillTransferSchedule": {
+    "needHelp": "Need help? please call or text us at",
+    "pageTitleRefill": "Refill Your Prescription",
+    "pageTitleTransfer": "Transfer Your Prescription",
+    "pageTitleSchedule": "Schedule Essential Healthcare Services",
+    "refillOptions": [
+      {
+        "title": "Refill Online",
+        "description": "Use our secure form to refill your prescriptions quickly, securely and conveniently",
+        "buttonText": "Refill Now"
+      },
+      {
+        "title": "Refill by phone",
+        "description": "Call our trusted team to complete the Refill Form by phone",
+        "buttonText": "Call Now"
+      }
+    ],
+    "refillOptionsTransfer": [
+      {
+        "title": "Transfer Online",
+        "description": "Use our secure form to transfer your prescriptions quickly, securely and conveniently",
+        "buttonText": "Transfer Now"
+      },
+      {
+        "title": "Transfer by phone",
+        "description": "Call our trusted team to complete the Transfer Form by phone",
+        "buttonText": "Call Now"
+      }
+    ],
+    "refillOptionsSchedule": [
+      {
+        "title": "Schedule Online",
+        "description": "Use our secure form to book your pharmacy appointment fast, safe, and convenient.",
+        "buttonText": "Schedule Now"
+      },
+      {
+        "title": "Schedule by phone",
+        "description": "Call our trusted team to complete the Schedule Form by phone",
+        "buttonText": "Call Now"
+      }
+    ]
+  },
+  "refillTransferScheduleForm": {
+    "pageTitleRefill": "Refill Your Prescription",
+    "pageTitleTransfer": "Transfer Your Prescription",
+    "pageTitleSchedule": "Schedule Essential Healthcare Services",
+    "formTitle": "Refill Your Prescription",
+    "formDescription": "Refill your prescription with ease using our online platform.",
+    "formButtonText": "Refill Now"
+  },
+  "refillTransferScheduleSteps": {
+    "stepsRefill": [
+      {
+        "title": "Complete Refill Form",
+        "description": "Fill out our secure online refill form with your prescription details"
+      },
+      {
+        "title": "We contact your pharmacy",
+        "description": "Our team will contact your pharmacy to refill your prescriptions"
+      },
+      {
+        "title": "Prescription Ready",
+        "description": "We'll notify you when your prescriptions are ready for delivery"
+      }
+    ],
+    "stepsTransfer": [
+      {
+        "title": "Complete Transfer Form",
+        "description": "Fill out our secure online transfer form with your prescription details"
+      },
+      {
+        "title": "We contact your pharmacy",
+        "description": "Our team will contact your pharmacy to transfer your prescriptions"
+      },
+      {
+        "title": "Prescription Ready",
+        "description": "We'll notify you when your prescriptions are ready for delivery"
+      }
+    ],
+    "stepsSchedule": [
+      {
+        "title": "Complete Schedule Form",
+        "description": "Fill out our secure online form to schedule your essential healthcare services"
+      },
+      {
+        "title": "We coordinate your appointment",
+        "description": "Our team will coordinate with your selected pharmacy to schedule your appointment"
+      },
+      {
+        "title": "Appointment Confirmed",
+        "description": "We'll notify you when your appointment is confirmed and ready"
+      }
+    ]
+  },
+
+  "loginChoiceModal": {
+    "title": "Choose Your Option",
+    "description": "To continue with your {pageTitle}, please choose one of the following options:",
+    "signIn": "Sign In / Create Account",
+    "guestCheckout": "Continue as Guest",
+    "cancel": "Cancel"
+  },
+
+  "refillOnline": {
+    "pageTitle": "Refill Your Prescription",
+    "personalInformation": {
+      "title": "Personal Information",
+      "firstName": "First Name",
+      "firstNamePlaceholder": "Enter your first name here...",
+      "firstNameRequired": "First name is required",
+      "lastName": "Last Name",
+      "lastNamePlaceholder": "Enter your last name here...",
+      "lastNameRequired": "Last name is required",
+      "phoneNumber": "Phone Number",
+      "phoneNumberPlaceholder": "(XXX) XXX-XXXX",
+      "phoneNumberRequired": "Phone number is required",
+      "phoneNumberInvalid": "Please enter a valid phone number",
+      "dateOfBirth": "Date of Birth",
+      "dateOfBirthPlaceholder": "Select date (MM/DD/YYYY)",
+      "dateOfBirthRequired": "Date of birth is required"
+    },
+    "pharmacyInformation": {
+      "title": "Pharmacy Information",
+      "pharmacyName": "Pharmacy Name",
+      "pharmacyNamePlaceholder": "e.g. CVS, Walgreens, etc.",
+      "pharmacyNameRequired": "Pharmacy name is required",
+      "pharmacyPhone": "Pharmacy Phone",
+      "pharmacyPhonePlaceholder": "(XXX) XXX-XXXX",
+      "pharmacyPhoneInvalid": "Please enter a valid phone number",
+      "pharmacyAddress": "Pharmacy Address",
+      "pharmacyAddressPlaceholder": "Enter pharmacy address here...",
+      "city": "City",
+      "cityPlaceholder": "Enter city name here...",
+      "state": "State",
+      "statePlaceholder": "Enter state name here...",
+      "zipCode": "Zip Code",
+      "zipCodePlaceholder": "Enter zip code here...",
+      "zipCodeInvalid": "Please enter a valid zip code"
+    },
+    "deliveryDetails": {
+      "title": "Delivery Details",
+      "deliveryAddress": "Delivery Address",
+      "deliveryAddressPlaceholder": "Enter delivery address here...",
+      "deliveryAddressRequired": "Delivery address is required",
+      "aptUnit": "Apt/Unit",
+      "aptUnitPlaceholder": "Enter apt/unit here...",
+      "city": "City",
+      "cityPlaceholder": "Enter city name here...",
+      "state": "State",
+      "statePlaceholder": "Enter state name here...",
+      "zipCode": "Zip Code",
+      "zipCodePlaceholder": "Enter zip code here..."
+    },
+    "medicationList": {
+      "title": "Medication List",
+      "instruction": "Add the medication name and/or Rx number (or at least one is required to refill)",
+      "refillAll": "Refill all of my medications",
+      "medicationName": "Medication Name",
+      "medicationNamePlaceholder": "Enter your medication name here...",
+      "rxNumber": "Rx Number",
+      "rxNumberPlaceholder": "Enter your Rx number here...",
+      "addAnother": "+ ADD ANOTHER MEDICATION"
+    },
+    "additionalNotes": {
+      "title": "Additional Notes or Special Instructions",
+      "placeholder": "Any special instructions, allergies, or additional information we should know..."
+    },
+    "submitButton": "Submit Refill Request"
+  },
+
   "footer": {
     "slogan": "Connecting communities to their local pharmacies for fast, reliable access to prescriptions",
     "links": {

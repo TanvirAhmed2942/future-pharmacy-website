@@ -12,7 +12,7 @@ import { useAuth } from "@/userInfo.authProvide";
 import useIcon from "@/hooks/useIcon";
 import ShowPhoneNumber from "../commonModal/showPhoneNumber";
 import Backbutton from "@/components/common/backbutton/backbutton";
-
+import { useTranslations } from "next-intl";
 interface RefillOption {
   title: string;
   description: string;
@@ -48,9 +48,19 @@ function RefillTransferSchedule({
     string | undefined
   >(undefined);
   const { isLoggedIn } = useAuth();
-  // Pre-fetch the globe icon
+  // Pre-fetch the globe ico
   const globeIcon = useIcon({ name: "globe" });
-
+  const tRefillTransferSchedule = useTranslations(
+    "refillTransferScheduleSteps.stepsRefill"
+  );
+  const tRefillTransferScheduleStepsTransfer = useTranslations(
+    "refillTransferScheduleSteps.stepsTransfer"
+  );
+  const tRefillTransferScheduleStepsSchedule = useTranslations(
+    "refillTransferScheduleSteps.stepsSchedule"
+  );
+  const tNeedHelp = useTranslations("refillTransferSchedule");
+  const tLoginChoiceModal = useTranslations("loginChoiceModal");
   const handleOnlineClick = (onlineHref?: string) => {
     // If onlineHref is provided, redirect to it
     if (onlineHref) {
@@ -107,52 +117,44 @@ function RefillTransferSchedule({
   // Default steps for backward compatibility
   const defaultStepsRefill = [
     {
-      title: "Complete Refill From",
-      description:
-        "Fill out our secure online refill form with your prescription details",
+      title: tRefillTransferSchedule("0.title"),
+      description: tRefillTransferSchedule("0.description"),
     },
     {
-      title: "We contact your pharmacy",
-      description:
-        "Our team will contact your pharmacy to refill your prescriptions",
+      title: tRefillTransferSchedule("1.title"),
+      description: tRefillTransferSchedule("1.description"),
     },
     {
-      title: "Prescription Ready",
-      description:
-        "We'll notify you when your prescriptions are ready for delivery",
+      title: tRefillTransferSchedule("2.title"),
+      description: tRefillTransferSchedule("2.description"),
     },
   ];
   const defaultStepsTransfer = [
     {
-      title: "Complete Transfer Form",
-      description:
-        "Fill out our secure online transfer form with your prescription details",
+      title: tRefillTransferScheduleStepsTransfer("0.title"),
+      description: tRefillTransferScheduleStepsTransfer("0.description"),
     },
     {
-      title: "We contact your pharmacy",
-      description:
-        "Our team will contact your pharmacy to transfer your prescriptions",
+      title: tRefillTransferScheduleStepsTransfer("1.title"),
+      description: tRefillTransferScheduleStepsTransfer("1.description"),
     },
     {
-      title: "Prescription Transferred",
-      description: "We'll notify you when your prescriptions are transferred",
+      title: tRefillTransferScheduleStepsTransfer("2.title"),
+      description: tRefillTransferScheduleStepsTransfer("2.description"),
     },
   ];
   const defaultStepsSchedule = [
     {
-      title: "Complete Schedule Form",
-      description:
-        "Fill out our secure online schedule form with your prescription details",
+      title: tRefillTransferScheduleStepsSchedule("0.title"),
+      description: tRefillTransferScheduleStepsSchedule("0.description"),
     },
     {
-      title: "We contact your pharmacy",
-      description:
-        "Our team will contact your pharmacy to schedule your healthcare services",
+      title: tRefillTransferScheduleStepsSchedule("1.title"),
+      description: tRefillTransferScheduleStepsSchedule("1.description"),
     },
     {
-      title: "Healthcare Services Scheduled",
-      description:
-        "We'll notify you when your healthcare services are scheduled",
+      title: tRefillTransferScheduleStepsSchedule("2.title"),
+      description: tRefillTransferScheduleStepsSchedule("2.description"),
     },
   ];
 
@@ -183,7 +185,7 @@ function RefillTransferSchedule({
 
         <div className="mb-12 xl:mb-6 2xl:mb-8 ">
           <p className="text-gray-800 text-sm md:text-base mb-6 text-center md:text-left">
-            Need help? please call or text us at 917-993-0549
+            {tNeedHelp("needHelp")} 917-993-0549
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -243,9 +245,7 @@ function RefillTransferSchedule({
                 <Button
                   className="bg-peter hover:bg-peter-dark text-white px-8 py-5 text-base font-medium cursor-pointer"
                   onClick={
-                    option.title === "Refill Online" ||
-                    option.title === "Transfer Online" ||
-                    option.title === "Schedule Online"
+                    option.onlineHref
                       ? () => handleOnlineClick(option.onlineHref)
                       : option.onClick
                   }
@@ -270,14 +270,16 @@ function RefillTransferSchedule({
         onClose={() => setIsLoginChoiceModalOpen(false)}
         onSignIn={handleSignIn}
         onGuestCheckout={handleGuestCheckout}
-        description={`To continue with your ${pageTitle}, please choose one of the following options:`}
+        description={tLoginChoiceModal("description", {
+          pageTitle: pageTitle || "",
+        })}
       />
 
       <ShowPhoneNumber
         isOpen={isShowPhoneNumberOpen}
         onClose={() => setIsShowPhoneNumberOpen(false)}
         phoneNumber={"+353 917 993 0549"}
-        title="Need help? please call or text us at"
+        title={tNeedHelp("needHelp")}
       />
     </section>
   );

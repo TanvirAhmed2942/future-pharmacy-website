@@ -630,5 +630,175 @@
       "terms": "Política de términos de servicio"
     },
     "footerText": "Optimus Health Solutions. Todos los derechos reservados."
+  },
+
+  "refillTransferSchedule": {
+    "needHelp": "¿Necesitas ayuda? Llámanos o envíanos un mensaje",
+    "pageTitleRefill": "Renueva tu Prescripción",
+    "pageTitleTransfer": "Transfiere tu Prescripción",
+    "pageTitleSchedule": "Programa Servicios Esenciales de Salud",
+    "refillOptions": [
+      {
+        "title": "Renovar en línea",
+        "description": "Utiliza nuestro formulario seguro para renovar tus prescripciones de manera rápida, segura y conveniente",
+        "buttonText": "Renovar Ahora"
+      },
+      {
+        "title": "Renovar por teléfono",
+        "description": "Llama a nuestro equipo de confianza para completar el formulario de renovación por teléfono",
+        "buttonText": "Llamar Ahora"
+      }
+    ],
+    "refillOptionsTransfer": [
+      {
+        "title": "Transferir en línea",
+        "description": "Utiliza nuestro formulario seguro para transferir tus prescripciones de manera rápida, segura y conveniente",
+        "buttonText": "Transferir Ahora"
+      },
+      {
+        "title": "Transferir por teléfono",
+        "description": "Llama a nuestro equipo de confianza para completar el formulario de transferencia por teléfono",
+        "buttonText": "Llamar Ahora"
+      }
+    ],
+    "refillOptionsSchedule": [
+      {
+        "title": "Programar en línea",
+        "description": "Utiliza nuestro formulario seguro para reservar tu cita en la farmacia de forma rápida, segura y conveniente.",
+        "buttonText": "Programar Ahora"
+      },
+      {
+        "title": "Programar por teléfono",
+        "description": "Llama a nuestro equipo de confianza para completar el formulario de programación por teléfono",
+        "buttonText": "Llamar Ahora"
+      }
+    ]
+  },
+  "refillTransferScheduleForm": {
+    "pageTitleRefill": "Renueva tu Prescripción",
+    "pageTitleTransfer": "Transfiere tu Prescripción",
+    "pageTitleSchedule": "Programa Servicios Esenciales de Salud",
+    "formTitle": "Renueva tu Prescripción",
+    "formDescription": "Renueva tu prescripción fácilmente usando nuestra plataforma en línea.",
+    "formButtonText": "Renovar Ahora"
+  },
+  "refillTransferScheduleSteps": {
+    "stepsRefill": [
+      {
+        "title": "Completar Formulario de Renovación",
+        "description": "Llena nuestro formulario seguro en línea con los detalles de tu prescripción"
+      },
+      {
+        "title": "Contactamos a tu farmacia",
+        "description": "Nuestro equipo se comunicará con tu farmacia para renovar tus prescripciones"
+      },
+      {
+        "title": "Prescripción Lista",
+        "description": "Te notificaremos cuando tus prescripciones estén listas para entrega"
+      }
+    ],
+    "stepsTransfer": [
+      {
+        "title": "Completar Formulario de Transferencia",
+        "description": "Llena nuestro formulario seguro en línea con los detalles de tu prescripción"
+      },
+      {
+        "title": "Contactamos a tu farmacia",
+        "description": "Nuestro equipo se comunicará con tu farmacia para transferir tus prescripciones"
+      },
+      {
+        "title": "Prescripción Lista",
+        "description": "Te notificaremos cuando tus prescripciones estén listas para entrega"
+      }
+    ],
+    "stepsSchedule": [
+      {
+        "title": "Completar Formulario de Programación",
+        "description": "Llena nuestro formulario seguro en línea para programar tus servicios esenciales de salud"
+      },
+      {
+        "title": "Coordinamos tu cita",
+        "description": "Nuestro equipo coordinará con tu farmacia seleccionada para programar tu cita"
+      },
+      {
+        "title": "Cita Confirmada",
+        "description": "Te notificaremos cuando tu cita esté confirmada y lista"
+      }
+    ]
+  },
+
+  "loginChoiceModal": {
+    "title": "Elige una Opción",
+    "description": "Para continuar con tu {pageTitle}, por favor elige una de las siguientes opciones:",
+    "signIn": "Iniciar Sesión / Crear Cuenta",
+    "guestCheckout": "Continuar como Invitado",
+    "cancel": "Cancelar"
+  },
+
+  "refillOnline": {
+    "pageTitle": "Renueva tu Prescripción",
+    "personalInformation": {
+      "title": "Información Personal",
+      "firstName": "Nombre",
+      "firstNamePlaceholder": "Ingresa tu nombre aquí...",
+      "firstNameRequired": "El nombre es obligatorio",
+      "lastName": "Apellido",
+      "lastNamePlaceholder": "Ingresa tu apellido aquí...",
+      "lastNameRequired": "El apellido es obligatorio",
+      "phoneNumber": "Número de Teléfono",
+      "phoneNumberPlaceholder": "(XXX) XXX-XXXX",
+      "phoneNumberRequired": "El número de teléfono es obligatorio",
+      "phoneNumberInvalid": "Por favor ingresa un número de teléfono válido",
+      "dateOfBirth": "Fecha de Nacimiento",
+      "dateOfBirthPlaceholder": "Selecciona fecha (MM/DD/AAAA)",
+      "dateOfBirthRequired": "La fecha de nacimiento es obligatoria"
+    },
+    "pharmacyInformation": {
+      "title": "Información de la Farmacia",
+      "pharmacyName": "Nombre de la Farmacia",
+      "pharmacyNamePlaceholder": "ej. CVS, Walgreens, etc.",
+      "pharmacyNameRequired": "El nombre de la farmacia es obligatorio",
+      "pharmacyPhone": "Teléfono de la Farmacia",
+      "pharmacyPhonePlaceholder": "(XXX) XXX-XXXX",
+      "pharmacyPhoneInvalid": "Por favor ingresa un número de teléfono válido",
+      "pharmacyAddress": "Dirección de la Farmacia",
+      "pharmacyAddressPlaceholder": "Ingresa la dirección de la farmacia aquí...",
+      "city": "Ciudad",
+      "cityPlaceholder": "Ingresa el nombre de la ciudad aquí...",
+      "state": "Estado",
+      "statePlaceholder": "Ingresa el nombre del estado aquí...",
+      "zipCode": "Código Postal",
+      "zipCodePlaceholder": "Ingresa el código postal aquí...",
+      "zipCodeInvalid": "Por favor ingresa un código postal válido"
+    },
+    "deliveryDetails": {
+      "title": "Detalles de Entrega",
+      "deliveryAddress": "Dirección de Entrega",
+      "deliveryAddressPlaceholder": "Ingresa la dirección de entrega aquí...",
+      "deliveryAddressRequired": "La dirección de entrega es obligatoria",
+      "aptUnit": "Apto/Unidad",
+      "aptUnitPlaceholder": "Ingresa apto/unidad aquí...",
+      "city": "Ciudad",
+      "cityPlaceholder": "Ingresa el nombre de la ciudad aquí...",
+      "state": "Estado",
+      "statePlaceholder": "Ingresa el nombre del estado aquí...",
+      "zipCode": "Código Postal",
+      "zipCodePlaceholder": "Ingresa el código postal aquí..."
+    },
+    "medicationList": {
+      "title": "Lista de Medicamentos",
+      "instruction": "Agrega el nombre del medicamento y/o número de Rx (o al menos uno es requerido para renovar)",
+      "refillAll": "Renovar todos mis medicamentos",
+      "medicationName": "Nombre del Medicamento",
+      "medicationNamePlaceholder": "Ingresa el nombre de tu medicamento aquí...",
+      "rxNumber": "Número de Rx",
+      "rxNumberPlaceholder": "Ingresa tu número de Rx aquí...",
+      "addAnother": "+ AGREGAR OTRO MEDICAMENTO"
+    },
+    "additionalNotes": {
+      "title": "Notas Adicionales o Instrucciones Especiales",
+      "placeholder": "Cualquier instrucción especial, alergias o información adicional que debamos saber..."
+    },
+    "submitButton": "Enviar Solicitud de Renovación"
   }
 }
