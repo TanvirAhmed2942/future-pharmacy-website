@@ -12,6 +12,8 @@ interface PharmacyMapProps {
   zoom?: number;
   onPharmacyClick?: (pharmacy: Pharmacy) => void;
   showRoute?: boolean;
+  onMapClick?: (location: Location, address: string) => void;
+  selectionMode?: "pickup" | "dropoff" | null;
 }
 
 const defaultCenter: Location = {
@@ -29,6 +31,8 @@ export default function PharmacyMap({
   zoom = defaultZoom,
   onPharmacyClick,
   showRoute = false,
+  onMapClick,
+  selectionMode = null,
 }: PharmacyMapProps) {
   const [directions, setDirections] =
     useState<google.maps.DirectionsResult | null>(null);
@@ -53,8 +57,9 @@ export default function PharmacyMap({
       streetViewControl: false,
       mapTypeControl: false,
       fullscreenControl: true,
+      draggableCursor: selectionMode ? "crosshair" : undefined,
     }),
-    []
+    [selectionMode]
   );
 
   // Calculate bounds to fit all markers
@@ -141,54 +146,143 @@ export default function PharmacyMap({
     [bounds]
   );
 
+  // Handle map click to select location
+  const handleMapClick = useCallback(
+    (e: google.maps.MapMouseEvent) => {
+      if (!onMapClick || !selectionMode || !e.latLng) return;
+
+      const clickedLocation = e.latLng;
+
+      // Reverse geocode to get the exact address location
+      // Note: Geocoder is part of core Maps JavaScript API, doesn't need geometry/places libraries
+      if (
+        typeof window !== "undefined" &&
+        window.google &&
+        window.google.maps &&
+        window.google.maps.Geocoder
+      ) {
+        try {
+          const geocoder = new window.google.maps.Geocoder();
+          // Create LatLng object for geocoding
+          const latLng = new window.google.maps.LatLng(
+            clickedLocation.lat(),
+            clickedLocation.lng()
+          );
+
+          geocoder.geocode({ location: latLng }, (results, status) => {
+            // Use the CLICKED coordinates for marker placement
+            // Only use geocoding to get the address string
+            const clickedLat = clickedLocation.lat();
+            const clickedLng = clickedLocation.lng();
+
+            if (
+              status === window.google.maps.GeocoderStatus.OK &&
+              results &&
+              results[0]
+            ) {
+              const address = results[0].formatted_address;
+
+              // Place marker at the exact clicked location
+              const location: Location = {
+                lat: clickedLat,
+                lng: clickedLng,
+                address: address,
+              };
+
+              console.log("Map click - Using clicked coordinates:", {
+                lat: clickedLat,
+                lng: clickedLng,
+                address: address,
+              });
+
+              onMapClick(location, address);
+            } else {
+              // Fallback: use clicked coordinates if geocoding fails
+              const location: Location = {
+                lat: clickedLat,
+                lng: clickedLng,
+              };
+              const fallbackAddress = `${location.lat.toFixed(
+                6
+              )}, ${location.lng.toFixed(6)}`;
+              console.warn(
+                "Geocoding failed, using clicked coordinates:",
+                location
+              );
+              onMapClick(
+                { ...location, address: fallbackAddress },
+                fallbackAddress
+              );
+            }
+          });
+        } catch (error) {
+          console.error("Geocoder error:", error);
+          // Fallback: use clicked coordinates
+          const location: Location = {
+            lat: clickedLocation.lat(),
+            lng: clickedLocation.lng(),
+          };
+          const fallbackAddress = `${location.lat.toFixed(
+            6
+          )}, ${location.lng.toFixed(6)}`;
+          onMapClick(
+            { ...location, address: fallbackAddress },
+            fallbackAddress
+          );
+        }
+      } else {
+        console.error(
+          "Google Maps Geocoder is not available. Make sure Geocoding API is enabled in Google Cloud Console."
+        );
+        // Fallback: use clicked coordinates
+        const location: Location = {
+          lat: clickedLocation.lat(),
+          lng: clickedLocation.lng(),
+        };
+        const fallbackAddress = `${location.lat.toFixed(
+          6
+        )}, ${location.lng.toFixed(6)}`;
+        onMapClick({ ...location, address: fallbackAddress }, fallbackAddress);
+      }
+    },
+    [onMapClick, selectionMode]
+  );
+
   return (
     <GoogleMap
-      mapContainerClassName="w-full h-full rounded-xl"
+      mapContainerClassName={`w-full h-full rounded-xl ${
+        selectionMode ? "cursor-crosshair" : ""
+      }`}
       mapContainerStyle={{ width: "100%", height: "100%" }}
       center={mapCenter}
       zoom={zoom}
       options={mapOptions}
       onLoad={onLoad}
+      onClick={selectionMode ? handleMapClick : undefined}
     >
-      {/* Pickup Location Marker */}
+      {/* Pickup Location Marker - "A" */}
       {pickupLocation && (
         <Marker
           position={pickupLocation}
-          icon={{
-            path: window.google?.maps?.SymbolPath?.CIRCLE || "",
-            scale: 10,
-            fillColor: "#10b981", // Green for pickup
-            fillOpacity: 1,
-            strokeColor: "#ffffff",
-            strokeWeight: 3,
-          }}
-          title="Pickup Location"
+          title="Pickup Location (A)"
           label={{
-            text: "P",
+            text: "A",
             color: "#ffffff",
-            fontSize: "12px",
+            fontSize: "14px",
             fontWeight: "bold",
           }}
         />
       )}
 
-      {/* Dropoff Location Marker */}
+      {/* Dropoff Location Marker - "B" */}
       {dropoffLocation && (
         <Marker
           position={dropoffLocation}
-          icon={{
-            path: window.google?.maps?.SymbolPath?.CIRCLE || "",
-            scale: 10,
-            fillColor: "#9333ea", // Purple for dropoff
-            fillOpacity: 1,
-            strokeColor: "#ffffff",
-            strokeWeight: 3,
-          }}
-          title="Dropoff Location"
+          title="Dropoff Location (B)"
           label={{
-            text: "D",
+            text: "B",
             color: "#ffffff",
-            fontSize: "12px",
+            fontSize: "14px",
             fontWeight: "bold",
           }}
         />
