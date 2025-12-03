@@ -20,6 +20,7 @@ import {
   Controller,
   SubmitHandler,
 } from "react-hook-form";
+import { useTranslations } from "next-intl";
 import Backbutton from "@/components/common/backbutton/backbutton";
 import Image from "next/image";
 
@@ -51,6 +52,7 @@ type FormValues = {
 };
 
 function RefillOnline() {
+  const t = useTranslations("refillOnline");
   const {
     register,
     control,
@@ -105,14 +107,14 @@ function RefillOnline() {
           <div className="flex  items-center justify-center mt-2 mb-4 lg:-mt-8 lg:mb-8 ">
             <Backbutton />
             <h2 className="text-2xl lg:text-3xl font-bold text-center text-peter font-inter mx-auto">
-              Refill Your Prescription
+              {t("pageTitle")}
             </h2>
           </div>
 
           {/* Personal Information Section */}
           <div className="bg-white rounded-lg border p-6 shadow-sm">
             <h3 className="text-lg font-medium text-peter mb-4">
-              Personal Information
+              {t("personalInformation.title")}
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
@@ -120,15 +122,15 @@ function RefillOnline() {
                   htmlFor="firstName"
                   className="text-sm font-medium text-gray-700"
                 >
-                  First Name *
+                  {t("personalInformation.firstName")} *
                 </Label>
                 <Input
                   type="text"
                   id="firstName"
                   {...register("firstName", {
-                    required: "First name is required",
+                    required: t("personalInformation.firstNameRequired"),
                   })}
-                  placeholder="Enter your first name here..."
+                  placeholder={t("personalInformation.firstNamePlaceholder")}
                   className={cn(
                     "w-full mt-1",
                     errors.firstName && "border-red-500"
@@ -145,15 +147,15 @@ function RefillOnline() {
                   htmlFor="lastName"
                   className="text-sm font-medium text-gray-700"
                 >
-                  Last Name *
+                  {t("personalInformation.lastName")} *
                 </Label>
                 <Input
                   type="text"
                   id="lastName"
                   {...register("lastName", {
-                    required: "Last name is required",
+                    required: t("personalInformation.lastNameRequired"),
                   })}
-                  placeholder="Enter your last name here..."
+                  placeholder={t("personalInformation.lastNamePlaceholder")}
                   className={cn(
                     "w-full mt-1",
                     errors.lastName && "border-red-500"
@@ -172,20 +174,20 @@ function RefillOnline() {
                   htmlFor="phoneNumber"
                   className="text-sm font-medium text-gray-700"
                 >
-                  Phone Number *
+                  {t("personalInformation.phoneNumber")} *
                 </Label>
                 <Input
                   type="tel"
                   id="phoneNumber"
                   {...register("phoneNumber", {
-                    required: "Phone number is required",
+                    required: t("personalInformation.phoneNumberRequired"),
                     pattern: {
                       value:
                         /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
-                      message: "Please enter a valid phone number",
+                      message: t("personalInformation.phoneNumberInvalid"),
                     },
                   })}
-                  placeholder="(XXX) XXX-XXXX"
+                  placeholder={t("personalInformation.phoneNumberPlaceholder")}
                   className={cn(
                     "w-full mt-1",
                     errors.phoneNumber && "border-red-500"
@@ -202,12 +204,14 @@ function RefillOnline() {
                   htmlFor="dateOfBirth"
                   className="text-sm font-medium text-gray-700"
                 >
-                  Date of Birth *
+                  {t("personalInformation.dateOfBirth")} *
                 </Label>
                 <Controller
                   control={control}
                   name="dateOfBirth"
-                  rules={{ required: "Date of birth is required" }}
+                  rules={{
+                    required: t("personalInformation.dateOfBirthRequired"),
+                  }}
                   render={({ field }) => (
                     <Popover>
                       <PopoverTrigger asChild>
@@ -229,7 +233,9 @@ function RefillOnline() {
                               .toString()
                               .padStart(2, "0")}/${field.value.getFullYear()}`
                           ) : (
-                            <span>Select date (MM/DD/YYYY)</span>
+                            <span>
+                              {t("personalInformation.dateOfBirthPlaceholder")}
+                            </span>
                           )}
                           <ChevronDownIcon className="h-4 w-4 opacity-50" />
                         </Button>
@@ -266,7 +272,7 @@ function RefillOnline() {
           {/* Pharmacy Information Section */}
           <div className="bg-white rounded-lg border p-6 shadow-sm">
             <h3 className="text-lg font-medium text-peter mb-4">
-              Pharmacy Information
+              {t("pharmacyInformation.title")}
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
@@ -274,15 +280,15 @@ function RefillOnline() {
                   htmlFor="pharmacyName"
                   className="text-sm font-medium text-gray-700"
                 >
-                  Pharmacy Name *
+                  {t("pharmacyInformation.pharmacyName")} *
                 </Label>
                 <Input
                   type="text"
                   id="pharmacyName"
                   {...register("pharmacyName", {
-                    required: "Pharmacy name is required",
+                    required: t("pharmacyInformation.pharmacyNameRequired"),
                   })}
-                  placeholder="e.g. CVS, Walgreens, etc."
+                  placeholder={t("pharmacyInformation.pharmacyNamePlaceholder")}
                   className={cn(
                     "w-full mt-1",
                     errors.pharmacyName && "border-red-500"
@@ -299,20 +305,21 @@ function RefillOnline() {
                   htmlFor="pharmacyPhone"
                   className="text-sm font-medium text-gray-700"
                 >
-                  Pharmacy Phone
+                  {t("pharmacyInformation.pharmacyPhone")}
                 </Label>
                 <Input
                   type="tel"
                   id="pharmacyPhone"
                   {...register("pharmacyPhone", {
-                    // required: "Pharmacy phone is required",
                     pattern: {
                       value:
                         /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
-                      message: "Please enter a valid phone number",
+                      message: t("pharmacyInformation.pharmacyPhoneInvalid"),
                     },
                   })}
-                  placeholder="(XXX) XXX-XXXX"
+                  placeholder={t(
+                    "pharmacyInformation.pharmacyPhonePlaceholder"
+                  )}
                   className={cn(
                     "w-full mt-1",
                     errors.pharmacyPhone && "border-red-500"
@@ -330,13 +337,15 @@ function RefillOnline() {
                 htmlFor="pharmacyAddress"
                 className="text-sm font-medium text-gray-700"
               >
-                Pharmacy Address
+                {t("pharmacyInformation.pharmacyAddress")}
               </Label>
               <Input
                 type="text"
                 id="pharmacyAddress"
                 {...register("pharmacyAddress")}
-                placeholder="Enter pharmacy address here..."
+                placeholder={t(
+                  "pharmacyInformation.pharmacyAddressPlaceholder"
+                )}
                 className="w-full mt-1"
               />
             </div>
@@ -346,13 +355,13 @@ function RefillOnline() {
                   htmlFor="pharmacyCity"
                   className="text-sm font-medium text-gray-700"
                 >
-                  City
+                  {t("pharmacyInformation.city")}
                 </Label>
                 <Input
                   type="text"
                   id="pharmacyCity"
                   {...register("pharmacyCity")}
-                  placeholder="Enter city name here..."
+                  placeholder={t("pharmacyInformation.cityPlaceholder")}
                   className="w-full mt-1"
                 />
               </div>
@@ -361,13 +370,13 @@ function RefillOnline() {
                   htmlFor="pharmacyState"
                   className="text-sm font-medium text-gray-700"
                 >
-                  State
+                  {t("pharmacyInformation.state")}
                 </Label>
                 <Input
                   type="text"
                   id="pharmacyState"
                   {...register("pharmacyState")}
-                  placeholder="Enter state name here..."
+                  placeholder={t("pharmacyInformation.statePlaceholder")}
                   className="w-full mt-1"
                 />
               </div>
@@ -376,7 +385,7 @@ function RefillOnline() {
                   htmlFor="pharmacyZipCode"
                   className="text-sm font-medium text-gray-700"
                 >
-                  Zip Code
+                  {t("pharmacyInformation.zipCode")}
                 </Label>
                 <Input
                   type="text"
@@ -384,10 +393,10 @@ function RefillOnline() {
                   {...register("pharmacyZipCode", {
                     pattern: {
                       value: /^\d{5}(-\d{4})?$/,
-                      message: "Please enter a valid zip code",
+                      message: t("pharmacyInformation.zipCodeInvalid"),
                     },
                   })}
-                  placeholder="Enter zip code here..."
+                  placeholder={t("pharmacyInformation.zipCodePlaceholder")}
                   className="w-full mt-1"
                 />
               </div>
@@ -397,7 +406,7 @@ function RefillOnline() {
           {/* Delivery Details Section */}
           <div className="bg-white rounded-lg border p-6 shadow-sm">
             <h3 className="text-lg font-medium text-peter mb-4">
-              Delivery Details
+              {t("deliveryDetails.title")}
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
@@ -405,15 +414,15 @@ function RefillOnline() {
                   htmlFor="deliveryAddress"
                   className="text-sm font-medium text-gray-700"
                 >
-                  Delivery Address *
+                  {t("deliveryDetails.deliveryAddress")} *
                 </Label>
                 <Input
                   type="text"
                   id="deliveryAddress"
                   {...register("deliveryAddress", {
-                    required: "Delivery address is required",
+                    required: t("deliveryDetails.deliveryAddressRequired"),
                   })}
-                  placeholder="Enter delivery address here..."
+                  placeholder={t("deliveryDetails.deliveryAddressPlaceholder")}
                   className={cn(
                     "w-full mt-1",
                     errors.deliveryAddress && "border-red-500"
@@ -430,13 +439,13 @@ function RefillOnline() {
                   htmlFor="aptUnit"
                   className="text-sm font-medium text-gray-700"
                 >
-                  Apt/Unit
+                  {t("deliveryDetails.aptUnit")}
                 </Label>
                 <Input
                   type="text"
                   id="aptUnit"
                   {...register("aptUnit")}
-                  placeholder="Enter apt/unit here..."
+                  placeholder={t("deliveryDetails.aptUnitPlaceholder")}
                   className="w-full mt-1"
                 />
               </div>
@@ -447,13 +456,13 @@ function RefillOnline() {
                   htmlFor="city"
                   className="text-sm font-medium text-gray-700"
                 >
-                  City
+                  {t("deliveryDetails.city")}
                 </Label>
                 <Input
                   type="text"
                   id="city"
                   {...register("city", { required: false })}
-                  placeholder="Enter city name here..."
+                  placeholder={t("deliveryDetails.cityPlaceholder")}
                   className="w-full mt-1"
                 />
               </div>
@@ -462,13 +471,13 @@ function RefillOnline() {
                   htmlFor="state"
                   className="text-sm font-medium text-gray-700"
                 >
-                  State
+                  {t("deliveryDetails.state")}
                 </Label>
                 <Input
                   type="text"
                   id="state"
                   {...register("state", { required: false })}
-                  placeholder="Enter state name here..."
+                  placeholder={t("deliveryDetails.statePlaceholder")}
                   className="w-full mt-1"
                 />
               </div>
@@ -477,13 +486,13 @@ function RefillOnline() {
                   htmlFor="zipCode"
                   className="text-sm font-medium text-gray-700"
                 >
-                  Zip Code
+                  {t("deliveryDetails.zipCode")}
                 </Label>
                 <Input
                   type="text"
                   id="zipCode"
                   {...register("zipCode", { required: false })}
-                  placeholder="Enter zip code here..."
+                  placeholder={t("deliveryDetails.zipCodePlaceholder")}
                   className="w-full mt-1"
                 />
               </div>
@@ -492,7 +501,9 @@ function RefillOnline() {
 
           {/* Medication List Section */}
           <div className="bg-white rounded-lg border p-6 shadow-sm">
-            <h3 className="text-lg font-medium text-peter ">Medication List</h3>
+            <h3 className="text-lg font-medium text-peter ">
+              {t("medicationList.title")}
+            </h3>
             {/* <div className="mb-4 flex items-start gap-2 text-sm text-gray-600 italic">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -513,10 +524,7 @@ function RefillOnline() {
             <p>Add the medication... right under &quot;Medication List&quot;</p>
           </div> */}
             <div className="mb-4 text-xs text-gray-600 italic">
-              <p>
-                Add the medication name and/or Rx number (or at least one is
-                required to refill)
-              </p>
+              <p>{t("medicationList.instruction")}</p>
             </div>
 
             <div className="mb-4 flex items-center">
@@ -532,7 +540,7 @@ function RefillOnline() {
                 )}
               />
               <label htmlFor="refillAll" className="ml-2 text-sm text-gray-700">
-                Refill all of my medications
+                {t("medicationList.refillAll")}
               </label>
             </div>
 
@@ -546,13 +554,13 @@ function RefillOnline() {
                     htmlFor={`medications.${index}.name`}
                     className="text-sm font-medium text-gray-700"
                   >
-                    Medication Name
+                    {t("medicationList.medicationName")}
                   </Label>
                   <Input
                     type="text"
                     id={`medications.${index}.name`}
                     {...register(`medications.${index}.name` as const)}
-                    placeholder="Enter your medication name here..."
+                    placeholder={t("medicationList.medicationNamePlaceholder")}
                     className="w-full mt-1"
                   />
                 </div>
@@ -561,13 +569,13 @@ function RefillOnline() {
                     htmlFor={`medications.${index}.rxNumber`}
                     className="text-sm font-medium text-gray-700"
                   >
-                    Rx Number
+                    {t("medicationList.rxNumber")}
                   </Label>
                   <Input
                     type="text"
                     id={`medications.${index}.rxNumber`}
                     {...register(`medications.${index}.rxNumber` as const)}
-                    placeholder="Enter your Rx number here..."
+                    placeholder={t("medicationList.rxNumberPlaceholder")}
                     className="w-full mt-1"
                   />
                 </div>
@@ -580,7 +588,7 @@ function RefillOnline() {
               variant="outline"
               className="border-peter text-peter hover:bg-peter/10"
             >
-              + ADD ANOTHER MEDICATION
+              {t("medicationList.addAnother")}
             </Button>
           </div>
 
@@ -590,12 +598,12 @@ function RefillOnline() {
               htmlFor="notes"
               className="text-sm font-medium text-gray-700 block mb-2"
             >
-              Additional Notes or Special Instructions
+              {t("additionalNotes.title")}
             </Label>
             <Textarea
               id="notes"
               {...register("notes")}
-              placeholder="Any special instructions, allergies, or additional information we should know..."
+              placeholder={t("additionalNotes.placeholder")}
               className="w-full h-24"
             />
           </div>
@@ -605,7 +613,7 @@ function RefillOnline() {
             type="submit"
             className="w-full bg-peter hover:bg-peter-dark text-white py-3 rounded-md font-medium"
           >
-            Submit Refill Request
+            {t("submitButton")}
           </Button>
         </form>
       </div>

@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { User, UserPlus } from "lucide-react";
-
+import { useTranslations } from "next-intl";
 interface LoginChoiceModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -25,12 +25,13 @@ function LoginChoiceModal({
   onGuestCheckout,
   description,
 }: LoginChoiceModalProps) {
+  const tLoginChoiceModal = useTranslations("loginChoiceModal");
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md bg-white rounded-xl shadow-2xl border-0 p-0">
         <DialogHeader className="p-6 pb-4">
           <DialogTitle className="text-xl font-bold text-gray-900 text-center">
-            Choose Your Option
+            {tLoginChoiceModal("title")}
           </DialogTitle>
         </DialogHeader>
 
@@ -44,7 +45,7 @@ function LoginChoiceModal({
               className="w-full h-14 bg-peter text-white hover:bg-peter-dark flex items-center justify-center gap-3"
             >
               <UserPlus className="w-5 h-5" />
-              Sign In / Create Account
+              {tLoginChoiceModal("signIn")}
             </Button>
 
             {/* Guest Checkout */}
@@ -54,7 +55,7 @@ function LoginChoiceModal({
               className="w-full h-14 bg-gray-50 text-gray-700 border-gray-300 hover:bg-gray-100 flex items-center justify-center gap-3"
             >
               <User className="w-5 h-5" />
-              Continue as Guest
+              {tLoginChoiceModal("guestCheckout")}
             </Button>
           </div>
 
@@ -65,7 +66,7 @@ function LoginChoiceModal({
               variant="ghost"
               className="text-gray-500 hover:text-gray-700"
             >
-              Cancel
+              {tLoginChoiceModal("cancel")}
             </Button>
           </div>
         </div>

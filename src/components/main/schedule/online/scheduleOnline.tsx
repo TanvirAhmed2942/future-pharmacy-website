@@ -22,6 +22,7 @@ import { cn } from "@/lib/utils";
 
 import React, { useState } from "react";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
+import { useTranslations } from "next-intl";
 import CalendarModal from "./calendarModal";
 import Backbutton from "@/components/common/backbutton/backbutton";
 import Image from "next/image";
@@ -58,6 +59,7 @@ type FormValues = {
 };
 
 function ScheduleOnline() {
+  const t = useTranslations("scheduleOnline");
   const {
     register,
     control,
@@ -188,14 +190,14 @@ function ScheduleOnline() {
           <div className="flex  items-center justify-center mt-2 mb-4 lg:-mt-8 lg:mb-8 ">
             <Backbutton />
             <h2 className="text-2xl lg:text-3xl font-bold text-center text-peter font-inter mx-auto">
-              Schedule Your Prescription
+              {t("pageTitle")}
             </h2>
           </div>
 
           {/* Profile Info Section */}
           <div className="bg-white rounded-lg border p-6 shadow-sm">
             <h3 className="text-lg font-medium text-peter mb-4">
-              Profile Info
+              {t("profileInfo.title")}
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
@@ -203,15 +205,15 @@ function ScheduleOnline() {
                   htmlFor="firstName"
                   className="text-sm font-medium text-gray-700"
                 >
-                  First Name *
+                  {t("profileInfo.firstName")} *
                 </Label>
                 <Input
                   type="text"
                   id="firstName"
                   {...register("firstName", {
-                    required: "First name is required",
+                    required: t("profileInfo.firstNameRequired"),
                   })}
-                  placeholder="Enter your first name here..."
+                  placeholder={t("profileInfo.firstNamePlaceholder")}
                   className={cn(
                     "w-full mt-1",
                     errors.firstName && "border-red-500"
@@ -228,15 +230,15 @@ function ScheduleOnline() {
                   htmlFor="lastName"
                   className="text-sm font-medium text-gray-700"
                 >
-                  Last Name *
+                  {t("profileInfo.lastName")} *
                 </Label>
                 <Input
                   type="text"
                   id="lastName"
                   {...register("lastName", {
-                    required: "Last name is required",
+                    required: t("profileInfo.lastNameRequired"),
                   })}
-                  placeholder="Enter your last name here..."
+                  placeholder={t("profileInfo.lastNamePlaceholder")}
                   className={cn(
                     "w-full mt-1",
                     errors.lastName && "border-red-500"
@@ -255,20 +257,20 @@ function ScheduleOnline() {
                   htmlFor="phoneNumber"
                   className="text-sm font-medium text-gray-700"
                 >
-                  Phone Number *
+                  {t("profileInfo.phoneNumber")} *
                 </Label>
                 <Input
                   type="tel"
                   id="phoneNumber"
                   {...register("phoneNumber", {
-                    required: "Phone number is required",
+                    required: t("profileInfo.phoneNumberRequired"),
                     pattern: {
                       value:
                         /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
-                      message: "Please enter a valid phone number",
+                      message: t("profileInfo.phoneNumberInvalid"),
                     },
                   })}
-                  placeholder="(XXX) XXX-XXXX"
+                  placeholder={t("profileInfo.phoneNumberPlaceholder")}
                   className={cn(
                     "w-full mt-1",
                     errors.phoneNumber && "border-red-500"
@@ -285,12 +287,12 @@ function ScheduleOnline() {
                   htmlFor="dateOfBirth"
                   className="text-sm font-medium text-gray-700"
                 >
-                  Date of Birth *
+                  {t("profileInfo.dateOfBirth")} *
                 </Label>
                 <Controller
                   control={control}
                   name="dateOfBirth"
-                  rules={{ required: "Date of birth is required" }}
+                  rules={{ required: t("profileInfo.dateOfBirthRequired") }}
                   render={({ field }) => (
                     <Popover>
                       <PopoverTrigger asChild>
@@ -312,7 +314,9 @@ function ScheduleOnline() {
                               .toString()
                               .padStart(2, "0")}/${field.value.getFullYear()}`
                           ) : (
-                            <span>Select date (MM/DD/YYYY)</span>
+                            <span>
+                              {t("profileInfo.dateOfBirthPlaceholder")}
+                            </span>
                           )}
                           <ChevronDownIcon className="h-4 w-4 opacity-50" />
                         </Button>
@@ -349,7 +353,7 @@ function ScheduleOnline() {
           {/* Pharmacy Information Section */}
           <div className="bg-white rounded-lg border p-6 shadow-sm">
             <h3 className="text-lg font-medium text-peter mb-4">
-              Pharmacy Information
+              {t("pharmacyInformation.title")}
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
@@ -357,15 +361,15 @@ function ScheduleOnline() {
                   htmlFor="pharmacyName"
                   className="text-sm font-medium text-gray-700"
                 >
-                  Pharmacy Name *
+                  {t("pharmacyInformation.pharmacyName")} *
                 </Label>
                 <Input
                   type="text"
                   id="pharmacyName"
                   {...register("pharmacyName", {
-                    required: "Pharmacy name is required",
+                    required: t("pharmacyInformation.pharmacyNameRequired"),
                   })}
-                  placeholder="e.g. CVS, Walgreens, etc."
+                  placeholder={t("pharmacyInformation.pharmacyNamePlaceholder")}
                   className={cn(
                     "w-full mt-1",
                     errors.pharmacyName && "border-red-500"
@@ -382,7 +386,7 @@ function ScheduleOnline() {
                   htmlFor="pharmacyPhone"
                   className="text-sm font-medium text-gray-700"
                 >
-                  Pharmacy Phone
+                  {t("pharmacyInformation.pharmacyPhone")}
                 </Label>
                 <Input
                   type="tel"
@@ -391,10 +395,12 @@ function ScheduleOnline() {
                     pattern: {
                       value:
                         /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
-                      message: "Please enter a valid phone number",
+                      message: t("pharmacyInformation.pharmacyPhoneInvalid"),
                     },
                   } as const)}
-                  placeholder="(XXX) XXX-XXXX"
+                  placeholder={t(
+                    "pharmacyInformation.pharmacyPhonePlaceholder"
+                  )}
                   className="w-full mt-1"
                 />
               </div>
@@ -404,15 +410,17 @@ function ScheduleOnline() {
                 htmlFor="pharmacyAddress"
                 className="text-sm font-medium text-gray-700"
               >
-                Pharmacy Address *
+                {t("pharmacyInformation.pharmacyAddress")} *
               </Label>
               <Input
                 type="text"
                 id="pharmacyAddress"
                 {...register("pharmacyAddress", {
-                  required: "Pharmacy address is required",
+                  required: t("pharmacyInformation.pharmacyAddressRequired"),
                 })}
-                placeholder="Enter pharmacy address here..."
+                placeholder={t(
+                  "pharmacyInformation.pharmacyAddressPlaceholder"
+                )}
                 className={cn(
                   "w-full mt-1",
                   errors.pharmacyAddress && "border-red-500"
@@ -430,7 +438,7 @@ function ScheduleOnline() {
                   htmlFor="pharmacyCity"
                   className="text-sm font-medium text-gray-700"
                 >
-                  City
+                  {t("pharmacyInformation.city")}
                 </Label>
                 <Input
                   type="text"
@@ -438,7 +446,7 @@ function ScheduleOnline() {
                   {...register("pharmacyCity", {
                     required: false,
                   })}
-                  placeholder="Enter city name here..."
+                  placeholder={t("pharmacyInformation.cityPlaceholder")}
                   className="w-full mt-1"
                 />
               </div>
@@ -447,7 +455,7 @@ function ScheduleOnline() {
                   htmlFor="pharmacyState"
                   className="text-sm font-medium text-gray-700"
                 >
-                  State
+                  {t("pharmacyInformation.state")}
                 </Label>
                 <Input
                   type="text"
@@ -455,7 +463,7 @@ function ScheduleOnline() {
                   {...register("pharmacyState", {
                     required: false,
                   })}
-                  placeholder="Enter state name here..."
+                  placeholder={t("pharmacyInformation.statePlaceholder")}
                   className="w-full mt-1"
                 />
               </div>
@@ -464,7 +472,7 @@ function ScheduleOnline() {
                   htmlFor="pharmacyZipCode"
                   className="text-sm font-medium text-gray-700"
                 >
-                  Zip Code
+                  {t("pharmacyInformation.zipCode")}
                 </Label>
                 <Input
                   type="text"
@@ -472,7 +480,7 @@ function ScheduleOnline() {
                   {...register("pharmacyZipCode", {
                     required: false,
                   })}
-                  placeholder="Enter zip code here..."
+                  placeholder={t("pharmacyInformation.zipCodePlaceholder")}
                   className="w-full mt-1"
                 />
               </div>
@@ -484,12 +492,12 @@ function ScheduleOnline() {
                 htmlFor="serviceCategory"
                 className="text-sm font-medium text-gray-700"
               >
-                Services Type
+                {t("services.serviceCategory.label")}
               </Label>
               <Controller
                 control={control}
                 name="serviceCategory"
-                rules={{ required: "Please select a service category" }}
+                rules={{ required: t("services.serviceCategory.required") }}
                 render={({ field }) => (
                   <Select
                     onValueChange={field.onChange}
@@ -501,15 +509,19 @@ function ScheduleOnline() {
                         errors.serviceCategory && "border-red-500"
                       )}
                     >
-                      <SelectValue placeholder="Services Type" />
+                      <SelectValue
+                        placeholder={t("services.serviceCategory.placeholder")}
+                      />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="vaccinations">Vaccinations</SelectItem>
+                      <SelectItem value="vaccinations">
+                        {t("services.serviceCategory.vaccinations")}
+                      </SelectItem>
                       <SelectItem value="health_screenings">
-                        Health Screenings
+                        {t("services.serviceCategory.health_screenings")}
                       </SelectItem>
                       <SelectItem value="service_type_others">
-                        Others
+                        {t("services.serviceCategory.others")}
                       </SelectItem>
                     </SelectContent>
                   </Select>
@@ -530,13 +542,18 @@ function ScheduleOnline() {
                   className="text-sm font-medium text-gray-700"
                 >
                   {selectedCategory === "vaccinations"
-                    ? "Vaccinations"
-                    : "Health Screenings"}
+                    ? t("services.serviceType.vaccinations.label")
+                    : t("services.serviceType.health_screenings.label")}
                 </Label>
                 <Controller
                   control={control}
                   name="serviceType"
-                  rules={{ required: "Please select a specific service" }}
+                  rules={{
+                    required:
+                      selectedCategory === "vaccinations"
+                        ? t("services.serviceType.vaccinations.required")
+                        : t("services.serviceType.health_screenings.required"),
+                  }}
                   render={({ field }) => (
                     <Select
                       onValueChange={field.onChange}
@@ -549,34 +566,54 @@ function ScheduleOnline() {
                         )}
                       >
                         <SelectValue
-                          placeholder={`Select ${
+                          placeholder={
                             selectedCategory === "vaccinations"
-                              ? "vaccination"
-                              : "screening"
-                          } type`}
+                              ? t(
+                                  "services.serviceType.vaccinations.placeholder"
+                                )
+                              : t(
+                                  "services.serviceType.health_screenings.placeholder"
+                                )
+                          }
                         />
                       </SelectTrigger>
                       <SelectContent>
                         {selectedCategory === "vaccinations" ? (
                           <>
-                            <SelectItem value="flu">Flu</SelectItem>
-                            <SelectItem value="covid">Covid</SelectItem>
-                            <SelectItem value="shingles">Shingles</SelectItem>
+                            <SelectItem value="flu">
+                              {t("services.serviceType.vaccinations.flu")}
+                            </SelectItem>
+                            <SelectItem value="covid">
+                              {t("services.serviceType.vaccinations.covid")}
+                            </SelectItem>
+                            <SelectItem value="shingles">
+                              {t("services.serviceType.vaccinations.shingles")}
+                            </SelectItem>
                             <SelectItem value="vaccinations_others">
-                              Others
+                              {t("services.serviceType.vaccinations.others")}
                             </SelectItem>
                           </>
                         ) : (
                           <>
                             <SelectItem value="blood_pressure">
-                              Blood Pressure
+                              {t(
+                                "services.serviceType.health_screenings.blood_pressure"
+                              )}
                             </SelectItem>
                             <SelectItem value="cholesteric">
-                              Cholesteric
+                              {t(
+                                "services.serviceType.health_screenings.cholesteric"
+                              )}
                             </SelectItem>
-                            <SelectItem value="diabetes">Diabetes</SelectItem>
+                            <SelectItem value="diabetes">
+                              {t(
+                                "services.serviceType.health_screenings.diabetes"
+                              )}
+                            </SelectItem>
                             <SelectItem value="health_screenings_others">
-                              Others
+                              {t(
+                                "services.serviceType.health_screenings.others"
+                              )}
                             </SelectItem>
                           </>
                         )}
@@ -600,15 +637,19 @@ function ScheduleOnline() {
                     htmlFor="otherVaccination"
                     className="text-sm font-medium text-gray-700"
                   >
-                    Specify Other Vaccination *
+                    {t("services.serviceType.otherVaccination.label")} *
                   </Label>
                   <Input
                     type="text"
                     id="otherVaccination"
                     {...register("otherVaccination", {
-                      required: "Please specify the vaccination type",
+                      required: t(
+                        "services.serviceType.otherVaccination.required"
+                      ),
                     })}
-                    placeholder="Enter vaccination type here..."
+                    placeholder={t(
+                      "services.serviceType.otherVaccination.placeholder"
+                    )}
                     className={cn(
                       "w-full mt-1",
                       errors.otherVaccination && "border-red-500"
@@ -630,15 +671,19 @@ function ScheduleOnline() {
                     htmlFor="otherHealthScreening"
                     className="text-sm font-medium text-gray-700"
                   >
-                    Specify Other Health Screening *
+                    {t("services.serviceType.otherHealthScreening.label")} *
                   </Label>
                   <Input
                     type="text"
                     id="otherHealthScreening"
                     {...register("otherHealthScreening", {
-                      required: "Please specify the health screening type",
+                      required: t(
+                        "services.serviceType.otherHealthScreening.required"
+                      ),
                     })}
-                    placeholder="Enter health screening type here..."
+                    placeholder={t(
+                      "services.serviceType.otherHealthScreening.placeholder"
+                    )}
                     className={cn(
                       "w-full mt-1",
                       errors.otherHealthScreening && "border-red-500"
@@ -659,15 +704,17 @@ function ScheduleOnline() {
                   htmlFor="otherService"
                   className="text-sm font-medium text-gray-700"
                 >
-                  Specify Other Service *
+                  {t("services.serviceType.otherService.label")} *
                 </Label>
                 <Input
                   type="text"
                   id="otherService"
                   {...register("otherService", {
-                    required: "Please specify the service type",
+                    required: t("services.serviceType.otherService.required"),
                   })}
-                  placeholder="Enter service type here..."
+                  placeholder={t(
+                    "services.serviceType.otherService.placeholder"
+                  )}
                   className={cn(
                     "w-full mt-1",
                     errors.otherService && "border-red-500"
@@ -687,7 +734,7 @@ function ScheduleOnline() {
                 htmlFor="appointmentDateTime"
                 className="text-sm font-medium text-gray-700"
               >
-                Select Available Date & Time
+                {t("appointment.label")}
               </Label>
               <Button
                 type="button"
@@ -704,11 +751,12 @@ function ScheduleOnline() {
                 selectedAppointmentDates.length > 0 ? (
                   <span className="text-sm font-medium text-gray-700">
                     {selectedAppointmentDates.length}{" "}
-                    {selectedAppointmentDates.length === 1 ? "Date" : "Dates"}{" "}
-                    Selected
+                    {selectedAppointmentDates.length === 1
+                      ? t("appointment.datesSelected")
+                      : t("appointment.datesSelectedPlural")}{" "}
                   </span>
                 ) : (
-                  <span>Select Date & Time</span>
+                  <span>{t("appointment.placeholder")}</span>
                 )}
                 <ChevronDownIcon className="h-4 w-4 opacity-50" />
               </Button>
@@ -764,7 +812,7 @@ function ScheduleOnline() {
                               className="ml-2 text-red-600 hover:text-red-800 text-sm font-medium"
                               aria-label={`Remove ${appointment.date}`}
                             >
-                              Remove
+                              {t("appointment.remove")}
                             </button>
                           </div>
                         </div>
@@ -776,7 +824,7 @@ function ScheduleOnline() {
               {(!selectedAppointmentDates ||
                 selectedAppointmentDates.length === 0) && (
                 <p className="text-red-500 text-xs mt-1">
-                  Please select at least one date and time
+                  {t("appointment.required")}
                 </p>
               )}
             </div>
@@ -785,12 +833,12 @@ function ScheduleOnline() {
               htmlFor="notes"
               className="text-sm font-medium text-gray-700 block mb-2"
             >
-              Additional Notes or Special Instructions
+              {t("additionalNotes.label")}
             </Label>
             <Textarea
               id="notes"
               {...register("notes")}
-              placeholder="Any special instructions, allergies, or additional information we should know..."
+              placeholder={t("additionalNotes.placeholder")}
               className="w-full h-24"
             />
           </div>
@@ -801,7 +849,7 @@ function ScheduleOnline() {
               <Controller
                 control={control}
                 name="consent"
-                rules={{ required: "You must consent to proceed" }}
+                rules={{ required: t("consent.required") }}
                 render={({ field }) => (
                   <Checkbox
                     id="consent"
@@ -816,9 +864,7 @@ function ScheduleOnline() {
                 )}
               />
               <label htmlFor="consent" className="ml-2 text-xs text-gray-700">
-                I consent to Optimus Health Solutions contacting my current
-                pharmacy to transfer my prescriptions and understand that this
-                process may take 1-3 business days. *
+                {t("consent.label")}
               </label>
             </div>
             {errors.consent && (
@@ -833,7 +879,7 @@ function ScheduleOnline() {
             type="submit"
             className="w-full bg-peter hover:bg-peter-dark text-white py-3 rounded-md font-medium"
           >
-            Submit Schedule Request
+            {t("submitButton")}
           </Button>
         </form>
       </div>

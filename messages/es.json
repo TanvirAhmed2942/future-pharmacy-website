@@ -61,7 +61,8 @@
       "evening": "Noche"
     },
     "optimusHealthSolutions": {
-      "headline": "Cómo funciona Optimus Health Solutions",
+      "headline1": "Cómo",
+      "headline2": "Funciona",
       "description": "Cuando recargas, transfieres recetas o programas servicios de salud esenciales a través de nuestra plataforma, te conectas con nuestras farmacias independientes locales confiables cerca de ti. Juntos, estamos fortaleciendo nuestras comunidades y ayudando a que las farmacias independientes prosperen.",
       "steps": [
         {
@@ -630,5 +631,419 @@
       "terms": "Política de términos de servicio"
     },
     "footerText": "Optimus Health Solutions. Todos los derechos reservados."
+  },
+
+  "refillTransferSchedule": {
+    "needHelp": "¿Necesitas ayuda? Llámanos o envíanos un mensaje",
+    "pageTitleRefill": "Renueva tu Prescripción",
+    "pageTitleTransfer": "Transfiere tu Prescripción",
+    "pageTitleSchedule": "Programa Servicios Esenciales de Salud",
+    "refillOptions": [
+      {
+        "title": "Renovar en línea",
+        "description": "Utiliza nuestro formulario seguro para renovar tus prescripciones de manera rápida, segura y conveniente",
+        "buttonText": "Renovar Ahora"
+      },
+      {
+        "title": "Renovar por teléfono",
+        "description": "Llama a nuestro equipo de confianza para completar el formulario de renovación por teléfono",
+        "buttonText": "Llamar Ahora"
+      }
+    ],
+    "refillOptionsTransfer": [
+      {
+        "title": "Transferir en línea",
+        "description": "Utiliza nuestro formulario seguro para transferir tus prescripciones de manera rápida, segura y conveniente",
+        "buttonText": "Transferir Ahora"
+      },
+      {
+        "title": "Transferir por teléfono",
+        "description": "Llama a nuestro equipo de confianza para completar el formulario de transferencia por teléfono",
+        "buttonText": "Llamar Ahora"
+      }
+    ],
+    "refillOptionsSchedule": [
+      {
+        "title": "Programar en línea",
+        "description": "Utiliza nuestro formulario seguro para reservar tu cita en la farmacia de forma rápida, segura y conveniente.",
+        "buttonText": "Programar Ahora"
+      },
+      {
+        "title": "Programar por teléfono",
+        "description": "Llama a nuestro equipo de confianza para completar el formulario de programación por teléfono",
+        "buttonText": "Llamar Ahora"
+      }
+    ]
+  },
+  "refillTransferScheduleForm": {
+    "pageTitleRefill": "Renueva tu Prescripción",
+    "pageTitleTransfer": "Transfiere tu Prescripción",
+    "pageTitleSchedule": "Programa Servicios Esenciales de Salud",
+    "formTitle": "Renueva tu Prescripción",
+    "formDescription": "Renueva tu prescripción fácilmente usando nuestra plataforma en línea.",
+    "formButtonText": "Renovar Ahora"
+  },
+  "refillTransferScheduleSteps": {
+    "stepsRefill": [
+      {
+        "title": "Completar Formulario de Renovación",
+        "description": "Llena nuestro formulario seguro en línea con los detalles de tu prescripción"
+      },
+      {
+        "title": "Contactamos a tu farmacia",
+        "description": "Nuestro equipo se comunicará con tu farmacia para renovar tus prescripciones"
+      },
+      {
+        "title": "Prescripción Lista",
+        "description": "Te notificaremos cuando tus prescripciones estén listas para entrega"
+      }
+    ],
+    "stepsTransfer": [
+      {
+        "title": "Completar Formulario de Transferencia",
+        "description": "Llena nuestro formulario seguro en línea con los detalles de tu prescripción"
+      },
+      {
+        "title": "Contactamos a tu farmacia",
+        "description": "Nuestro equipo se comunicará con tu farmacia para transferir tus prescripciones"
+      },
+      {
+        "title": "Prescripción Lista",
+        "description": "Te notificaremos cuando tus prescripciones estén listas para entrega"
+      }
+    ],
+    "stepsSchedule": [
+      {
+        "title": "Completar Formulario de Programación",
+        "description": "Llena nuestro formulario seguro en línea para programar tus servicios esenciales de salud"
+      },
+      {
+        "title": "Coordinamos tu cita",
+        "description": "Nuestro equipo coordinará con tu farmacia seleccionada para programar tu cita"
+      },
+      {
+        "title": "Cita Confirmada",
+        "description": "Te notificaremos cuando tu cita esté confirmada y lista"
+      }
+    ]
+  },
+
+  "loginChoiceModal": {
+    "title": "Elige una Opción",
+    "description": "Para continuar con tu {pageTitle}, por favor elige una de las siguientes opciones:",
+    "signIn": "Iniciar Sesión / Crear Cuenta",
+    "guestCheckout": "Continuar como Invitado",
+    "cancel": "Cancelar"
+  },
+
+  "refillOnline": {
+    "pageTitle": "Renueva tu Prescripción",
+    "personalInformation": {
+      "title": "Información Personal",
+      "firstName": "Nombre",
+      "firstNamePlaceholder": "Ingresa tu nombre aquí...",
+      "firstNameRequired": "El nombre es obligatorio",
+      "lastName": "Apellido",
+      "lastNamePlaceholder": "Ingresa tu apellido aquí...",
+      "lastNameRequired": "El apellido es obligatorio",
+      "phoneNumber": "Número de Teléfono",
+      "phoneNumberPlaceholder": "(XXX) XXX-XXXX",
+      "phoneNumberRequired": "El número de teléfono es obligatorio",
+      "phoneNumberInvalid": "Por favor ingresa un número de teléfono válido",
+      "dateOfBirth": "Fecha de Nacimiento",
+      "dateOfBirthPlaceholder": "Selecciona fecha (MM/DD/AAAA)",
+      "dateOfBirthRequired": "La fecha de nacimiento es obligatoria"
+    },
+    "pharmacyInformation": {
+      "title": "Información de la Farmacia",
+      "pharmacyName": "Nombre de la Farmacia",
+      "pharmacyNamePlaceholder": "ej. CVS, Walgreens, etc.",
+      "pharmacyNameRequired": "El nombre de la farmacia es obligatorio",
+      "pharmacyPhone": "Teléfono de la Farmacia",
+      "pharmacyPhonePlaceholder": "(XXX) XXX-XXXX",
+      "pharmacyPhoneInvalid": "Por favor ingresa un número de teléfono válido",
+      "pharmacyAddress": "Dirección de la Farmacia",
+      "pharmacyAddressPlaceholder": "Ingresa la dirección de la farmacia aquí...",
+      "city": "Ciudad",
+      "cityPlaceholder": "Ingresa el nombre de la ciudad aquí...",
+      "state": "Estado",
+      "statePlaceholder": "Ingresa el nombre del estado aquí...",
+      "zipCode": "Código Postal",
+      "zipCodePlaceholder": "Ingresa el código postal aquí...",
+      "zipCodeInvalid": "Por favor ingresa un código postal válido"
+    },
+    "deliveryDetails": {
+      "title": "Detalles de Entrega",
+      "deliveryAddress": "Dirección de Entrega",
+      "deliveryAddressPlaceholder": "Ingresa la dirección de entrega aquí...",
+      "deliveryAddressRequired": "La dirección de entrega es obligatoria",
+      "aptUnit": "Apto/Unidad",
+      "aptUnitPlaceholder": "Ingresa apto/unidad aquí...",
+      "city": "Ciudad",
+      "cityPlaceholder": "Ingresa el nombre de la ciudad aquí...",
+      "state": "Estado",
+      "statePlaceholder": "Ingresa el nombre del estado aquí...",
+      "zipCode": "Código Postal",
+      "zipCodePlaceholder": "Ingresa el código postal aquí..."
+    },
+    "medicationList": {
+      "title": "Lista de Medicamentos",
+      "instruction": "Agrega el nombre del medicamento y/o número de Rx (o al menos uno es requerido para renovar)",
+      "refillAll": "Renovar todos mis medicamentos",
+      "medicationName": "Nombre del Medicamento",
+      "medicationNamePlaceholder": "Ingresa el nombre de tu medicamento aquí...",
+      "rxNumber": "Número de Rx",
+      "rxNumberPlaceholder": "Ingresa tu número de Rx aquí...",
+      "addAnother": "+ AGREGAR OTRO MEDICAMENTO"
+    },
+    "additionalNotes": {
+      "title": "Notas Adicionales o Instrucciones Especiales",
+      "placeholder": "Cualquier instrucción especial, alergias o información adicional que debamos saber..."
+    },
+    "submitButton": "Enviar Solicitud de Renovación"
+  },
+
+  "transferOnline": {
+    "pageTitle": "Transfiere tu Prescripción",
+    "personalInformation": {
+      "title": "Información Personal",
+      "firstName": "Nombre",
+      "firstNamePlaceholder": "Ingresa tu nombre aquí...",
+      "firstNameRequired": "El nombre es obligatorio",
+      "lastName": "Apellido",
+      "lastNamePlaceholder": "Ingresa tu apellido aquí...",
+      "lastNameRequired": "El apellido es obligatorio",
+      "phoneNumber": "Número de Teléfono",
+      "phoneNumberPlaceholder": "(XXX) XXX-XXXX",
+      "phoneNumberRequired": "El número de teléfono es obligatorio",
+      "phoneNumberInvalid": "Por favor ingresa un número de teléfono válido",
+      "dateOfBirth": "Fecha de Nacimiento",
+      "dateOfBirthPlaceholder": "Selecciona fecha (MM/DD/AAAA)",
+      "dateOfBirthRequired": "La fecha de nacimiento es obligatoria"
+    },
+    "pharmacyInformation": {
+      "title": "Información de la Farmacia",
+      "previousPharmacy": {
+        "title": "Farmacia Anterior",
+        "pharmacyName": "Nombre de la Farmacia Anterior",
+        "pharmacyNamePlaceholder": "ej. CVS, Walgreens, etc.",
+        "pharmacyNameRequired": "El nombre de la farmacia anterior es obligatorio",
+        "pharmacyPhone": "Teléfono de la Farmacia Anterior",
+        "pharmacyPhonePlaceholder": "(XXX) XXX-XXXX",
+        "pharmacyPhoneInvalid": "Por favor ingresa un número de teléfono válido",
+        "pharmacyAddress": "Dirección de la Farmacia Anterior",
+        "pharmacyAddressPlaceholder": "Ingresa la dirección de la farmacia aquí...",
+        "city": "Ciudad",
+        "cityPlaceholder": "Ingresa el nombre de la ciudad aquí...",
+        "state": "Estado",
+        "statePlaceholder": "Ingresa el nombre del estado aquí...",
+        "zipCode": "Código Postal",
+        "zipCodePlaceholder": "Ingresa el código postal aquí..."
+      },
+      "newPharmacy": {
+        "title": "Nueva Farmacia",
+        "pharmacyName": "Nombre de la Nueva Farmacia",
+        "pharmacyNamePlaceholder": "ej. CVS, Walgreens, etc.",
+        "pharmacyNameRequired": "El nombre de la nueva farmacia es obligatorio",
+        "pharmacyPhone": "Teléfono de la Nueva Farmacia",
+        "pharmacyPhonePlaceholder": "(XXX) XXX-XXXX",
+        "pharmacyPhoneInvalid": "Por favor ingresa un número de teléfono válido",
+        "pharmacyAddress": "Dirección de la Nueva Farmacia",
+        "pharmacyAddressPlaceholder": "Ingresa la dirección de la farmacia aquí...",
+        "pharmacyAddressRequired": "La dirección de la nueva farmacia es obligatoria",
+        "city": "Ciudad",
+        "cityPlaceholder": "Ingresa el nombre de la ciudad aquí...",
+        "state": "Estado",
+        "statePlaceholder": "Ingresa el nombre del estado aquí...",
+        "zipCode": "Código Postal",
+        "zipCodePlaceholder": "Ingresa el código postal aquí..."
+      }
+    },
+    "prescriptions": {
+      "title": "Prescripciones",
+      "instruction": "Agrega el nombre del medicamento y/o número de Rx para todos los que deseas transferir",
+      "transferAll": "Transferir todos mis medicamentos",
+      "medicationName": "Nombre del Medicamento",
+      "medicationNamePlaceholder": "Ingresa el nombre de tu medicamento aquí...",
+      "rxNumber": "Número de Rx",
+      "rxNumberPlaceholder": "Ingresa tu número de Rx aquí...",
+      "addAnother": "+ AGREGAR OTRO MEDICAMENTO"
+    },
+    "additionalInformation": {
+      "title": "Información Adicional",
+      "notesLabel": "Notas Adicionales o Instrucciones Especiales para la farmacia",
+      "notesPlaceholder": "Cualquier instrucción especial, alergias o información adicional que debamos saber..."
+    },
+    "consent": {
+      "label": "Consiento que Optimus Health Solutions se comunique con mi farmacia actual para transferir mis prescripciones y entiendo que este proceso puede tomar de 1 a 3 días hábiles.",
+      "required": "Debes consentir para transferir tus prescripciones"
+    },
+    "submitButton": "Enviar Solicitud de Transferencia"
+  },
+
+  "scheduleOnline": {
+    "pageTitle": "Programa Servicios Esenciales de Salud",
+    "profileInfo": {
+      "title": "Información del Perfil",
+      "firstName": "Nombre",
+      "firstNamePlaceholder": "Ingresa tu nombre aquí...",
+      "firstNameRequired": "El nombre es obligatorio",
+      "lastName": "Apellido",
+      "lastNamePlaceholder": "Ingresa tu apellido aquí...",
+      "lastNameRequired": "El apellido es obligatorio",
+      "phoneNumber": "Número de Teléfono",
+      "phoneNumberPlaceholder": "(XXX) XXX-XXXX",
+      "phoneNumberRequired": "El número de teléfono es obligatorio",
+      "phoneNumberInvalid": "Por favor ingresa un número de teléfono válido",
+      "dateOfBirth": "Fecha de Nacimiento",
+      "dateOfBirthPlaceholder": "Selecciona fecha (MM/DD/AAAA)",
+      "dateOfBirthRequired": "La fecha de nacimiento es obligatoria"
+    },
+    "pharmacyInformation": {
+      "title": "Información de la Farmacia",
+      "pharmacyName": "Nombre de la Farmacia",
+      "pharmacyNamePlaceholder": "ej. CVS, Walgreens, etc.",
+      "pharmacyNameRequired": "El nombre de la farmacia es obligatorio",
+      "pharmacyPhone": "Teléfono de la Farmacia",
+      "pharmacyPhonePlaceholder": "(XXX) XXX-XXXX",
+      "pharmacyPhoneInvalid": "Por favor ingresa un número de teléfono válido",
+      "pharmacyAddress": "Dirección de la Farmacia",
+      "pharmacyAddressPlaceholder": "Ingresa la dirección de la farmacia aquí...",
+      "pharmacyAddressRequired": "La dirección de la farmacia es obligatoria",
+      "city": "Ciudad",
+      "cityPlaceholder": "Ingresa el nombre de la ciudad aquí...",
+      "state": "Estado",
+      "statePlaceholder": "Ingresa el nombre del estado aquí...",
+      "zipCode": "Código Postal",
+      "zipCodePlaceholder": "Ingresa el código postal aquí..."
+    },
+    "services": {
+      "serviceCategory": {
+        "label": "Tipo de Servicios",
+        "placeholder": "Tipo de Servicios",
+        "required": "Por favor selecciona una categoría de servicio",
+        "vaccinations": "Vacunas",
+        "health_screenings": "Exámenes de Salud",
+        "others": "Otros"
+      },
+      "serviceType": {
+        "vaccinations": {
+          "label": "Vacunas",
+          "placeholder": "Selecciona el tipo de vacuna",
+          "required": "Por favor selecciona un servicio específico",
+          "flu": "Gripe",
+          "covid": "Covid",
+          "shingles": "Herpes Zóster",
+          "others": "Otros"
+        },
+        "health_screenings": {
+          "label": "Exámenes de Salud",
+          "placeholder": "Selecciona el tipo de examen",
+          "required": "Por favor selecciona un servicio específico",
+          "blood_pressure": "Presión Arterial",
+          "cholesteric": "Colesterol",
+          "diabetes": "Diabetes",
+          "others": "Otros"
+        },
+        "otherVaccination": {
+          "label": "Especificar Otra Vacuna",
+          "placeholder": "Ingresa el tipo de vacuna aquí...",
+          "required": "Por favor especifica el tipo de vacuna"
+        },
+        "otherHealthScreening": {
+          "label": "Especificar Otro Examen de Salud",
+          "placeholder": "Ingresa el tipo de examen de salud aquí...",
+          "required": "Por favor especifica el tipo de examen de salud"
+        },
+        "otherService": {
+          "label": "Especificar Otro Servicio",
+          "placeholder": "Ingresa el tipo de servicio aquí...",
+          "required": "Por favor especifica el tipo de servicio"
+        }
+      }
+    },
+    "appointment": {
+      "label": "Selecciona Fecha y Hora Disponible",
+      "placeholder": "Selecciona Fecha y Hora",
+      "datesSelected": "Fecha Seleccionada",
+      "datesSelectedPlural": "Fechas Seleccionadas",
+      "remove": "Eliminar",
+      "required": "Por favor selecciona al menos una fecha y hora"
+    },
+    "additionalNotes": {
+      "label": "Notas Adicionales o Instrucciones Especiales",
+      "placeholder": "Cualquier instrucción especial, alergias o información adicional que debamos saber..."
+    },
+    "consent": {
+      "label": "Consiento que Optimus Health Solutions programe mi cita y entiendo que este proceso puede tomar de 1 a 3 días hábiles. *",
+      "required": "Debes consentir para continuar"
+    },
+    "submitButton": "Enviar Solicitud de Programación"
+  },
+
+  "contactDetails": {
+    "title": "Detalles de Contacto",
+    "emailAddress": {
+      "label": "Dirección de Correo Electrónico",
+      "placeholder": "Te enviaremos por correo electrónico la confirmación del viaje y los recibos."
+    },
+    "contactNumber": {
+      "label": "Número de Contacto",
+      "placeholder": "Te contactaremos con el estado de la entrega."
+    },
+    "legalName": {
+      "label": "Nombre Legal",
+      "firstNamePlaceholder": "Nombre en la identificación",
+      "lastNamePlaceholder": "Apellido en la identificación"
+    },
+    "dateOfBirth": {
+      "label": "Fecha de Nacimiento",
+      "placeholder": "Selecciona fecha (MM/DD/AAAA)"
+    },
+    "instructionalText": {
+      "text": "Para registrarte, necesitas usar el nombre que aparece en tu identificación gubernamental. Si usas otro nombre, puedes",
+      "addPreferredName": "agregar un nombre de preferencia"
+    },
+    "termsAndConditions": {
+      "text": "Al seleccionar aceptar y continuar, acepto los",
+      "termsOfService": "Términos de Servicio",
+      "paymentsTermsOfService": "Términos de Servicio de Pagos",
+      "nondiscriminationPolicy": "Política de No Discriminación",
+      "privacyPolicy": "Política de Privacidad",
+      "and": "y",
+      "acknowledge": "reconozco la"
+    },
+    "agreeAndContinue": "Aceptar y Continuar"
+  },
+
+  "orderSummary": {
+    "title": "Resumen/Confirmación de Pedido",
+    "details": {
+      "name": "Nombre:",
+      "contactNumber": "Número de Contacto:",
+      "pickupAddress": "Dirección de recogida:",
+      "deliverAddress": "Dirección de entrega:",
+      "date": "Fecha:",
+      "time": "Hora:",
+      "today": "Hoy",
+      "now": "Ahora"
+    },
+    "priceDetails": {
+      "title": "Detalles del Precio",
+      "deliveryFee": "Tarifa de Entrega:",
+      "serviceFee": "Tarifa de Servicio:",
+      "processingFee": "Tarifa de Procesamiento:",
+      "totalUSD": "Total USD:"
+    },
+    "legalAgreement": {
+      "text": "Al hacer clic en realizar pedido, aceptas los",
+      "termsOfService": "Términos de Servicio",
+      "paymentsTermsOfService": "Términos de Servicio de Pagos",
+      "and": "y",
+      "nondiscriminationPolicy": "Política de No Discriminación",
+      "acknowledge": "y reconoces la",
+      "privacyPolicy": "Política de Privacidad"
+    },
+    "completePayment": "Completar Pago en Stripe"
   }
 }
