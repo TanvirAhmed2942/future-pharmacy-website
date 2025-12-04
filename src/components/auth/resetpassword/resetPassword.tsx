@@ -12,32 +12,32 @@ function ResetPassword() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   return (
-    <div className="w-full max-w-xl mx-auto bg-white p-8 rounded-lg">
+    <div className="w-full max-w-xl mx-auto bg-white/95 backdrop-blur-sm lg:bg-white p-4 sm:p-6 lg:p-8 rounded-lg shadow-lg lg:shadow-none">
       {/* Logo and Header */}
-      <div className="text-center mb-8">
+      <div className="text-center mb-6 sm:mb-8">
         <Image
           src="/nav/Logo.png"
           alt="logo"
           width={300}
           height={300}
-          className="w-48 h-14 object-cover mx-auto my-4"
+          className="w-40 sm:w-48 h-12 sm:h-14 object-cover mx-auto my-2 sm:my-4"
         />
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">
           Create New Password
         </h2>
-        <p className="text-gray-700 text-sm mb-6">
+        <p className="text-gray-700 text-xs sm:text-sm mb-4 sm:mb-6">
           To help keep your account safe, Optimus Health Solutions wants to make
           sure it&apos;s really you trying to sign in.
         </p>
       </div>
 
       {/* Form */}
-      <form className="space-y-7">
+      <form className="space-y-5 sm:space-y-7">
         {/* New Password */}
         <div className="space-y-2">
           <Label
             htmlFor="newPassword"
-            className="text-gray-800 font-bold text-md"
+            className="text-gray-800 font-bold text-sm sm:text-md"
           >
             New Password
           </Label>
@@ -46,12 +46,12 @@ function ResetPassword() {
               id="newPassword"
               type={showNewPassword ? "text" : "password"}
               placeholder="Enter your new password here..."
-              className="w-full pr-10"
+              className="w-full pr-10 text-sm sm:text-base"
             />
             <button
               type="button"
               onClick={() => setShowNewPassword(!showNewPassword)}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 cursor-pointer"
             >
               {showNewPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
@@ -62,7 +62,7 @@ function ResetPassword() {
         <div className="space-y-2">
           <Label
             htmlFor="confirmPassword"
-            className="text-gray-800 font-bold text-md"
+            className="text-gray-800 font-bold text-sm sm:text-md"
           >
             Confirm New Password
           </Label>
@@ -71,7 +71,7 @@ function ResetPassword() {
               id="confirmPassword"
               type={showConfirmPassword ? "text" : "password"}
               placeholder="Enter your confirm new password here..."
-              className="w-full pr-10"
+              className="w-full pr-10 text-sm sm:text-base"
             />
             <button
               type="button"
@@ -87,7 +87,7 @@ function ResetPassword() {
         <div className="flex justify-center">
           <Button
             type="submit"
-            className="bg-peter hover:bg-peter-dark text-white font-medium py-2 px-6 rounded-lg"
+            className="bg-peter hover:bg-peter-dark text-white font-medium py-2 px-6 rounded-lg w-full sm:w-auto"
           >
             Change Password
           </Button>

@@ -12,51 +12,45 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="w-full max-w-xl mx-auto bg-white p-8 rounded-lg">
+    <div className="w-full max-w-xl mx-auto bg-white/95 backdrop-blur-sm lg:bg-white p-4 sm:p-6 lg:p-8 rounded-lg shadow-lg lg:shadow-none">
       {/* Logo and Header */}
-      <div className="text-center mb-8">
-        {/* <div className="flex items-center justify-center mb-4">
-          <div className="w-8 h-8 bg-peter rounded-full flex items-center justify-center mr-3">
-            <div className="w-4 h-4 bg-white rounded-full"></div>
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold text-peter">Optimus</h1>
-            <p className="text-sm text-peter font-medium">HEALTH SOLUTIONS</p>
-          </div>
-        </div> */}
+      <div className="text-center mb-6 sm:mb-8">
         <Image
           src="/nav/Logo.png"
           alt="logo"
           width={300}
           height={300}
-          className="w-48 h-14 object-cover mx-auto my-4"
+          className="w-40 sm:w-48 h-12 sm:h-14 object-cover mx-auto my-2 sm:my-4"
         />
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2">
           Login to Your Account
         </h2>
-        {/* <h3 className="text-lg font-bold text-gray-800">
-          Optimus Health Solutions
-        </h3> */}
       </div>
 
       {/* Form */}
-      <form className="space-y-7">
+      <form className="space-y-5 sm:space-y-7">
         {/* Email Address */}
         <div className="space-y-2">
-          <Label htmlFor="email" className="text-gray-800 font-bold text-md">
+          <Label
+            htmlFor="email"
+            className="text-gray-800 font-bold text-sm sm:text-md"
+          >
             Email Address
           </Label>
           <Input
             id="email"
             type="email"
             placeholder="Enter your email address here..."
-            className="w-full"
+            className="w-full text-sm sm:text-base"
           />
         </div>
 
         {/* Password */}
         <div className="space-y-2">
-          <Label htmlFor="password" className="text-gray-800 font-bold text-md">
+          <Label
+            htmlFor="password"
+            className="text-gray-800 font-bold text-sm sm:text-md"
+          >
             Password
           </Label>
           <div className="relative">
@@ -64,7 +58,7 @@ function Login() {
               id="password"
               type={showPassword ? "text" : "password"}
               placeholder="Enter your password here..."
-              className="w-full pr-10"
+              className="w-full pr-10 text-sm sm:text-base"
             />
             <button
               type="button"
@@ -77,16 +71,16 @@ function Login() {
         </div>
 
         {/* Login Button and Forget Password Link */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-0">
           <Button
             type="submit"
-            className="bg-peter hover:bg-peter-dark text-white font-medium py-2 px-6 rounded-lg"
+            className="bg-peter hover:bg-peter-dark text-white font-medium py-2 px-6 rounded-lg w-full sm:w-auto"
           >
             Login
           </Button>
           <Link
             href="/auth/forgot-password"
-            className="text-peter hover:text-peter-dark hover:underline text-sm"
+            className="text-peter hover:text-peter-dark hover:underline text-sm text-center sm:text-left"
           >
             Forget Password?
           </Link>
@@ -94,8 +88,8 @@ function Login() {
       </form>
 
       {/* Footer Link */}
-      <div className="text-center mt-6">
-        <p className="text-sm text-gray-700">
+      <div className="text-center mt-4 sm:mt-6">
+        <p className="text-xs sm:text-sm text-gray-700">
           Don&apos;t have an account?{" "}
           <Link
             href="/auth/signup"
