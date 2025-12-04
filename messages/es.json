@@ -1045,5 +1045,12 @@
       "privacyPolicy": "Política de Privacidad"
     },
     "completePayment": "Completar Pago en Stripe"
+  },
+
+  "checkUserStatusModal": {
+    "title": "Nuevos Clientes",
+    "description": "Crea una cuenta de Optimus Health Solutions para un checkout más rápido más tarde. ¿No tienes tiempo ahora? No hay problema. Puedes hacer checkout como invitado.",
+    "loginSignup": "Iniciar Sesión / Registrarse",
+    "checkoutAsGuest": "Checkout como Invitado"
   }
 }

@@ -4,10 +4,16 @@ import React, { useState, useRef } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useVerifyEmailMutation } from "@/store/Apis/authApis/authApi";
+import useShowToast from "@/hooks/useShowToast";
 
 function EmailVerification() {
-  const [code, setCode] = useState(["", "", "", ""]);
+  const [code, setCode] = useState(["", "", "", "", "", ""]);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const router = useRouter();
+  const [verifyEmailMutation, { isLoading }] = useVerifyEmailMutation();
+  const { showSuccess, showError } = useShowToast();
 
   const handleInputChange = (index: number, value: string) => {
     if (value.length > 1) return; // Only allow single digit
@@ -17,7 +23,7 @@ function EmailVerification() {
     setCode(newCode);
 
     // Auto-focus next input
-    if (value && index < 3) {
+    if (value && index < 5) {
       inputRefs.current[index + 1]?.focus();
     }
   };
@@ -33,9 +39,9 @@ function EmailVerification() {
     const pastedData = e.clipboardData
       .getData("text")
       .replace(/\D/g, "")
-      .slice(0, 4);
+      .slice(0, 6);
     const newCode = [...code];
-    for (let i = 0; i < pastedData.length && i < 4; i++) {
+    for (let i = 0; i < pastedData.length && i < 6; i++) {
       newCode[i] = pastedData[i];
     }
     setCode(newCode);
@@ -44,8 +50,58 @@ function EmailVerification() {
     const nextEmptyIndex = newCode.findIndex(
       (digit, index) => index >= pastedData.length && !digit
     );
-    const focusIndex = nextEmptyIndex !== -1 ? nextEmptyIndex : 3;
+    const focusIndex = nextEmptyIndex !== -1 ? nextEmptyIndex : 5;
     inputRefs.current[focusIndex]?.focus();
+  };
+
+  const handleVerify = async () => {
+    // Check if all 6 digits are filled
+    if (code.some((digit) => !digit)) {
+      showError({ message: "Please enter the complete verification code" });
+      return;
+    }
+
+    // Combine the code into a string
+    const otp = code.join("");
+
+    try {
+      const response = await verifyEmailMutation({ otp }).unwrap();
+
+      if (response.success) {
+        showSuccess({
+          message: response.message || "Email verified successfully!",
+        });
+
+        // Redirect to homepage on success
+        setTimeout(() => {
+          router.push("/");
+        }, 1000);
+      } else {
+        // Reset code on failure
+        setCode(["", "", "", "", "", ""]);
+        inputRefs.current[0]?.focus();
+        showError({
+          message: response.error || response.message || "Verification failed",
+        });
+      }
+    } catch (error: unknown) {
+      // Handle RTK Query error
+      let errorMessage = "An error occurred during verification";
+
+      if (error && typeof error === "object") {
+        if ("data" in error && error.data && typeof error.data === "object") {
+          const data = error.data as { message?: string; error?: string };
+          errorMessage = data.message || data.error || errorMessage;
+        } else if ("message" in error && typeof error.message === "string") {
+          errorMessage = error.message;
+        }
+      }
+
+      // Reset code on error
+      setCode(["", "", "", "", "", ""]);
+      inputRefs.current[0]?.focus();
+      showError({ message: errorMessage });
+    }
   };
 
   return (
@@ -101,13 +157,15 @@ function EmailVerification() {
           ))}
         </div>
 
-        {/* Sign Up Button */}
+        {/* Verify Button */}
         <div className="flex justify-start mt-6 sm:mt-8">
           <Button
             type="button"
-            className="bg-peter hover:bg-peter-dark text-white font-medium py-2 px-6 rounded-lg mx-auto w-full sm:w-auto"
+            onClick={handleVerify}
+            disabled={isLoading || code.some((digit) => !digit)}
+            className="bg-peter hover:bg-peter-dark text-white font-medium py-2 px-6 rounded-lg mx-auto w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Sign Up
+            {isLoading ? "Verifying..." : "Verify"}
           </Button>
         </div>
       </div>

@@ -8,9 +8,18 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
-import { useAppSelector } from "@/store/hooks";
+import { useAppSelector, useAppDispatch } from "@/store/hooks";
 import { selectIsLoggedIn } from "@/store/slices/userSlice/userSlice";
+import { logout } from "@/store/slices/userSlice/userSlice";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { LogOut, LayoutDashboard } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 function NavBar() {
@@ -23,6 +32,7 @@ function NavBar() {
   const pathname = usePathname();
   const router = useRouter();
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const dispatch = useAppDispatch();
   const [isPending, startTransition] = useTransition();
 
   const t = useTranslations("header");
@@ -140,21 +150,45 @@ function NavBar() {
             {/* Right Side - Login/Logout or Avatar */}
             <div className="flex items-center">
               {isLoggedIn ? (
-                <Link href="/dashboard/profile" className="cursor-pointer">
-                  <Avatar className="w-8 h-8">
-                    <AvatarImage
-                      src="https://github.com/shadcn.png"
-                      alt="User"
-                    />
-                    <AvatarFallback>JD</AvatarFallback>
-                  </Avatar>
-                </Link>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="cursor-pointer focus:outline-none focus:ring-2 focus:ring-peter focus:ring-offset-2 rounded-full">
+                      <Avatar className="w-8 h-8">
+                        <AvatarImage
+                          src="https://github.com/shadcn.png"
+                          alt="User"
+                        />
+                        <AvatarFallback>JD</AvatarFallback>
+                      </Avatar>
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56">
+                    <DropdownMenuItem
+                      onClick={() => router.push("/dashboard/overview")}
+                      className="cursor-pointer"
+                    >
+                      <LayoutDashboard className="mr-2 h-4 w-4" />
+                      <span>Go to Dashboard</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      onClick={() => {
+                        dispatch(logout());
+                        router.push("/");
+                      }}
+                      className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50"
+                    >
+                      <LogOut className="mr-2 h-4 w-4" />
+                      <span>Logout</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               ) : (
                 <Button
                   className="bg-peter hover:bg-peter-dark text-white text-xs px-3 py-2"
                   onClick={() => router.push("/auth/login")}
                 >
-                  Login Test
+                  {t("login")}
                 </Button>
               )}
             </div>
@@ -270,15 +304,39 @@ function NavBar() {
             {/* Desktop Action Buttons */}
             <div className="flex items-center space-x-4">
               {isLoggedIn ? (
-                <Link href="/dashboard/profile" className="cursor-pointer">
-                  <Avatar className="w-10 h-10">
-                    <AvatarImage
-                      src="https://github.com/shadcn.png"
-                      alt="User"
-                    />
-                    <AvatarFallback>JD</AvatarFallback>
-                  </Avatar>
-                </Link>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="cursor-pointer focus:outline-none focus:ring-2 focus:ring-peter focus:ring-offset-2 rounded-full">
+                      <Avatar className="w-10 h-10">
+                        <AvatarImage
+                          src="https://github.com/shadcn.png"
+                          alt="User"
+                        />
+                        <AvatarFallback>JD</AvatarFallback>
+                      </Avatar>
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56">
+                    <DropdownMenuItem
+                      onClick={() => router.push("/dashboard/overview")}
+                      className="cursor-pointer"
+                    >
+                      <LayoutDashboard className="mr-2 h-4 w-4" />
+                      <span>Go to Dashboard</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      onClick={() => {
+                        dispatch(logout());
+                        router.push("/");
+                      }}
+                      className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50"
+                    >
+                      <LogOut className="mr-2 h-4 w-4" />
+                      <span>Logout</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               ) : (
                 <>
                   <Button
@@ -400,14 +458,28 @@ function NavBar() {
               </label>
             </div>
 
-            <div className="flex flex-col space-y-2 pt-4">
-              <Button className="bg-white text-gray-800 hover:bg-gray-100 border-white w-full">
-                {t("login")}
-              </Button>
-              <Button className="bg-peter hover:bg-peter-dark text-white w-full">
-                {t("signup")}
-              </Button>
-            </div>
+            {!isLoggedIn && (
+              <div className="flex flex-col space-y-2 pt-4">
+                <Button
+                  className="bg-white text-gray-800 hover:bg-gray-100 border-white w-full"
+                  onClick={() => {
+                    router.push("/auth/login");
+                    setIsMobileMenuOpen(false);
+                  }}
+                >
+                  {t("login")}
+                </Button>
+                <Button
+                  className="bg-peter hover:bg-peter-dark text-white w-full"
+                  onClick={() => {
+                    router.push("/auth/signup");
+                    setIsMobileMenuOpen(false);
+                  }}
+                >
+                  {t("signup")}
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       </nav>

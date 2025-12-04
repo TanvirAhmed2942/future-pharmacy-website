@@ -1045,5 +1045,12 @@
       "privacyPolicy": "Privacy Policy"
     },
     "completePayment": "Complete Payment On Stripe"
+  },
+
+  "checkUserStatusModal": {
+    "title": "New Customers",
+    "description": "Create a Optimus health Solutions account for faster checkout later. No time right now? No problem. You can check out as guest.",
+    "loginSignup": "Login / Signup",
+    "checkoutAsGuest": "Checkout as Guest"
   }
 }

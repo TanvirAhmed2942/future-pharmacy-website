@@ -12,6 +12,7 @@ import { ShoppingCart, UserPlus } from "lucide-react";
 import { useAppSelector } from "@/store/hooks";
 import { selectIsLoggedIn } from "@/store/slices/userSlice/userSlice";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 interface NewCustomerModalProps {
   isOpen: boolean;
@@ -22,10 +23,14 @@ interface NewCustomerModalProps {
 function NewCustomerModal({
   isOpen,
   onClose,
-  description = "Create a Optimus health Solutions account for faster checkout later. No time right now? No problem. You can check out as guest.",
+  description,
 }: NewCustomerModalProps) {
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const router = useRouter();
+  const t = useTranslations("checkUserStatusModal");
+
+  // Use provided description or fallback to translation
+  const modalDescription = description || t("description");
 
   const handleCreateAccount = () => {
     onClose();
@@ -51,13 +56,13 @@ function NewCustomerModal({
       <DialogContent className="sm:max-w-md bg-white rounded-xl shadow-2xl border-0 p-0">
         <DialogHeader className="p-6 pb-4">
           <DialogTitle className="text-xl font-bold text-gray-900 text-center">
-            New Customers
+            {t("title")}
           </DialogTitle>
         </DialogHeader>
 
         <div className="px-6 pb-6">
           <p className="text-gray-600 text-center mb-6 text-sm leading-relaxed">
-            {description}
+            {modalDescription}
           </p>
 
           <div className="flex gap-3">
@@ -67,7 +72,7 @@ function NewCustomerModal({
               className="flex-1 h-12 bg-blue-900 text-white hover:bg-blue-800 flex items-center justify-center gap-2 font-medium"
             >
               <UserPlus className="w-4 h-4" />
-              Login / Signup
+              {t("loginSignup")}
             </Button>
 
             {/* Checkout as Guest Button */}
@@ -76,7 +81,7 @@ function NewCustomerModal({
               className="flex-1 h-12 bg-peter text-white hover:bg-peter-dark flex items-center justify-center gap-2 font-medium"
             >
               <ShoppingCart className="w-4 h-4" />
-              Checkout as Guest
+              {t("checkoutAsGuest")}
             </Button>
           </div>
         </div>
