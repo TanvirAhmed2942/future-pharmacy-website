@@ -179,45 +179,45 @@ export default function MapAndFormSection() {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row bg-gray-50 pt-4 sm:pt-8 lg:px-4 px-0 pb-4 sm:pb-8 gap-x-16 gap-y-4 sm:gap-y-8 ">
-      {/* Left Section - Form */}
-      <div className="w-full lg:w-1/2 px-4 lg:px-8 py-6 overflow-y-auto bg-white rounded-xl ">
-        <div className="max-w-full">
-          {/* Address Header */}
-          <div className="mb-6">
-            <div className="flex flex-col-reverse sm:flex-row items-center sm:items-start gap-2 text-sm text-gray-600 mb-4">
-              <span className="flex items-center justify-start sm:justify-center gap-2">
-                <MapPin className="w-4 h-4" />
-                {currentLocation}
-              </span>
-              <button
-                onClick={() => setIsLocationPickerOpen(true)}
-                className="text-peter hover:text-peter-dark sm:ml-2 hover:underline cursor-pointer"
+    <GoogleMapsProvider>
+      <div className="flex flex-col lg:flex-row bg-gray-50 pt-4 sm:pt-8 lg:px-4 px-0 pb-4 sm:pb-8 gap-x-16 gap-y-4 sm:gap-y-8 ">
+        {/* Left Section - Form */}
+        <div className="w-full lg:w-1/2 px-4 lg:px-8 py-6 overflow-y-auto bg-white rounded-xl ">
+          <div className="max-w-full">
+            {/* Address Header */}
+            <div className="mb-6">
+              <div className="flex flex-col-reverse sm:flex-row items-center sm:items-start gap-2 text-sm text-gray-600 mb-4">
+                <span className="flex items-center justify-start sm:justify-center gap-2">
+                  <MapPin className="w-4 h-4" />
+                  {currentLocation}
+                </span>
+                <button
+                  onClick={() => setIsLocationPickerOpen(true)}
+                  className="text-peter hover:text-peter-dark sm:ml-2 hover:underline cursor-pointer"
+                >
+                  {t("changeCityOrZipCode")}
+                </button>
+              </div>
+              <h1
+                id="request-your-rx-delivered-in-minutes"
+                className="hidden sm:block text-2xl lg:text-xl 2xl:text-2xl font-bold text-gray-900 "
               >
-                {t("changeCityOrZipCode")}
-              </button>
+                {t("title")}
+              </h1>
+              <h1
+                id="request-your-rx-delivered-in-minutes"
+                className="block sm:hidden text-2xl lg:text-xl 2xl:text-2xl font-medium text-gray-900 text-center"
+              >
+                {t("titleforMobileView")}
+              </h1>
             </div>
-            <h1
-              id="request-your-rx-delivered-in-minutes"
-              className="hidden sm:block text-2xl lg:text-xl 2xl:text-2xl font-bold text-gray-900 "
-            >
-              {t("title")}
-            </h1>
-            <h1
-              id="request-your-rx-delivered-in-minutes"
-              className="block sm:hidden text-2xl lg:text-xl 2xl:text-2xl font-medium text-gray-900 text-center"
-            >
-              {t("titleforMobileView")}
-            </h1>
-          </div>
 
-          {/* Pickup Location */}
-          <div className="relative">
-            <Card className="mb-4 p-4 border-2 border-gray-200 hover:border-[#be95be] cursor-pointer transition-colors">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3 w-10/12">
-                  <div className="w-4.5 h-4 rounded-full bg-black"></div>
-                  <GoogleMapsProvider>
+            {/* Pickup Location */}
+            <div className="relative">
+              <Card className="mb-4 p-4 border-2 border-gray-200 hover:border-[#be95be] cursor-pointer transition-colors">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3 w-10/12">
+                    <div className="w-4.5 h-4 rounded-full bg-black"></div>
                     <div className="w-full relative">
                       <AddressAutocomplete
                         value={pickupAddress}
@@ -230,38 +230,36 @@ export default function MapAndFormSection() {
                         state={state}
                       />
                     </div>
-                  </GoogleMapsProvider>
-                </div>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setMapSelectionMode(
-                        mapSelectionMode === "pickup" ? null : "pickup"
-                      );
-                    }}
-                    className={`p-1.5 rounded transition-colors ${
-                      mapSelectionMode === "pickup"
-                        ? "bg-peter text-white"
-                        : "text-gray-400 hover:text-peter hover:bg-gray-100"
-                    }`}
-                    title="Click on map to select pickup location"
-                  >
-                    <Map className="w-4 h-4" />
-                  </button>
-                  {/* <ChevronRight className="w-5 h-5 text-gray-400" /> */}
-                </div>
-              </div>
-            </Card>
-
-            {/* Drop-off Address */}
-            <Card className="mb-6 p-4 border-2 border-gray-200 hover:border-[#be95be] cursor-pointer transition-colors">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3 w-10/12">
-                  <div className="w-4 h-4 bg-peter flex items-center justify-center border border-black">
-                    <span className="w-1 h-1 bg-black  z-10"></span>
                   </div>
-                  <GoogleMapsProvider>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setMapSelectionMode(
+                          mapSelectionMode === "pickup" ? null : "pickup"
+                        );
+                      }}
+                      className={`p-1.5 rounded transition-colors ${
+                        mapSelectionMode === "pickup"
+                          ? "bg-peter text-white"
+                          : "text-gray-400 hover:text-peter hover:bg-gray-100"
+                      }`}
+                      title="Click on map to select pickup location"
+                    >
+                      <Map className="w-4 h-4" />
+                    </button>
+                    {/* <ChevronRight className="w-5 h-5 text-gray-400" /> */}
+                  </div>
+                </div>
+              </Card>
+
+              {/* Drop-off Address */}
+              <Card className="mb-6 p-4 border-2 border-gray-200 hover:border-[#be95be] cursor-pointer transition-colors">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3 w-10/12">
+                    <div className="w-4 h-4 bg-peter flex items-center justify-center border border-black">
+                      <span className="w-1 h-1 bg-black  z-10"></span>
+                    </div>
                     <div className="w-full relative">
                       <AddressAutocomplete
                         value={dropoffAddress}
@@ -274,206 +272,206 @@ export default function MapAndFormSection() {
                         state={state}
                       />
                     </div>
-                  </GoogleMapsProvider>
-                </div>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setMapSelectionMode(
-                        mapSelectionMode === "dropoff" ? null : "dropoff"
-                      );
-                    }}
-                    className={`p-1.5 rounded transition-colors ${
-                      mapSelectionMode === "dropoff"
-                        ? "bg-peter text-white"
-                        : "text-gray-400 hover:text-peter hover:bg-gray-100"
-                    }`}
-                    title="Click on map to select dropoff location"
-                  >
-                    <Map className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            </Card>
-            <div className="absolute top-15.5 left-6 border-l-3 border-gray-200 h-5 "></div>
-          </div>
-          {/* Delivery Time Options */}
-          <div className="grid grid-cols-2 gap-4 mb-6 ">
-            <div className="w-full flex flex-col items-start gap-2 ">
-              <Label className="text-md text-gray-600">{tForm("date")}</Label>
-              <button
-                onClick={() => setIsDatePickerOpen(true)}
-                className={`p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-[#be95be] w-full ${
-                  deliveryTime === "today"
-                    ? "border-peter bg-peter/10"
-                    : "border-gray-200 bg-white hover:border-gray-300"
-                }`}
-              >
-                <div className="flex items-center gap-2">
-                  <Calendar className="w-5 h-5 text-gray-600" />
-                  <span className="font-medium text-gray-900">
-                    {selectedDate
-                      ? selectedDate.toLocaleDateString("en-US", {
-                          month: "short",
-                          day: "numeric",
-                        })
-                      : tForm("today")}
-                  </span>
-                </div>
-              </button>
-            </div>
-            <div className="w-full flex flex-col items-start gap-2 ">
-              <Label className="text-md text-gray-600">{tForm("time")}</Label>
-              <button
-                onClick={() => setIsTimePickerOpen(true)}
-                className={`p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-[#be95be] w-full ${
-                  deliverySpeed === "now"
-                    ? "border-peter bg-peter/10"
-                    : "border-gray-200 bg-white hover:border-gray-300"
-                }`}
-              >
-                <div className="flex items-center  justify-between">
+                  </div>
                   <div className="flex items-center gap-2">
-                    <Clock className="w-5 h-5 text-gray-600" />
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setMapSelectionMode(
+                          mapSelectionMode === "dropoff" ? null : "dropoff"
+                        );
+                      }}
+                      className={`p-1.5 rounded transition-colors ${
+                        mapSelectionMode === "dropoff"
+                          ? "bg-peter text-white"
+                          : "text-gray-400 hover:text-peter hover:bg-gray-100"
+                      }`}
+                      title="Click on map to select dropoff location"
+                    >
+                      <Map className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              </Card>
+              <div className="absolute top-15.5 left-6 border-l-3 border-gray-200 h-5 "></div>
+            </div>
+            {/* Delivery Time Options */}
+            <div className="grid grid-cols-2 gap-4 mb-6 ">
+              <div className="w-full flex flex-col items-start gap-2 ">
+                <Label className="text-md text-gray-600">{tForm("date")}</Label>
+                <button
+                  onClick={() => setIsDatePickerOpen(true)}
+                  className={`p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-[#be95be] w-full ${
+                    deliveryTime === "today"
+                      ? "border-peter bg-peter/10"
+                      : "border-gray-200 bg-white hover:border-gray-300"
+                  }`}
+                >
+                  <div className="flex items-center gap-2">
+                    <Calendar className="w-5 h-5 text-gray-600" />
                     <span className="font-medium text-gray-900">
-                      {selectedTime
-                        ? selectedTime.split(" - ")[0] // Show just the start time
-                        : tForm("now")}
+                      {selectedDate
+                        ? selectedDate.toLocaleDateString("en-US", {
+                            month: "short",
+                            day: "numeric",
+                          })
+                        : tForm("today")}
                     </span>
                   </div>
+                </button>
+              </div>
+              <div className="w-full flex flex-col items-start gap-2 ">
+                <Label className="text-md text-gray-600">{tForm("time")}</Label>
+                <button
+                  onClick={() => setIsTimePickerOpen(true)}
+                  className={`p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-[#be95be] w-full ${
+                    deliverySpeed === "now"
+                      ? "border-peter bg-peter/10"
+                      : "border-gray-200 bg-white hover:border-gray-300"
+                  }`}
+                >
+                  <div className="flex items-center  justify-between">
+                    <div className="flex items-center gap-2">
+                      <Clock className="w-5 h-5 text-gray-600" />
+                      <span className="font-medium text-gray-900">
+                        {selectedTime
+                          ? selectedTime.split(" - ")[0] // Show just the start time
+                          : tForm("now")}
+                      </span>
+                    </div>
 
-                  <FaSortDown className="w-4 h-4 text-gray-600 -mt-2" />
-                </div>
-              </button>
+                    <FaSortDown className="w-4 h-4 text-gray-600 -mt-2" />
+                  </div>
+                </button>
+              </div>
             </div>
-          </div>
 
-          {/* Checkout Button */}
-          <button
-            className="w-full bg-peter hover:bg-peter-dark text-white  h-12 rounded-lg text-lg font-semibold shadow-lg flex items-center justify-center gap-2 cursor-pointer"
-            onClick={() => handleRedirect()}
-          >
-            <ShoppingCart className="w-5 h-5 mr-2" />
-            {/* <p className="w-5 h-5 flex items-center justify-center mr-2">
+            {/* Checkout Button */}
+            <button
+              className="w-full bg-peter hover:bg-peter-dark text-white  h-12 rounded-lg text-lg font-semibold shadow-lg flex items-center justify-center gap-2 cursor-pointer"
+              onClick={() => handleRedirect()}
+            >
+              <ShoppingCart className="w-5 h-5 mr-2" />
+              {/* <p className="w-5 h-5 flex items-center justify-center mr-2">
               {useIcon({ name: "cart" })}
             </p> */}
-            {/* <TiShoppingCart size={20} /> */}
-            {tForm("checkoutRequest")}
-          </button>
+              {/* <TiShoppingCart size={20} /> */}
+              {tForm("checkoutRequest")}
+            </button>
 
-          {/* Pharmacy Suggestions */}
-          <div className="mt-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">
-              {t("pharmacySuggestions")}
-            </h2>
-            <div className="space-y-3">
-              <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer">
-                <div className="flex items-start gap-3">
-                  <MapPin className="w-5 h-5 text-red-500 mt-1" />
+            {/* Pharmacy Suggestions */}
+            <div className="mt-8">
+              <h2 className="text-xl font-bold text-gray-900 mb-4">
+                {t("pharmacySuggestions")}
+              </h2>
+              <div className="space-y-3">
+                <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer">
+                  <div className="flex items-start gap-3">
+                    <MapPin className="w-5 h-5 text-red-500 mt-1" />
 
-                  <div>
-                    <h3 className="font-semibold text-gray-900">
-                      CVS Pharmacy- Downtown
-                    </h3>
-                    <p className="text-sm text-gray-500">
-                      123 main St, Newark, NJ 07102
-                    </p>
+                    <div>
+                      <h3 className="font-semibold text-gray-900">
+                        CVS Pharmacy- Downtown
+                      </h3>
+                      <p className="text-sm text-gray-500">
+                        123 main St, Newark, NJ 07102
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </Card>
-              <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer">
-                <div className="flex items-start gap-3">
-                  <MapPin className="w-5 h-5 text-red-500 mt-1" />
+                </Card>
+                <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer">
+                  <div className="flex items-start gap-3">
+                    <MapPin className="w-5 h-5 text-red-500 mt-1" />
 
-                  <div>
-                    <h3 className="font-semibold text-gray-900">
-                      Walgreens - Medical Center
-                    </h3>
-                    <p className="text-sm text-gray-500">
-                      123 main St, Newark, NJ 07102
-                    </p>
+                    <div>
+                      <h3 className="font-semibold text-gray-900">
+                        Walgreens - Medical Center
+                      </h3>
+                      <p className="text-sm text-gray-500">
+                        123 main St, Newark, NJ 07102
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </Card>
+                </Card>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Right Section - Map - Visible on all devices */}
-      <div className="flex w-full lg:w-1/2 px-4 md:px-0 relative rounded-xl h-[400px] sm:h-[450px] md:h-[500px] lg:h-auto lg:min-h-[600px]">
-        <MapComponent
-          pickupAddress={pickupAddress}
-          dropoffAddress={dropoffAddress}
-          pickupLocation={pickupLocationCoords}
-          dropoffLocation={dropoffLocationCoords}
-          zipCode={zipCode}
-          city={city}
-          state={state}
-          onPharmacyClick={handlePharmacyClick}
-          showRoute={!!pickupLocationCoords && !!dropoffLocationCoords}
-          height="100%"
-          onPickupSelect={handlePickupSelect}
-          onDropoffSelect={handleDropoffSelect}
-          selectionMode={mapSelectionMode}
+        {/* Right Section - Map - Visible on all devices */}
+        <div className="flex w-full lg:w-1/2 px-4 md:px-0 relative rounded-xl h-[400px] sm:h-[450px] md:h-[500px] lg:h-auto lg:min-h-[600px]">
+          <MapComponent
+            pickupAddress={pickupAddress}
+            dropoffAddress={dropoffAddress}
+            pickupLocation={pickupLocationCoords}
+            dropoffLocation={dropoffLocationCoords}
+            zipCode={zipCode}
+            city={city}
+            state={state}
+            onPharmacyClick={handlePharmacyClick}
+            showRoute={!!pickupLocationCoords && !!dropoffLocationCoords}
+            height="100%"
+            onPickupSelect={handlePickupSelect}
+            onDropoffSelect={handleDropoffSelect}
+            selectionMode={mapSelectionMode}
+          />
+          {mapSelectionMode && (
+            <div className="absolute top-4 left-4 bg-white px-4 py-2 rounded-lg shadow-lg z-10 border-2 border-peter">
+              <p className="text-sm font-semibold text-peter">
+                {mapSelectionMode === "pickup"
+                  ? "Click on the map to select pickup location"
+                  : "Click on the map to select dropoff location"}
+              </p>
+              <button
+                onClick={() => setMapSelectionMode(null)}
+                className="mt-2 text-xs text-gray-600 hover:text-gray-900 underline"
+              >
+                Cancel
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* Date Picker Modal */}
+        <DatePickerModal
+          isOpen={isDatePickerOpen}
+          onClose={() => setIsDatePickerOpen(false)}
+          onDateSelect={(date) => {
+            setSelectedDate(date);
+            setDeliveryTime("today");
+          }}
+          selectedDate={selectedDate}
         />
-        {mapSelectionMode && (
-          <div className="absolute top-4 left-4 bg-white px-4 py-2 rounded-lg shadow-lg z-10 border-2 border-peter">
-            <p className="text-sm font-semibold text-peter">
-              {mapSelectionMode === "pickup"
-                ? "Click on the map to select pickup location"
-                : "Click on the map to select dropoff location"}
-            </p>
-            <button
-              onClick={() => setMapSelectionMode(null)}
-              className="mt-2 text-xs text-gray-600 hover:text-gray-900 underline"
-            >
-              Cancel
-            </button>
-          </div>
-        )}
+
+        {/* Time Picker Modal */}
+        <TimePickerModal
+          isOpen={isTimePickerOpen}
+          onClose={() => setIsTimePickerOpen(false)}
+          onTimeSelect={(time) => {
+            setSelectedTime(time);
+            setDeliverySpeed("now");
+          }}
+          selectedTime={selectedTime}
+          selectedDate={selectedDate}
+        />
+
+        {/* Location Picker Modal */}
+        <LocationPickerModal
+          isOpen={isLocationPickerOpen}
+          onClose={() => setIsLocationPickerOpen(false)}
+          onLocationSelect={(location) => {
+            dispatch(setCurrentLocation(location));
+          }}
+          currentLocation={currentLocation}
+        />
+
+        {/* New Customer Modal */}
+        <NewCustomerModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          description={t("modalDescription")}
+        />
       </div>
-
-      {/* Date Picker Modal */}
-      <DatePickerModal
-        isOpen={isDatePickerOpen}
-        onClose={() => setIsDatePickerOpen(false)}
-        onDateSelect={(date) => {
-          setSelectedDate(date);
-          setDeliveryTime("today");
-        }}
-        selectedDate={selectedDate}
-      />
-
-      {/* Time Picker Modal */}
-      <TimePickerModal
-        isOpen={isTimePickerOpen}
-        onClose={() => setIsTimePickerOpen(false)}
-        onTimeSelect={(time) => {
-          setSelectedTime(time);
-          setDeliverySpeed("now");
-        }}
-        selectedTime={selectedTime}
-        selectedDate={selectedDate}
-      />
-
-      {/* Location Picker Modal */}
-      <LocationPickerModal
-        isOpen={isLocationPickerOpen}
-        onClose={() => setIsLocationPickerOpen(false)}
-        onLocationSelect={(location) => {
-          dispatch(setCurrentLocation(location));
-        }}
-        currentLocation={currentLocation}
-      />
-
-      {/* New Customer Modal */}
-      <NewCustomerModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        description={t("modalDescription")}
-      />
-    </div>
+    </GoogleMapsProvider>
   );
 }

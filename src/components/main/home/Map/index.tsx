@@ -1,10 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import GoogleMapsProvider from "./GoogleMapsProvider";
 import PharmacyMap from "./PharmacyMap";
 import { Location, Pharmacy } from "./types";
 import { useGeocode } from "./useGeocode";
 import { usePharmacySearch } from "./usePharmacySearch";
+import { useGoogleMaps } from "./GoogleMapsProvider";
 
 interface MapComponentProps {
   pickupAddress?: string;
@@ -157,12 +157,26 @@ export default function MapComponent({
     searchPharmaciesByLocation,
   ]);
 
+  const { isLoaded: mapsLoaded, loadError: mapsError } = useGoogleMaps();
+
   return (
     <div
       style={{ height: height === "100%" ? "100%" : height }}
       className="w-full h-full rounded-xl overflow-hidden relative"
     >
-      <GoogleMapsProvider>
+      {!mapsLoaded && !mapsError && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-xl z-10">
+          <p className="text-gray-500">Loading Google Maps...</p>
+        </div>
+      )}
+      {mapsError && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-xl z-10">
+          <p className="text-red-500">
+            Error loading Google Maps: {mapsError.message}
+          </p>
+        </div>
+      )}
+      {mapsLoaded && (
         <PharmacyMap
           pickupLocation={pickupLocation}
           dropoffLocation={dropoffLocation}
@@ -183,8 +197,8 @@ export default function MapComponent({
           }}
           selectionMode={selectionMode}
         />
-      </GoogleMapsProvider>
-      {pharmacyLoading && (
+      )}
+      {pharmacyLoading && mapsLoaded && (
         <div className="absolute top-4 right-4 bg-white px-4 py-2 rounded-lg shadow-lg z-10">
           <p className="text-sm text-gray-600">Loading pharmacies...</p>
         </div>

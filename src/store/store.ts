@@ -3,6 +3,7 @@ import mapSlice from "./slices/mapSlice";
 import userSlice from "./slices/userSlice/userSlice";
 import { baseApi } from "./Apis/baseApi";
 
+// Create store (works on both server and client)
 export const store = configureStore({
   reducer: {
     map: mapSlice,

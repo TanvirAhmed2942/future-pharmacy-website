@@ -18,7 +18,7 @@ interface User {
   profile?: string;
 }
 
-interface UserState {
+export interface UserState {
   user: User;
   isLoggedIn: boolean;
 }
@@ -57,10 +57,11 @@ const userSlice = createSlice({
         ...initialState.user,
       };
       state.isLoggedIn = false;
-      // Clear cookies on logout
+      // Clear cookies and localStorage on logout
       if (typeof window !== "undefined") {
         deleteCookie("token");
         deleteCookie("refreshToken");
+        localStorage.removeItem("userData");
       }
     },
     updateUser: (state, action: PayloadAction<Partial<User>>) => {

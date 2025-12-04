@@ -2,15 +2,14 @@
 
 import React, { useState, useEffect, useTransition } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Clock, User, LogOut } from "lucide-react";
+import { Menu, X, Clock } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
-import { useAppSelector, useAppDispatch } from "@/store/hooks";
+import { useAppSelector } from "@/store/hooks";
 import { selectIsLoggedIn } from "@/store/slices/userSlice/userSlice";
-import { logout } from "@/store/slices/userSlice/userSlice";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useTranslations } from "next-intl";
 
@@ -24,7 +23,6 @@ function NavBar() {
   const pathname = usePathname();
   const router = useRouter();
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
-  const dispatch = useAppDispatch();
   const [isPending, startTransition] = useTransition();
 
   const t = useTranslations("header");
@@ -271,42 +269,16 @@ function NavBar() {
 
             {/* Desktop Action Buttons */}
             <div className="flex items-center space-x-4">
-              {/* Test Button for Login State */}
-              <Button
-                className={`${
-                  isLoggedIn
-                    ? "bg-green-600 hover:bg-green-700"
-                    : "bg-pink-500 hover:bg-pink-600"
-                } text-xs px-3 py-2 flex items-center gap-2`}
-                onClick={() => {
-                  if (isLoggedIn) {
-                    dispatch(logout());
-                    router.push("/");
-                  } else {
-                    router.push("/auth/login");
-                  }
-                }}
-              >
-                {isLoggedIn ? (
-                  <>
-                    <LogOut className="w-4 h-4" />
-                    {t("logout")}
-                  </>
-                ) : (
-                  <>
-                    <User className="w-4 h-4" />
-                    {t("login")}
-                  </>
-                )}
-              </Button>
-
               {isLoggedIn ? (
-                <Button
-                  className="bg-white text-gray-800 hover:bg-gray-100 border-white"
-                  onClick={() => router.push("/dashboard/overview")}
-                >
-                  {t("dashboard")}
-                </Button>
+                <Link href="/dashboard/profile" className="cursor-pointer">
+                  <Avatar className="w-10 h-10">
+                    <AvatarImage
+                      src="https://github.com/shadcn.png"
+                      alt="User"
+                    />
+                    <AvatarFallback>JD</AvatarFallback>
+                  </Avatar>
+                </Link>
               ) : (
                 <>
                   <Button

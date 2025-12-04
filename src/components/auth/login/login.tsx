@@ -23,7 +23,7 @@ function Login() {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectPath = searchParams.get("redirect") || "/dashboard/overview";
+  const redirectPath = searchParams.get("redirect") || "/";
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -48,23 +48,28 @@ function Login() {
 
         // Update Redux store with user data
         if (response.data.user) {
-          dispatch(
-            login({
-              _id: response.data.user._id,
-              name: response.data.user.fullName,
-              email: response.data.user.email,
-              phone: "",
-              address: "",
-              city: "",
-              state: "",
-              zip: "",
-              country: "",
-              role: response.data.user.role || "user",
-              dateOfBirth: "",
-              profile: response.data.user.profile,
-              isLoggedIn: true,
-            })
-          );
+          const userData = {
+            _id: response.data.user._id,
+            name: response.data.user.fullName,
+            email: response.data.user.email,
+            phone: "",
+            address: "",
+            city: "",
+            state: "",
+            zip: "",
+            country: "",
+            role: response.data.user.role || "user",
+            dateOfBirth: "",
+            profile: response.data.user.profile,
+            isLoggedIn: true,
+          };
+
+          dispatch(login(userData));
+
+          // Also store user data in localStorage for restoration on refresh
+          if (typeof window !== "undefined") {
+            localStorage.setItem("userData", JSON.stringify(userData));
+          }
         }
 
         showSuccess({
