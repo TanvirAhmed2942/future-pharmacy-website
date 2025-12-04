@@ -6,7 +6,7 @@ import ConditionalLayout from "@/components/common/ConditionalLayout";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getLocale } from "next-intl/server";
 import ReduxProvider from "@/store/ReduxProvider";
-// import { GlobalSmoothScroll } from "@/hooks/scroll-smooth";
+import { Toaster } from "@/components/ui/sonner";
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
@@ -27,12 +27,14 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} antialiased bg-gray-50 `}>
+        {/* ReduxProvider wraps all layouts (auth, dashboard, etc.) */}
         <ReduxProvider>
           <AuthProvider>
             <NextIntlClientProvider messages={messages} locale={locale}>
               <ConditionalLayout>
                 {/* <GlobalSmoothScroll /> */}
                 {children}
+                <Toaster />
               </ConditionalLayout>
             </NextIntlClientProvider>
           </AuthProvider>
