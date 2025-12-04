@@ -12,11 +12,11 @@ function ForgotPassword() {
       {/* Logo and Header */}
       <div className="text-center mb-6 sm:mb-8">
         <Image
-          src="/nav/Logo.png"
+          src="/nav/Logo.svg"
           alt="logo"
           width={300}
           height={300}
-          className="w-40 sm:w-48 h-12 sm:h-14 object-cover mx-auto my-2 sm:my-4"
+          className="w-40 sm:w-48 h-fit sm:h-fit object-cover mx-auto my-2 sm:my-4"
         />
         <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">
           Reset Password

@@ -21,14 +21,14 @@ function Signup() {
       {/* Logo and Header */}
       <div className="text-center mb-4 sm:mb-6 lg:mb-8 flex-shrink-0">
         <Image
-          src="/nav/Logo.png"
+          src="/nav/Logo.svg"
           alt="logo"
           width={300}
           height={300}
-          className="w-40 sm:w-48 h-12 sm:h-14 object-cover mx-auto my-2 sm:my-4"
+          className="w-40 sm:w-48 h-fit sm:h-fit object-cover mx-auto my-2 sm:my-4"
         />
         <h2 className="text-xl sm:text-2xl font-semibold text-gray-800">
-          Create Your Optimus Health Solutions
+          Create your Optimus Health Solutions Account
         </h2>
       </div>
 
