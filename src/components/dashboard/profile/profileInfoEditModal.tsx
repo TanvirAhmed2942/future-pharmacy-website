@@ -16,7 +16,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useAuth } from "@/userInfo.authProvide";
+import { useAppSelector } from "@/store/hooks";
+import { selectUser } from "@/store/slices/userSlice/userSlice";
 
 interface ProfileInfoEditModalProps {
   isOpen: boolean;
@@ -24,7 +25,7 @@ interface ProfileInfoEditModalProps {
 }
 
 function ProfileInfoEditModal({ isOpen, onClose }: ProfileInfoEditModalProps) {
-  const { user } = useAuth();
+  const user = useAppSelector(selectUser);
   const [formData, setFormData] = useState({
     firstName: user?.name?.split(" ")[0] || "Jhon",
     lastName: user?.name?.split(" ").slice(1).join(" ") || "Deo",

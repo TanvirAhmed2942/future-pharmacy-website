@@ -7,7 +7,8 @@ import { Laptop, Phone } from "lucide-react";
 import { useRouter } from "next/navigation";
 import RefillTransferScheduleForm from "@/components/common/refilltransferscheduleform/refilltransferscheduleform";
 import LoginChoiceModal from "@/components/common/refilltransferscheduleform/LoginChoiceModal";
-import { useAuth } from "@/userInfo.authProvide";
+import { useAppSelector } from "@/store/hooks";
+import { selectIsLoggedIn } from "@/store/slices/userSlice/userSlice";
 
 import useIcon from "@/hooks/useIcon";
 import ShowPhoneNumber from "../commonModal/showPhoneNumber";
@@ -47,7 +48,7 @@ function RefillTransferSchedule({
   const [currentOnlineHref, setCurrentOnlineHref] = useState<
     string | undefined
   >(undefined);
-  const { isLoggedIn } = useAuth();
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
   // Pre-fetch the globe ico
   const globeIcon = useIcon({ name: "globe" });
   const tRefillTransferSchedule = useTranslations(

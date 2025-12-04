@@ -15,7 +15,8 @@ import DatePickerModal from "@/components/ui/date-picker-modal";
 import TimePickerModal from "@/components/ui/time-picker-modal";
 import LocationPickerModal from "@/components/main/home/location-picker-modal";
 import NewCustomerModal from "./checkUserStatusModal";
-import { useAuth } from "@/userInfo.authProvide";
+
+import { selectIsLoggedIn } from "@/store/slices/userSlice/userSlice";
 import { useRouter } from "next/navigation";
 import { Label } from "@radix-ui/react-label";
 import { useTranslations } from "next-intl";
@@ -69,7 +70,7 @@ export default function MapAndFormSection() {
   >(null);
 
   const router = useRouter();
-  const { isLoggedIn } = useAuth();
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
   // Parse location string to extract zipcode, city, state using geocoding
   useEffect(() => {

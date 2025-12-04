@@ -8,7 +8,9 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
-import { useAuth } from "@/userInfo.authProvide";
+import { useAppSelector, useAppDispatch } from "@/store/hooks";
+import { selectIsLoggedIn } from "@/store/slices/userSlice/userSlice";
+import { logout } from "@/store/slices/userSlice/userSlice";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useTranslations } from "next-intl";
 
@@ -21,7 +23,8 @@ function NavBar() {
   const [currentLocale, setCurrentLocale] = useState<string>("en");
   const pathname = usePathname();
   const router = useRouter();
-  const { isLoggedIn, toggleLogin } = useAuth();
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const dispatch = useAppDispatch();
   const [isPending, startTransition] = useTransition();
 
   const t = useTranslations("header");
@@ -151,7 +154,7 @@ function NavBar() {
               ) : (
                 <Button
                   className="bg-peter hover:bg-peter-dark text-white text-xs px-3 py-2"
-                  onClick={toggleLogin}
+                  onClick={() => router.push("/auth/login")}
                 >
                   Login Test
                 </Button>
@@ -275,7 +278,14 @@ function NavBar() {
                     ? "bg-green-600 hover:bg-green-700"
                     : "bg-pink-500 hover:bg-pink-600"
                 } text-xs px-3 py-2 flex items-center gap-2`}
-                onClick={toggleLogin}
+                onClick={() => {
+                  if (isLoggedIn) {
+                    dispatch(logout());
+                    router.push("/");
+                  } else {
+                    router.push("/auth/login");
+                  }
+                }}
               >
                 {isLoggedIn ? (
                   <>

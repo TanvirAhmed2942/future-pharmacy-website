@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { AuthProvider } from "@/userInfo.authProvide";
 import ConditionalLayout from "@/components/common/ConditionalLayout";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getLocale } from "next-intl/server";
@@ -29,15 +28,13 @@ export default async function RootLayout({
       <body className={`${inter.variable} antialiased bg-gray-50 `}>
         {/* ReduxProvider wraps all layouts (auth, dashboard, etc.) */}
         <ReduxProvider>
-          <AuthProvider>
-            <NextIntlClientProvider messages={messages} locale={locale}>
-              <ConditionalLayout>
-                {/* <GlobalSmoothScroll /> */}
-                {children}
-                <Toaster />
-              </ConditionalLayout>
-            </NextIntlClientProvider>
-          </AuthProvider>
+          <NextIntlClientProvider messages={messages} locale={locale}>
+            <ConditionalLayout>
+              {/* <GlobalSmoothScroll /> */}
+              {children}
+              <Toaster />
+            </ConditionalLayout>
+          </NextIntlClientProvider>
         </ReduxProvider>
       </body>
     </html>

@@ -3,10 +3,15 @@ import React, { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import ContactDetails from "./ContactDetails";
 import OrderSummary from "./OrderSummary";
-import { useAuth } from "@/userInfo.authProvide";
+import { useAppSelector } from "@/store/hooks";
+import {
+  selectUser,
+  selectIsLoggedIn,
+} from "@/store/slices/userSlice/userSlice";
 
 export default function CheckOutDetailsLayout() {
-  const { isLoggedIn, user } = useAuth();
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const user = useAppSelector(selectUser);
   const [currentStep, setCurrentStep] = useState(1);
   const [isAnimating, setIsAnimating] = useState(false);
   const [formData, setFormData] = useState({

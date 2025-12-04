@@ -1,16 +1,101 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, FormEvent } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useLoginMutation } from "@/store/Apis/authApis/authApi";
+import useShowToast from "@/hooks/useShowToast";
+import { useAppDispatch } from "@/store/hooks";
+import { login } from "@/store/slices/userSlice/userSlice";
+import { setCookie } from "@/lib/cookies";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loginMutation, { isLoading }] = useLoginMutation();
+  const { showSuccess, showError } = useShowToast();
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectPath = searchParams.get("redirect") || "/dashboard/overview";
 
+  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    // Basic validation
+    if (!email || !password) {
+      showError({ message: "Please fill in all fields" });
+      return;
+    }
+
+    try {
+      const response = await loginMutation({ email, password }).unwrap();
+
+      if (response.success && response.data) {
+        // Store tokens in cookies only
+        if (response.data.accessToken) {
+          setCookie("token", response.data.accessToken);
+        }
+        if (response.data.refreshToken) {
+          setCookie("refreshToken", response.data.refreshToken);
+        }
+
+        // Update Redux store with user data
+        if (response.data.user) {
+          dispatch(
+            login({
+              _id: response.data.user._id,
+              name: response.data.user.fullName,
+              email: response.data.user.email,
+              phone: "",
+              address: "",
+              city: "",
+              state: "",
+              zip: "",
+              country: "",
+              role: response.data.user.role || "user",
+              dateOfBirth: "",
+              profile: response.data.user.profile,
+              isLoggedIn: true,
+            })
+          );
+        }
+
+        showSuccess({
+          message: response.message || "Login successful",
+        });
+
+        // Redirect to dashboard or the original requested path after successful login
+        setTimeout(() => {
+          router.push(redirectPath);
+        }, 1000);
+      } else {
+        showError({
+          message: response.error || response.message || "Login failed",
+        });
+      }
+    } catch (error: unknown) {
+      // Handle RTK Query error
+      let errorMessage = "An error occurred during login";
+
+      if (error && typeof error === "object") {
+        if ("data" in error && error.data && typeof error.data === "object") {
+          const data = error.data as { message?: string; error?: string };
+          errorMessage = data.message || data.error || errorMessage;
+        } else if ("message" in error && typeof error.message === "string") {
+          errorMessage = error.message;
+        }
+      }
+
+      showError({ message: errorMessage });
+    }
+  };
   return (
     <div className="w-full max-w-xl mx-auto bg-white/95 backdrop-blur-sm lg:bg-white p-4 sm:p-6 lg:p-8 rounded-lg shadow-lg lg:shadow-none">
       {/* Logo and Header */}
@@ -28,7 +113,7 @@ function Login() {
       </div>
 
       {/* Form */}
-      <form className="space-y-5 sm:space-y-7">
+      <form onSubmit={handleLogin} className="space-y-5 sm:space-y-7">
         {/* Email Address */}
         <div className="space-y-2">
           <Label
@@ -39,9 +124,14 @@ function Login() {
           </Label>
           <Input
             id="email"
+            name="email"
             type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter your email address here..."
             className="w-full text-sm sm:text-base"
+            required
+            disabled={isLoading}
           />
         </div>
 
@@ -56,14 +146,20 @@ function Login() {
           <div className="relative">
             <Input
               id="password"
+              name="password"
               type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password here..."
               className="w-full pr-10 text-sm sm:text-base"
+              required
+              disabled={isLoading}
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
               className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 cursor-pointer"
+              disabled={isLoading}
             >
               {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
@@ -75,8 +171,9 @@ function Login() {
           <Button
             type="submit"
             className="bg-peter hover:bg-peter-dark text-white font-medium py-2 px-6 rounded-lg w-full sm:w-auto"
+            disabled={isLoading}
           >
-            Login
+            {isLoading ? "Logging in..." : "Login"}
           </Button>
           <Link
             href="/auth/forgot-password"

@@ -1,15 +1,11 @@
+"use client";
 import DashboardHeader from "@/components/dashboard/dashboardHeader";
 import { DashboardSidebar } from "@/components/dashboard/dashboardSidebar";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
-import type { Metadata } from "next";
-// import { GlobalSmoothScroll } from "@/hooks/scroll-smooth";
 
-export const metadata: Metadata = {
-  title: "Dashboard",
-  description: "Dashboard",
-};
+import withAuth from "@/hooks/withAuth";
 
-export default function DashboardLayout({
+function DashboardLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -19,9 +15,15 @@ export default function DashboardLayout({
       <DashboardSidebar />
       <SidebarInset>
         <DashboardHeader />
-        {/* <GlobalSmoothScroll /> */}
         {children}
       </SidebarInset>
     </SidebarProvider>
   );
 }
+
+export default withAuth(DashboardLayout, {
+  allowedRoles: "user",
+  redirectTo: "/auth/login",
+  requireAuth: true,
+  protectedRoute: "/dashboard/:path*",
+});

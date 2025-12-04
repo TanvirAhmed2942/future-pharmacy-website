@@ -9,7 +9,8 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart, UserPlus } from "lucide-react";
-import { useAuth } from "@/userInfo.authProvide";
+import { useAppSelector } from "@/store/hooks";
+import { selectIsLoggedIn } from "@/store/slices/userSlice/userSlice";
 import { useRouter } from "next/navigation";
 
 interface NewCustomerModalProps {
@@ -23,7 +24,7 @@ function NewCustomerModal({
   onClose,
   description = "Create a Optimus health Solutions account for faster checkout later. No time right now? No problem. You can check out as guest.",
 }: NewCustomerModalProps) {
-  const { isLoggedIn } = useAuth();
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const router = useRouter();
 
   const handleCreateAccount = () => {
