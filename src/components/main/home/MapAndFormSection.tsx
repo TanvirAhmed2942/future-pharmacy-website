@@ -5,8 +5,9 @@ import {
   Calendar,
   Clock,
   // ShoppingCart,
-  ChevronRight,
+  // ChevronRight,
   ShoppingCart,
+  Map,
 } from "lucide-react";
 import { FaSortDown } from "react-icons/fa";
 import { Card } from "@/components/ui/card";
@@ -63,6 +64,9 @@ export default function MapAndFormSection() {
     undefined
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [mapSelectionMode, setMapSelectionMode] = useState<
+    "pickup" | "dropoff" | null
+  >(null);
 
   const router = useRouter();
   const { isLoggedIn } = useAuth();
@@ -145,13 +149,27 @@ export default function MapAndFormSection() {
   };
 
   const handlePickupSelect = (location: Location, address: string) => {
+    console.log("Pickup Location Selected:", {
+      address: address,
+      latitude: location.lat,
+      longitude: location.lng,
+      coordinates: `Lat: ${location.lat}, Lng: ${location.lng}`,
+    });
     dispatch(setPickupAddress(address));
     dispatch(setPickupLocation(location));
+    setMapSelectionMode(null); // Reset selection mode after selection
   };
 
   const handleDropoffSelect = (location: Location, address: string) => {
+    console.log("Dropoff Location Selected:", {
+      address: address,
+      latitude: location.lat,
+      longitude: location.lng,
+      coordinates: `Lat: ${location.lat}, Lng: ${location.lng}`,
+    });
     dispatch(setDropoffAddress(address));
     dispatch(setDropoffLocation(location));
+    setMapSelectionMode(null); // Reset selection mode after selection
   };
 
   const handlePharmacyClick = (pharmacy: Pharmacy) => {
@@ -213,7 +231,25 @@ export default function MapAndFormSection() {
                     </div>
                   </GoogleMapsProvider>
                 </div>
-                <ChevronRight className="w-5 h-5 text-gray-400" />
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setMapSelectionMode(
+                        mapSelectionMode === "pickup" ? null : "pickup"
+                      );
+                    }}
+                    className={`p-1.5 rounded transition-colors ${
+                      mapSelectionMode === "pickup"
+                        ? "bg-peter text-white"
+                        : "text-gray-400 hover:text-peter hover:bg-gray-100"
+                    }`}
+                    title="Click on map to select pickup location"
+                  >
+                    <Map className="w-4 h-4" />
+                  </button>
+                  {/* <ChevronRight className="w-5 h-5 text-gray-400" /> */}
+                </div>
               </div>
             </Card>
 
@@ -239,9 +275,27 @@ export default function MapAndFormSection() {
                     </div>
                   </GoogleMapsProvider>
                 </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setMapSelectionMode(
+                        mapSelectionMode === "dropoff" ? null : "dropoff"
+                      );
+                    }}
+                    className={`p-1.5 rounded transition-colors ${
+                      mapSelectionMode === "dropoff"
+                        ? "bg-peter text-white"
+                        : "text-gray-400 hover:text-peter hover:bg-gray-100"
+                    }`}
+                    title="Click on map to select dropoff location"
+                  >
+                    <Map className="w-4 h-4" />
+                  </button>
+                </div>
               </div>
             </Card>
-            <div className="absolute top-14.5 left-6 border-l-3 border-gray-200 h-5 "></div>
+            <div className="absolute top-15.5 left-6 border-l-3 border-gray-200 h-5 "></div>
           </div>
           {/* Delivery Time Options */}
           <div className="grid grid-cols-2 gap-4 mb-6 ">
@@ -351,13 +405,33 @@ export default function MapAndFormSection() {
         <MapComponent
           pickupAddress={pickupAddress}
           dropoffAddress={dropoffAddress}
+          pickupLocation={pickupLocationCoords}
+          dropoffLocation={dropoffLocationCoords}
           zipCode={zipCode}
           city={city}
           state={state}
           onPharmacyClick={handlePharmacyClick}
           showRoute={!!pickupLocationCoords && !!dropoffLocationCoords}
           height="100%"
+          onPickupSelect={handlePickupSelect}
+          onDropoffSelect={handleDropoffSelect}
+          selectionMode={mapSelectionMode}
         />
+        {mapSelectionMode && (
+          <div className="absolute top-4 left-4 bg-white px-4 py-2 rounded-lg shadow-lg z-10 border-2 border-peter">
+            <p className="text-sm font-semibold text-peter">
+              {mapSelectionMode === "pickup"
+                ? "Click on the map to select pickup location"
+                : "Click on the map to select dropoff location"}
+            </p>
+            <button
+              onClick={() => setMapSelectionMode(null)}
+              className="mt-2 text-xs text-gray-600 hover:text-gray-900 underline"
+            >
+              Cancel
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Date Picker Modal */}

@@ -9,26 +9,40 @@ import { usePharmacySearch } from "./usePharmacySearch";
 interface MapComponentProps {
   pickupAddress?: string;
   dropoffAddress?: string;
+  pickupLocation?: Location | null;
+  dropoffLocation?: Location | null;
   zipCode?: string;
   city?: string;
   state?: string;
   onPharmacyClick?: (pharmacy: Pharmacy) => void;
   showRoute?: boolean;
   height?: string;
+  onPickupSelect?: (location: Location, address: string) => void;
+  onDropoffSelect?: (location: Location, address: string) => void;
+  selectionMode?: "pickup" | "dropoff" | null;
 }
 
 export default function MapComponent({
   pickupAddress,
   dropoffAddress,
+  pickupLocation: pickupLocationProp,
+  dropoffLocation: dropoffLocationProp,
   zipCode,
   city,
   state,
   onPharmacyClick,
   showRoute = false,
   height = "100%",
+  onPickupSelect,
+  onDropoffSelect,
+  selectionMode = null,
 }: MapComponentProps) {
-  const [pickupLocation, setPickupLocation] = useState<Location | null>(null);
-  const [dropoffLocation, setDropoffLocation] = useState<Location | null>(null);
+  const [pickupLocation, setPickupLocation] = useState<Location | null>(
+    pickupLocationProp || null
+  );
+  const [dropoffLocation, setDropoffLocation] = useState<Location | null>(
+    dropoffLocationProp || null
+  );
   const [mapCenter, setMapCenter] = useState<Location | null>(null);
   const { geocodeAddress, geocodeByZipCode, geocodeByCityState } = useGeocode();
   const {
@@ -80,42 +94,63 @@ export default function MapComponent({
     searchPharmaciesByLocation,
   ]);
 
-  // Geocode pickup address
+  // Update pickup location from prop (when selected from map) or geocode from address
   useEffect(() => {
-    const geocodePickup = async () => {
-      if (pickupAddress) {
+    if (pickupLocationProp) {
+      // Use the location directly from prop (selected from map)
+      setPickupLocation(pickupLocationProp);
+      if (!mapCenter) {
+        setMapCenter(pickupLocationProp);
+        searchPharmaciesByLocation(pickupLocationProp);
+      }
+    } else if (pickupAddress) {
+      // Geocode the address string (when typed in)
+      const geocodePickup = async () => {
         const location = await geocodeAddress(pickupAddress);
         setPickupLocation(location);
         if (location && !mapCenter) {
           setMapCenter(location);
           searchPharmaciesByLocation(location);
         }
-      } else {
-        setPickupLocation(null);
-      }
-    };
+      };
+      geocodePickup();
+    } else {
+      setPickupLocation(null);
+    }
+  }, [
+    pickupAddress,
+    pickupLocationProp,
+    geocodeAddress,
+    mapCenter,
+    searchPharmaciesByLocation,
+  ]);
 
-    geocodePickup();
-  }, [pickupAddress, geocodeAddress, mapCenter, searchPharmaciesByLocation]);
-
-  // Geocode dropoff address
+  // Update dropoff location from prop (when selected from map) or geocode from address
   useEffect(() => {
-    const geocodeDropoff = async () => {
-      if (dropoffAddress) {
+    if (dropoffLocationProp) {
+      // Use the location directly from prop (selected from map)
+      setDropoffLocation(dropoffLocationProp);
+      if (!mapCenter && !pickupLocation) {
+        setMapCenter(dropoffLocationProp);
+        searchPharmaciesByLocation(dropoffLocationProp);
+      }
+    } else if (dropoffAddress) {
+      // Geocode the address string (when typed in)
+      const geocodeDropoff = async () => {
         const location = await geocodeAddress(dropoffAddress);
         setDropoffLocation(location);
         if (location && !mapCenter && !pickupLocation) {
           setMapCenter(location);
           searchPharmaciesByLocation(location);
         }
-      } else {
-        setDropoffLocation(null);
-      }
-    };
-
-    geocodeDropoff();
+      };
+      geocodeDropoff();
+    } else {
+      setDropoffLocation(null);
+    }
   }, [
     dropoffAddress,
+    dropoffLocationProp,
     geocodeAddress,
     mapCenter,
     pickupLocation,
@@ -135,6 +170,18 @@ export default function MapComponent({
           center={mapCenter || undefined}
           onPharmacyClick={onPharmacyClick}
           showRoute={showRoute}
+          onMapClick={(location, address) => {
+            if (selectionMode === "pickup" && onPickupSelect) {
+              // Update local state immediately for instant marker display
+              setPickupLocation(location);
+              onPickupSelect(location, address);
+            } else if (selectionMode === "dropoff" && onDropoffSelect) {
+              // Update local state immediately for instant marker display
+              setDropoffLocation(location);
+              onDropoffSelect(location, address);
+            }
+          }}
+          selectionMode={selectionMode}
         />
       </GoogleMapsProvider>
       {pharmacyLoading && (
