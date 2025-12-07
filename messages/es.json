@@ -800,6 +800,7 @@
       "title": "Notas Adicionales o Instrucciones Especiales",
       "placeholder": "Cualquier instrucción especial, alergias o información adicional que debamos saber..."
     },
+    "submitting": "Enviando...",
     "submitButton": "Enviar Solicitud de Renovación"
   },
 
@@ -878,6 +879,7 @@
       "label": "Consiento que Optimus Health Solutions se comunique con mi farmacia actual para transferir mis prescripciones y entiendo que este proceso puede tomar de 1 a 3 días hábiles.",
       "required": "Debes consentir para transferir tus prescripciones"
     },
+    "submitting": "Enviando...",
     "submitButton": "Enviar Solicitud de Transferencia"
   },
 

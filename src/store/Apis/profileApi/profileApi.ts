@@ -88,8 +88,21 @@ export const profileApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["Profile"],
     }),
+    twoStepVerification: builder.mutation<GetProfileResponse, void>({
+      query: () => {
+        return {
+          url: "/users/two-step-varification-on-of",
+          method: "POST",
+        };
+      },
+      invalidatesTags: ["Profile"],
+    }),
   }),
   overrideExisting: true,
 });
 
-export const { useGetProfileQuery, useUpdateProfileMutation } = profileApi;
+export const {
+  useGetProfileQuery,
+  useUpdateProfileMutation,
+  useTwoStepVerificationMutation,
+} = profileApi;

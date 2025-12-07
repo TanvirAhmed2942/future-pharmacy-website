@@ -23,7 +23,11 @@ import {
 import { useTranslations } from "next-intl";
 import Backbutton from "@/components/common/backbutton/backbutton";
 import Image from "next/image";
-
+import {
+  useCreateRefillRequestMutation,
+  type RefillRequest,
+} from "@/store/Apis/refillTransferScheduleApi/refillTransferScheduleApi";
+import useShowToast from "@/hooks/useShowToast";
 type MedicationInput = {
   id: number;
   name: string;
@@ -57,6 +61,7 @@ function RefillOnline() {
     register,
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
@@ -80,7 +85,8 @@ function RefillOnline() {
       notes: "",
     },
   });
-
+  const [createRefillRequest, { isLoading }] = useCreateRefillRequestMutation();
+  const { showSuccess, showError } = useShowToast();
   const { fields, append } = useFieldArray({
     control,
     name: "medications",
@@ -92,9 +98,112 @@ function RefillOnline() {
     append({ id: newId, name: "", rxNumber: "" });
   };
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log(data);
-    // Process form submission
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    try {
+      // Filter and validate medications
+      const validMedications = data.medications.filter(
+        (med) => med.name.trim() !== "" || med.rxNumber.trim() !== ""
+      );
+
+      // Ensure at least one medication is provided
+      if (validMedications.length === 0) {
+        showError({
+          message: "Please add at least one medication to your refill request.",
+        });
+        return;
+      }
+
+      // Format date of birth to YYYY-MM-DD
+      const formattedDateOfBirth = data.dateOfBirth
+        ? `${data.dateOfBirth.getFullYear()}-${String(
+            data.dateOfBirth.getMonth() + 1
+          ).padStart(2, "0")}-${String(data.dateOfBirth.getDate()).padStart(
+            2,
+            "0"
+          )}`
+        : "";
+
+      // Transform form data to API format
+      const refillRequest: RefillRequest = {
+        requiestType: "refill", // Note: keeping typo as per API requirement
+        personalInfo: {
+          first_name: data.firstName,
+          last_name: data.lastName,
+          phone: data.phoneNumber,
+          dateOfBirth: formattedDateOfBirth,
+        },
+        pharmacyInfo: {
+          name: data.pharmacyName,
+          phone: data.pharmacyPhone || undefined,
+          city: data.pharmacyCity || undefined,
+          state: data.pharmacyState || undefined,
+          zipCode: data.pharmacyZipCode || undefined,
+        },
+        deliveryInfo: {
+          address: data.deliveryAddress,
+          aptUnit: data.aptUnit || undefined,
+          city: data.city,
+          state: data.state,
+          zipCode: data.zipCode,
+        },
+        medicationList: validMedications.map((med) => ({
+          medicationName: med.name,
+          rxNumber: med.rxNumber,
+        })),
+        additionalNotes: data.notes || undefined,
+      };
+
+      const response = await createRefillRequest(refillRequest).unwrap();
+
+      if (response.success) {
+        showSuccess({
+          message: response.message || "Refill request submitted successfully!",
+        });
+        // Reset form to initial state
+        reset({
+          firstName: "",
+          lastName: "",
+          phoneNumber: "",
+          dateOfBirth: undefined,
+          pharmacyName: "",
+          pharmacyPhone: "",
+          pharmacyAddress: "",
+          pharmacyCity: "",
+          pharmacyState: "",
+          pharmacyZipCode: "",
+          deliveryAddress: "",
+          aptUnit: "",
+          city: "",
+          state: "",
+          zipCode: "",
+          medications: [{ id: 1, name: "", rxNumber: "" }],
+          refillAll: false,
+          notes: "",
+        });
+      } else {
+        showError({
+          message:
+            response.error ||
+            response.message ||
+            "Failed to submit refill request",
+        });
+      }
+    } catch (error: unknown) {
+      // Handle RTK Query error
+      let errorMessage =
+        "An error occurred while submitting the refill request";
+
+      if (error && typeof error === "object") {
+        if ("data" in error && error.data && typeof error.data === "object") {
+          const data = error.data as { message?: string; error?: string };
+          errorMessage = data.message || data.error || errorMessage;
+        } else if ("message" in error && typeof error.message === "string") {
+          errorMessage = error.message;
+        }
+      }
+
+      showError({ message: errorMessage });
+    }
   };
 
   return (
@@ -181,10 +290,15 @@ function RefillOnline() {
                   id="phoneNumber"
                   {...register("phoneNumber", {
                     required: t("personalInformation.phoneNumberRequired"),
-                    pattern: {
-                      value:
-                        /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
-                      message: t("personalInformation.phoneNumberInvalid"),
+                    validate: (value) => {
+                      // Check if the value contains at least one digit
+                      if (!/\d/.test(value)) {
+                        return (
+                          t("personalInformation.phoneNumberInvalid") ||
+                          "Phone number must contain numbers"
+                        );
+                      }
+                      return true;
                     },
                   })}
                   placeholder={t("personalInformation.phoneNumberPlaceholder")}
@@ -311,10 +425,15 @@ function RefillOnline() {
                   type="tel"
                   id="pharmacyPhone"
                   {...register("pharmacyPhone", {
-                    pattern: {
-                      value:
-                        /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
-                      message: t("pharmacyInformation.pharmacyPhoneInvalid"),
+                    validate: (value) => {
+                      // Only validate if value is provided, and check if it contains at least one digit
+                      if (value && value.trim() !== "" && !/\d/.test(value)) {
+                        return (
+                          t("pharmacyInformation.pharmacyPhoneInvalid") ||
+                          "Phone number must contain numbers"
+                        );
+                      }
+                      return true;
                     },
                   })}
                   placeholder={t(
@@ -611,9 +730,10 @@ function RefillOnline() {
           {/* Submit Button */}
           <Button
             type="submit"
-            className="w-full bg-peter hover:bg-peter-dark text-white py-3 rounded-md font-medium"
+            disabled={isLoading}
+            className="w-full bg-peter hover:bg-peter-dark text-white py-3 rounded-md font-medium disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {t("submitButton")}
+            {isLoading ? t("submitting") : t("submitButton")}
           </Button>
         </form>
       </div>

@@ -24,6 +24,11 @@ import { useTranslations } from "next-intl";
 import Backbutton from "@/components/common/backbutton/backbutton";
 import useIcon from "@/hooks/useIcon";
 import Image from "next/image";
+import {
+  useCreateTransferRequestMutation,
+  type TransferRequest,
+} from "@/store/Apis/refillTransferScheduleApi/refillTransferScheduleApi";
+import useShowToast from "@/hooks/useShowToast";
 
 type MedicationInput = {
   id: number;
@@ -65,6 +70,7 @@ function TransferOnline() {
     register,
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
@@ -91,6 +97,9 @@ function TransferOnline() {
     },
   });
 
+  const [createTransferRequest, { isLoading }] =
+    useCreateTransferRequestMutation();
+  const { showSuccess, showError } = useShowToast();
   const { fields, append } = useFieldArray({
     control,
     name: "medications",
@@ -102,9 +111,127 @@ function TransferOnline() {
     append({ id: newId, name: "", rxNumber: "" });
   };
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log(data);
-    // Process form submission
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    try {
+      // Validate consent
+      if (!data.consent) {
+        showError({
+          message:
+            t("consent.required") ||
+            "You must consent to transfer your prescriptions",
+        });
+        return;
+      }
+
+      // Filter and validate medications
+      const validMedications = data.medications.filter(
+        (med) => med.name.trim() !== "" || med.rxNumber.trim() !== ""
+      );
+
+      // Ensure at least one medication is provided
+      if (validMedications.length === 0) {
+        showError({
+          message:
+            "Please add at least one medication to your transfer request.",
+        });
+        return;
+      }
+
+      // Format date of birth to YYYY-MM-DD
+      const formattedDateOfBirth = data.dateOfBirth
+        ? `${data.dateOfBirth.getFullYear()}-${String(
+            data.dateOfBirth.getMonth() + 1
+          ).padStart(2, "0")}-${String(data.dateOfBirth.getDate()).padStart(
+            2,
+            "0"
+          )}`
+        : "";
+
+      // Transform form data to API format
+      const transferRequest: TransferRequest = {
+        requiestType: "transfer", // Note: keeping typo as per API requirement
+        personalInfo: {
+          first_name: data.firstName,
+          last_name: data.lastName,
+          phone: data.phoneNumber,
+          dateOfBirth: formattedDateOfBirth,
+        },
+        pharmacyInfo: {
+          // Previous pharmacy fields
+          name: data.previousPharmacyName || undefined,
+          phone: data.previousPharmacyPhone || undefined,
+          city: data.previousPharmacyCity || undefined,
+          state: data.previousPharmacyState || undefined,
+          zipCode: data.previousPharmacyZipCode || undefined,
+          // New pharmacy fields
+          newPharmacyName: data.newPharmacyName || undefined,
+          newPharmacyPhone: data.newPharmacyPhone || undefined,
+          newPharmacyAddress: data.newPharmacyAddress || undefined,
+          newPharmacyCity: data.newPharmacyCity || undefined,
+          newPharmacyState: data.newPharmacyState || undefined,
+          newPharmacyZipCode: data.newPharmacyZipCode || undefined,
+        },
+        medicationList: validMedications.map((med) => ({
+          medicationName: med.name,
+          rxNumber: med.rxNumber,
+        })),
+        additionalNotes: data.notes || undefined,
+      };
+
+      const response = await createTransferRequest(transferRequest).unwrap();
+
+      if (response.success) {
+        showSuccess({
+          message:
+            response.message || "Transfer request submitted successfully!",
+        });
+        // Reset form to initial state
+        reset({
+          firstName: "",
+          lastName: "",
+          phoneNumber: "",
+          dateOfBirth: undefined,
+          previousPharmacyName: "",
+          previousPharmacyPhone: "",
+          previousPharmacyAddress: "",
+          previousPharmacyCity: "",
+          previousPharmacyState: "",
+          previousPharmacyZipCode: "",
+          newPharmacyName: "",
+          newPharmacyPhone: "",
+          newPharmacyAddress: "",
+          newPharmacyCity: "",
+          newPharmacyState: "",
+          newPharmacyZipCode: "",
+          medications: [{ id: 1, name: "", rxNumber: "" }],
+          transferAll: false,
+          notes: "",
+          consent: false,
+        });
+      } else {
+        showError({
+          message:
+            response.error ||
+            response.message ||
+            "Failed to submit transfer request",
+        });
+      }
+    } catch (error: unknown) {
+      // Handle RTK Query error
+      let errorMessage =
+        "An error occurred while submitting the transfer request";
+
+      if (error && typeof error === "object") {
+        if ("data" in error && error.data && typeof error.data === "object") {
+          const data = error.data as { message?: string; error?: string };
+          errorMessage = data.message || data.error || errorMessage;
+        } else if ("message" in error && typeof error.message === "string") {
+          errorMessage = error.message;
+        }
+      }
+
+      showError({ message: errorMessage });
+    }
   };
 
   return (
@@ -191,10 +318,15 @@ function TransferOnline() {
                   id="phoneNumber"
                   {...register("phoneNumber", {
                     required: t("personalInformation.phoneNumberRequired"),
-                    pattern: {
-                      value:
-                        /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
-                      message: t("personalInformation.phoneNumberInvalid"),
+                    validate: (value) => {
+                      // Check if the value contains at least one digit
+                      if (!/\d/.test(value)) {
+                        return (
+                          t("personalInformation.phoneNumberInvalid") ||
+                          "Phone number must contain numbers"
+                        );
+                      }
+                      return true;
                     },
                   })}
                   placeholder={t("personalInformation.phoneNumberPlaceholder")}
@@ -329,19 +461,31 @@ function TransferOnline() {
                   type="tel"
                   id="previousPharmacyPhone"
                   {...register("previousPharmacyPhone", {
-                    pattern: {
-                      value:
-                        /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
-                      message: t(
-                        "pharmacyInformation.previousPharmacy.pharmacyPhoneInvalid"
-                      ),
+                    validate: (value) => {
+                      // Only validate if value is provided, and check if it contains at least one digit
+                      if (value && value.trim() !== "" && !/\d/.test(value)) {
+                        return (
+                          t(
+                            "pharmacyInformation.previousPharmacy.pharmacyPhoneInvalid"
+                          ) || "Phone number must contain numbers"
+                        );
+                      }
+                      return true;
                     },
-                  } as const)}
+                  })}
                   placeholder={t(
                     "pharmacyInformation.previousPharmacy.pharmacyPhonePlaceholder"
                   )}
-                  className="w-full mt-1"
+                  className={cn(
+                    "w-full mt-1",
+                    errors.previousPharmacyPhone && "border-red-500"
+                  )}
                 />
+                {errors.previousPharmacyPhone && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.previousPharmacyPhone.message}
+                  </p>
+                )}
               </div>
             </div>
             <div className="mb-4">
@@ -431,29 +575,17 @@ function TransferOnline() {
                   htmlFor="newPharmacyName"
                   className="text-sm font-medium text-gray-700"
                 >
-                  {t("pharmacyInformation.newPharmacy.pharmacyName")} *
+                  {t("pharmacyInformation.newPharmacy.pharmacyName")}
                 </Label>
                 <Input
                   type="text"
                   id="newPharmacyName"
-                  {...register("newPharmacyName", {
-                    required: t(
-                      "pharmacyInformation.newPharmacy.pharmacyNameRequired"
-                    ),
-                  })}
+                  {...register("newPharmacyName")}
                   placeholder={t(
                     "pharmacyInformation.newPharmacy.pharmacyNamePlaceholder"
                   )}
-                  className={cn(
-                    "w-full mt-1",
-                    errors.newPharmacyName && "border-red-500"
-                  )}
+                  className="w-full mt-1"
                 />
-                {errors.newPharmacyName && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.newPharmacyName.message}
-                  </p>
-                )}
               </div>
               <div>
                 <Label
@@ -466,19 +598,31 @@ function TransferOnline() {
                   type="tel"
                   id="newPharmacyPhone"
                   {...register("newPharmacyPhone", {
-                    pattern: {
-                      value:
-                        /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
-                      message: t(
-                        "pharmacyInformation.newPharmacy.pharmacyPhoneInvalid"
-                      ),
+                    validate: (value) => {
+                      // Only validate if value is provided, and check if it contains at least one digit
+                      if (value && value.trim() !== "" && !/\d/.test(value)) {
+                        return (
+                          t(
+                            "pharmacyInformation.newPharmacy.pharmacyPhoneInvalid"
+                          ) || "Phone number must contain numbers"
+                        );
+                      }
+                      return true;
                     },
-                  } as const)}
+                  })}
                   placeholder={t(
                     "pharmacyInformation.newPharmacy.pharmacyPhonePlaceholder"
                   )}
-                  className="w-full mt-1"
+                  className={cn(
+                    "w-full mt-1",
+                    errors.newPharmacyPhone && "border-red-500"
+                  )}
                 />
+                {errors.newPharmacyPhone && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.newPharmacyPhone.message}
+                  </p>
+                )}
               </div>
             </div>
             <div>
@@ -491,25 +635,12 @@ function TransferOnline() {
               <Input
                 type="text"
                 id="newPharmacyAddress"
-                {...register("newPharmacyAddress", {
-                  required: t(
-                    "pharmacyInformation.newPharmacy.pharmacyAddressRequired"
-                  ),
-                })}
+                {...register("newPharmacyAddress")}
                 placeholder={t(
                   "pharmacyInformation.newPharmacy.pharmacyAddressPlaceholder"
                 )}
-                className={cn(
-                  "w-full mt-1",
-                  errors.newPharmacyAddress && "border-red-500"
-                )}
+                className="w-full mt-1"
               />
-
-              {errors.newPharmacyAddress && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.newPharmacyAddress.message}
-                </p>
-              )}
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
               <div>
@@ -710,9 +841,10 @@ function TransferOnline() {
           {/* Submit Button */}
           <Button
             type="submit"
-            className="w-full bg-peter hover:bg-peter-dark text-white py-3 rounded-md font-medium"
+            disabled={isLoading}
+            className="w-full bg-peter hover:bg-peter-dark text-white py-3 rounded-md font-medium disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {t("submitButton")}
+            {isLoading ? t("submitting") : t("submitButton")}
           </Button>
         </form>
       </div>
