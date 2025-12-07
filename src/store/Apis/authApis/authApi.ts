@@ -62,6 +62,58 @@ interface VerifyEmailResponse {
   data?: string;
 }
 
+interface ResendCreateUserOtpResponse {
+  success: boolean;
+  message?: string;
+  error?: string;
+  data?: string;
+}
+
+interface ForgotPasswordRequest {
+  email: string;
+}
+
+interface ForgotPasswordResponse {
+  success: boolean;
+  message?: string;
+  error?: string;
+  data?: {
+    forgetToken: string;
+  };
+}
+
+interface ForgotPasswordOtpMatchRequest {
+  otp: string;
+}
+
+interface ForgotPasswordOtpMatchResponse {
+  success: boolean;
+  message?: string;
+  error?: string;
+  data?: {
+    forgetOtpMatchToken: string;
+  };
+}
+
+interface ResendForgotPasswordOtpResponse {
+  success: boolean;
+  message?: string;
+  error?: string;
+  data?: string;
+}
+
+interface ResetPasswordRequest {
+  newPassword: string;
+  confirmPassword: string;
+}
+
+interface ResetPasswordResponse {
+  success: boolean;
+  message?: string;
+  error?: string;
+  data?: string;
+}
+
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation<LoginResponse, LoginRequest>({
@@ -80,6 +132,7 @@ export const authApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Auth"],
     }),
+    // User API
     verifyEmail: builder.mutation<VerifyEmailResponse, VerifyEmailRequest>({
       query: ({ otp }) => {
         const createUserToken = getCookie("createUserToken");
@@ -95,8 +148,98 @@ export const authApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["Auth"],
     }),
+
+    resendCreateUserOtp: builder.mutation<ResendCreateUserOtpResponse, void>({
+      query: () => {
+        const createUserToken = getCookie("createUserToken");
+
+        return {
+          url: "/otp/resend-otp",
+          method: "PATCH",
+          headers: {
+            token: createUserToken || "",
+          },
+        };
+      },
+      invalidatesTags: ["Auth"],
+    }),
+
+    // Forgot Password API
+
+    forgotPassword: builder.mutation<
+      ForgotPasswordResponse,
+      ForgotPasswordRequest
+    >({
+      query: (body: ForgotPasswordRequest) => ({
+        url: `/auth/forgot-password-otp`,
+        method: "POST",
+        body: body,
+      }),
+      invalidatesTags: ["Auth"],
+    }),
+    forgotPasswordOtpMatch: builder.mutation<
+      ForgotPasswordOtpMatchResponse,
+      ForgotPasswordOtpMatchRequest
+    >({
+      query: ({ otp }) => {
+        const forgetToken = getCookie("forgetToken");
+
+        return {
+          url: "/auth/forgot-password-otp-match",
+          method: "PATCH",
+          body: { otp },
+          headers: {
+            token: forgetToken || "",
+          },
+        };
+      },
+      invalidatesTags: ["Auth"],
+    }),
+    resendForgotPasswordOtp: builder.mutation<
+      ResendForgotPasswordOtpResponse,
+      void
+    >({
+      query: () => {
+        const forgetToken = getCookie("forgetToken");
+
+        return {
+          url: "/otp/resend-otp",
+          method: "PATCH",
+          headers: {
+            token: forgetToken || "",
+          },
+        };
+      },
+      invalidatesTags: ["Auth"],
+    }),
+    resetPassword: builder.mutation<
+      ResetPasswordResponse,
+      ResetPasswordRequest
+    >({
+      query: (body: ResetPasswordRequest) => {
+        const forgetOtpMatchToken = getCookie("forgetOtpMatchToken");
+
+        return {
+          url: "/auth/forgot-password-reset",
+          method: "PATCH",
+          body: body,
+          headers: {
+            token: forgetOtpMatchToken || "",
+          },
+        };
+      },
+      invalidatesTags: ["Auth"],
+    }),
   }),
 });
 
-export const { useLoginMutation, useSignupMutation, useVerifyEmailMutation } =
-  authApi;
+export const {
+  useLoginMutation,
+  useSignupMutation,
+  useVerifyEmailMutation,
+  useResendCreateUserOtpMutation,
+  useForgotPasswordMutation,
+  useForgotPasswordOtpMatchMutation,
+  useResendForgotPasswordOtpMutation,
+  useResetPasswordMutation,
+} = authApi;

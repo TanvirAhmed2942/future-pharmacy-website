@@ -6,23 +6,21 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import {
-  useVerifyEmailMutation,
-  useResendCreateUserOtpMutation,
+  useForgotPasswordOtpMatchMutation,
+  useResendForgotPasswordOtpMutation,
 } from "@/store/Apis/authApis/authApi";
 import useShowToast from "@/hooks/useShowToast";
-import { deleteCookie, setCookie } from "@/lib/cookies";
-import { useAppDispatch } from "@/store/hooks";
-import { login } from "@/store/slices/userSlice/userSlice";
+import { setCookie } from "@/lib/cookies";
 
-function EmailVerification() {
+function OtpVerification() {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const router = useRouter();
-  const [verifyEmailMutation, { isLoading }] = useVerifyEmailMutation();
-  const [resendCreateUserOtpMutation, { isLoading: isResending }] =
-    useResendCreateUserOtpMutation();
+  const [forgotPasswordOtpMatchMutation, { isLoading }] =
+    useForgotPasswordOtpMatchMutation();
+  const [resendForgotPasswordOtpMutation, { isLoading: isResending }] =
+    useResendForgotPasswordOtpMutation();
   const { showSuccess, showError } = useShowToast();
-  const dispatch = useAppDispatch();
 
   const handleInputChange = (index: number, value: string) => {
     if (value.length > 1) return; // Only allow single digit
@@ -74,62 +72,21 @@ function EmailVerification() {
     const otp = code.join("");
 
     try {
-      const response = await verifyEmailMutation({ otp }).unwrap();
+      const response = await forgotPasswordOtpMatchMutation({ otp }).unwrap();
       console.log(response);
 
       if (response.success) {
-        if (response.data) {
-          deleteCookie("createUserToken");
-          // Set token in cookie
-          setCookie("token", response.data);
-
-          // Decode JWT token to extract user info and update Redux state
-          try {
-            const parts = response.data.split(".");
-            if (parts.length === 3) {
-              const payload = JSON.parse(atob(parts[1]));
-
-              // Create user data from token payload
-              const userData = {
-                _id: payload.userId || payload._id || "",
-                name: payload.name || payload.fullName || "",
-                email: payload.email || "",
-                phone: "",
-                address: "",
-                city: "",
-                state: "",
-                zip: "",
-                country: "",
-                role: payload.role || "user",
-                dateOfBirth: "",
-                profile: payload.profile || "",
-                isLoggedIn: true,
-              };
-
-              // Update Redux store with user data
-              dispatch(login(userData));
-
-              // Store user data in localStorage for restoration on refresh
-              if (typeof window !== "undefined") {
-                localStorage.setItem("userData", JSON.stringify(userData));
-              }
-            }
-          } catch (error) {
-            console.warn(
-              "Could not decode token, user info may be incomplete",
-              error
-            );
-            // Even if decoding fails, we still have the token set, so user can be logged in
-            // The AuthRestorer component will handle restoration on next page load
-          }
+        if (response.data?.forgetOtpMatchToken) {
+          // Set token in cookie for reset password step
+          setCookie("forgetOtpMatchToken", response.data.forgetOtpMatchToken);
         }
         showSuccess({
-          message: response.message || "Email verified successfully!",
+          message: response.message || "OTP verified successfully!",
         });
 
-        // Redirect to homepage on success
+        // Redirect to reset password page on success
         setTimeout(() => {
-          router.push("/");
+          router.push("/auth/reset-password");
         }, 1000);
       } else {
         // Reset code on failure
@@ -161,7 +118,7 @@ function EmailVerification() {
 
   const handleResend = async () => {
     try {
-      const response = await resendCreateUserOtpMutation().unwrap();
+      const response = await resendForgotPasswordOtpMutation().unwrap();
 
       if (response.success) {
         showSuccess({
@@ -208,7 +165,7 @@ function EmailVerification() {
           />
         </div>
         <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">
-          Email Verification Code
+          OTP Verification Codes
         </h2>
         <p className="text-gray-700 text-xs sm:text-sm mb-4 sm:mb-6">
           To help keep your account safe, Optimus Health Solutions wants to make
@@ -278,4 +235,4 @@ function EmailVerification() {
   );
 }
 
-export default EmailVerification;
+export default OtpVerification;
