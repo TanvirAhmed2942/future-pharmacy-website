@@ -980,6 +980,7 @@
       "label": "I consent to Optimus Health Solutions scheduling my appointment and understand that this process may take 1-3 business days. *",
       "required": "You must consent to proceed"
     },
+    "submitting": "Submitting...",
     "submitButton": "Submit Schedule Request"
   },
 

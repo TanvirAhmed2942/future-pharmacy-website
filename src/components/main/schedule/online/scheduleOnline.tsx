@@ -26,6 +26,11 @@ import { useTranslations } from "next-intl";
 import CalendarModal from "./calendarModal";
 import Backbutton from "@/components/common/backbutton/backbutton";
 import Image from "next/image";
+import {
+  useCreateScheduleRequestMutation,
+  type ScheduleRequest,
+} from "@/store/Apis/refillTransferScheduleApi/refillTransferScheduleApi";
+import useShowToast from "@/hooks/useShowToast";
 
 type FormValues = {
   firstName: string;
@@ -64,6 +69,7 @@ function ScheduleOnline() {
     register,
     control,
     handleSubmit,
+    reset,
     formState: { errors },
     watch,
     setValue,
@@ -91,6 +97,10 @@ function ScheduleOnline() {
       consent: false,
     },
   });
+
+  const [createScheduleRequest, { isLoading }] =
+    useCreateScheduleRequestMutation();
+  const { showSuccess, showError } = useShowToast();
 
   // State for calendar modal
   const [isCalendarModalOpen, setIsCalendarModalOpen] = useState(false);
@@ -175,9 +185,187 @@ function ScheduleOnline() {
     setSelectedAppointmentDates(updatedDates);
   };
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log(data);
-    // Process form submission
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    try {
+      // Validate consent
+      if (!data.consent) {
+        showError({
+          message: t("consent.required") || "You must consent to proceed",
+        });
+        return;
+      }
+
+      // Validate appointment dates
+      if (!selectedAppointmentDates || selectedAppointmentDates.length === 0) {
+        showError({
+          message:
+            t("appointment.required") ||
+            "Please select at least one appointment date and time",
+        });
+        return;
+      }
+
+      // Format date of birth to YYYY-MM-DD
+      const formattedDateOfBirth = data.dateOfBirth
+        ? `${data.dateOfBirth.getFullYear()}-${String(
+            data.dateOfBirth.getMonth() + 1
+          ).padStart(2, "0")}-${String(data.dateOfBirth.getDate()).padStart(
+            2,
+            "0"
+          )}`
+        : "";
+
+      // Determine serviceType and serviceTypeChild based on conditions
+      let serviceType: string;
+      let serviceTypeChild: string | undefined;
+
+      if (data.serviceCategory === "service_type_others") {
+        // If category is "others", use otherService as serviceType (not serviceTypeChild)
+        serviceType = data.otherService || "";
+      } else {
+        // Otherwise, use serviceCategory as serviceType
+        serviceType = data.serviceCategory;
+
+        // serviceTypeChild is only set for vaccinations or health_screenings
+        if (
+          data.serviceCategory === "vaccinations" ||
+          data.serviceCategory === "health_screenings"
+        ) {
+          if (
+            data.serviceType === "vaccinations_others" ||
+            data.serviceType === "health_screenings_others"
+          ) {
+            // If serviceType is "others", use the custom input as serviceTypeChild
+            if (data.serviceCategory === "vaccinations") {
+              serviceTypeChild = data.otherVaccination || undefined;
+            } else {
+              serviceTypeChild = data.otherHealthScreening || undefined;
+            }
+          } else if (data.serviceType) {
+            // If serviceType is NOT "others", use serviceType value as serviceTypeChild
+            serviceTypeChild = data.serviceType;
+          }
+        }
+      }
+
+      // Format appointment dates to MM/DD/YYYY format
+      const formattedAppointmentDates = selectedAppointmentDates.map(
+        (appointment) => ({
+          date: (() => {
+            // Try to parse the date string
+            let dateObj: Date;
+
+            // First, try parsing as Date
+            dateObj = new Date(appointment.date);
+
+            // If that fails, try to parse from common formats
+            if (isNaN(dateObj.getTime())) {
+              // Try parsing formats like "Monday, April 24, 2025" or "April 24, 2025"
+              const parsed = Date.parse(appointment.date);
+              if (!isNaN(parsed)) {
+                dateObj = new Date(parsed);
+              } else {
+                // If still can't parse, check if it's already in MM/DD/YYYY format
+                const mmddyyyyMatch = appointment.date.match(
+                  /(\d{1,2})\/(\d{1,2})\/(\d{4})/
+                );
+                if (mmddyyyyMatch) {
+                  // Already in MM/DD/YYYY format, return as is
+                  return appointment.date;
+                }
+                // Last resort: return as is if we can't parse
+                return appointment.date;
+              }
+            }
+
+            // Format to MM/DD/YYYY
+            const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+            const day = String(dateObj.getDate()).padStart(2, "0");
+            const year = dateObj.getFullYear();
+            return `${month}/${day}/${year}`;
+          })(),
+          time: appointment.times,
+        })
+      );
+
+      // Transform form data to API format
+      const scheduleRequest: ScheduleRequest = {
+        requiestType: "schedule", // Note: keeping typo as per API requirement
+        personalInfo: {
+          first_name: data.firstName,
+          last_name: data.lastName,
+          phone: data.phoneNumber,
+          dateOfBirth: formattedDateOfBirth,
+        },
+        pharmacyInfo: {
+          name: data.pharmacyName || undefined,
+          phone: data.pharmacyPhone || undefined,
+          city: data.pharmacyCity || undefined,
+          state: data.pharmacyState || undefined,
+          zipCode: data.pharmacyZipCode || undefined,
+          address: data.pharmacyAddress || undefined,
+          availableDateTime: formattedAppointmentDates,
+          serviceType: serviceType,
+          serviceTypeChild: serviceTypeChild,
+        },
+        additionalNotes: data.notes || undefined,
+      };
+
+      const response = await createScheduleRequest(scheduleRequest).unwrap();
+
+      if (response.success) {
+        showSuccess({
+          message:
+            response.message || "Schedule request submitted successfully!",
+        });
+        // Reset form to initial state
+        reset({
+          firstName: "",
+          lastName: "",
+          phoneNumber: "",
+          dateOfBirth: undefined,
+          pharmacyName: "",
+          pharmacyPhone: "",
+          pharmacyAddress: "",
+          pharmacyCity: "",
+          pharmacyState: "",
+          pharmacyZipCode: "",
+          serviceCategory: "",
+          serviceType: "",
+          otherService: "",
+          otherVaccination: "",
+          otherHealthScreening: "",
+          appointmentDate: "",
+          appointmentTime: "",
+          appointmentAllTimes: [],
+          notes: "",
+          consent: false,
+        });
+        setSelectedAppointmentDates([]);
+      } else {
+        showError({
+          message:
+            response.error ||
+            response.message ||
+            "Failed to submit schedule request",
+        });
+      }
+    } catch (error: unknown) {
+      // Handle RTK Query error
+      let errorMessage =
+        "An error occurred while submitting the schedule request";
+
+      if (error && typeof error === "object") {
+        if ("data" in error && error.data && typeof error.data === "object") {
+          const data = error.data as { message?: string; error?: string };
+          errorMessage = data.message || data.error || errorMessage;
+        } else if ("message" in error && typeof error.message === "string") {
+          errorMessage = error.message;
+        }
+      }
+
+      showError({ message: errorMessage });
+    }
   };
 
   return (
@@ -264,10 +452,15 @@ function ScheduleOnline() {
                   id="phoneNumber"
                   {...register("phoneNumber", {
                     required: t("profileInfo.phoneNumberRequired"),
-                    pattern: {
-                      value:
-                        /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
-                      message: t("profileInfo.phoneNumberInvalid"),
+                    validate: (value) => {
+                      // Check if the value contains at least one digit
+                      if (!/\d/.test(value)) {
+                        return (
+                          t("profileInfo.phoneNumberInvalid") ||
+                          "Phone number must contain numbers"
+                        );
+                      }
+                      return true;
                     },
                   })}
                   placeholder={t("profileInfo.phoneNumberPlaceholder")}
@@ -392,17 +585,30 @@ function ScheduleOnline() {
                   type="tel"
                   id="pharmacyPhone"
                   {...register("pharmacyPhone", {
-                    pattern: {
-                      value:
-                        /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
-                      message: t("pharmacyInformation.pharmacyPhoneInvalid"),
+                    validate: (value) => {
+                      // Only validate if value is provided, and check if it contains at least one digit
+                      if (value && value.trim() !== "" && !/\d/.test(value)) {
+                        return (
+                          t("pharmacyInformation.pharmacyPhoneInvalid") ||
+                          "Phone number must contain numbers"
+                        );
+                      }
+                      return true;
                     },
-                  } as const)}
+                  })}
                   placeholder={t(
                     "pharmacyInformation.pharmacyPhonePlaceholder"
                   )}
-                  className="w-full mt-1"
+                  className={cn(
+                    "w-full mt-1",
+                    errors.pharmacyPhone && "border-red-500"
+                  )}
                 />
+                {errors.pharmacyPhone && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.pharmacyPhone.message}
+                  </p>
+                )}
               </div>
             </div>
             <div className="mb-4">
@@ -877,9 +1083,10 @@ function ScheduleOnline() {
           {/* Submit Button */}
           <Button
             type="submit"
-            className="w-full bg-peter hover:bg-peter-dark text-white py-3 rounded-md font-medium"
+            disabled={isLoading}
+            className="w-full bg-peter hover:bg-peter-dark text-white py-3 rounded-md font-medium disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {t("submitButton")}
+            {isLoading ? t("submitting") : t("submitButton")}
           </Button>
         </form>
       </div>

@@ -31,12 +31,16 @@ interface PharmacyInfo {
   city?: string;
   state?: string;
   zipCode?: string;
+  address?: string;
   newPharmacyName?: string;
   newPharmacyPhone?: string;
   newPharmacyAddress?: string;
   newPharmacyCity?: string;
   newPharmacyState?: string;
   newPharmacyZipCode?: string;
+  availableDateTime?: Array<{ date: string; time: string[] }>;
+  serviceType?: string;
+  serviceTypeChild?: string;
 }
 
 // Delivery info interface
@@ -64,6 +68,14 @@ interface TransferRequest {
   personalInfo: PersonalInfo;
   pharmacyInfo: PharmacyInfo;
   medicationList: MedicationItem[];
+  additionalNotes?: string;
+}
+
+// Schedule request interface
+interface ScheduleRequest {
+  requiestType: "refill" | "transfer" | "schedule"; // Note: keeping typo as per API
+  personalInfo: PersonalInfo;
+  pharmacyInfo: PharmacyInfo;
   additionalNotes?: string;
 }
 
@@ -95,6 +107,19 @@ export const refillTransferScheduleApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["RefillTransferSchedule"],
     }),
+    createScheduleRequest: builder.mutation<
+      RefillTransferScheduleResponse,
+      ScheduleRequest
+    >({
+      query: (body) => {
+        return {
+          url: "/refill-transfer-schedule-request/create",
+          method: "POST",
+          body,
+        };
+      },
+      invalidatesTags: ["RefillTransferSchedule"],
+    }),
     // Legacy endpoint (keeping for backward compatibility if needed)
     createRefillTransferScheduleRequest: builder.mutation<
       RefillTransferScheduleResponse,
@@ -116,6 +141,7 @@ export const refillTransferScheduleApi = baseApi.injectEndpoints({
 export const {
   useCreateRefillRequestMutation,
   useCreateTransferRequestMutation,
+  useCreateScheduleRequestMutation,
   useCreateRefillTransferScheduleRequestMutation,
 } = refillTransferScheduleApi;
 
@@ -123,6 +149,7 @@ export const {
 export type {
   RefillRequest,
   TransferRequest,
+  ScheduleRequest,
   PersonalInfo,
   PharmacyInfo,
   DeliveryInfo,

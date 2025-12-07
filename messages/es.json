@@ -980,6 +980,7 @@
       "label": "Consiento que Optimus Health Solutions programe mi cita y entiendo que este proceso puede tomar de 1 a 3 días hábiles. *",
       "required": "Debes consentir para continuar"
     },
+    "submitting": "Enviando...",
     "submitButton": "Enviar Solicitud de Programación"
   },
 
