@@ -15,7 +15,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useCreateContactMessageMutation } from "@/store/Apis/contact/contactApi";
+import useShowToast from "@/hooks/useShowToast";
 
 interface FormValues {
   name: string;
@@ -27,17 +28,14 @@ interface FormValues {
 }
 function ManContactUs() {
   const t = useTranslations("home.formSection");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitMessage, setSubmitMessage] = useState<string>("");
-
   const {
     register,
     handleSubmit,
     watch,
     control,
     reset,
+    setValue,
     formState: { errors },
-    // isValid,
   } = useForm<FormValues>({
     mode: "onChange",
     defaultValues: {
@@ -51,24 +49,62 @@ function ManContactUs() {
   });
 
   const selectedSubject = watch("subject");
+  const [createContactMessage, { isLoading }] =
+    useCreateContactMessageMutation();
+  const { showSuccess, showError } = useShowToast();
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    setIsSubmitting(true);
-    setSubmitMessage("");
-
     try {
-      console.log("Message sent:", data);
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      // Transform form data to match API format
+      // If "other" is selected, use the value from otherSubject
+      const subject =
+        data.subject === "other" ? data.otherSubject : data.subject;
 
-      // Handle form submission logic here
-      setSubmitMessage("Message sent successfully!");
-      reset(); // Reset form after successful submission
-    } catch (error) {
-      console.error("Error sending message:", error);
-      setSubmitMessage("Error sending message. Please try again.");
-    } finally {
-      setIsSubmitting(false);
+      const submitData = {
+        fullName: data.name,
+        email: data.email,
+        phoneNumber: data.phone,
+        subject: subject,
+        message: data.message,
+      };
+
+      const response = await createContactMessage(submitData).unwrap();
+
+      if (response.success) {
+        showSuccess({
+          message: response.message || "Contact message sent successfully!",
+        });
+        // Reset form to initial state
+        reset({
+          name: "",
+          email: "",
+          phone: "",
+          subject: "",
+          otherSubject: "",
+          message: "",
+        });
+      } else {
+        showError({
+          message:
+            response.error ||
+            response.message ||
+            "Failed to send contact message",
+        });
+      }
+    } catch (error: unknown) {
+      // Handle RTK Query error
+      let errorMessage = "An error occurred while sending the contact message";
+
+      if (error && typeof error === "object") {
+        if ("data" in error && error.data && typeof error.data === "object") {
+          const data = error.data as { message?: string; error?: string };
+          errorMessage = data.message || data.error || errorMessage;
+        } else if ("message" in error && typeof error.message === "string") {
+          errorMessage = error.message;
+        }
+      }
+
+      showError({ message: errorMessage });
     }
   };
 
@@ -247,7 +283,13 @@ function ManContactUs() {
                     rules={{ required: t("subjectRequired") }}
                     render={({ field }) => (
                       <Select
-                        onValueChange={field.onChange}
+                        onValueChange={(value) => {
+                          field.onChange(value);
+                          // Clear otherSubject when switching away from "other"
+                          if (value !== "other") {
+                            setValue("otherSubject", "");
+                          }
+                        }}
                         value={field.value}
                       >
                         <SelectTrigger
@@ -354,22 +396,11 @@ function ManContactUs() {
               <div className="flex flex-col items-center pt-2 space-y-3">
                 <Button
                   type="submit"
-                  // disabled={isSubmitting || !isValid}
+                  disabled={isLoading}
                   className="bg-[#8A4D9F] hover:bg-[#7A3D8F] disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-6 sm:px-10 py-3 sm:py-6 text-sm sm:text-base font-medium rounded-md transition-colors w-full sm:w-auto"
                 >
-                  {isSubmitting ? "Sending..." : t("submitButton")}
+                  {isLoading ? "Sending..." : t("submitButton")}
                 </Button>
-                {submitMessage && (
-                  <p
-                    className={`text-sm ${
-                      submitMessage.includes("Error")
-                        ? "text-red-500"
-                        : "text-green-500"
-                    }`}
-                  >
-                    {submitMessage}
-                  </p>
-                )}
               </div>
               <div className="absolute inset-0 w-full h-full flex items-center justify-center pointer-events-none z-10">
                 <Image
