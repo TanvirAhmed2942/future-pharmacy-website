@@ -1,14 +1,28 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import PasswordModal from "./passWordModal";
 
-export default function PasswordAnd2FA() {
+type TwofaInfoProps = {
+  twoStepVerification: boolean;
+};
+export default function PasswordAnd2FA({
+  twofaInfo,
+}: {
+  twofaInfo: TwofaInfoProps;
+}) {
   const [password, setPassword] = useState("");
-  const [is2FAEnabled, setIs2FAEnabled] = useState(true);
+  const [is2FAEnabled, setIs2FAEnabled] = useState(
+    twofaInfo.twoStepVerification
+  );
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+
+  // Sync state with prop when it changes (e.g., when API data loads)
+  useEffect(() => {
+    setIs2FAEnabled(twofaInfo.twoStepVerification);
+  }, [twofaInfo.twoStepVerification]);
 
   return (
     <div className="w-full mx-auto space-y-4 sm:space-y-6  sm:px-0">

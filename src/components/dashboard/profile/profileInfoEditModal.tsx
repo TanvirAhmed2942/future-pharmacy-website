@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -16,8 +16,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useAppSelector } from "@/store/hooks";
-import { selectUser } from "@/store/slices/userSlice/userSlice";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { CalendarIcon, Upload, X } from "lucide-react";
+import Image from "next/image";
+import {
+  useGetProfileQuery,
+  useUpdateProfileMutation,
+} from "@/store/Apis/profileApi/profileApi";
+import useShowToast from "@/hooks/useShowToast";
+import { imgUrl } from "@/lib/img_url";
 
 interface ProfileInfoEditModalProps {
   isOpen: boolean;
@@ -25,24 +37,180 @@ interface ProfileInfoEditModalProps {
 }
 
 function ProfileInfoEditModal({ isOpen, onClose }: ProfileInfoEditModalProps) {
-  const user = useAppSelector(selectUser);
+  const { data: profile } = useGetProfileQuery();
+  const [updateProfileMutation, { isLoading }] = useUpdateProfileMutation();
+  const { showSuccess, showError } = useShowToast();
+
   const [formData, setFormData] = useState({
-    firstName: user?.name?.split(" ")[0] || "Jhon",
-    lastName: user?.name?.split(" ").slice(1).join(" ") || "Deo",
-    email: user?.email || "example@demo.com",
-    phone: user?.phone || "012874568676y8",
-    gender: "Male",
-    dateOfBirth: "20/08/1988",
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    gender: "",
+    dateOfBirth: "" as string,
+    profile: "" as string,
   });
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+  const [profileImagePreview, setProfileImagePreview] = useState<string | null>(
+    null
+  );
+  const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
+
+  // Populate form data when profile data loads or modal opens
+  useEffect(() => {
+    if (profile?.data && isOpen) {
+      setFormData({
+        firstName: profile.data.first_name || "",
+        lastName: profile.data.last_name || "",
+        email: profile.data.email || "",
+        phone: profile.data.phone || "",
+        gender: profile.data.gender || "",
+        dateOfBirth: profile.data.dateOfBirth || "",
+        profile: profile.data.profile || "",
+      });
+
+      // Set profile image preview
+      if (profile.data.profile) {
+        const imageUrl = imgUrl(profile.data.profile);
+        // Only set preview if imgUrl returns a valid non-empty string
+        setProfileImagePreview(
+          imageUrl && imageUrl.trim() !== "" ? imageUrl : null
+        );
+      } else {
+        setProfileImagePreview(null);
+      }
+      setProfileImageFile(null);
+
+      // Parse date string to Date object for calendar
+      if (profile.data.dateOfBirth) {
+        try {
+          // Try parsing different date formats
+          const dateStr = profile.data.dateOfBirth;
+          let parsedDate: Date | undefined;
+
+          // Try DD-MM-YYYY format
+          if (dateStr.includes("-")) {
+            const parts = dateStr.split("-");
+            if (parts.length === 3) {
+              parsedDate = new Date(
+                parseInt(parts[2]),
+                parseInt(parts[1]) - 1,
+                parseInt(parts[0])
+              );
+            }
+          } else if (dateStr.includes("/")) {
+            // Try DD/MM/YYYY format (backward compatibility)
+            const parts = dateStr.split("/");
+            if (parts.length === 3) {
+              parsedDate = new Date(
+                parseInt(parts[2]),
+                parseInt(parts[1]) - 1,
+                parseInt(parts[0])
+              );
+            }
+          } else {
+            // Try ISO format or other standard formats
+            parsedDate = new Date(dateStr);
+          }
+
+          // Validate date
+          if (parsedDate && !isNaN(parsedDate.getTime())) {
+            setSelectedDate(parsedDate);
+          }
+        } catch (error) {
+          console.warn("Failed to parse date:", error);
+        }
+      } else {
+        setSelectedDate(undefined);
+      }
+    } else if (!isOpen) {
+      // Reset form when modal closes
+      setProfileImagePreview(null);
+      setProfileImageFile(null);
+      setSelectedDate(undefined);
+    }
+  }, [profile?.data, isOpen]);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleSave = () => {
-    // Handle save logic here
-    console.log("Saving profile data:", formData);
-    onClose();
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Validate file type
+      if (!file.type.startsWith("image/")) {
+        showError({ message: "Please select a valid image file" });
+        return;
+      }
+
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        showError({ message: "Image size should be less than 5MB" });
+        return;
+      }
+
+      setProfileImageFile(file);
+
+      // Create preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfileImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleRemoveImage = () => {
+    setProfileImageFile(null);
+    setProfileImagePreview(null);
+    setFormData((prev) => ({ ...prev, profile: "" }));
+  };
+
+  const handleSave = async () => {
+    // Validation
+    if (!formData.firstName || !formData.lastName) {
+      showError({ message: "First name and last name are required" });
+      return;
+    }
+
+    try {
+      const response = await updateProfileMutation({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        phone: formData.phone,
+        gender: formData.gender,
+        dateOfBirth: formData.dateOfBirth,
+        profile: formData.profile,
+        profileFile: profileImageFile || undefined,
+      }).unwrap();
+
+      if (response.success) {
+        showSuccess({
+          message: response.message || "Profile updated successfully!",
+        });
+        onClose();
+      } else {
+        showError({
+          message:
+            response.error || response.message || "Failed to update profile",
+        });
+      }
+    } catch (error: unknown) {
+      // Handle RTK Query error
+      let errorMessage = "An error occurred while updating profile";
+
+      if (error && typeof error === "object") {
+        if ("data" in error && error.data && typeof error.data === "object") {
+          const data = error.data as { message?: string; error?: string };
+          errorMessage = data.message || data.error || errorMessage;
+        } else if ("message" in error && typeof error.message === "string") {
+          errorMessage = error.message;
+        }
+      }
+
+      showError({ message: errorMessage });
+    }
   };
 
   return (
@@ -59,6 +227,67 @@ function ProfileInfoEditModal({ isOpen, onClose }: ProfileInfoEditModalProps) {
         </DialogHeader>
 
         <div className="px-6 pb-6">
+          {/* Profile Picture Upload */}
+          <div className="space-y-2 mb-6">
+            <Label className="text-sm font-medium text-gray-700">
+              Profile Picture
+            </Label>
+            <div className="flex items-center gap-4">
+              {/* Profile Image Preview */}
+              <div className="relative">
+                {profileImagePreview ? (
+                  <div className="relative">
+                    <Image
+                      src={profileImagePreview}
+                      alt="Profile preview"
+                      width={100}
+                      height={100}
+                      className="w-24 h-24 rounded-full object-cover border-2 border-gray-200"
+                    />
+                    {profileImageFile && (
+                      <button
+                        type="button"
+                        onClick={handleRemoveImage}
+                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
+                        disabled={isLoading}
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
+                    )}
+                  </div>
+                ) : (
+                  <div className="w-24 h-24 rounded-full bg-gray-100 border-2 border-gray-200 flex items-center justify-center">
+                    <Upload className="h-8 w-8 text-gray-400" />
+                  </div>
+                )}
+              </div>
+
+              {/* Upload Button */}
+              <div className="flex-1">
+                <input
+                  type="file"
+                  id="profileImage"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  disabled={isLoading}
+                  className="hidden"
+                />
+                <Label
+                  htmlFor="profileImage"
+                  className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <Upload className="h-4 w-4" />
+                  <span className="text-sm font-medium text-gray-700">
+                    {profileImageFile ? "Change Image" : "Upload Image"}
+                  </span>
+                </Label>
+                <p className="text-xs text-gray-500 mt-1">
+                  JPG, PNG or GIF. Max size 5MB
+                </p>
+              </div>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* First Name */}
             <div className="space-y-2">
@@ -72,7 +301,8 @@ function ProfileInfoEditModal({ isOpen, onClose }: ProfileInfoEditModalProps) {
                 id="firstName"
                 value={formData.firstName}
                 onChange={(e) => handleInputChange("firstName", e.target.value)}
-                className="bg-gray-50 border-gray-200 focus:border-peter focus:ring-peter"
+                disabled={isLoading}
+                className="bg-gray-50 border-gray-200 focus:border-peter focus:ring-peter disabled:opacity-50"
               />
             </div>
 
@@ -88,11 +318,12 @@ function ProfileInfoEditModal({ isOpen, onClose }: ProfileInfoEditModalProps) {
                 id="lastName"
                 value={formData.lastName}
                 onChange={(e) => handleInputChange("lastName", e.target.value)}
-                className="bg-gray-50 border-gray-200 focus:border-peter focus:ring-peter"
+                disabled={isLoading}
+                className="bg-gray-50 border-gray-200 focus:border-peter focus:ring-peter disabled:opacity-50"
               />
             </div>
 
-            {/* Email Address */}
+            {/* Email Address - Read Only */}
             <div className="space-y-2 md:col-span-2">
               <Label
                 htmlFor="email"
@@ -104,8 +335,8 @@ function ProfileInfoEditModal({ isOpen, onClose }: ProfileInfoEditModalProps) {
                 id="email"
                 type="email"
                 value={formData.email}
-                onChange={(e) => handleInputChange("email", e.target.value)}
-                className="bg-gray-50 border-gray-200 focus:border-peter focus:ring-peter"
+                disabled
+                className="bg-gray-100 border-gray-200 text-gray-500 cursor-not-allowed"
               />
             </div>
 
@@ -121,7 +352,8 @@ function ProfileInfoEditModal({ isOpen, onClose }: ProfileInfoEditModalProps) {
                 id="phone"
                 value={formData.phone}
                 onChange={(e) => handleInputChange("phone", e.target.value)}
-                className="bg-gray-50 border-gray-200 focus:border-peter focus:ring-peter"
+                disabled={isLoading}
+                className="bg-gray-50 border-gray-200 focus:border-peter focus:ring-peter disabled:opacity-50"
               />
             </div>
 
@@ -136,8 +368,9 @@ function ProfileInfoEditModal({ isOpen, onClose }: ProfileInfoEditModalProps) {
               <Select
                 value={formData.gender}
                 onValueChange={(value) => handleInputChange("gender", value)}
+                disabled={isLoading}
               >
-                <SelectTrigger className="bg-gray-50 border-gray-200 focus:border-peter focus:ring-peter h-9">
+                <SelectTrigger className="bg-gray-50 border-gray-200 focus:border-peter focus:ring-peter h-9 disabled:opacity-50">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -156,14 +389,54 @@ function ProfileInfoEditModal({ isOpen, onClose }: ProfileInfoEditModalProps) {
               >
                 Date of Birth
               </Label>
-              <Input
-                id="dateOfBirth"
-                value={formData.dateOfBirth}
-                onChange={(e) =>
-                  handleInputChange("dateOfBirth", e.target.value)
-                }
-                className="bg-gray-50 border-gray-200 focus:border-peter focus:ring-peter"
-              />
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    disabled={isLoading}
+                    className="w-full justify-start text-left font-normal bg-gray-50 border-gray-200 hover:bg-gray-50 disabled:opacity-50"
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {selectedDate ? (
+                      selectedDate.toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })
+                    ) : (
+                      <span className="text-muted-foreground">Pick a date</span>
+                    )}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={selectedDate}
+                    onSelect={(date) => {
+                      setSelectedDate(date);
+                      if (date) {
+                        // Format as DD-MM-YYYY for API
+                        const day = date.getDate().toString().padStart(2, "0");
+                        const month = (date.getMonth() + 1)
+                          .toString()
+                          .padStart(2, "0");
+                        const year = date.getFullYear();
+                        handleInputChange(
+                          "dateOfBirth",
+                          `${day}-${month}-${year}`
+                        );
+                      } else {
+                        handleInputChange("dateOfBirth", "");
+                      }
+                    }}
+                    captionLayout="dropdown"
+                    fromYear={1900}
+                    toYear={new Date().getFullYear()}
+                    disabled={(date) => date > new Date()}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
             </div>
           </div>
 
@@ -172,15 +445,17 @@ function ProfileInfoEditModal({ isOpen, onClose }: ProfileInfoEditModalProps) {
             <Button
               variant="outline"
               onClick={onClose}
-              className="px-6 py-2 text-peter border-peter hover:bg-peter hover:text-white"
+              disabled={isLoading}
+              className="px-6 py-2 text-peter border-peter hover:bg-peter hover:text-white disabled:opacity-50"
             >
               Cancel
             </Button>
             <Button
               onClick={handleSave}
-              className="px-6 py-2 bg-peter hover:bg-peter-dark text-white"
+              disabled={isLoading}
+              className="px-6 py-2 bg-peter hover:bg-peter-dark text-white disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Save Changes
+              {isLoading ? "Saving..." : "Save Changes"}
             </Button>
           </div>
         </div>

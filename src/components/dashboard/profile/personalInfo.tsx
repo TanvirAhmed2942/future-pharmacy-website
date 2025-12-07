@@ -3,21 +3,35 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import ProfileInfoEditModal from "./profileInfoEditModal";
+import { imgUrl } from "@/lib/img_url";
 
-export default function Profile() {
-  const profileData = {
-    firstName: "John",
-    lastName: "Doe",
-    gender: "Male",
-    email: "demo@demogmail.com",
-    phone: "706-455-5214",
-    dob: "12/08/1988",
-    image:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop",
-  };
-
+type PersonalInfoProps = {
+  firstName: string;
+  lastName: string;
+  gender: string;
+  email: string;
+  phone: string;
+  dateOfBirth: string;
+  profile: string;
+};
+export default function PersonalInfo({
+  personalInfo,
+}: {
+  personalInfo: PersonalInfoProps;
+}) {
   const [isOpen, setIsOpen] = useState(false);
 
+  // Use default placeholder if image is empty, undefined, or "N/A"
+  // Using local placeholder image to avoid external image configuration
+  const hasValidImage =
+    personalInfo.profile &&
+    personalInfo.profile.trim() !== "" &&
+    personalInfo.profile !== "N/A";
+  const imageUrl = hasValidImage ? imgUrl(personalInfo.profile) : "";
+  // Ensure we always have a valid src - fallback to placeholder if imgUrl returns empty
+  const profileImage =
+    imageUrl && imageUrl.trim() !== "" ? imageUrl : "/testimonials/user.png";
+  console.log("profileImage", profileImage);
   return (
     <>
       <div className="w-full mx-auto">
@@ -28,7 +42,7 @@ export default function Profile() {
               {/* Profile Image */}
               <div className="flex-shrink-0">
                 <Image
-                  src={profileData.image}
+                  src={profileImage}
                   alt="Profile"
                   width={128}
                   height={128}
@@ -42,7 +56,7 @@ export default function Profile() {
                 <div>
                   <p className="text-sm text-gray-500 mb-1">First Name</p>
                   <p className="text-base font-medium text-gray-900">
-                    {profileData.firstName}
+                    {personalInfo.firstName}
                   </p>
                 </div>
 
@@ -50,7 +64,7 @@ export default function Profile() {
                 <div>
                   <p className="text-sm text-gray-500 mb-1">Last Name</p>
                   <p className="text-base font-medium text-gray-900">
-                    {profileData.lastName}
+                    {personalInfo.lastName}
                   </p>
                 </div>
 
@@ -58,7 +72,7 @@ export default function Profile() {
                 <div>
                   <p className="text-sm text-gray-500 mb-1">Gender</p>
                   <p className="text-base font-medium text-gray-900">
-                    {profileData.gender}
+                    {personalInfo.gender}
                   </p>
                 </div>
 
@@ -66,7 +80,7 @@ export default function Profile() {
                 <div>
                   <p className="text-sm text-gray-500 mb-1">Email</p>
                   <p className="text-base font-medium text-gray-900 break-words">
-                    {profileData.email}
+                    {personalInfo.email}
                   </p>
                 </div>
 
@@ -74,7 +88,7 @@ export default function Profile() {
                 <div>
                   <p className="text-sm text-gray-500 mb-1">Phone</p>
                   <p className="text-base font-medium text-gray-900">
-                    {profileData.phone}
+                    {personalInfo.phone}
                   </p>
                 </div>
 
@@ -82,7 +96,7 @@ export default function Profile() {
                 <div>
                   <p className="text-sm text-gray-500 mb-1">DOB</p>
                   <p className="text-base font-medium text-gray-900">
-                    {profileData.dob}
+                    {personalInfo.dateOfBirth}
                   </p>
                 </div>
               </div>
@@ -105,12 +119,18 @@ export default function Profile() {
               {/* Profile Image */}
               <div className="flex-shrink-0">
                 <Image
-                  src={profileData.image}
+                  src={profileImage}
                   alt="Profile"
                   width={128}
                   height={128}
-                  className="w-32 h-32 rounded-full object-cover"
+                  className="w-32 h-32 rounded-full border-2 border-gray-200 object-cover"
                 />
+
+                {/* <img
+                  src={profileImage}
+                  alt="Profile"
+                  className="w-32 h-32 rounded-full object-cover"
+                /> */}
               </div>
 
               {/* Profile Information */}
@@ -119,7 +139,7 @@ export default function Profile() {
                 <div>
                   <p className="text-sm text-gray-500 mb-1">First Name</p>
                   <p className="text-base font-medium text-gray-900">
-                    {profileData.firstName}
+                    {personalInfo.firstName}
                   </p>
                 </div>
 
@@ -127,7 +147,7 @@ export default function Profile() {
                 <div>
                   <p className="text-sm text-gray-500 mb-1">Last Name</p>
                   <p className="text-base font-medium text-gray-900">
-                    {profileData.lastName}
+                    {personalInfo.lastName}
                   </p>
                 </div>
 
@@ -135,7 +155,7 @@ export default function Profile() {
                 <div>
                   <p className="text-sm text-gray-500 mb-1">Gender</p>
                   <p className="text-base font-medium text-gray-900">
-                    {profileData.gender}
+                    {personalInfo.gender}
                   </p>
                 </div>
 
@@ -143,7 +163,7 @@ export default function Profile() {
                 <div>
                   <p className="text-sm text-gray-500 mb-1">Email Address</p>
                   <p className="text-base font-medium text-gray-900">
-                    {profileData.email}
+                    {personalInfo.email}
                   </p>
                 </div>
 
@@ -151,7 +171,7 @@ export default function Profile() {
                 <div>
                   <p className="text-sm text-gray-500 mb-1">Phone Number</p>
                   <p className="text-base font-medium text-gray-900">
-                    {profileData.phone}
+                    {personalInfo.phone}
                   </p>
                 </div>
 
@@ -159,7 +179,7 @@ export default function Profile() {
                 <div>
                   <p className="text-sm text-gray-500 mb-1">DOB</p>
                   <p className="text-base font-medium text-gray-900">
-                    {profileData.dob}
+                    {personalInfo.dateOfBirth}
                   </p>
                 </div>
               </div>
