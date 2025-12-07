@@ -59,6 +59,7 @@ interface VerifyEmailResponse {
   success: boolean;
   message?: string;
   error?: string;
+  data?: string;
 }
 
 export const authApi = baseApi.injectEndpoints({

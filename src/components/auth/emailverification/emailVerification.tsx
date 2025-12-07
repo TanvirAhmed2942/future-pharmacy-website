@@ -7,6 +7,9 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useVerifyEmailMutation } from "@/store/Apis/authApis/authApi";
 import useShowToast from "@/hooks/useShowToast";
+import { setCookie } from "@/lib/cookies";
+import { useAppDispatch } from "@/store/hooks";
+import { login } from "@/store/slices/userSlice/userSlice";
 
 function EmailVerification() {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
@@ -14,6 +17,7 @@ function EmailVerification() {
   const router = useRouter();
   const [verifyEmailMutation, { isLoading }] = useVerifyEmailMutation();
   const { showSuccess, showError } = useShowToast();
+  const dispatch = useAppDispatch();
 
   const handleInputChange = (index: number, value: string) => {
     if (value.length > 1) return; // Only allow single digit
@@ -66,8 +70,53 @@ function EmailVerification() {
 
     try {
       const response = await verifyEmailMutation({ otp }).unwrap();
+      console.log(response);
 
       if (response.success) {
+        if (response.data) {
+          // Set token in cookie
+          setCookie("token", response.data);
+
+          // Decode JWT token to extract user info and update Redux state
+          try {
+            const parts = response.data.split(".");
+            if (parts.length === 3) {
+              const payload = JSON.parse(atob(parts[1]));
+
+              // Create user data from token payload
+              const userData = {
+                _id: payload.userId || payload._id || "",
+                name: payload.name || payload.fullName || "",
+                email: payload.email || "",
+                phone: "",
+                address: "",
+                city: "",
+                state: "",
+                zip: "",
+                country: "",
+                role: payload.role || "user",
+                dateOfBirth: "",
+                profile: payload.profile || "",
+                isLoggedIn: true,
+              };
+
+              // Update Redux store with user data
+              dispatch(login(userData));
+
+              // Store user data in localStorage for restoration on refresh
+              if (typeof window !== "undefined") {
+                localStorage.setItem("userData", JSON.stringify(userData));
+              }
+            }
+          } catch (error) {
+            console.warn(
+              "Could not decode token, user info may be incomplete",
+              error
+            );
+            // Even if decoding fails, we still have the token set, so user can be logged in
+            // The AuthRestorer component will handle restoration on next page load
+          }
+        }
         showSuccess({
           message: response.message || "Email verified successfully!",
         });
