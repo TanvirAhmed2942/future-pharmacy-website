@@ -16,6 +16,8 @@ import {
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
+import { useSubmitInterestDriverMutation } from "@/store/Apis/businessApi/businessApi";
+import useShowToast from "@/hooks/useShowToast";
 interface FormValues {
   name: string;
   emailAddress: string;
@@ -33,6 +35,7 @@ function DriverRegForm() {
     register,
     handleSubmit,
     control,
+    reset,
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
@@ -47,9 +50,66 @@ function DriverRegForm() {
     },
   });
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log("Form submitted:", data);
-    // Handle form submission logic here
+  const [submitInterestDriver, { isLoading }] =
+    useSubmitInterestDriverMutation();
+  const { showSuccess, showError } = useShowToast();
+
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    try {
+      // Transform form data to match API format
+      const submitData = {
+        name: data.name,
+        phone: data.phoneNumber,
+        email: data.emailAddress,
+        city: data.city,
+        zipCode: data.zipCode,
+        vehicleType: data.vehicleType,
+        yearOfDriverLicense: data.yearsWithLicense,
+        message: data.message,
+      };
+
+      const response = await submitInterestDriver(submitData).unwrap();
+
+      if (response.success) {
+        showSuccess({
+          message:
+            response.message || "Driver registration submitted successfully!",
+        });
+        // Reset form to initial state
+        reset({
+          name: "",
+          emailAddress: "",
+          phoneNumber: "",
+          city: "",
+          zipCode: "",
+          vehicleType: "",
+          yearsWithLicense: "",
+          message: "",
+        });
+      } else {
+        showError({
+          message:
+            response.error ||
+            response.message ||
+            "Failed to submit driver registration",
+        });
+      }
+    } catch (error: unknown) {
+      // Handle RTK Query error
+      let errorMessage =
+        "An error occurred while submitting the driver registration";
+
+      if (error && typeof error === "object") {
+        if ("data" in error && error.data && typeof error.data === "object") {
+          const data = error.data as { message?: string; error?: string };
+          errorMessage = data.message || data.error || errorMessage;
+        } else if ("message" in error && typeof error.message === "string") {
+          errorMessage = error.message;
+        }
+      }
+
+      showError({ message: errorMessage });
+    }
   };
 
   return (
@@ -350,9 +410,10 @@ function DriverRegForm() {
               {/* Submit Button */}
               <Button
                 type="submit"
-                className="w-full bg-peter hover:bg-peter-dark text-white h-10 text-base font-medium cursor-pointer"
+                disabled={isLoading}
+                className="w-full bg-peter hover:bg-peter-dark text-white h-10 text-base font-medium cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {tForm("submitButton")}
+                {isLoading ? "Submitting..." : tForm("submitButton")}
               </Button>
 
               {/* Watermark */}

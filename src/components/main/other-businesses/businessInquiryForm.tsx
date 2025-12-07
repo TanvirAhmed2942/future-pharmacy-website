@@ -16,6 +16,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
+import { useSubmitInterestOtherBusinessMutation } from "@/store/Apis/businessApi/businessApi";
+import useShowToast from "@/hooks/useShowToast";
 
 interface FormValues {
   name: string;
@@ -23,6 +25,7 @@ interface FormValues {
   phoneNumber: string;
   organizationName: string;
   organizationType: string;
+  otherOrganizationType: string;
   organizationWebsite: string;
   regionOfInterest: string;
   message: string;
@@ -36,6 +39,9 @@ function BusinessInquiryForm() {
     register,
     handleSubmit,
     control,
+    reset,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
@@ -44,15 +50,82 @@ function BusinessInquiryForm() {
       phoneNumber: "",
       organizationName: "",
       organizationType: "",
+      otherOrganizationType: "",
       organizationWebsite: "",
       regionOfInterest: "",
       message: "",
     },
   });
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log("Form submitted:", data);
-    // Handle form submission logic here
+  const selectedOrganizationType = watch("organizationType");
+
+  const [submitInterestOtherBusiness, { isLoading }] =
+    useSubmitInterestOtherBusinessMutation();
+  const { showSuccess, showError } = useShowToast();
+
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    try {
+      // Transform form data to match API format
+      // If "others" is selected, use the value from otherOrganizationType
+      const organizationType =
+        data.organizationType === "others"
+          ? data.otherOrganizationType
+          : data.organizationType;
+
+      const submitData = {
+        name: data.name,
+        phone: data.phoneNumber,
+        email: data.emailAddress,
+        organizationName: data.organizationName,
+        organizationType: organizationType,
+        organizationWebsite: data.organizationWebsite,
+        region: data.regionOfInterest,
+        message: data.message,
+      };
+
+      const response = await submitInterestOtherBusiness(submitData).unwrap();
+
+      if (response.success) {
+        showSuccess({
+          message:
+            response.message || "Business inquiry submitted successfully!",
+        });
+        // Reset form to initial state
+        reset({
+          name: "",
+          emailAddress: "",
+          phoneNumber: "",
+          organizationName: "",
+          organizationType: "",
+          otherOrganizationType: "",
+          organizationWebsite: "",
+          regionOfInterest: "",
+          message: "",
+        });
+      } else {
+        showError({
+          message:
+            response.error ||
+            response.message ||
+            "Failed to submit business inquiry",
+        });
+      }
+    } catch (error: unknown) {
+      // Handle RTK Query error
+      let errorMessage =
+        "An error occurred while submitting the business inquiry";
+
+      if (error && typeof error === "object") {
+        if ("data" in error && error.data && typeof error.data === "object") {
+          const data = error.data as { message?: string; error?: string };
+          errorMessage = data.message || data.error || errorMessage;
+        } else if ("message" in error && typeof error.message === "string") {
+          errorMessage = error.message;
+        }
+      }
+
+      showError({ message: errorMessage });
+    }
   };
 
   return (
@@ -231,7 +304,16 @@ function BusinessInquiryForm() {
                     required: tOtherBusinesses("form.organizationTypeRequired"),
                   }}
                   render={({ field }) => (
-                    <Select onValueChange={field.onChange} value={field.value}>
+                    <Select
+                      onValueChange={(value) => {
+                        field.onChange(value);
+                        // Clear otherOrganizationType when switching away from "others"
+                        if (value !== "others") {
+                          setValue("otherOrganizationType", "");
+                        }
+                      }}
+                      value={field.value}
+                    >
                       <SelectTrigger
                         className={cn(
                           "mt-1 bg-gray-50 text-[14px]",
@@ -265,6 +347,48 @@ function BusinessInquiryForm() {
                   </p>
                 )}
               </div>
+
+              {/* Other Organization Type Field - Only shown when "others" is selected */}
+              {selectedOrganizationType === "others" && (
+                <div>
+                  <Label
+                    htmlFor="otherOrganizationType"
+                    className="text-sm text-gray-700"
+                  >
+                    {tOtherBusinesses("form.specifyOther") || "Please specify"}
+                  </Label>
+                  <Input
+                    id="otherOrganizationType"
+                    type="text"
+                    placeholder={
+                      tOtherBusinesses("form.specifyOtherPlaceholder") ||
+                      "Enter organization type..."
+                    }
+                    className={cn(
+                      "mt-1 bg-gray-50",
+                      errors.otherOrganizationType && "border-red-500"
+                    )}
+                    {...register("otherOrganizationType", {
+                      required:
+                        selectedOrganizationType === "others"
+                          ? tOtherBusinesses("form.specifyOtherRequired") ||
+                            "Please specify the organization type"
+                          : false,
+                      minLength: {
+                        value: 2,
+                        message:
+                          tOtherBusinesses("form.specifyOtherMinLength") ||
+                          "Must be at least 2 characters",
+                      },
+                    })}
+                  />
+                  {errors.otherOrganizationType && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.otherOrganizationType.message}
+                    </p>
+                  )}
+                </div>
+              )}
 
               {/* Add Organization Website Field */}
               <div>
@@ -362,9 +486,12 @@ function BusinessInquiryForm() {
               {/* Submit Button */}
               <Button
                 type="submit"
-                className="w-full bg-peter hover:bg-peter-dark text-white py-2 cursor-pointer"
+                disabled={isLoading}
+                className="w-full bg-peter hover:bg-peter-dark text-white py-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {tOtherBusinesses("form.submitButton")}
+                {isLoading
+                  ? "Submitting..."
+                  : tOtherBusinesses("form.submitButton")}
               </Button>
 
               {/* Watermark */}

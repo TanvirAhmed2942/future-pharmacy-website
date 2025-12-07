@@ -16,6 +16,8 @@ import {
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
+import { useSubmitInterestPharmacyMutation } from "@/store/Apis/businessApi/businessApi";
+import useShowToast from "@/hooks/useShowToast";
 interface FormValues {
   pharmacyName: string;
   pharmacyAddress: string;
@@ -33,6 +35,7 @@ function PharmacyRegForm() {
     register,
     handleSubmit,
     control,
+    reset,
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
@@ -47,9 +50,65 @@ function PharmacyRegForm() {
     },
   });
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log("Form submitted:", data);
-    // Handle form submission logic here
+  const [submitInterest, { isLoading }] = useSubmitInterestPharmacyMutation();
+  const { showSuccess, showError } = useShowToast();
+
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    try {
+      // Transform form data to match API format
+      const submitData = {
+        name: data.pharmacyName,
+        address: data.pharmacyAddress,
+        phone: data.phoneNumber,
+        email: data.emailAddress,
+        contactPerson: data.contactPerson,
+        title: data.title,
+        yearofBusiness: data.experienceBusiness,
+        message: data.message,
+      };
+
+      const response = await submitInterest(submitData).unwrap();
+
+      if (response.success) {
+        showSuccess({
+          message:
+            response.message || "Pharmacy registration submitted successfully!",
+        });
+        // Reset form to initial state
+        reset({
+          pharmacyName: "",
+          pharmacyAddress: "",
+          phoneNumber: "",
+          emailAddress: "",
+          contactPerson: "",
+          title: "",
+          experienceBusiness: "",
+          message: "",
+        });
+      } else {
+        showError({
+          message:
+            response.error ||
+            response.message ||
+            "Failed to submit pharmacy registration",
+        });
+      }
+    } catch (error: unknown) {
+      // Handle RTK Query error
+      let errorMessage =
+        "An error occurred while submitting the pharmacy registration";
+
+      if (error && typeof error === "object") {
+        if ("data" in error && error.data && typeof error.data === "object") {
+          const data = error.data as { message?: string; error?: string };
+          errorMessage = data.message || data.error || errorMessage;
+        } else if ("message" in error && typeof error.message === "string") {
+          errorMessage = error.message;
+        }
+      }
+
+      showError({ message: errorMessage });
+    }
   };
 
   return (
@@ -325,9 +384,10 @@ function PharmacyRegForm() {
               {/* Submit Button */}
               <Button
                 type="submit"
-                className="w-full bg-peter hover:bg-peter-dark text-white h-10 text-base font-medium"
+                disabled={isLoading}
+                className="w-full bg-peter hover:bg-peter-dark text-white h-10 text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {tForm("submitButton")}
+                {isLoading ? "Submitting..." : tForm("submitButton")}
               </Button>
 
               {/* Watermark */}

@@ -16,6 +16,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
+import { useSubmitInterestInvestorMutation } from "@/store/Apis/businessApi/businessApi";
+import useShowToast from "@/hooks/useShowToast";
 
 interface FormValues {
   fullName: string;
@@ -37,6 +39,7 @@ function InvestorsInquiryForm() {
     register,
     handleSubmit,
     control,
+    reset,
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
@@ -51,9 +54,66 @@ function InvestorsInquiryForm() {
     },
   });
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log("Form submitted:", data);
-    // Handle form submission logic here
+  const [submitInterestInvestor, { isLoading }] =
+    useSubmitInterestInvestorMutation();
+  const { showSuccess, showError } = useShowToast();
+
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    try {
+      // Transform form data to match API format
+      const submitData = {
+        name: data.fullName,
+        phone: data.phoneNumber,
+        email: data.emailAddress,
+        organizationName: data.organizationName,
+        organizationType: data.organizationType,
+        website: data.website,
+        yearOfInvestmentExperience: data.yearsOfInvestmentExperience,
+        message: data.message,
+      };
+
+      const response = await submitInterestInvestor(submitData).unwrap();
+
+      if (response.success) {
+        showSuccess({
+          message:
+            response.message || "Investor inquiry submitted successfully!",
+        });
+        // Reset form to initial state
+        reset({
+          fullName: "",
+          emailAddress: "",
+          phoneNumber: "",
+          organizationName: "",
+          website: "",
+          organizationType: "",
+          yearsOfInvestmentExperience: "",
+          message: "",
+        });
+      } else {
+        showError({
+          message:
+            response.error ||
+            response.message ||
+            "Failed to submit investor inquiry",
+        });
+      }
+    } catch (error: unknown) {
+      // Handle RTK Query error
+      let errorMessage =
+        "An error occurred while submitting the investor inquiry";
+
+      if (error && typeof error === "object") {
+        if ("data" in error && error.data && typeof error.data === "object") {
+          const data = error.data as { message?: string; error?: string };
+          errorMessage = data.message || data.error || errorMessage;
+        } else if ("message" in error && typeof error.message === "string") {
+          errorMessage = error.message;
+        }
+      }
+
+      showError({ message: errorMessage });
+    }
   };
 
   return (
@@ -356,9 +416,10 @@ function InvestorsInquiryForm() {
                 {/* Submit Button */}
                 <Button
                   type="submit"
-                  className="w-full bg-peter hover:bg-peter-dark text-white h-10 text-base font-medium cursor-pointer"
+                  disabled={isLoading}
+                  className="w-full bg-peter hover:bg-peter-dark text-white h-10 text-base font-medium cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {tForm("submitButton")}
+                  {isLoading ? "Submitting..." : tForm("submitButton")}
                 </Button>
 
                 {/* Watermark */}
