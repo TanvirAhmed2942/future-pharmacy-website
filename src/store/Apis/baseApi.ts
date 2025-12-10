@@ -47,6 +47,6 @@ export const baseApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ["Auth", "Profile", "RefillTransferSchedule", "Business"],
+  tagTypes: ["Auth", "Profile", "RefillTransferSchedule", "Business", "Blog"],
   endpoints: () => ({}),
 });

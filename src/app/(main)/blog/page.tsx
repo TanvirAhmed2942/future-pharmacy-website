@@ -6,5 +6,3 @@ function page() {
 }
 
 export default page;
-
-// just for git commit
