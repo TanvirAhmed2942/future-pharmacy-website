@@ -1,26 +1,34 @@
 "use client";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   FiThumbsUp,
-  FiMessageCircle,
-  FiBookmark,
-  FiShare2,
+  // FiMessageCircle,
+  // FiBookmark,
+  // FiShare2,
 } from "react-icons/fi";
 import Comment from "./Comment";
 import { useGetBlogDetailsByIdQuery } from "@/store/Apis/blogApi/blogApi";
 import { baseUrl } from "@/store/Apis/baseApi";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { useCreateBlogLikeMutation } from "@/store/Apis/blogApi/blogApi";
 
+import useShowToast from "@/hooks/useShowToast";
 function BlogDetailsLayout() {
   const params = useParams();
   const blogId = params.id as string;
-
+  const userId = useSelector((state: RootState) => state.user.user?._id);
+  const { showSuccess, showError } = useShowToast();
+  const [createBlogLike, { isLoading: isSubmitting }] =
+    useCreateBlogLikeMutation();
   const {
     data: blogResponse,
     isLoading,
     isError,
+    refetch,
   } = useGetBlogDetailsByIdQuery(blogId);
   const blogData = blogResponse?.data;
 
@@ -48,6 +56,32 @@ function BlogDetailsLayout() {
       });
     } catch {
       return dateString;
+    }
+  };
+
+  const isLiked = useMemo(
+    () => blogData?.blogLikes.includes(userId || ""),
+    [blogData?.blogLikes, userId]
+  );
+
+  const handleLike = async (isLiked: boolean | undefined) => {
+    try {
+      await createBlogLike(blogId).unwrap();
+      if (isLiked) {
+        showSuccess({
+          message: "Unliked successfully!",
+        });
+      } else {
+        showSuccess({
+          message: "Liked successfully!",
+        });
+      }
+      refetch();
+    } catch (error: unknown) {
+      console.error("Failed to like:", error);
+      showError({
+        message: "Failed to like. Please try again.",
+      });
     }
   };
 
@@ -134,22 +168,18 @@ function BlogDetailsLayout() {
 
         {/* Social Icons */}
         <div className="flex items-center gap-6 mb-8">
-          <button className="text-gray-600 hover:text-peter flex items-center gap-2 transition-colors cursor-pointer">
-            <FiThumbsUp className="w-5 h-5" />
-            <span className="text-base">{blogData.blogLikes.length}</span>
-          </button>
           <button
-            className="text-gray-600 hover:text-peter transition-colors cursor-pointer flex items-center gap-2"
-            onClick={() => setIsCommentSheetOpen(true)}
+            className="text-gray-600 hover:text-peter flex items-center gap-2 transition-colors cursor-pointer"
+            onClick={() => handleLike(isLiked || false)}
           >
-            <FiMessageCircle className="w-5 h-5" />
-            <span className="text-base">{blogData.comments?.length || 0}</span>
-          </button>
-          <button className="text-gray-600 hover:text-peter transition-colors ml-auto cursor-pointer">
-            <FiBookmark className="w-5 h-5" />
-          </button>
-          <button className="text-gray-600 hover:text-peter transition-colors cursor-pointer">
-            <FiShare2 className="w-5 h-5" />
+            <FiThumbsUp
+              className={`w-5 h-5 ${isLiked ? "text-peter" : "text-gray-600"}`}
+            />
+            {isSubmitting ? (
+              "_"
+            ) : (
+              <span className="text-base">{blogData.blogLikes.length}</span>
+            )}{" "}
           </button>
         </div>
 

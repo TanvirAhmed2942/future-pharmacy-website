@@ -115,6 +115,13 @@ export const blogApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Blog"],
     }),
+    createBlogLike: builder.mutation<void, string>({
+      query: (blogId) => ({
+        url: `/blog/blog-likes/${blogId}`,
+        method: "POST",
+      }),
+      invalidatesTags: ["Blog"],
+    }),
   }),
   overrideExisting: true,
 });
@@ -124,4 +131,5 @@ export const {
   useGetBlogDetailsByIdQuery,
   useGetBlogCommentsByIdQuery,
   useCreateBlogCommentMutation,
+  useCreateBlogLikeMutation,
 } = blogApi;
