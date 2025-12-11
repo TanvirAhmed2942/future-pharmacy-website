@@ -16,6 +16,7 @@ interface User {
   isLoggedIn: boolean;
   dateOfBirth: string;
   profile?: string;
+  isSubscriberUser: boolean;
 }
 
 export interface UserState {
@@ -36,6 +37,7 @@ const initialState: UserState = {
     role: "user",
     dateOfBirth: "",
     isLoggedIn: false,
+    isSubscriberUser: false,
   },
   isLoggedIn: false,
 };
@@ -79,5 +81,7 @@ export const { login, logout, updateUser } = userSlice.actions;
 export const selectUser = (state: RootState) => state.user.user;
 export const selectIsLoggedIn = (state: RootState) => state.user.isLoggedIn;
 export const selectUserRole = (state: RootState) => state.user.user.role;
+export const selectIsSubscriberUser = (state: RootState) =>
+  state.user.user.isSubscriberUser;
 
 export default userSlice.reducer;

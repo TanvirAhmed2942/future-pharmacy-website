@@ -7,7 +7,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import SubscribeModal from "./subsCribeModal";
-import { useGetBlogQuery } from "@/store/Apis/blogApi/blogApi";
+import {
+  useGetBlogQuery,
+  useGetBlogSubscribersQuery,
+} from "@/store/Apis/blogApi/blogApi";
 import {
   Pagination,
   PaginationContent,
@@ -17,12 +20,18 @@ import {
   PaginationPrevious,
   PaginationEllipsis,
 } from "@/components/ui/pagination";
-
+import { useSelector } from "react-redux";
+import { selectIsSubscriberUser } from "@/store/slices/userSlice/userSlice";
+import Loader from "@/components/common/loader/Loader";
 function BlogLayout() {
+  const isSubscriberUser = useSelector(selectIsSubscriberUser);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-
+  const { data: subscriberStatus } = useGetBlogSubscribersQuery();
+  const subscriberList = subscriberStatus?.data?.result?.data || [];
+  const isSubscribedFromApi = subscriberList.some((item) => item.isSubscribed);
+  const isSubscribed = isSubscriberUser || isSubscribedFromApi;
   const {
     data: blogResponse,
     isLoading,
@@ -32,8 +41,9 @@ function BlogLayout() {
     limit: 10,
   });
 
-  const blogs = blogResponse?.data || [];
+  const blogs = blogResponse?.data?.data || [];
   const meta = blogResponse?.meta;
+  const totalSubscribers = blogResponse?.data?.allSubscriberCount || 0;
 
   const handleSubscribe = () => {
     setIsOpen(true);
@@ -91,14 +101,32 @@ function BlogLayout() {
     return pages;
   }, [currentPage, meta?.totalPage]);
 
+  /* Loading State */
+  // if (isLoading) {
+  //   return (
+  //     <div className="fixed  inset-0 bg-white/50 z-50 flex items-center justify-center">
+  //       <div className="flex min-h-screen justify-center items-center">
+  //         <Loader />
+  //       </div>
+  //     </div>
+  //   );
+  // }
   return (
-    <div className="bg-white">
+    <div className="bg-white ">
+      {isLoading && (
+        <div className="fixed  inset-0 bg-white/50 z-50 flex items-center justify-center">
+          <div className="flex min-h-screen justify-center items-center">
+            <Loader />
+          </div>
+        </div>
+      )}
       <Banner
         title="Welcome to the Optimus Health Solutions Blog"
         description="Where we share insights on industry news, real stories and practical tips for independent pharmacies and the communities we serve"
         image="/banner/blog_banner.png"
       />
-      <div className="container mx-auto px-4 md:px-4 py-8 md:py-12">
+
+      <div className="container  mx-auto px-4 md:px-4 py-8 md:py-12">
         {/* Blog Introduction Section */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 md:mb-12 gap-6">
           <div className="flex items-center gap-4">
@@ -119,16 +147,28 @@ function BlogLayout() {
               <p className="text-gray-500 text-sm md:text-base">
                 The Optimus Health Solutions Blog
               </p>
-              <p className="text-gray-400 text-xs md:text-sm mt-1">
-                {meta?.total || 0} Articles
-              </p>
+              <div className="flex items-center gap-2">
+                <p className="text-gray-400 text-xs md:text-sm mt-1">
+                  {totalSubscribers} Subscribers
+                </p>
+                <span className="text-gray-400 text-xs md:text-sm mt-1">•</span>
+                <p className="text-gray-400 text-xs md:text-sm mt-1">
+                  {meta?.total || 0} Articles
+                </p>
+              </div>
             </div>
           </div>
           <Button
             className="bg-peter hover:bg-peter-dark text-white px-6 py-2 rounded-lg"
             onClick={handleSubscribe}
+            disabled={isSubscribed}
           >
-            Subscribe
+            {isSubscribed ? "Subscribed" : "Subscribe"}
+            {/* {isSubscribed === true ? (
+              <CheckCircle className="w-4 h-4 text-white" />
+            ) : (
+              <p>s</p>
+            )} */}
           </Button>
         </div>
 
@@ -142,13 +182,6 @@ function BlogLayout() {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-
-        {/* Loading State */}
-        {isLoading && (
-          <div className="flex justify-center items-center py-20">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-peter"></div>
-          </div>
-        )}
 
         {/* Error State */}
         {isError && (
@@ -242,13 +275,7 @@ function BlogLayout() {
         )}
       </div>
 
-      {isOpen && (
-        <SubscribeModal
-          isOpen={isOpen}
-          onClose={() => setIsOpen(false)}
-          onSubscribe={handleSubscribe}
-        />
-      )}
+      <SubscribeModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </div>
   );
 }

@@ -18,6 +18,7 @@ interface GetProfileResponse {
     twoStepVerification: boolean;
     createdAt: string;
     updatedAt: string;
+    isSubscriberUser: boolean;
   };
   error?: string;
 }

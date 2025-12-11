@@ -43,11 +43,16 @@ export interface BlogMeta {
   totalPage: number;
 }
 
+export interface BlogResponseData {
+  allSubscriberCount: number;
+  data: BlogItem[];
+}
+
 export interface BlogResponse {
   success: boolean;
   message: string;
   meta: BlogMeta;
-  data: BlogItem[];
+  data: BlogResponseData;
 }
 
 export interface BlogDetailsResponse {
@@ -78,6 +83,37 @@ export interface CreateCommentResponse {
   success: boolean;
   message: string;
   data: BlogComment;
+}
+
+// Blog subscriber response
+export interface BlogSubscriber {
+  email: string;
+  isSubscribed: boolean;
+  _id: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface SubscribeToBlogResponse {
+  success: boolean;
+  message: string;
+  data: BlogSubscriber;
+}
+
+// Blog subscribers data
+export interface BlogSubscribersData {
+  meta: BlogMeta;
+  result: {
+    allSubscriberCount: number;
+    data: BlogSubscriber[];
+  };
+}
+
+export interface BlogSubscribersResponse {
+  success: boolean;
+  message: string;
+  data: BlogSubscribersData;
 }
 
 export const blogApi = baseApi.injectEndpoints({
@@ -129,6 +165,24 @@ export const blogApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Blog"],
     }),
+    getBlogSubscribers: builder.query<BlogSubscribersResponse, void>({
+      query: () => ({
+        url: `/blog-subscriber`,
+        method: "GET",
+      }),
+      providesTags: ["Blog"],
+    }),
+    subscribeToBlog: builder.mutation<
+      SubscribeToBlogResponse,
+      { email: string }
+    >({
+      query: (body) => ({
+        url: `/blog-subscriber/create-subscriber`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["Blog"],
+    }),
   }),
   overrideExisting: true,
 });
@@ -140,4 +194,6 @@ export const {
   useCreateBlogCommentMutation,
   useCreateBlogLikeMutation,
   useDeleteBlogCommentMutation,
+  useGetBlogSubscribersQuery,
+  useSubscribeToBlogMutation,
 } = blogApi;

@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import {
   Dialog,
@@ -9,20 +10,20 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { TbCircleX } from "react-icons/tb";
+import { useSubscribeToBlogMutation } from "@/store/Apis/blogApi/blogApi";
+import useShowToast from "@/hooks/useShowToast";
 
 interface SubscribeModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubscribe: (email: string) => void;
 }
 
-const SubscribeModal: React.FC<SubscribeModalProps> = ({
-  isOpen,
-  onClose,
-  onSubscribe,
-}) => {
+const SubscribeModal: React.FC<SubscribeModalProps> = ({ isOpen, onClose }) => {
   const [email, setEmail] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const { showSuccess, showError } = useShowToast();
+  const [subscribeToBlog, { isLoading: isSubmitting }] =
+    useSubscribeToBlogMutation();
 
   // Validate email format
   const validateEmail = (email: string): boolean => {
@@ -30,26 +31,40 @@ const SubscribeModal: React.FC<SubscribeModalProps> = ({
     return emailRegex.test(email);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // Reset error
     setError(null);
 
     // Check if email is empty
-    if (!email) {
+    if (!email.trim()) {
       setError("Email is required");
       return;
     }
 
     // Validate email format
-    if (!validateEmail(email)) {
+    if (!validateEmail(email.trim())) {
       setError("Please enter a valid email address");
       return;
     }
 
-    // If validation passes
-    onSubscribe?.(email);
-    setEmail("");
-    onClose();
+    // If validation passes, call API
+    try {
+      await subscribeToBlog({ email: email.trim() }).unwrap();
+      showSuccess({
+        message: "Successfully subscribed! You'll receive our latest updates.",
+      });
+      setEmail("");
+      onClose();
+    } catch (error: unknown) {
+      console.error("Failed to subscribe:", error);
+      const errorMessage =
+        (error as { data?: { message?: string } })?.data?.message ||
+        "Failed to subscribe. Please try again.";
+      setError(errorMessage);
+      showError({
+        message: errorMessage,
+      });
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -79,13 +94,19 @@ const SubscribeModal: React.FC<SubscribeModalProps> = ({
               }}
               onKeyDown={handleKeyPress}
               className={`flex-1 `}
+              disabled={isSubmitting}
             />
             <Button
               onClick={handleSubmit}
               size="icon"
-              className="bg-peter hover:bg-peter-dark text-white"
+              className="bg-peter hover:bg-peter-dark text-white disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={isSubmitting}
             >
-              <ArrowRight className="w-5 h-5" />
+              {isSubmitting ? (
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+              ) : (
+                <ArrowRight className="w-5 h-5" />
+              )}
             </Button>
           </div>
 

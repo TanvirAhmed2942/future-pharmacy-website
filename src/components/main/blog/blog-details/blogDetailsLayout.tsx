@@ -10,14 +10,18 @@ import {
   FiShare2,
 } from "react-icons/fi";
 import Comment from "./Comment";
-import { useGetBlogDetailsByIdQuery } from "@/store/Apis/blogApi/blogApi";
+import {
+  useGetBlogDetailsByIdQuery,
+  useGetBlogSubscribersQuery,
+  useCreateBlogLikeMutation,
+} from "@/store/Apis/blogApi/blogApi";
 
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { useCreateBlogLikeMutation } from "@/store/Apis/blogApi/blogApi";
-
+import SubscribeModal from "../subsCribeModal";
 import useShowToast from "@/hooks/useShowToast";
 import { imgUrl } from "@/lib/img_url";
+import Loader from "@/components/common/loader/Loader";
 function BlogDetailsLayout() {
   const params = useParams();
   const blogId = params.id as string;
@@ -25,7 +29,13 @@ function BlogDetailsLayout() {
   const { showSuccess, showError } = useShowToast();
   const [createBlogLike, { isLoading: isSubmitting }] =
     useCreateBlogLikeMutation();
-
+  const [isSubscribeModalOpen, setIsSubscribeModalOpen] = useState(false);
+  const { data: subscribersData } = useGetBlogSubscribersQuery();
+  const isSubscribed = subscribersData?.data?.result?.data?.some(
+    (item) => item.isSubscribed
+  );
+  const totalSubscribers =
+    subscribersData?.data?.result?.allSubscriberCount || 0;
   const {
     data: blogResponse,
     isLoading,
@@ -172,9 +182,9 @@ function BlogDetailsLayout() {
     return (
       <div className="container mx-auto px-4 py-10">
         <div className="max-w-4xl mx-auto">
-          <div className="flex justify-center items-center py-20">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-peter"></div>
-          </div>
+          {/* <div className="flex justify-center items-center py-20"> */}
+          <Loader />
+          {/* </div> */}
         </div>
       </div>
     );
@@ -230,17 +240,16 @@ function BlogDetailsLayout() {
           <div className="w-full flex items-center justify-between gap-4 md:w-auto">
             <Button
               variant="outline"
-              className="text-gray-700 hover:bg-gray-50 px-6 py-2 text-sm font-medium border-1 border-[#8f4487]"
+              className="text-gray-700 hover:bg-gray-50 px-6 py-2 text-sm font-medium border-1 border-[#8f4487] disabled:opacity-50 disabled:cursor-not-allowed"
+              onClick={() => setIsSubscribeModalOpen(true)}
+              disabled={isSubscribed === true}
             >
-              Subscribe
+              {isSubscribed === true ? "Subscribed" : "Subscribe"}
             </Button>
 
             {/* Right - Read Time and Date */}
             <div className="text-right text-sm">
-              <p className="text-gray-600">
-                {blogData.blogLikes.length}{" "}
-                {blogData.blogLikes.length === 1 ? "like" : "likes"}
-              </p>
+              <p className="text-gray-600">{totalSubscribers} Subscribers</p>
               <p className="text-gray-500 text-xs mt-1">
                 {formatDate(blogData.createdAt)}
               </p>
@@ -323,6 +332,10 @@ function BlogDetailsLayout() {
         open={isCommentSheetOpen}
         onOpenChange={setIsCommentSheetOpen}
         blogId={blogId}
+      />
+      <SubscribeModal
+        isOpen={isSubscribeModalOpen}
+        onClose={() => setIsSubscribeModalOpen(false)}
       />
     </div>
   );
