@@ -5,9 +5,9 @@ import { useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   FiThumbsUp,
-  // FiMessageCircle,
-  // FiBookmark,
-  // FiShare2,
+  FiMessageCircle,
+  FiBookmark,
+  FiShare2,
 } from "react-icons/fi";
 import Comment from "./Comment";
 import { useGetBlogDetailsByIdQuery } from "@/store/Apis/blogApi/blogApi";
@@ -33,6 +33,7 @@ function BlogDetailsLayout() {
   const blogData = blogResponse?.data;
 
   const [isCommentSheetOpen, setIsCommentSheetOpen] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(false);
 
   // Format the image URL - handle both relative paths and full URLs
   const getImageUrl = (imagePath: string) => {
@@ -82,6 +83,96 @@ function BlogDetailsLayout() {
       showError({
         message: "Failed to like. Please try again.",
       });
+    }
+  };
+
+  const handleBookmark = () => {
+    setIsBookmarked(!isBookmarked);
+    showSuccess({
+      message: isBookmarked ? "Removed from bookmarks" : "Added to bookmarks",
+    });
+    // TODO: Implement API call for bookmark functionality when backend is ready
+  };
+
+  const copyToClipboard = async (text: string): Promise<boolean> => {
+    try {
+      // Try modern clipboard API first
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(text);
+        return true;
+      } else {
+        // Fallback to execCommand for older browsers
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed";
+        textArea.style.left = "-999999px";
+        textArea.style.top = "-999999px";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+
+        const successful = document.execCommand("copy");
+        document.body.removeChild(textArea);
+
+        if (successful) {
+          return true;
+        } else {
+          throw new Error("execCommand copy failed");
+        }
+      }
+    } catch (error) {
+      console.error("Failed to copy to clipboard:", error);
+      return false;
+    }
+  };
+
+  const handleShare = async () => {
+    const url = window.location.href;
+    const shareData = {
+      title: blogData?.title || "Blog Post",
+      text: blogData?.title || "Check out this blog post",
+      url: url,
+    };
+
+    try {
+      // Check if Web Share API is supported
+      if (
+        navigator.share &&
+        navigator.canShare &&
+        navigator.canShare(shareData)
+      ) {
+        await navigator.share(shareData);
+        showSuccess({
+          message: "Shared successfully!",
+        });
+      } else {
+        // Fallback: Copy to clipboard
+        const copied = await copyToClipboard(url);
+        if (copied) {
+          showSuccess({
+            message: "Link copied to clipboard!",
+          });
+        } else {
+          showError({
+            message: "Failed to copy link. Please try again.",
+          });
+        }
+      }
+    } catch (error) {
+      // User cancelled or error occurred
+      if ((error as Error).name !== "AbortError") {
+        // Fallback: Copy to clipboard if share fails
+        const copied = await copyToClipboard(url);
+        if (copied) {
+          showSuccess({
+            message: "Link copied to clipboard!",
+          });
+        } else {
+          showError({
+            message: "Failed to share. Please try again.",
+          });
+        }
+      }
     }
   };
 
@@ -180,6 +271,31 @@ function BlogDetailsLayout() {
             ) : (
               <span className="text-base">{blogData.blogLikes.length}</span>
             )}{" "}
+          </button>
+          <button
+            className="text-gray-600 hover:text-peter flex items-center gap-2 transition-colors cursor-pointer"
+            onClick={() => setIsCommentSheetOpen(true)}
+          >
+            <FiMessageCircle className="w-5 h-5 text-gray-600" />
+            <span className="text-base">{blogData.comments?.length || 0}</span>
+          </button>
+          <button
+            className="text-gray-600 hover:text-peter flex items-center gap-2 transition-colors cursor-pointer"
+            onClick={handleBookmark}
+            title={isBookmarked ? "Remove from bookmarks" : "Add to bookmarks"}
+          >
+            <FiBookmark
+              className={`w-5 h-5 ${
+                isBookmarked ? "text-peter fill-peter" : "text-gray-600"
+              }`}
+            />
+          </button>
+          <button
+            className="text-gray-600 hover:text-peter flex items-center gap-2 transition-colors cursor-pointer"
+            onClick={handleShare}
+            title="Share this post"
+          >
+            <FiShare2 className="w-5 h-5 text-gray-600" />
           </button>
         </div>
 
