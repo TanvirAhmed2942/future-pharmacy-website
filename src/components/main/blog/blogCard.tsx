@@ -2,7 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { baseUrl } from "@/store/Apis/baseApi";
+import { imgUrl } from "@/lib/img_url";
 
 export interface BlogItem {
   _id: string;
@@ -19,16 +19,6 @@ export interface BlogItem {
 function BlogCard({ blog }: { blog: BlogItem }) {
   // Get first character of title for badge (since API doesn't have author)
   const titleInitial = blog.title.charAt(0).toUpperCase();
-
-  // Format the image URL - handle both relative paths and full URLs
-  const getImageUrl = (imagePath: string) => {
-    if (imagePath.startsWith("http")) {
-      return imagePath;
-    }
-    // Replace backslashes with forward slashes and prepend base URL
-    const normalizedPath = imagePath.replace(/\\/g, "/");
-    return `${baseUrl}/${normalizedPath}`;
-  };
 
   // Format date for display
   const formatDate = (dateString: string) => {
@@ -51,11 +41,11 @@ function BlogCard({ blog }: { blog: BlogItem }) {
           {/* Image */}
           <div className="relative w-full h-48 md:h-56 overflow-hidden">
             <Image
-              src={getImageUrl(blog.image)}
+              src={imgUrl(blog.image)}
               alt={blog.title}
               fill={true}
               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              className="object-cover transition-transform duration-300 hover:scale-105 rounded-md"
+              className="object-contain transition-transform duration-300 hover:scale-105 rounded-md"
             />
           </div>
 

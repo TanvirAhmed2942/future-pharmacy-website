@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   Sheet,
   SheetContent,
@@ -9,14 +9,17 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { RiDeleteBinLine } from "react-icons/ri";
 import {
   useGetBlogCommentsByIdQuery,
   useCreateBlogCommentMutation,
   BlogComment,
 } from "@/store/Apis/blogApi/blogApi";
-import { baseUrl } from "@/store/Apis/baseApi";
+import useShowToast from "@/hooks/useShowToast";
 import { toast } from "sonner";
-
+import { useDeleteBlogCommentMutation } from "@/store/Apis/blogApi/blogApi";
+import { imgUrl } from "@/lib/img_url";
+import gsap from "gsap";
 interface CommentProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -25,28 +28,66 @@ interface CommentProps {
 
 function Comment({ open, onOpenChange, blogId }: CommentProps) {
   const [commentText, setCommentText] = useState("");
-
+  const [deletingCommentId, setDeletingCommentId] = useState<string | null>(
+    null
+  );
+  const commentRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+  const { showSuccess, showError } = useShowToast();
   const {
     data: commentsResponse,
     isLoading,
     isError,
+    refetch,
   } = useGetBlogCommentsByIdQuery(blogId, {
     skip: !open, // Only fetch when sheet is open
   });
 
   const [createComment, { isLoading: isSubmitting }] =
     useCreateBlogCommentMutation();
-
+  const [deleteComment] = useDeleteBlogCommentMutation();
   const comments = commentsResponse?.data || [];
 
-  // Format the profile image URL
-  const getProfileUrl = (profilePath: string) => {
-    if (!profilePath) return "";
-    if (profilePath.startsWith("http")) {
-      return profilePath;
-    }
-    const normalizedPath = profilePath.replace(/\\/g, "/");
-    return `${baseUrl}/${normalizedPath}`;
+  const handleDeleteComment = async (commentId: string) => {
+    const commentElement = commentRefs.current[commentId];
+
+    if (!commentElement) return;
+
+    // Set deleting state
+    setDeletingCommentId(commentId);
+
+    // Animate slide right
+    gsap.to(commentElement, {
+      x: "100%",
+      opacity: 0,
+      duration: 0.4,
+      ease: "power2.in",
+      onComplete: () => {
+        // Call async function inside the callback
+        deleteComment(commentId)
+          .unwrap()
+          .then(() => {
+            showSuccess({
+              message: "Comment deleted successfully!",
+            });
+            setDeletingCommentId(null);
+            refetch();
+          })
+          .catch((error: unknown) => {
+            console.error("Failed to delete comment:", error);
+            // Reset animation on error
+            gsap.to(commentElement, {
+              x: 0,
+              opacity: 1,
+              duration: 0.3,
+              ease: "power2.out",
+            });
+            setDeletingCommentId(null);
+            showError({
+              message: "Failed to delete comment. Please try again.",
+            });
+          });
+      },
+    });
   };
 
   // Format date for display
@@ -177,36 +218,63 @@ function Comment({ open, onOpenChange, blogId }: CommentProps) {
             {/* Comments List */}
             {!isLoading && !isError && comments.length > 0 && (
               <div className="space-y-6">
-                {comments.map((comment: BlogComment) => (
-                  <div key={comment._id} className="flex gap-3">
-                    <Avatar className="w-10 h-10 flex-shrink-0">
-                      <AvatarImage
-                        src={getProfileUrl(comment.userId.profile)}
-                        alt={`${comment.userId.first_name} ${comment.userId.last_name}`}
-                      />
-                      <AvatarFallback className="bg-peter text-white text-sm">
-                        {getUserInitials(
-                          comment.userId.first_name,
-                          comment.userId.last_name
-                        )}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
-                        <p className="text-sm font-semibold text-gray-900">
-                          {comment.userId.first_name} {comment.userId.last_name}
-                        </p>
-                        <span className="text-xs text-gray-400">•</span>
-                        <p className="text-xs text-gray-500">
-                          {formatDate(comment.createdAt)}
+                {comments.map((comment: BlogComment) => {
+                  const isDeleting = deletingCommentId === comment._id;
+                  return (
+                    <div
+                      key={comment._id}
+                      ref={(el) => {
+                        commentRefs.current[comment._id] = el;
+                      }}
+                      className="flex gap-3 group relative overflow-hidden"
+                    >
+                      {isDeleting && (
+                        <div className="absolute inset-0 bg-gray-50 bg-opacity-90 flex items-center justify-center z-10">
+                          <div className="flex items-center gap-2">
+                            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-peter"></div>
+                          </div>
+                        </div>
+                      )}
+                      <Avatar className="w-10 h-10 flex-shrink-0">
+                        <AvatarImage
+                          src={imgUrl(comment.userId.profile)}
+                          alt={`${comment.userId.first_name} ${comment.userId.last_name}`}
+                          className="object-cover"
+                        />
+                        <AvatarFallback className="bg-peter text-white text-sm">
+                          {getUserInitials(
+                            comment.userId.first_name,
+                            comment.userId.last_name
+                          )}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1">
+                          <p className="text-sm font-semibold text-gray-900">
+                            {comment.userId.first_name}{" "}
+                            {comment.userId.last_name}
+                          </p>
+                          <span className="text-xs text-gray-400">•</span>
+                          <p className="text-xs text-gray-500">
+                            {formatDate(comment.createdAt)}
+                          </p>
+                          {!isDeleting && (
+                            <p className="text-xs text-gray-500 group-hover:block hidden">
+                              <RiDeleteBinLine
+                                size={20}
+                                className=" text-gray-500 cursor-pointer hover:text-black transition-all duration-300"
+                                onClick={() => handleDeleteComment(comment._id)}
+                              />
+                            </p>
+                          )}
+                        </div>
+                        <p className="text-sm text-gray-700 leading-relaxed">
+                          {comment.message}
                         </p>
                       </div>
-                      <p className="text-sm text-gray-700 leading-relaxed">
-                        {comment.message}
-                      </p>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>
@@ -215,5 +283,4 @@ function Comment({ open, onOpenChange, blogId }: CommentProps) {
     </Sheet>
   );
 }
-
 export default Comment;

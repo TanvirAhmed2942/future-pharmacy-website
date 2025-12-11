@@ -11,12 +11,13 @@ import {
 } from "react-icons/fi";
 import Comment from "./Comment";
 import { useGetBlogDetailsByIdQuery } from "@/store/Apis/blogApi/blogApi";
-import { baseUrl } from "@/store/Apis/baseApi";
+
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { useCreateBlogLikeMutation } from "@/store/Apis/blogApi/blogApi";
 
 import useShowToast from "@/hooks/useShowToast";
+import { imgUrl } from "@/lib/img_url";
 function BlogDetailsLayout() {
   const params = useParams();
   const blogId = params.id as string;
@@ -24,6 +25,7 @@ function BlogDetailsLayout() {
   const { showSuccess, showError } = useShowToast();
   const [createBlogLike, { isLoading: isSubmitting }] =
     useCreateBlogLikeMutation();
+
   const {
     data: blogResponse,
     isLoading,
@@ -34,17 +36,6 @@ function BlogDetailsLayout() {
 
   const [isCommentSheetOpen, setIsCommentSheetOpen] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
-
-  // Format the image URL - handle both relative paths and full URLs
-  const getImageUrl = (imagePath: string) => {
-    if (!imagePath) return "/blog/blog.jpg"; // fallback image
-    if (imagePath.startsWith("http")) {
-      return imagePath;
-    }
-    // Replace backslashes with forward slashes and prepend base URL
-    const normalizedPath = imagePath.replace(/\\/g, "/");
-    return `${baseUrl}/${normalizedPath}`;
-  };
 
   // Format date for display
   const formatDate = (dateString: string) => {
@@ -302,10 +293,10 @@ function BlogDetailsLayout() {
         {/* Featured Image */}
         <div className="relative w-full aspect-video mb-10 rounded-lg overflow-hidden">
           <Image
-            src={getImageUrl(blogData.image)}
+            src={imgUrl(blogData.image)}
             alt={blogData.title}
             fill
-            className="object-cover"
+            className="object-contain"
             priority
           />
         </div>

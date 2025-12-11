@@ -122,6 +122,13 @@ export const blogApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Blog"],
     }),
+    deleteBlogComment: builder.mutation<void, string>({
+      query: (commentId) => ({
+        url: `/blog-comment/${commentId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Blog"],
+    }),
   }),
   overrideExisting: true,
 });
@@ -132,4 +139,5 @@ export const {
   useGetBlogCommentsByIdQuery,
   useCreateBlogCommentMutation,
   useCreateBlogLikeMutation,
+  useDeleteBlogCommentMutation,
 } = blogApi;
