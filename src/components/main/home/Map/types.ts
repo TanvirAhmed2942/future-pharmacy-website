@@ -20,4 +20,3 @@ export interface MapBounds {
   east: number;
   west: number;
 }
-

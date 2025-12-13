@@ -2,16 +2,12 @@
 import React from "react";
 import MapAndFormSection from "./MapAndFormSection";
 import RefillSection from "./RefillSection";
-// import UserTestimonial from "./userTestimonial";
-// import ContactUsSection from "./contactUsSection";
 import OurImpact from "../aboutus/ourImpact";
 import HowOptimusWorks from "./howOptimusWorks";
 import CheckZoneCoverage from "./checKZoneCoverage";
 import OurStory from "./ourStory";
 import ManContactUs from "@/components/main/home/manContactUs";
 import Partners from "./partners";
-// import OptimizedRouteMap from "./SWapnil";
-// import InteractiveRouteMap from "./SWapnil";
 
 function Home() {
   return (
@@ -37,12 +33,5 @@ function Home() {
     </div>
   );
 }
-// function Home() {
-//   return (
-//     <div className="min-h-screen  ">
-//       <InteractiveRouteMap />
-//     </div>
-//   );
-// }
 
 export default Home;
