@@ -1,77 +1,100 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import useIcon from "@/hooks/useIcon";
 import Loader from "@/components/common/loader/Loader";
 import { TbCircleCheckFilled, TbCircleX } from "react-icons/tb";
 import CommonModal from "@/components/common/commonModal/commonModal";
+import { useLazyGetZipcodeQuery } from "@/store/Apis/zipcodeApi/zipcodeApi";
+import { toast } from "sonner";
+import { useEffect } from "react";
 function CheckZoneCoverage() {
   const [zip, setZip] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isCovered, setIsCovered] = useState<boolean | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const coverageZipCodes = [
-    "07029",
-    "07101",
-    "07102",
-    "07103",
-    "07104",
-    "07105",
-    "07106",
-    "07107",
-    "07108",
-    "07112",
-    "07114",
-    "07175",
-    "07184",
-    "07188",
-    "07189",
-    "07191",
-    "07192",
-    "07193",
-    "07195",
-    "07198",
-    "07199",
-  ];
-
   const [notFoundZip, setNotFoundZip] = useState("");
+  const [triggerZipCheck] = useLazyGetZipcodeQuery();
 
-  const handleSearch = (search: string) => {
-    const trimmedSearch = search.trim();
+  const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
-    if (!trimmedSearch) {
-      setError("Please enter a zip code");
-      return;
+  // If the input is cleared (or under 5 chars), hide previous success/error
+  useEffect(() => {
+    if (zip.length === 0 || zip.length < 5) {
+      setIsCovered(null);
+      setNotFoundZip("");
     }
+  }, [zip]);
 
-    if (trimmedSearch.length !== 5) {
-      setError("Please enter a valid zip code");
-      return;
-    }
+  const handleSearch = useCallback(
+    async (search: string) => {
+      const trimmedSearch = search.trim();
 
-    if (isLoading) {
-      return; // Prevent multiple simultaneous searches
-    }
-
-    setIsLoading(true);
-
-    // Simulate search delay
-    setTimeout(() => {
-      const isCovered = coverageZipCodes.includes(trimmedSearch);
-      setIsLoading(false);
-
-      if (isCovered) {
-        setIsCovered(true);
-        // alert("Your area is in our delivery zone");
-      } else {
-        setNotFoundZip(trimmedSearch); // Store the zip that was not found
-        setIsCovered(false);
-        setZip(""); // Clear the input
-        // alert("Your area is not in our delivery zone");
+      if (!trimmedSearch) {
+        setIsCovered(null);
+        setNotFoundZip("");
+        setError("Please enter a zip code");
+        return;
       }
-    }, 1000);
-  };
+
+      if (trimmedSearch.length !== 5) {
+        setError("Please enter a valid zip code");
+        return;
+      }
+
+      if (isLoading) return;
+
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        const res = await triggerZipCheck({ zipCode: trimmedSearch }).unwrap();
+        await delay(1000); // show loader for 1s
+        const exists = res.data?.isExist === true;
+        if (exists) {
+          setIsCovered(true);
+          toast.success("You're in our delivery zone");
+        } else {
+          setNotFoundZip(trimmedSearch);
+          setIsCovered(false);
+          setZip("");
+          toast.info("Not in zone yet. You can request notification.");
+        }
+      } catch (err) {
+        console.error(err);
+        toast.error("Failed to check coverage. Please try again.");
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [isLoading, triggerZipCheck]
+  );
+
+  const handleNotify = useCallback(
+    async (email: string) => {
+      if (!notFoundZip) return;
+      setIsLoading(true);
+      try {
+        const res = await triggerZipCheck({
+          zipCode: notFoundZip,
+          email,
+        }).unwrap();
+        await delay(1000); // show loader for 1s
+        toast.success(
+          res?.message || "We'll notify you when we arrive in your area."
+        );
+        return true;
+      } catch (err) {
+        console.error(err);
+        toast.error("Failed to submit. Please try again.");
+        return false;
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [notFoundZip, triggerZipCheck]
+  );
 
   return (
     <>
@@ -109,6 +132,10 @@ function CheckZoneCoverage() {
                   if (value === "" || /^[0-9]+$/.test(value)) {
                     setZip(value);
                     setError(null);
+                    if (value === "") {
+                      setIsCovered(null);
+                      setNotFoundZip("");
+                    }
                   } else {
                     setError("Please enter numbers only");
                   }
@@ -151,6 +178,8 @@ function CheckZoneCoverage() {
             isCovered={isCovered}
             setIsCovered={setIsCovered}
             setNotFoundZip={setNotFoundZip}
+            onNotify={handleNotify}
+            isLoading={isLoading}
           />
         </section>
       </div>
@@ -165,16 +194,30 @@ const NotifyCoverage = ({
   // isCovered,
   setIsCovered,
   setNotFoundZip,
+  onNotify,
+  isLoading,
 }: {
   zipCode: string;
   isCovered: boolean | null;
   setIsCovered: React.Dispatch<React.SetStateAction<boolean | null>>;
   setNotFoundZip: React.Dispatch<React.SetStateAction<string>>;
+  onNotify: (email: string) => Promise<boolean | void>;
+  isLoading: boolean;
 }) => {
   const [email, setEmail] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const handleSubmit = () => {
-    setIsOpen(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async () => {
+    if (!email.trim()) {
+      setError("Please enter your email");
+      return;
+    }
+    setError(null);
+    const success = await onNotify(email.trim());
+    if (success !== false) {
+      setIsOpen(true);
+    }
   };
 
   const handleBack = () => {
@@ -222,7 +265,13 @@ const NotifyCoverage = ({
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="w-full px-0 py-3 border-0 border-b-2 border-[#8d4585]/50 rounded-none focus-visible:ring-0 focus-visible:border-[#8d4585] text-gray-700 placeholder:text-[#8d4585]"
+            disabled={isLoading}
           />
+          {error && (
+            <p className="text-sm text-red-500 mt-2 flex items-center gap-2">
+              <TbCircleX className="size-5" /> {error}
+            </p>
+          )}
         </div>
 
         {/* Buttons */}
@@ -232,8 +281,9 @@ const NotifyCoverage = ({
               handleSubmit();
             }}
             className=" bg-peter text-white rounded hover:bg-peter-dark"
+            disabled={isLoading}
           >
-            NOTIFY ME
+            {isLoading ? "Submitting..." : "NOTIFY ME"}
           </Button>
           <Button
             variant="link"

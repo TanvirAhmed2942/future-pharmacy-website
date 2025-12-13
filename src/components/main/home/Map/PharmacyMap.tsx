@@ -11,6 +11,7 @@ interface PharmacyMapProps {
   center?: Location;
   zoom?: number;
   onPharmacyClick?: (pharmacy: Pharmacy) => void;
+  onPharmacySelect?: (pharmacy: Pharmacy) => void;
   showRoute?: boolean;
   onMapClick?: (location: Location, address: string) => void;
   selectionMode?: "pickup" | "dropoff" | null;
@@ -30,6 +31,7 @@ export default function PharmacyMap({
   center,
   zoom = defaultZoom,
   onPharmacyClick,
+  onPharmacySelect,
   showRoute = false,
   onMapClick,
   selectionMode = null,
@@ -295,6 +297,7 @@ export default function PharmacyMap({
           pharmacy={pharmacy}
           isSelected={selectedPharmacy?.id === pharmacy.id}
           onClick={handlePharmacyClick}
+          onSelect={onPharmacySelect}
         />
       ))}
 

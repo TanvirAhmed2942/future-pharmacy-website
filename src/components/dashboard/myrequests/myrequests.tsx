@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useMemo, useState, useCallback } from "react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -27,150 +27,11 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { Search } from "lucide-react";
-
-// Dummy data for requests
-const allRequests = [
-  {
-    id: 1,
-    requestId: "#R78578",
-    pharmacy: "Health Plus Pharmacy",
-    address: "1901 Thornridge Cir. Shiloh, Hawaii 81063",
-    status: "In-Progress",
-  },
-  {
-    id: 2,
-    requestId: "#R78578",
-    pharmacy: "Health Plus Pharmacy",
-    address: "1901 Thornridge Cir. Shiloh, Hawaii 81063",
-    status: "Pending",
-  },
-  {
-    id: 3,
-    requestId: "#R78578",
-    pharmacy: "Health Plus Pharmacy",
-    address: "1901 Thornridge Cir. Shiloh, Hawaii 81063",
-    status: "Completed",
-  },
-  {
-    id: 4,
-    requestId: "#R78578",
-    pharmacy: "Health Plus Pharmacy",
-    address: "1901 Thornridge Cir. Shiloh, Hawaii 81063",
-    status: "In-Progress",
-  },
-  {
-    id: 5,
-    requestId: "#R78578",
-    pharmacy: "Health Plus Pharmacy",
-    address: "1901 Thornridge Cir. Shiloh, Hawaii 81063",
-    status: "Pending",
-  },
-  {
-    id: 6,
-    requestId: "#R78578",
-    pharmacy: "Health Plus Pharmacy",
-    address: "1901 Thornridge Cir. Shiloh, Hawaii 81063",
-    status: "In-Progress",
-  },
-  {
-    id: 7,
-    requestId: "#R78578",
-    pharmacy: "Health Plus Pharmacy",
-    address: "1901 Thornridge Cir. Shiloh, Hawaii 81063",
-    status: "Completed",
-  },
-  {
-    id: 8,
-    requestId: "#R78578",
-    pharmacy: "Health Plus Pharmacy",
-    address: "1901 Thornridge Cir. Shiloh, Hawaii 81063",
-    status: "In-Progress",
-  },
-  {
-    id: 9,
-    requestId: "#R78578",
-    pharmacy: "Health Plus Pharmacy",
-    address: "1901 Thornridge Cir. Shiloh, Hawaii 81063",
-    status: "Pending",
-  },
-  {
-    id: 10,
-    requestId: "#R78578",
-    pharmacy: "Health Plus Pharmacy",
-    address: "1901 Thornridge Cir. Shiloh, Hawaii 81063",
-    status: "Completed",
-  },
-  {
-    id: 11,
-    requestId: "#R78579",
-    pharmacy: "Care First Pharmacy",
-    address: "2456 Royal Ln. Mesa, New Jersey 45463",
-    status: "In-Progress",
-  },
-  {
-    id: 12,
-    requestId: "#R78580",
-    pharmacy: "MediCare Plus",
-    address: "3891 Ranchview Dr. Richardson, California 62639",
-    status: "Pending",
-  },
-  {
-    id: 13,
-    requestId: "#R78581",
-    pharmacy: "Quick Meds Pharmacy",
-    address: "4517 Washington Ave. Manchester, Kentucky 39495",
-    status: "Completed",
-  },
-  {
-    id: 14,
-    requestId: "#R78582",
-    pharmacy: "Health Plus Pharmacy",
-    address: "1901 Thornridge Cir. Shiloh, Hawaii 81063",
-    status: "In-Progress",
-  },
-  {
-    id: 15,
-    requestId: "#R78583",
-    pharmacy: "Wellness Pharmacy",
-    address: "6391 Elgin St. Celina, Delaware 10299",
-    status: "Pending",
-  },
-  {
-    id: 16,
-    requestId: "#R78584",
-    pharmacy: "City Health Pharmacy",
-    address: "8502 Preston Rd. Inglewoo, Maine 98380",
-    status: "Completed",
-  },
-  {
-    id: 17,
-    requestId: "#R78585",
-    pharmacy: "Care First Pharmacy",
-    address: "2972 Westheimer Rd. Santa Ana, Illinois 85486",
-    status: "In-Progress",
-  },
-  {
-    id: 18,
-    requestId: "#R78586",
-    pharmacy: "MediCare Plus",
-    address: "1109 Dane St. Fairview, Pennsylvania 19495",
-    status: "Pending",
-  },
-  {
-    id: 19,
-    requestId: "#R78587",
-    pharmacy: "Health Plus Pharmacy",
-    address: "1901 Thornridge Cir. Shiloh, Hawaii 81063",
-    status: "Completed",
-  },
-  {
-    id: 20,
-    requestId: "#R78588",
-    pharmacy: "Quick Meds Pharmacy",
-    address: "3517 W. Gray St. Utica, Pennsylvania 57867",
-    status: "In-Progress",
-  },
-];
+import {
+  useGetMyRequestsQuery,
+  MyRequestItem,
+} from "@/store/Apis/dashboard/myrequestApi/myrequestApi";
+import Loader from "@/components/common/loader/Loader";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -179,78 +40,123 @@ export default function MyRequests() {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
 
+  const {
+    data: requestsResponse,
+    isLoading,
+    isError,
+  } = useGetMyRequestsQuery({ page: currentPage, limit: ITEMS_PER_PAGE });
+
+  const requests = useMemo<MyRequestItem[]>(
+    () => requestsResponse?.data || [],
+    [requestsResponse?.data]
+  );
+  const meta = requestsResponse?.meta;
+
   // Filter requests based on search and status
-  const filteredRequests = allRequests.filter((request) => {
-    const matchesSearch =
-      request.requestId.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      request.pharmacy.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      request.address.toLowerCase().includes(searchQuery.toLowerCase());
+  const filteredRequests = useMemo(() => {
+    const q = searchQuery.toLowerCase();
+    const status = statusFilter.toLowerCase();
 
-    const matchesStatus =
-      statusFilter === "All" || request.status === statusFilter;
+    return requests.filter((request) => {
+      const matchesSearch =
+        request._id.toLowerCase().includes(q) ||
+        (request.legalName || "").toLowerCase().includes(q) ||
+        (request.pharmacyName || "").toLowerCase().includes(q) ||
+        (request.pickupAddress || "").toLowerCase().includes(q) ||
+        (request.deliveryAddress || "").toLowerCase().includes(q);
 
-    return matchesSearch && matchesStatus;
-  });
+      const matchesStatus =
+        statusFilter === "All" ||
+        (request.status || "").toLowerCase() === status;
 
-  // Calculate pagination
-  const totalPages = Math.ceil(filteredRequests.length / ITEMS_PER_PAGE);
+      return matchesSearch && matchesStatus;
+    });
+  }, [requests, searchQuery, statusFilter]);
+
+  // Pagination info from API (meta). If not available, fallback to filtered length.
+  const totalPages =
+    meta?.totalPage || Math.ceil(filteredRequests.length / ITEMS_PER_PAGE) || 1;
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
-  const currentRequests = filteredRequests.slice(startIndex, endIndex);
+  const currentRequests =
+    filteredRequests.slice(startIndex, endIndex) || filteredRequests;
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "In-Progress":
-        return "bg-cyan-100 text-cyan-700 hover:bg-cyan-100";
-      case "Pending":
+      case "pending":
         return "bg-yellow-100 text-yellow-700 hover:bg-yellow-100";
-      case "Completed":
+      case "in-progress":
+        return "bg-cyan-100 text-cyan-700 hover:bg-cyan-100";
+      case "completed":
         return "bg-green-100 text-green-700 hover:bg-green-100";
       default:
         return "bg-gray-100 text-gray-700 hover:bg-gray-100";
     }
   };
 
-  const renderPageNumbers = () => {
-    const pages = [];
+  const renderPageNumbers = useMemo(() => {
+    const pages: number[] = [];
     const maxVisiblePages = 5;
 
     if (totalPages <= maxVisiblePages) {
-      for (let i = 1; i <= totalPages; i++) {
-        pages.push(i);
-      }
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+    } else if (currentPage <= 3) {
+      pages.push(1, 2, 3, 4, 5);
+    } else if (currentPage >= totalPages - 2) {
+      pages.push(
+        totalPages - 4,
+        totalPages - 3,
+        totalPages - 2,
+        totalPages - 1,
+        totalPages
+      );
     } else {
-      if (currentPage <= 3) {
-        pages.push(1, 2, 3, 4, 5);
-      } else if (currentPage >= totalPages - 2) {
-        pages.push(
-          totalPages - 4,
-          totalPages - 3,
-          totalPages - 2,
-          totalPages - 1,
-          totalPages
-        );
-      } else {
-        pages.push(
-          currentPage - 2,
-          currentPage - 1,
-          currentPage,
-          currentPage + 1,
-          currentPage + 2
-        );
-      }
+      pages.push(
+        currentPage - 2,
+        currentPage - 1,
+        currentPage,
+        currentPage + 1,
+        currentPage + 2
+      );
     }
 
     return pages;
-  };
+  }, [currentPage, totalPages]);
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
+  const handlePageChange = useCallback(
+    (page: number) => {
+      if (page >= 1 && page <= totalPages) {
+        setCurrentPage(page);
+      }
+    },
+    [totalPages]
+  );
+
+  const handleSearch = useCallback((value: string) => {
+    setSearchQuery(value);
+    setCurrentPage(1);
+  }, []);
+
+  const handleStatusChange = useCallback((value: string) => {
+    setStatusFilter(value);
+    setCurrentPage(1);
+  }, []);
 
   return (
     <div className="w-full ">
       <h1 className="text-2xl font-bold mb-6 text-gray-900">Request List</h1>
+
+      {isLoading && (
+        <div className="w-full flex justify-center items-center py-10">
+          <Loader />
+        </div>
+      )}
+
+      {isError && (
+        <div className="w-full flex justify-center items-center py-10">
+          <p className="text-red-500 text-lg">Failed to load requests.</p>
+        </div>
+      )}
 
       <div className="flex gap-4 mb-6 flex-col sm:flex-row">
         <div className="relative flex-1">
@@ -259,20 +165,14 @@ export default function MyRequests() {
             placeholder="Type Something"
             value={searchQuery}
             onChange={(e) => {
-              setSearchQuery(e.target.value);
-              setCurrentPage(1);
+              handleSearch(e.target.value);
+              // setCurrentPage(1);
             }}
             className="pl-10 h-12"
           />
         </div>
 
-        <Select
-          value={statusFilter}
-          onValueChange={(value) => {
-            setStatusFilter(value);
-            setCurrentPage(1);
-          }}
-        >
+        <Select value={statusFilter} onValueChange={handleStatusChange}>
           <SelectTrigger className="w-full sm:w-48 ">
             <SelectValue
               placeholder="Status: All"
@@ -302,29 +202,71 @@ export default function MyRequests() {
                 Delivery Address
               </TableHead>
               <TableHead className="font-semibold text-gray-600">
+                Date & Time
+              </TableHead>
+              <TableHead className="font-semibold text-gray-600">
+                Amount
+              </TableHead>
+              <TableHead className="font-semibold text-gray-600">
                 Status
               </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {currentRequests.map((request) => (
-              <TableRow key={request.id}>
-                <TableCell className="font-medium text-gray-900">
-                  {request.requestId}
-                </TableCell>
-                <TableCell className="text-gray-700">
-                  {request.pharmacy}
-                </TableCell>
-                <TableCell className="text-gray-700">
-                  {request.address}
-                </TableCell>
-                <TableCell>
-                  <Badge className={getStatusColor(request.status)}>
-                    {request.status}
-                  </Badge>
-                </TableCell>
+            {currentRequests.length === 0 ? (
+              <TableRow>
+                {Array.from({ length: 6 }).map((_, idx) => (
+                  <TableCell key={idx} className="text-gray-700">
+                    N/A
+                  </TableCell>
+                ))}
               </TableRow>
-            ))}
+            ) : (
+              currentRequests.map((request) => {
+                const requestId = request._id || "N/A";
+                const pharmacyName = request.pharmacyName || "N/A";
+                // const pickup = request.pickupAddress || "N/A";
+                const delivery = request.deliveryAddress || "N/A";
+                const hasDateOrTime =
+                  request.deliveryDate || request.deliveryTime;
+                const deliveryDateTime = hasDateOrTime
+                  ? `${request.deliveryDate || "N/A"} ${
+                      request.deliveryTime || ""
+                    }`.trim()
+                  : "N/A";
+                const amountText =
+                  typeof request.amount === "number"
+                    ? `$${request.amount}`
+                    : "N/A";
+                const status = request.status || "N/A";
+
+                return (
+                  <TableRow key={request._id}>
+                    <TableCell className="font-medium text-gray-900">
+                      {requestId}
+                    </TableCell>
+                    <TableCell className="text-gray-700">
+                      {pharmacyName}
+                    </TableCell>
+                    <TableCell className="text-gray-700">
+                      <div className="space-y-1">
+                        {/* <p>Pickup: {pickup}</p> */}
+                        <p>{delivery}</p>
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-gray-700">
+                      {deliveryDateTime}
+                    </TableCell>
+                    <TableCell className="text-gray-700">
+                      {amountText}
+                    </TableCell>
+                    <TableCell>
+                      <Badge className={getStatusColor(status)}>{status}</Badge>
+                    </TableCell>
+                  </TableRow>
+                );
+              })
+            )}
           </TableBody>
         </Table>
       </div>
@@ -354,7 +296,7 @@ export default function MyRequests() {
                 />
               </PaginationItem>
 
-              {renderPageNumbers().map((pageNum, index) => (
+              {renderPageNumbers.map((pageNum: number, index: number) => (
                 <PaginationItem key={index}>
                   <PaginationLink
                     href="#"

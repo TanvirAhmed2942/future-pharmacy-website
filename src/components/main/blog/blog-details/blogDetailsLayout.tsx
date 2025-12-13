@@ -31,9 +31,12 @@ function BlogDetailsLayout() {
     useCreateBlogLikeMutation();
   const [isSubscribeModalOpen, setIsSubscribeModalOpen] = useState(false);
   const { data: subscribersData } = useGetBlogSubscribersQuery();
-  const isSubscribed = subscribersData?.data?.result?.data?.some(
-    (item) => item.isSubscribed
+  const isSubscribed = useMemo(
+    () =>
+      subscribersData?.data?.result?.data?.some((item) => item.isSubscribed),
+    [subscribersData?.data?.result?.data]
   );
+
   const totalSubscribers =
     subscribersData?.data?.result?.allSubscriberCount || 0;
   const {

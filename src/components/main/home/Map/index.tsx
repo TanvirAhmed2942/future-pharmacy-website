@@ -15,6 +15,7 @@ interface MapComponentProps {
   city?: string;
   state?: string;
   onPharmacyClick?: (pharmacy: Pharmacy) => void;
+  onPharmacySelect?: (pharmacy: Pharmacy) => void;
   showRoute?: boolean;
   height?: string;
   onPickupSelect?: (location: Location, address: string) => void;
@@ -31,6 +32,7 @@ export default function MapComponent({
   city,
   state,
   onPharmacyClick,
+  onPharmacySelect,
   showRoute = false,
   height = "100%",
   onPickupSelect,
@@ -183,6 +185,7 @@ export default function MapComponent({
           pharmacies={pharmacies}
           center={mapCenter || undefined}
           onPharmacyClick={onPharmacyClick}
+          onPharmacySelect={onPharmacySelect}
           showRoute={showRoute}
           onMapClick={(location, address) => {
             if (selectionMode === "pickup" && onPickupSelect) {

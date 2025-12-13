@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useMemo, useState, useCallback } from "react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -28,107 +28,10 @@ import {
 } from "@/components/ui/pagination";
 import { Search, Eye } from "lucide-react";
 import { useRouter } from "next/navigation";
-// Dummy data for transactions
-const allTransactions = [
-  {
-    id: 1,
-    transactionId: "#78578",
-    date: "15/01/2025",
-    amount: 50.0,
-    status: "Successful",
-  },
-  {
-    id: 2,
-    transactionId: "#78578",
-    date: "15/01/2025",
-    amount: 50.0,
-    status: "Failed",
-  },
-  {
-    id: 3,
-    transactionId: "#78578",
-    date: "15/01/2025",
-    amount: 50.0,
-    status: "Successful",
-  },
-  {
-    id: 4,
-    transactionId: "#78578",
-    date: "15/01/2025",
-    amount: 50.0,
-    status: "Successful",
-  },
-  {
-    id: 5,
-    transactionId: "#78578",
-    date: "15/01/2025",
-    amount: 50.0,
-    status: "Failed",
-  },
-  {
-    id: 6,
-    transactionId: "#78578",
-    date: "15/01/2025",
-    amount: 50.0,
-    status: "Successful",
-  },
-  {
-    id: 7,
-    transactionId: "#78578",
-    date: "15/01/2025",
-    amount: 50.0,
-    status: "Failed",
-  },
-  {
-    id: 8,
-    transactionId: "#78578",
-    date: "15/01/2025",
-    amount: 50.0,
-    status: "Successful",
-  },
-  {
-    id: 9,
-    transactionId: "#78578",
-    date: "15/01/2025",
-    amount: 50.0,
-    status: "Successful",
-  },
-  {
-    id: 10,
-    transactionId: "#78579",
-    date: "16/01/2025",
-    amount: 75.5,
-    status: "Successful",
-  },
-  {
-    id: 11,
-    transactionId: "#78580",
-    date: "16/01/2025",
-    amount: 120.0,
-    status: "Failed",
-  },
-  {
-    id: 12,
-    transactionId: "#78581",
-    date: "17/01/2025",
-    amount: 45.0,
-    status: "Successful",
-  },
-  {
-    id: 13,
-    transactionId: "#78582",
-    date: "17/01/2025",
-    amount: 90.0,
-    status: "Successful",
-  },
-  {
-    id: 14,
-    transactionId: "#78583",
-    date: "18/01/2025",
-    amount: 60.0,
-    status: "Failed",
-  },
-];
+import {
+  useGetPaymentQuery,
+  PaymentItem,
+} from "@/store/Apis/paymentApi/paymentApi";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -138,74 +41,98 @@ export default function Payments() {
   const [statusFilter, setStatusFilter] = useState("All");
   const [dateRangeFilter, setDateRangeFilter] = useState("All");
   const router = useRouter();
-  // Filter transactions based on search and status
-  const filteredTransactions = allTransactions.filter((transaction) => {
-    const matchesSearch =
-      transaction.transactionId
-        .toLowerCase()
-        .includes(searchQuery.toLowerCase()) ||
-      transaction.date.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      transaction.amount.toString().includes(searchQuery);
 
-    const matchesStatus =
-      statusFilter === "All" || transaction.status === statusFilter;
-
-    return matchesSearch && matchesStatus;
+  const { data: paymentResponse } = useGetPaymentQuery({
+    page: currentPage,
+    limit: ITEMS_PER_PAGE,
   });
 
-  // Calculate pagination
-  const totalPages = Math.ceil(filteredTransactions.length / ITEMS_PER_PAGE);
+  const transactions = useMemo<PaymentItem[]>(
+    () => paymentResponse?.data?.result || [],
+    [paymentResponse?.data?.result]
+  );
+  const meta = paymentResponse?.data?.meta;
+
+  const filteredTransactions = useMemo(() => {
+    const q = searchQuery.toLowerCase();
+    const status = statusFilter.toLowerCase();
+
+    return transactions.filter((transaction) => {
+      const matchesSearch =
+        (transaction.transactionId || "").toLowerCase().includes(q) ||
+        (transaction.email || "").toLowerCase().includes(q) ||
+        (transaction.method || "").toLowerCase().includes(q);
+
+      const matchesStatus =
+        statusFilter === "All" ||
+        (transaction.status || "").toLowerCase() === status;
+
+      return matchesSearch && matchesStatus;
+    });
+  }, [transactions, searchQuery, statusFilter]);
+
+  const totalPages =
+    meta?.totalPage ||
+    Math.ceil(filteredTransactions.length / ITEMS_PER_PAGE) ||
+    1;
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
-  const currentTransactions = filteredTransactions.slice(startIndex, endIndex);
+  const currentTransactions =
+    filteredTransactions.slice(startIndex, endIndex) || filteredTransactions;
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Successful":
+      case "paid":
         return "bg-green-100 text-green-700 hover:bg-green-100";
-      case "Failed":
+      case "failed":
         return "bg-red-100 text-red-700 hover:bg-red-100";
       default:
         return "bg-gray-100 text-gray-700 hover:bg-gray-100";
     }
   };
 
-  const renderPageNumbers = () => {
-    const pages = [];
+  const renderPageNumbers = useMemo(() => {
+    const pages: number[] = [];
     const maxVisiblePages = 5;
 
     if (totalPages <= maxVisiblePages) {
-      for (let i = 1; i <= totalPages; i++) {
-        pages.push(i);
-      }
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+    } else if (currentPage <= 3) {
+      pages.push(1, 2, 3, 4, 5);
+    } else if (currentPage >= totalPages - 2) {
+      pages.push(
+        totalPages - 4,
+        totalPages - 3,
+        totalPages - 2,
+        totalPages - 1,
+        totalPages
+      );
     } else {
-      if (currentPage <= 3) {
-        pages.push(1, 2, 3, 4, 5);
-      } else if (currentPage >= totalPages - 2) {
-        pages.push(
-          totalPages - 4,
-          totalPages - 3,
-          totalPages - 2,
-          totalPages - 1,
-          totalPages
-        );
-      } else {
-        pages.push(
-          currentPage - 2,
-          currentPage - 1,
-          currentPage,
-          currentPage + 1,
-          currentPage + 2
-        );
-      }
+      pages.push(
+        currentPage - 2,
+        currentPage - 1,
+        currentPage,
+        currentPage + 1,
+        currentPage + 2
+      );
     }
 
     return pages;
-  };
+  }, [currentPage, totalPages]);
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
+  const handlePageChange = useCallback(
+    (page: number) => {
+      if (page >= 1 && page <= totalPages) {
+        setCurrentPage(page);
+      }
+    },
+    [totalPages]
+  );
+
+  const handleSearch = useCallback((value: string) => {
+    setSearchQuery(value);
+    setCurrentPage(1);
+  }, []);
 
   return (
     <div className="w-full">
@@ -220,8 +147,7 @@ export default function Payments() {
             placeholder="Type Something"
             value={searchQuery}
             onChange={(e) => {
-              setSearchQuery(e.target.value);
-              setCurrentPage(1);
+              handleSearch(e.target.value);
             }}
             className="pl-10 h-12"
           />
@@ -285,36 +211,53 @@ export default function Payments() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {currentTransactions.map((transaction) => (
-              <TableRow key={transaction.id}>
-                <TableCell className="font-medium text-gray-900">
-                  {transaction.transactionId}
-                </TableCell>
-                <TableCell className="text-gray-700">
-                  {transaction.date}
-                </TableCell>
-                <TableCell className="text-gray-700">
-                  ${transaction.amount.toFixed(2)}
-                </TableCell>
-                <TableCell>
-                  <Badge className={getStatusColor(transaction.status)}>
-                    {transaction.status}
-                  </Badge>
-                </TableCell>
-                <TableCell>
-                  <button
-                    className="text-gray-600 hover:text-gray-900 transition-colors"
-                    onClick={() =>
-                      router.push(
-                        `/dashboard/payments/details/${transaction.id}`
-                      )
-                    }
-                  >
-                    <Eye className="size-5" />
-                  </button>
-                </TableCell>
+            {currentTransactions.length === 0 ? (
+              <TableRow>
+                {Array.from({ length: 5 }).map((_, idx) => (
+                  <TableCell key={idx} className="text-gray-700">
+                    N/A
+                  </TableCell>
+                ))}
               </TableRow>
-            ))}
+            ) : (
+              currentTransactions.map((transaction) => {
+                const id = transaction._id || "N/A";
+                const transactionId = transaction.transactionId || "N/A";
+                const amountText =
+                  typeof transaction.amount === "number"
+                    ? `$${transaction.amount.toFixed(2)}`
+                    : "N/A";
+                const status = transaction.status || "N/A";
+                const dateText = transaction.transactionDate
+                  ? new Date(transaction.transactionDate).toLocaleString()
+                  : "N/A";
+
+                return (
+                  <TableRow key={id}>
+                    <TableCell className="font-medium text-gray-900">
+                      {transactionId}
+                    </TableCell>
+                    <TableCell className="text-gray-700">{dateText}</TableCell>
+                    <TableCell className="text-gray-700">
+                      {amountText}
+                    </TableCell>
+                    <TableCell>
+                      <Badge className={getStatusColor(status)}>{status}</Badge>
+                    </TableCell>
+                    <TableCell>
+                      <button
+                        className="text-gray-600 hover:text-gray-900 transition-colors"
+                        onClick={() =>
+                          router.push(`/dashboard/payments/details/${id}`)
+                        }
+                      >
+                        <Eye className="size-5" />
+                      </button>
+                    </TableCell>
+                  </TableRow>
+                );
+              })
+            )}
           </TableBody>
         </Table>
       </div>
@@ -344,7 +287,7 @@ export default function Payments() {
                 />
               </PaginationItem>
 
-              {renderPageNumbers().map((pageNum, index) => (
+              {renderPageNumbers.map((pageNum: number, index: number) => (
                 <PaginationItem key={index}>
                   <PaginationLink
                     href="#"

@@ -178,6 +178,16 @@ export default function MapAndFormSection() {
     // You can add modal or navigation logic here
   };
 
+  const handlePharmacySelect = (pharmacy: Pharmacy) => {
+    // Set the pharmacy location as pickup location
+    const location: Location = {
+      lat: pharmacy.location.lat,
+      lng: pharmacy.location.lng,
+      address: pharmacy.address,
+    };
+    handlePickupSelect(location, pharmacy.address);
+  };
+
   return (
     <GoogleMapsProvider>
       <div className="flex flex-col lg:flex-row bg-gray-50 pt-4 sm:pt-8 lg:px-4 px-0 pb-4 sm:pb-8 gap-x-16 gap-y-4 sm:gap-y-8 ">
@@ -409,6 +419,7 @@ export default function MapAndFormSection() {
             city={city}
             state={state}
             onPharmacyClick={handlePharmacyClick}
+            onPharmacySelect={handlePharmacySelect}
             showRoute={!!pickupLocationCoords && !!dropoffLocationCoords}
             height="100%"
             onPickupSelect={handlePickupSelect}

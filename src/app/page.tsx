@@ -8,5 +8,3 @@ export default function page() {
     </div>
   );
 }
-
-//create a page that is a landing page for the website
