@@ -75,10 +75,10 @@ export default function HowOptimusWorks() {
         <div className="w-full lg:w-[80%] px-4 md:px-6 lg:px-8 xl:px-12">
           {/* Title */}
           <div className="mb-10 lg:mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-peter mb-4 font-inter text-center lg:text-center">
+            <h2 className="text-3xl md:text-5xl font-bold text-peter mb-4 font-inter text-center lg:text-center">
               {t("headline1")}{" "}
               <span
-                className="relative font-bold bg-clip-text"
+                className="relative text-3xl md:text-5xl font-bold text-peter  bg-clip-text"
                 style={{
                   backgroundImage:
                     "linear-gradient(90deg, #ffffff, #d771d0, #ffffff, #c276c2, #ffffff)",

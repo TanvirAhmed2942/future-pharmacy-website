@@ -102,7 +102,7 @@ export default function RefilSection() {
     <div className="container mx-auto bg-gray-50 py-4 md:py-8 lg:py-16 ">
       <div className=" mx-auto">
         <div className="w-full max-w-2xl md:max-w-6xl mx-auto mb-10">
-          <h2 className="text-3xl md:text-4xl font-bold text-peter mb-4 font-inter text-center">
+          <h2 className="text-3xl md:text-5xl font-bold text-peter mb-4 font-inter text-center">
             {tServices("headline")}
           </h2>
           <p className="text-gray-700 text-base md:text-lg font-inter text-center px-4 md:px-0">

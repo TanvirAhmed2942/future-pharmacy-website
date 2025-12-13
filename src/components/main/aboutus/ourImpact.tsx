@@ -117,7 +117,7 @@ export default function OurImpact() {
     <>
       <div className=" bg-[#f3ecf3]  px-4 py-6 md:py-16" ref={containerRef}>
         <div className="max-w-6xl mx-auto ">
-          <h1 className="text-4xl font-bold text-center text-peter pb-6 md:pb-16">
+          <h1 className="text-3xl md:text-5xl font-bold text-peter text-center pb-6 md:pb-16">
             {t("headline")}
           </h1>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 ">
