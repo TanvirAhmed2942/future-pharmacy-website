@@ -34,6 +34,8 @@ import {
   setCity,
   setState,
   setCurrentLocation,
+  setDistance,
+  setDuration,
 } from "@/store/slices/mapSlice";
 export default function MapAndFormSection() {
   const t = useTranslations("home.mapAndFormSection");
@@ -53,6 +55,8 @@ export default function MapAndFormSection() {
   const city = useAppSelector((state) => state.map.city);
   const state = useAppSelector((state) => state.map.state);
   const currentLocation = useAppSelector((state) => state.map.currentLocation);
+  const distance = useAppSelector((state) => state.map.distance);
+  const duration = useAppSelector((state) => state.map.duration);
 
   // Local state for UI
   const [deliveryTime, setDeliveryTime] = useState("today");
@@ -186,6 +190,11 @@ export default function MapAndFormSection() {
       address: pharmacy.address,
     };
     handlePickupSelect(location, pharmacy.address);
+  };
+
+  const handleDistanceCalculated = (distance: string, duration: string) => {
+    dispatch(setDistance(distance));
+    dispatch(setDuration(duration));
   };
 
   return (
@@ -424,6 +433,7 @@ export default function MapAndFormSection() {
             onPickupSelect={handlePickupSelect}
             onDropoffSelect={handleDropoffSelect}
             selectionMode={mapSelectionMode}
+            onDistanceCalculated={handleDistanceCalculated}
           />
           {mapSelectionMode && (
             <div className="absolute top-4 left-4 bg-white px-4 py-2 rounded-lg shadow-lg z-10 border-2 border-peter">
@@ -438,6 +448,25 @@ export default function MapAndFormSection() {
               >
                 Cancel
               </button>
+            </div>
+          )}
+          {/* Distance Display */}
+          {distance && duration && (
+            <div className="absolute top-4 left-4 bg-white px-4 py-3 rounded-lg shadow-lg z-10 border-l-4 border-peter">
+              <div className="flex flex-col gap-1">
+                <div className="flex items-center gap-2">
+                  <MapPin className="w-4 h-4 text-peter" />
+                  <span className="text-sm font-semibold text-gray-900">
+                    Distance: {distance}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Clock className="w-4 h-4 text-peter" />
+                  <span className="text-sm font-semibold text-gray-900">
+                    Duration: {duration}
+                  </span>
+                </div>
+              </div>
             </div>
           )}
         </div>

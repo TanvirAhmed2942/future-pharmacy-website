@@ -15,6 +15,7 @@ interface PharmacyMapProps {
   showRoute?: boolean;
   onMapClick?: (location: Location, address: string) => void;
   selectionMode?: "pickup" | "dropoff" | null;
+  onDistanceCalculated?: (distance: string, duration: string) => void;
 }
 
 const defaultCenter: Location = {
@@ -35,6 +36,7 @@ export default function PharmacyMap({
   showRoute = false,
   onMapClick,
   selectionMode = null,
+  onDistanceCalculated,
 }: PharmacyMapProps) {
   const [directions, setDirections] =
     useState<google.maps.DirectionsResult | null>(null);
@@ -113,20 +115,41 @@ export default function PharmacyMap({
       (result, status) => {
         if (status === "OK" && result) {
           setDirections(result);
+
+          // Extract distance and duration from the route
+          const route = result.routes[0];
+          if (route && route.legs && route.legs[0]) {
+            const leg = route.legs[0];
+            const distance = leg.distance?.text || "";
+            const duration = leg.duration?.text || "";
+
+            // Call the callback with distance and duration
+            onDistanceCalculated?.(distance, duration);
+          }
         } else {
           console.error("Directions request failed:", status);
+          // Clear distance on error
+          onDistanceCalculated?.("", "");
         }
       }
     );
-  }, [pickupLocation, dropoffLocation]);
+  }, [pickupLocation, dropoffLocation, onDistanceCalculated]);
 
   React.useEffect(() => {
     if (showRoute && pickupLocation && dropoffLocation) {
       calculateRoute();
     } else {
       setDirections(null);
+      // Clear distance when route is not shown
+      onDistanceCalculated?.("", "");
     }
-  }, [showRoute, pickupLocation, dropoffLocation, calculateRoute]);
+  }, [
+    showRoute,
+    pickupLocation,
+    dropoffLocation,
+    calculateRoute,
+    onDistanceCalculated,
+  ]);
 
   const handlePharmacyClick = useCallback(
     (pharmacy: Pharmacy) => {

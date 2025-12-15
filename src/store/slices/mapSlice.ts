@@ -11,6 +11,8 @@ interface MapState {
   state: string;
   currentLocation: string;
   selectedPharmacy: Pharmacy | null;
+  distance: string | null;
+  duration: string | null;
 }
 
 const initialState: MapState = {
@@ -23,6 +25,8 @@ const initialState: MapState = {
   state: "",
   currentLocation: "1901 Thornridge Cir. Shiloh, Hawaii 81063",
   selectedPharmacy: null,
+  distance: null,
+  duration: null,
 };
 
 const mapSlice = createSlice({
@@ -56,11 +60,19 @@ const mapSlice = createSlice({
     setSelectedPharmacy: (state, action: PayloadAction<Pharmacy | null>) => {
       state.selectedPharmacy = action.payload;
     },
+    setDistance: (state, action: PayloadAction<string | null>) => {
+      state.distance = action.payload;
+    },
+    setDuration: (state, action: PayloadAction<string | null>) => {
+      state.duration = action.payload;
+    },
     resetMapState: (state) => {
       state.pickupAddress = "";
       state.dropoffAddress = "";
       state.pickupLocation = null;
       state.dropoffLocation = null;
+      state.distance = null;
+      state.duration = null;
     },
   },
 });
@@ -75,6 +87,8 @@ export const {
   setState,
   setCurrentLocation,
   setSelectedPharmacy,
+  setDistance,
+  setDuration,
   resetMapState,
 } = mapSlice.actions;
 

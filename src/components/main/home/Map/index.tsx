@@ -21,6 +21,7 @@ interface MapComponentProps {
   onPickupSelect?: (location: Location, address: string) => void;
   onDropoffSelect?: (location: Location, address: string) => void;
   selectionMode?: "pickup" | "dropoff" | null;
+  onDistanceCalculated?: (distance: string, duration: string) => void;
 }
 
 export default function MapComponent({
@@ -38,6 +39,7 @@ export default function MapComponent({
   onPickupSelect,
   onDropoffSelect,
   selectionMode = null,
+  onDistanceCalculated,
 }: MapComponentProps) {
   const [pickupLocation, setPickupLocation] = useState<Location | null>(
     pickupLocationProp || null
@@ -199,6 +201,7 @@ export default function MapComponent({
             }
           }}
           selectionMode={selectionMode}
+          onDistanceCalculated={onDistanceCalculated}
         />
       )}
       {pharmacyLoading && mapsLoaded && (
