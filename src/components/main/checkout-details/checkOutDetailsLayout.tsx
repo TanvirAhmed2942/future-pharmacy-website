@@ -4,16 +4,35 @@ import { Card } from "@/components/ui/card";
 import ContactDetails from "./ContactDetails";
 import OrderSummary from "./OrderSummary";
 import { useAppSelector } from "@/store/hooks";
-import {
-  selectUser,
-  selectIsLoggedIn,
-} from "@/store/slices/userSlice/userSlice";
+import { selectIsLoggedIn } from "@/store/slices/userSlice/userSlice";
+import { useGetProfileQuery } from "@/store/Apis/profileApi/profileApi";
+
+// Parse date from "dd-mm-yyyy" format to ISO string
+const parseDateOfBirth = (dateStr: string): string => {
+  if (!dateStr) return "";
+
+  // Check if it's already in ISO format
+  if (dateStr.includes("T") || /^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+    return dateStr;
+  }
+
+  // Parse "dd-mm-yyyy" format
+  const parts = dateStr.split("-");
+  if (parts.length === 3) {
+    const [day, month, year] = parts;
+    // Create ISO date string: yyyy-mm-dd
+    return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+  }
+
+  return dateStr;
+};
 
 export default function CheckOutDetailsLayout() {
+  const { data: profile } = useGetProfileQuery();
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
-  const user = useAppSelector(selectUser);
   const [currentStep, setCurrentStep] = useState(1);
   const [isAnimating, setIsAnimating] = useState(false);
+
   const [formData, setFormData] = useState({
     email: "",
     contactNumber: "",
@@ -24,16 +43,16 @@ export default function CheckOutDetailsLayout() {
 
   // Prepopulate form data if user is logged in
   useEffect(() => {
-    if (isLoggedIn && user) {
+    if (isLoggedIn && profile?.data) {
       setFormData({
-        email: user.email || "",
-        contactNumber: user.phone || "",
-        firstName: user.name?.split(" ")[0] || "",
-        lastName: user.name?.split(" ").slice(1).join(" ") || "",
-        dateOfBirth: user.dateOfBirth,
+        email: profile?.data?.email || "",
+        contactNumber: profile?.data?.phone || "",
+        firstName: profile?.data?.first_name || "",
+        lastName: profile?.data?.last_name || "",
+        dateOfBirth: parseDateOfBirth(profile?.data?.dateOfBirth || ""),
       });
     }
-  }, [isLoggedIn, user]);
+  }, [isLoggedIn, profile?.data]);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));

@@ -13,6 +13,24 @@ import {
 import { ChevronDownIcon } from "lucide-react";
 import Backbutton from "@/components/common/backbutton/backbutton";
 
+// Format date as mm/dd/yyyy
+const formatDateDisplay = (dateStr: string): string => {
+  if (!dateStr) return "";
+
+  try {
+    const date = new Date(dateStr);
+    if (isNaN(date.getTime())) return "";
+
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+    const year = date.getFullYear();
+
+    return `${month}/${day}/${year}`;
+  } catch {
+    return "";
+  }
+};
+
 interface ContactDetailsProps {
   formData: {
     email: string;
@@ -99,15 +117,9 @@ export default function ContactDetails({
                 variant="outline"
                 className="w-full justify-between text-left font-normal"
               >
-                {formData.dateOfBirth ? (
-                  `${(new Date(formData.dateOfBirth).getMonth() + 1)
-                    .toString()
-                    .padStart(2, "0")}/${new Date(formData.dateOfBirth)
-                    .getDate()
-                    .toString()
-                    .padStart(2, "0")}/${new Date(
-                    formData.dateOfBirth
-                  ).getFullYear()}`
+                {formData.dateOfBirth &&
+                formatDateDisplay(formData.dateOfBirth) ? (
+                  formatDateDisplay(formData.dateOfBirth)
                 ) : (
                   <span className="text-muted-foreground">
                     {t("dateOfBirth.placeholder")}

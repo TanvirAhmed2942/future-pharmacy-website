@@ -20,12 +20,13 @@ function CheckZoneCoverage() {
   const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
   // If the input is cleared (or under 5 chars), hide previous success/error
+  // But don't reset if we're showing the NotifyCoverage component (isCovered === false)
   useEffect(() => {
-    if (zip.length === 0 || zip.length < 5) {
+    if ((zip.length === 0 || zip.length < 5) && isCovered !== false) {
       setIsCovered(null);
       setNotFoundZip("");
     }
-  }, [zip]);
+  }, [zip, isCovered]);
 
   const handleSearch = useCallback(
     async (search: string) => {
@@ -275,6 +276,7 @@ const NotifyCoverage = ({
         </div>
 
         {/* Buttons */}
+
         <div className="flex gap-4 mb-6 items-center">
           <Button
             onClick={() => {
