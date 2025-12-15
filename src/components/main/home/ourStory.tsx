@@ -30,7 +30,7 @@ function OurStory() {
 
     // Blob 3 - Fast rotation (10s)
     gsap.to(blob3Ref.current, {
-      rotation: 360,
+      rotation: 270,
       duration: 30,
       repeat: -1,
       ease: "linear",
@@ -91,7 +91,7 @@ function OurStory() {
                   backgroundPosition: "center",
                   backgroundRepeat: "no-repeat",
                   opacity: 0.7,
-                  scale: 1.5,
+                  scale: 1.6,
                   zIndex: 3,
                 }}
               />
@@ -106,14 +106,14 @@ function OurStory() {
                   backgroundPosition: "center",
                   backgroundRepeat: "no-repeat",
                   // opacity: 0.5,
-                  scale: 1.5,
+                  scale: 1.6,
                   zIndex: 2,
                 }}
               />
 
               {/* Image Container - Static (Does Not Rotate) */}
               <div className="absolute inset-0 flex items-center justify-center z-20">
-                <div className="relative w-64 h-64 md:w-72 md:h-72 lg:w-96 lg:h-96 rounded-full overflow-hidden shadow-lg">
+                <div className="relative w-64 h-64 md:w-72 md:h-72 lg:w-96 lg:h-96 rounded-full overflow-hidden shadow-lg scale-116">
                   <Image
                     src="/home/our_story.webp"
                     alt="Our Story - Optimus Health Solutions"
