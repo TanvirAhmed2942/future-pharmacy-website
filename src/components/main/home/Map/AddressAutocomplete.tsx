@@ -42,7 +42,7 @@ export default function AddressAutocomplete({
 
   const getPredictions = (
     input: string,
-    locationBias?: { lat: number; lng: number }
+    locationBias?: { lat: number; lng: number; zipCode?: string }
   ) => {
     if (
       typeof window === "undefined" ||
@@ -59,20 +59,36 @@ export default function AddressAutocomplete({
     const requestOptions: google.maps.places.AutocompletionRequest = {
       input,
       componentRestrictions: { country: "us" },
-      // Don't restrict types - let Google return all relevant results
-      // We'll prioritize addresses in the UI
     };
 
-    // Add location bias if we have coordinates
+    // Add location bias if we have coordinates (zip or city/state)
     if (locationBias) {
-      const radius = 80467; // ~50 miles in meters
-      requestOptions.locationBias = `circle:${radius}@${locationBias.lat},${locationBias.lng}`;
+      // Use location as bias (not strict bounds)
+      requestOptions.location = new window.google.maps.LatLng(
+        locationBias.lat,
+        locationBias.lng
+      );
+      requestOptions.radius = 32186; // ~20 miles
+
+      console.log("Using location bias:", {
+        lat: locationBias.lat,
+        lng: locationBias.lng,
+        radius: 32186,
+        zipCode: locationBias.zipCode,
+        input,
+      });
+    } else {
+      console.log("No location bias, searching:", input);
     }
 
     service.getPlacePredictions(requestOptions, (predictions, status) => {
-      console.log("Autocomplete response:", {
+      console.log("Autocomplete API response:", {
         status,
+        statusText: window.google.maps.places.PlacesServiceStatus[status],
         predictionsCount: predictions?.length || 0,
+        input,
+        hasBias: !!locationBias,
+        predictions: predictions?.slice(0, 3).map((p) => p.description),
       });
 
       if (
@@ -80,9 +96,30 @@ export default function AddressAutocomplete({
         predictions &&
         predictions.length > 0
       ) {
-        // Show all geocode results (which includes addresses)
-        // Limit to 8 results for better UX
-        const resultsToShow = predictions.slice(0, 8);
+        // Prefer zipcode matches but show all if none match
+        let filteredPredictions = predictions;
+        if (locationBias?.zipCode) {
+          const zipMatches = predictions.filter((p) =>
+            p.description.includes(locationBias.zipCode!)
+          );
+
+          if (zipMatches.length > 0) {
+            // Prioritize zipcode matches first, then add others
+            const otherResults = predictions.filter(
+              (p) => !p.description.includes(locationBias.zipCode!)
+            );
+            filteredPredictions = [...zipMatches, ...otherResults];
+            console.log(
+              `Found ${zipMatches.length} zipcode matches, ${otherResults.length} other nearby results`
+            );
+          } else {
+            console.log(
+              `No exact zipcode matches, showing ${predictions.length} nearby results`
+            );
+          }
+        }
+
+        const resultsToShow = filteredPredictions.slice(0, 8);
 
         setSuggestions(
           resultsToShow.map((p) => ({
@@ -103,8 +140,9 @@ export default function AddressAutocomplete({
         ) {
           console.warn("Autocomplete error:", status);
         }
+        // Keep dropdown open to show "No results" message
         setSuggestions([]);
-        setShowSuggestions(false);
+        setShowSuggestions(true);
       }
     });
   };
@@ -131,26 +169,34 @@ export default function AddressAutocomplete({
       }
       // If we have location context, geocode it first to get coordinates for bias
       if (zipCode || (city && state)) {
-        const locationBias =
-          zipCode || (city && state ? `${city}, ${state}` : "");
+        const locationString = zipCode || `${city}, ${state}`;
 
-        if (locationBias) {
-          const geocoder = new window.google.maps.Geocoder();
-          geocoder.geocode({ address: locationBias }, (results, status) => {
-            if (status === "OK" && results && results[0]?.geometry?.location) {
-              const location = results[0].geometry.location;
-              getPredictions(newValue, {
-                lat: location.lat(),
-                lng: location.lng(),
-              });
-            } else {
-              // Fallback: get predictions without location bias
-              getPredictions(newValue);
-            }
+        const geocoder = new window.google.maps.Geocoder();
+        geocoder.geocode({ address: locationString }, (results, status) => {
+          console.log("Geocoding location context:", {
+            locationString,
+            status,
+            hasResults: !!results?.[0],
           });
-        } else {
-          getPredictions(newValue);
-        }
+
+          if (status === "OK" && results && results[0]?.geometry?.location) {
+            const location = results[0].geometry.location;
+            getPredictions(newValue, {
+              lat: location.lat(),
+              lng: location.lng(),
+              zipCode: zipCode, // Pass zipcode for filtering
+            });
+          } else {
+            console.warn(
+              "Geocoding failed for:",
+              locationString,
+              "Status:",
+              status
+            );
+            // Fallback: get predictions without location bias
+            getPredictions(newValue);
+          }
+        });
       } else {
         // No location context - get predictions without bias
         getPredictions(newValue);
@@ -223,8 +269,52 @@ export default function AddressAutocomplete({
   };
 
   const handleFocus = () => {
+    // If we already have suggestions, show them
     if (suggestions.length > 0) {
       setShowSuggestions(true);
+      return;
+    }
+
+    // On focus, if input has enough chars, fetch suggestions again
+    if (value.length >= 2) {
+      // Trigger the same logic as input change to repopulate suggestions
+      // (without changing the value)
+      if (
+        typeof window !== "undefined" &&
+        window.google &&
+        window.google.maps &&
+        window.google.maps.places &&
+        window.google.maps.places.AutocompleteService
+      ) {
+        // Use bias if available
+        if (zipCode || (city && state)) {
+          const locationString = zipCode || `${city}, ${state}`;
+
+          console.log("Refetching on focus with:", { locationString, value });
+
+          const geocoder = new window.google.maps.Geocoder();
+          geocoder.geocode({ address: locationString }, (results, status) => {
+            if (status === "OK" && results && results[0]?.geometry?.location) {
+              const loc = results[0].geometry.location;
+              getPredictions(value, {
+                lat: loc.lat(),
+                lng: loc.lng(),
+                zipCode: zipCode, // Pass zipcode for filtering
+              });
+            } else {
+              console.warn(
+                "Geocoding failed for:",
+                locationString,
+                "Status:",
+                status
+              );
+              getPredictions(value);
+            }
+          });
+        } else {
+          getPredictions(value);
+        }
+      }
     }
   };
 

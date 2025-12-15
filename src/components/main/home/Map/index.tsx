@@ -14,6 +14,7 @@ interface MapComponentProps {
   zipCode?: string;
   city?: string;
   state?: string;
+  pharmacies?: Pharmacy[]; // externally provided pharmacy list
   onPharmacyClick?: (pharmacy: Pharmacy) => void;
   onPharmacySelect?: (pharmacy: Pharmacy) => void;
   showRoute?: boolean;
@@ -32,6 +33,7 @@ export default function MapComponent({
   zipCode,
   city,
   state,
+  pharmacies: pharmaciesProp,
   onPharmacyClick,
   onPharmacySelect,
   showRoute = false,
@@ -163,6 +165,9 @@ export default function MapComponent({
 
   const { isLoaded: mapsLoaded, loadError: mapsError } = useGoogleMaps();
 
+  // Prefer external pharmacies if provided
+  const pharmaciesToRender = pharmaciesProp ?? pharmacies;
+
   return (
     <div
       style={{ height: height === "100%" ? "100%" : height }}
@@ -184,7 +189,7 @@ export default function MapComponent({
         <PharmacyMap
           pickupLocation={pickupLocation}
           dropoffLocation={dropoffLocation}
-          pharmacies={pharmacies}
+          pharmacies={pharmaciesToRender}
           center={mapCenter || undefined}
           onPharmacyClick={onPharmacyClick}
           onPharmacySelect={onPharmacySelect}

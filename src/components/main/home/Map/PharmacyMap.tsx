@@ -10,6 +10,12 @@ interface PharmacyMapProps {
   pharmacies?: Pharmacy[];
   center?: Location;
   zoom?: number;
+  logo?: string;
+  name?: string;
+  address?: string;
+  phone?: string;
+  hours?: string;
+  distance?: number;
   onPharmacyClick?: (pharmacy: Pharmacy) => void;
   onPharmacySelect?: (pharmacy: Pharmacy) => void;
   showRoute?: boolean;
@@ -272,7 +278,9 @@ export default function PharmacyMap({
     },
     [onMapClick, selectionMode]
   );
-
+  {
+    console.log("pharmacies//", pharmacies);
+  }
   return (
     <GoogleMap
       mapContainerClassName={`w-full h-full rounded-xl ${

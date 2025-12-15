@@ -4,6 +4,8 @@ import { Marker, InfoWindow } from "@react-google-maps/api";
 import { Pharmacy } from "./types";
 import { PiMapPin } from "react-icons/pi";
 import { Phone, Clock } from "lucide-react";
+import Image from "next/image";
+import { imgUrl } from "@/lib/img_url";
 
 interface PharmacyMarkerProps {
   pharmacy: Pharmacy;
@@ -60,9 +62,17 @@ export default function PharmacyMarker({
       {showInfo && (
         <InfoWindow position={pharmacy.location} onCloseClick={handleClose}>
           <div className="p-4 max-w-xs min-w-[280px] bg-white rounded-lg shadow-md">
-            <h3 className="font-bold text-gray-900 text-lg mb-2">
-              {pharmacy.name}
-            </h3>
+            <div className="flex items-center gap-2 mb-2">
+              <Image
+                src={imgUrl(pharmacy?.logo)}
+                alt={pharmacy.name}
+                width={60}
+                height={60}
+              />
+              <h3 className="font-bold text-gray-900 text-lg">
+                {pharmacy.name}
+              </h3>
+            </div>
             <p className="text-sm text-gray-600 mb-3 leading-relaxed">
               {pharmacy.address}
             </p>

@@ -56,6 +56,7 @@ export const baseApi = createApi({
     "MyRequests",
     "Payment",
     "Zipcode",
+    "Map",
   ],
   endpoints: () => ({}),
 });

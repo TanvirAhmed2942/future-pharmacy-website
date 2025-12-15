@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   MapPin,
   Calendar,
@@ -37,6 +37,8 @@ import {
   setDistance,
   setDuration,
 } from "@/store/slices/mapSlice";
+import { useGetPharmaciesQuery } from "@/store/Apis/mapApi/pharmapApi";
+import { RiResetLeftLine } from "react-icons/ri";
 export default function MapAndFormSection() {
   const t = useTranslations("home.mapAndFormSection");
   const tForm = useTranslations("home.form");
@@ -57,6 +59,35 @@ export default function MapAndFormSection() {
   const currentLocation = useAppSelector((state) => state.map.currentLocation);
   const distance = useAppSelector((state) => state.map.distance);
   const duration = useAppSelector((state) => state.map.duration);
+
+  // Fetch pharmacies from API based on zip/city/state
+  const {
+    data: pharmaciesResponse,
+    isLoading: pharmaciesLoading,
+    isError: pharmaciesError,
+  } = useGetPharmaciesQuery(
+    { postCode: zipCode, city, state },
+    {
+      // Skip when we don't have enough data to query
+      // Run when we have a zipCode OR both city and state
+      skip: !(zipCode || (city && state)),
+    }
+  );
+
+  const pharmaciesFromApi = useMemo(() => {
+    if (!pharmaciesResponse?.data) return [];
+    return pharmaciesResponse.data.map((p) => ({
+      id: p._id,
+      name: p.name,
+      address: p.address,
+      phone: p.phone,
+      logo: p.logo,
+      location: {
+        lat: p.latitude ?? p.location.coordinates?.[1],
+        lng: p.longitude ?? p.location.coordinates?.[0],
+      },
+    }));
+  }, [pharmaciesResponse]);
 
   // Local state for UI
   const [deliveryTime, setDeliveryTime] = useState("today");
@@ -197,6 +228,18 @@ export default function MapAndFormSection() {
     dispatch(setDuration(duration));
   };
 
+  const handleResetLocations = () => {
+    dispatch(setPickupAddress(""));
+    dispatch(setDropoffAddress(""));
+    dispatch(setPickupLocation(null));
+    dispatch(setDropoffLocation(null));
+    dispatch(setDistance(null));
+    dispatch(setDuration(null));
+    setSelectedDate(undefined);
+    setSelectedTime(undefined);
+    setMapSelectionMode(null);
+  };
+
   return (
     <GoogleMapsProvider>
       <div className="flex flex-col lg:flex-row bg-gray-50 pt-4 sm:pt-8 lg:px-4 px-0 pb-4 sm:pb-8 gap-x-16 gap-y-4 sm:gap-y-8 ">
@@ -217,18 +260,29 @@ export default function MapAndFormSection() {
                   {t("changeCityOrZipCode")}
                 </button>
               </div>
-              <h1
-                id="request-your-rx-delivered-in-minutes"
-                className="hidden sm:block text-2xl lg:text-xl 2xl:text-2xl font-bold text-gray-900 "
-              >
-                {t("title")}
-              </h1>
-              <h1
-                id="request-your-rx-delivered-in-minutes"
-                className="block sm:hidden text-2xl lg:text-xl 2xl:text-2xl font-medium text-gray-900 text-center"
-              >
-                {t("titleforMobileView")}
-              </h1>
+              <div className="flex items-center justify-between gap-3">
+                <h1
+                  id="request-your-rx-delivered-in-minutes"
+                  className="hidden sm:block text-2xl lg:text-xl 2xl:text-2xl font-bold text-gray-900 "
+                >
+                  {t("title")}
+                </h1>
+                <h1
+                  id="request-your-rx-delivered-in-minutes"
+                  className="block sm:hidden text-2xl lg:text-xl 2xl:text-2xl font-medium text-gray-900 text-center"
+                >
+                  {t("titleforMobileView")}
+                </h1>
+                <button
+                  onClick={handleResetLocations}
+                  className="text-peter hover:text-peter-dark flex items-center gap-2 text-sm font-semibold"
+                  title="Reset pickup and dropoff locations"
+                  aria-label="Reset locations"
+                >
+                  <RiResetLeftLine className="w-5 h-5" />
+                  <span className="hidden sm:inline">Reset</span>
+                </button>
+              </div>
             </div>
 
             {/* Pickup Location */}
@@ -426,6 +480,7 @@ export default function MapAndFormSection() {
             zipCode={zipCode}
             city={city}
             state={state}
+            pharmacies={pharmaciesFromApi}
             onPharmacyClick={handlePharmacyClick}
             onPharmacySelect={handlePharmacySelect}
             showRoute={!!pickupLocationCoords && !!dropoffLocationCoords}
@@ -467,6 +522,17 @@ export default function MapAndFormSection() {
                   </span>
                 </div>
               </div>
+            </div>
+          )}
+          {/* Pharmacies Loading / Error */}
+          {pharmaciesLoading && (
+            <div className="absolute top-4 right-4 bg-white px-3 py-2 rounded-lg shadow-md z-10 border border-gray-200 text-sm text-gray-700">
+              Loading pharmacies...
+            </div>
+          )}
+          {pharmaciesError && (
+            <div className="absolute top-4 right-4 bg-white px-3 py-2 rounded-lg shadow-md z-10 border border-red-200 text-sm text-red-600">
+              Failed to load pharmacies
             </div>
           )}
         </div>

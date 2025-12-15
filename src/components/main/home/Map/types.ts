@@ -12,6 +12,7 @@ export interface Pharmacy {
   phone?: string;
   hours?: string;
   distance?: number;
+  logo?: string;
 }
 
 export interface MapBounds {
