@@ -21,6 +21,7 @@ import {
   selectIsLoggedIn,
   selectUser,
 } from "@/store/slices/userSlice/userSlice";
+import { resetMapState, setSelectedPharmacy } from "@/store/slices/mapSlice";
 import { useCreateCheckoutMutation } from "@/store/Apis/checkoutApi/checkOutApi";
 import useShowToast from "@/hooks/useShowToast";
 interface OrderSummaryProps {
@@ -101,7 +102,7 @@ const isRushHour = (
     if (period === "AM" && hours === 12) hours = 0;
 
     // Check if time falls in rush hour windows
-    // 11AM-1PM (11:00-13:00) or 4PM-6PM (16:00-18:00)
+    // 11AM-1PM (11:00-13:00) or 4PM-6PM (16:00-18:00) - inclusive of end times
     const timeInMinutes = hours * 60 + minutes;
     const rushHour1Start = 11 * 60; // 11:00 AM
     const rushHour1End = 13 * 60; // 1:00 PM
@@ -109,8 +110,8 @@ const isRushHour = (
     const rushHour2End = 18 * 60; // 6:00 PM
 
     return (
-      (timeInMinutes >= rushHour1Start && timeInMinutes < rushHour1End) ||
-      (timeInMinutes >= rushHour2Start && timeInMinutes < rushHour2End)
+      (timeInMinutes >= rushHour1Start && timeInMinutes <= rushHour1End) ||
+      (timeInMinutes >= rushHour2Start && timeInMinutes <= rushHour2End)
     );
   } catch {
     return false;
@@ -315,6 +316,10 @@ export default function OrderSummary({
 
         // Clear checkout data from Redux slice after successful checkout
         dispatch(clearCheckoutData());
+
+        // Reset map state to clear all map data (addresses, locations, distance, duration)
+        dispatch(resetMapState());
+        dispatch(setSelectedPharmacy(null));
 
         // Redirect to Stripe checkout URL in a new tab if URL is provided
         if (response.data?.url) {
