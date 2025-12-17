@@ -301,3 +301,18 @@ html body[data-scroll-locked] {
     background-position: 100% 0;
   }
 }
+
+/* Hide Google Maps default info windows - we use custom ones
+.gm-style-iw {
+  display: none !important;
+}
+
+.gm-style-iw-c {
+  display: none !important;
+}
+
+.gm-style-iw-d {
+  display: none !important;
+}
+  
+*/

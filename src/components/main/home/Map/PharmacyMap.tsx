@@ -159,11 +159,25 @@ export default function PharmacyMap({
 
   const handlePharmacyClick = useCallback(
     (pharmacy: Pharmacy) => {
-      setSelectedPharmacy(pharmacy);
+      console.log("handlePharmacyClick called with:", pharmacy.name);
+      // Toggle: if same pharmacy is clicked, close it; otherwise open it
+      setSelectedPharmacy((prev) => {
+        if (prev?.id === pharmacy.id) {
+          console.log("Closing info window for:", pharmacy.name);
+          return null;
+        } else {
+          console.log("Opening info window for:", pharmacy.name);
+          return pharmacy;
+        }
+      });
       onPharmacyClick?.(pharmacy);
     },
     [onPharmacyClick]
   );
+
+  const handleInfoClose = useCallback(() => {
+    setSelectedPharmacy(null);
+  }, []);
 
   const onLoad = useCallback(
     (map: google.maps.Map) => {
@@ -278,9 +292,11 @@ export default function PharmacyMap({
     },
     [onMapClick, selectionMode]
   );
-  {
-    console.log("pharmacies//", pharmacies);
-  }
+  // Debug: Log selected pharmacy
+  React.useEffect(() => {
+    console.log("Selected pharmacy changed:", selectedPharmacy);
+  }, [selectedPharmacy]);
+
   return (
     <GoogleMap
       mapContainerClassName={`w-full h-full rounded-xl ${
@@ -327,8 +343,10 @@ export default function PharmacyMap({
           key={pharmacy.id}
           pharmacy={pharmacy}
           isSelected={selectedPharmacy?.id === pharmacy.id}
+          isInfoOpen={selectedPharmacy?.id === pharmacy.id}
           onClick={handlePharmacyClick}
           onSelect={onPharmacySelect}
+          onInfoClose={handleInfoClose}
         />
       ))}
 

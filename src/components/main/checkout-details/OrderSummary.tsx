@@ -23,7 +23,6 @@ import {
 } from "@/store/slices/userSlice/userSlice";
 import { useCreateCheckoutMutation } from "@/store/Apis/checkoutApi/checkOutApi";
 import useShowToast from "@/hooks/useShowToast";
-import { useRouter } from "next/navigation";
 interface OrderSummaryProps {
   formData: {
     email: string;
@@ -233,7 +232,7 @@ export default function OrderSummary({
   const [createCheckout, { isLoading: isSubmitting }] =
     useCreateCheckoutMutation();
   const { showSuccess, showError } = useShowToast();
-  const router = useRouter();
+
   // Calculate prices
   const prices = useMemo(() => {
     const deliveryFee = calculateDeliveryFee(
@@ -324,7 +323,6 @@ export default function OrderSummary({
 
         // Call the original onComplete callback
         onComplete();
-        router.push("/");
       } else {
         showError({
           message:

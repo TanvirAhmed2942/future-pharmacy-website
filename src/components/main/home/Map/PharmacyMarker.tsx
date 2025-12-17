@@ -3,37 +3,53 @@ import React from "react";
 import { Marker, InfoWindow } from "@react-google-maps/api";
 import { Pharmacy } from "./types";
 import { PiMapPin } from "react-icons/pi";
-import { Phone, Clock } from "lucide-react";
+import { Phone, Clock, X } from "lucide-react";
 import Image from "next/image";
 import { imgUrl } from "@/lib/img_url";
 
 interface PharmacyMarkerProps {
   pharmacy: Pharmacy;
   isSelected?: boolean;
+  isInfoOpen?: boolean;
   onClick?: (pharmacy: Pharmacy) => void;
   onSelect?: (pharmacy: Pharmacy) => void;
+  onInfoClose?: () => void;
 }
 
 export default function PharmacyMarker({
   pharmacy,
   isSelected = false,
+  isInfoOpen = false,
   onClick,
   onSelect,
+  onInfoClose,
 }: PharmacyMarkerProps) {
-  const [showInfo, setShowInfo] = React.useState(false);
-
-  const handleClick = () => {
-    setShowInfo(true);
+  const handleClick = (e: google.maps.MapMouseEvent) => {
+    // Prevent event bubbling to map
+    if (e) {
+      if (typeof e.stop === "function") {
+        e.stop();
+      }
+      if (e.domEvent) {
+        e.domEvent.stopPropagation();
+      }
+    }
+    console.log(
+      "Pharmacy marker clicked:",
+      pharmacy.name,
+      "isInfoOpen:",
+      isInfoOpen
+    );
     onClick?.(pharmacy);
   };
 
   const handleClose = () => {
-    setShowInfo(false);
+    onInfoClose?.();
   };
 
   const handleSelect = () => {
     onSelect?.(pharmacy);
-    setShowInfo(false);
+    onInfoClose?.();
   };
 
   // Custom marker icon - improved appearance
@@ -51,24 +67,51 @@ export default function PharmacyMarker({
     };
   }, [isSelected]);
 
+  // Debug: Log when isInfoOpen changes
+  React.useEffect(() => {
+    if (isInfoOpen) {
+      console.log("InfoWindow should be open for:", pharmacy.name);
+    }
+  }, [isInfoOpen, pharmacy.name]);
+
   return (
-    <>
-      <Marker
-        position={pharmacy.location}
-        icon={markerIcon}
-        onClick={handleClick}
-        title={pharmacy.name}
-      />
-      {showInfo && (
-        <InfoWindow position={pharmacy.location} onCloseClick={handleClose}>
-          <div className="p-4 max-w-xs min-w-[280px] bg-white rounded-lg shadow-md">
+    <Marker
+      position={pharmacy.location}
+      icon={markerIcon}
+      onClick={handleClick}
+      title={pharmacy.name}
+    >
+      {isInfoOpen && (
+        <InfoWindow
+          position={{ lat: pharmacy.location.lat, lng: pharmacy.location.lng }}
+          onCloseClick={handleClose}
+          options={
+            typeof window !== "undefined" && window.google
+              ? {
+                  pixelOffset: new window.google.maps.Size(0, -10),
+                }
+              : undefined
+          }
+        >
+          <div className="relative p-4 max-w-xs min-w-[260px] bg-white rounded-lg shadow-md overflow-hidden">
+            {/* Custom close button (in addition to default InfoWindow close) */}
+            <button
+              onClick={handleClose}
+              className="absolute top-2 right-2 p-1 rounded-full hover:bg-gray-100 transition-colors"
+              aria-label="Close"
+            >
+              <X className="w-4 h-4 text-gray-500" />
+            </button>
             <div className="flex items-center gap-2 mb-2">
-              <Image
-                src={imgUrl(pharmacy?.logo)}
-                alt={pharmacy.name}
-                width={60}
-                height={60}
-              />
+              {pharmacy.logo && (
+                <Image
+                  src={imgUrl(pharmacy.logo)}
+                  alt={pharmacy.name}
+                  width={60}
+                  height={60}
+                  className="rounded"
+                />
+              )}
               <h3 className="font-bold text-gray-900 text-lg">
                 {pharmacy.name}
               </h3>
@@ -105,6 +148,6 @@ export default function PharmacyMarker({
           </div>
         </InfoWindow>
       )}
-    </>
+    </Marker>
   );
 }
