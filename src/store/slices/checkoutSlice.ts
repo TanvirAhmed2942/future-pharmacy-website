@@ -19,6 +19,9 @@ export interface CheckoutData {
   firstName: string;
   lastName: string;
   dateOfBirth: string; // ISO string format
+  // Pharmacy
+  selectedPharmacyId: string | null;
+  isPartnerPharmacy: boolean;
 }
 
 export interface CheckoutState {
@@ -44,6 +47,9 @@ const initialState: CheckoutState = {
     firstName: "",
     lastName: "",
     dateOfBirth: "",
+    // Pharmacy
+    selectedPharmacyId: null,
+    isPartnerPharmacy: false,
   },
 };
 

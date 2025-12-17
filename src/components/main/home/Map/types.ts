@@ -13,6 +13,7 @@ export interface Pharmacy {
   hours?: string;
   distance?: number;
   logo?: string;
+  isPartner?: boolean; // true if pharmacy comes from database (partner pharmacy)
 }
 
 export interface MapBounds {

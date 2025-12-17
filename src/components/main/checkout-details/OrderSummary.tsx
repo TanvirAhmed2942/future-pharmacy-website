@@ -119,11 +119,18 @@ const isRushHour = (
 };
 
 // Calculate delivery fee based on distance and rush hour
+// If pharmacy is a partner pharmacy (from database), delivery fee is $0
 const calculateDeliveryFee = (
   distance: string,
   selectedTime: string | null,
-  selectedDate: string | null
+  selectedDate: string | null,
+  isPartnerPharmacy: boolean = false
 ): number => {
+  // Partner pharmacies have $0 delivery fee
+  if (isPartnerPharmacy) {
+    return 0;
+  }
+
   const distanceInMiles = parseDistance(distance);
   let fee = 0;
 
@@ -236,16 +243,25 @@ export default function OrderSummary({
 
   // Calculate prices
   const prices = useMemo(() => {
-    const deliveryFee = calculateDeliveryFee(
+    // Calculate original delivery fee (what it would be without partner discount)
+    const originalDeliveryFee = calculateDeliveryFee(
       checkoutData.distance,
       checkoutData.selectedTime,
-      checkoutData.selectedDate
+      checkoutData.selectedDate,
+      false // Calculate as if not a partner pharmacy
     );
+
+    // Actual delivery fee (0 for partner pharmacy, original for non-partner)
+    const deliveryFee = checkoutData.isPartnerPharmacy
+      ? 0
+      : originalDeliveryFee;
+
     const serviceFee = 1.0; // Fixed service fee
     const total = deliveryFee + serviceFee;
 
     return {
       deliveryFee,
+      originalDeliveryFee, // For display purposes when partner pharmacy
       serviceFee,
       total,
     };
@@ -253,6 +269,7 @@ export default function OrderSummary({
     checkoutData.distance,
     checkoutData.selectedTime,
     checkoutData.selectedDate,
+    checkoutData.isPartnerPharmacy,
   ]);
 
   // Handle checkout payment
@@ -460,9 +477,17 @@ export default function OrderSummary({
               <span className="text-gray-600">
                 {t("priceDetails.deliveryFee")}
               </span>
-              <span className="font-medium">
-                ${prices.deliveryFee.toFixed(2)}
-              </span>
+              <div className="flex items-center gap-2">
+                {checkoutData.isPartnerPharmacy &&
+                  prices.originalDeliveryFee > 0 && (
+                    <span className="text-gray-400 line-through text-sm">
+                      ${prices.originalDeliveryFee.toFixed(2)}
+                    </span>
+                  )}
+                <span className="font-medium">
+                  ${prices.deliveryFee.toFixed(2)}
+                </span>
+              </div>
             </div>
             <div className="flex justify-between py-2 border-b border-gray-200">
               <span className="text-gray-600">

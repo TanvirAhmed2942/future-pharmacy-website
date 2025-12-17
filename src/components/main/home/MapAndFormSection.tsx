@@ -36,6 +36,7 @@ import {
   setCurrentLocation,
   setDistance,
   setDuration,
+  setSelectedPharmacy,
 } from "@/store/slices/mapSlice";
 import { useGetPharmaciesQuery } from "@/store/Apis/mapApi/pharmapApi";
 import { RiResetLeftLine } from "react-icons/ri";
@@ -61,6 +62,9 @@ export default function MapAndFormSection() {
   const currentLocation = useAppSelector((state) => state.map.currentLocation);
   const distance = useAppSelector((state) => state.map.distance);
   const duration = useAppSelector((state) => state.map.duration);
+  const selectedPharmacy = useAppSelector(
+    (state) => state.map.selectedPharmacy
+  );
 
   // Fetch pharmacies from API based on zip/city/state
   const {
@@ -84,6 +88,7 @@ export default function MapAndFormSection() {
       address: p.address,
       phone: p.phone,
       logo: p.logo,
+      isPartner: true, // Pharmacies from database are partner pharmacies
       location: {
         lat: p.latitude ?? p.location.coordinates?.[1],
         lng: p.longitude ?? p.location.coordinates?.[0],
@@ -215,6 +220,8 @@ export default function MapAndFormSection() {
         zipCode,
         city,
         state,
+        selectedPharmacyId: selectedPharmacy?.id || null,
+        isPartnerPharmacy: selectedPharmacy?.isPartner || false,
       })
     );
 
@@ -235,6 +242,9 @@ export default function MapAndFormSection() {
     });
     dispatch(setPickupAddress(address));
     dispatch(setPickupLocation(location));
+    // Clear selected pharmacy if user manually selects a pickup location
+    // handlePharmacySelect will set it again if selecting from a pharmacy
+    dispatch(setSelectedPharmacy(null));
     setMapSelectionMode(null); // Reset selection mode after selection
   };
 
@@ -263,6 +273,9 @@ export default function MapAndFormSection() {
       address: pharmacy.address,
     };
     handlePickupSelect(location, pharmacy.address);
+
+    // Save selected pharmacy to Redux map state
+    dispatch(setSelectedPharmacy(pharmacy));
   };
 
   const handleDistanceCalculated = (distance: string, duration: string) => {

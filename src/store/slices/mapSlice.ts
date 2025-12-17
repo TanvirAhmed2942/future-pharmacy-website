@@ -73,6 +73,7 @@ const mapSlice = createSlice({
       state.dropoffLocation = null;
       state.distance = null;
       state.duration = null;
+      state.selectedPharmacy = null;
     },
   },
 });
