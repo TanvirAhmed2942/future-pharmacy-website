@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -49,6 +49,57 @@ export default function ContactDetails({
   onNext,
 }: ContactDetailsProps) {
   const t = useTranslations("contactDetails");
+  const [errors, setErrors] = useState<{
+    email?: string;
+    contactNumber?: string;
+    firstName?: string;
+    lastName?: string;
+    dateOfBirth?: string;
+  }>({});
+
+  const validateForm = (): boolean => {
+    const newErrors: typeof errors = {};
+
+    if (!formData.email.trim()) {
+      newErrors.email = "Email address is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Please enter a valid email address";
+    }
+
+    if (!formData.contactNumber.trim()) {
+      newErrors.contactNumber = "Contact number is required";
+    }
+
+    if (!formData.firstName.trim()) {
+      newErrors.firstName = "First name is required";
+    }
+
+    if (!formData.lastName.trim()) {
+      newErrors.lastName = "Last name is required";
+    }
+
+    if (!formData.dateOfBirth.trim()) {
+      newErrors.dateOfBirth = "Date of birth is required";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleNextClick = () => {
+    if (validateForm()) {
+      onNext();
+    }
+  };
+
+  const handleFieldChange = (field: string, value: string) => {
+    onInputChange(field, value);
+    // Clear error for this field when user starts typing
+    if (errors[field as keyof typeof errors]) {
+      setErrors((prev) => ({ ...prev, [field]: undefined }));
+    }
+  };
+
   return (
     <div className="p-6 relative min-h-[600px]">
       <div className="flex items-center gap-2 mb-6 relative z-20">
@@ -66,9 +117,12 @@ export default function ContactDetails({
             type="email"
             placeholder={t("emailAddress.placeholder")}
             value={formData.email}
-            onChange={(e) => onInputChange("email", e.target.value)}
-            className="w-full"
+            onChange={(e) => handleFieldChange("email", e.target.value)}
+            className={`w-full ${errors.email ? "border-red-500" : ""}`}
           />
+          {errors.email && (
+            <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+          )}
         </div>
 
         {/* Contact Number */}
@@ -80,9 +134,12 @@ export default function ContactDetails({
             type="tel"
             placeholder={t("contactNumber.placeholder")}
             value={formData.contactNumber}
-            onChange={(e) => onInputChange("contactNumber", e.target.value)}
-            className="w-full"
+            onChange={(e) => handleFieldChange("contactNumber", e.target.value)}
+            className={`w-full ${errors.contactNumber ? "border-red-500" : ""}`}
           />
+          {errors.contactNumber && (
+            <p className="text-red-500 text-xs mt-1">{errors.contactNumber}</p>
+          )}
         </div>
 
         {/* Legal Name */}
@@ -91,18 +148,30 @@ export default function ContactDetails({
             {t("legalName.label")}
           </label>
           <div className="grid grid-cols-2 gap-3">
-            <Input
-              type="text"
-              placeholder={t("legalName.firstNamePlaceholder")}
-              value={formData.firstName}
-              onChange={(e) => onInputChange("firstName", e.target.value)}
-            />
-            <Input
-              type="text"
-              placeholder={t("legalName.lastNamePlaceholder")}
-              value={formData.lastName}
-              onChange={(e) => onInputChange("lastName", e.target.value)}
-            />
+            <div>
+              <Input
+                type="text"
+                placeholder={t("legalName.firstNamePlaceholder")}
+                value={formData.firstName}
+                onChange={(e) => handleFieldChange("firstName", e.target.value)}
+                className={errors.firstName ? "border-red-500" : ""}
+              />
+              {errors.firstName && (
+                <p className="text-red-500 text-xs mt-1">{errors.firstName}</p>
+              )}
+            </div>
+            <div>
+              <Input
+                type="text"
+                placeholder={t("legalName.lastNamePlaceholder")}
+                value={formData.lastName}
+                onChange={(e) => handleFieldChange("lastName", e.target.value)}
+                className={errors.lastName ? "border-red-500" : ""}
+              />
+              {errors.lastName && (
+                <p className="text-red-500 text-xs mt-1">{errors.lastName}</p>
+              )}
+            </div>
           </div>
         </div>
 
@@ -115,7 +184,9 @@ export default function ContactDetails({
             <PopoverTrigger asChild>
               <Button
                 variant="outline"
-                className="w-full justify-between text-left font-normal"
+                className={`w-full justify-between text-left font-normal ${
+                  errors.dateOfBirth ? "border-red-500" : ""
+                }`}
               >
                 {formData.dateOfBirth &&
                 formatDateDisplay(formData.dateOfBirth) ? (
@@ -139,7 +210,7 @@ export default function ContactDetails({
                 onSelect={(date) => {
                   // Prevent future dates
                   if (date && date <= new Date()) {
-                    onInputChange(
+                    handleFieldChange(
                       "dateOfBirth",
                       date ? date.toISOString() : ""
                     );
@@ -153,6 +224,9 @@ export default function ContactDetails({
               />
             </PopoverContent>
           </Popover>
+          {errors.dateOfBirth && (
+            <p className="text-red-500 text-xs mt-1">{errors.dateOfBirth}</p>
+          )}
         </div>
 
         {/* Instructional Text */}
@@ -187,7 +261,7 @@ export default function ContactDetails({
 
         {/* Agree and Continue Button */}
         <Button
-          onClick={onNext}
+          onClick={handleNextClick}
           className="w-full bg-peter hover:bg-peter-dark text-white py-3 rounded-lg font-semibold"
         >
           {t("agreeAndContinue")}

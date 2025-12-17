@@ -1,7 +1,8 @@
 "use client";
 import React, { useLayoutEffect } from "react";
 import { Provider } from "react-redux";
-import { store } from "./store";
+import { PersistGate } from "redux-persist/integration/react";
+import { store, persistor } from "./store";
 import { login } from "./slices/userSlice/userSlice";
 import { getCookie } from "@/lib/cookies";
 
@@ -86,5 +87,11 @@ export default function ReduxProvider({
     restoreAuthState();
   }, []);
 
-  return <Provider store={store}>{children}</Provider>;
+  return (
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        {children}
+      </PersistGate>
+    </Provider>
+  );
 }

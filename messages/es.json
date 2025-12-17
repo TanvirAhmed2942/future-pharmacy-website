@@ -1030,10 +1030,21 @@
       "contactNumber": "Número de Contacto:",
       "pickupAddress": "Dirección de recogida:",
       "deliverAddress": "Dirección de entrega:",
+      "distance": "Distancia:",
       "date": "Fecha:",
       "time": "Hora:",
       "today": "Hoy",
-      "now": "Ahora"
+      "now": "Ahora",
+      "additionalInstructions": "Instrucciones adicionales de recogida para el conductor (opcional)",
+      "additionalInstructionsPlaceholder": "Ingrese instrucciones adicionales de recogida para el conductor"
+    },
+    "tooltip": {
+      "title": "Ayúdenos a completar su recogida sin problemas. Puede incluir detalles como:",
+      "items": {
+        "rxCount": "Cuántos Rx o artículos esperar",
+        "gateCodes": "Códigos de puerta o instrucciones de entrega"
+      },
+      "disclaimer": "* Por favor, no incluya ninguna información de salud personal como nombres de medicamentos, condiciones, información de seguro, etc."
     },
     "priceDetails": {
       "title": "Detalles del Precio",
@@ -1042,6 +1053,7 @@
       "processingFee": "Tarifa de Procesamiento:",
       "totalUSD": "Total USD:"
     },
+    "seePricingBreakdown": "Ver Desglose de Precios",
     "legalAgreement": {
       "text": "Al hacer clic en realizar pedido, aceptas los",
       "termsOfService": "Términos de Servicio",
@@ -1052,6 +1064,20 @@
       "privacyPolicy": "Política de Privacidad"
     },
     "completePayment": "Completar Pago en Stripe"
+  },
+  "pricingBreakdown": {
+    "title": "Desglose de Precios",
+    "deliveryFee": {
+      "title": "Tarifa de entrega",
+      "first2Miles": "Pagas $5.99 por las primeras 2 millas",
+      "perAdditionalMile": "$1.89 por milla adicional",
+      "rushHourFee": "+$1.65 durante la entrega en hora pico",
+      "rushHourTime": "Hora pico: Días de semana 11AM-1PM y 4PM-6PM"
+    },
+    "serviceFee": {
+      "title": "Tarifa de servicio",
+      "description": "Esta tarifa ayuda a cubrir el procesamiento seguro, atención al cliente y tecnología para que podamos mantener operaciones de entrega confiables."
+    }
   },
 
   "checkUserStatusModal": {

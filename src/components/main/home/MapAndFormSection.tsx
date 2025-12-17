@@ -39,6 +39,8 @@ import {
 } from "@/store/slices/mapSlice";
 import { useGetPharmaciesQuery } from "@/store/Apis/mapApi/pharmapApi";
 import { RiResetLeftLine } from "react-icons/ri";
+import { setCheckoutData } from "@/store/slices/checkoutSlice";
+import { toast } from "sonner";
 export default function MapAndFormSection() {
   const t = useTranslations("home.mapAndFormSection");
   const tForm = useTranslations("home.form");
@@ -176,9 +178,49 @@ export default function MapAndFormSection() {
   };
 
   console.log("checkIsLoggedIn", checkIsLoggedIn());
+
   const handleRedirect = () => {
+    // Validation checks
+    if (!pickupAddress || !pickupLocationCoords) {
+      toast.error("Please select a pickup location");
+      return;
+    }
+
+    if (!dropoffAddress || !dropoffLocationCoords) {
+      toast.error("Please select a delivery address");
+      return;
+    }
+
+    if (!selectedDate) {
+      toast.error("Please select a delivery date");
+      return;
+    }
+
+    if (!selectedTime) {
+      toast.error("Please select a delivery time");
+      return;
+    }
+
+    // Save checkout data to Redux persist
+    dispatch(
+      setCheckoutData({
+        pickupAddress,
+        dropoffAddress,
+        pickupLocation: pickupLocationCoords,
+        dropoffLocation: dropoffLocationCoords,
+        selectedDate: selectedDate.toISOString(),
+        selectedTime,
+        distance: distance || "",
+        duration: duration || "",
+        zipCode,
+        city,
+        state,
+      })
+    );
+
+    // Proceed to checkout
     if (checkIsLoggedIn()) {
-      return router.push("/checkout-details");
+      router.push("/checkout-details");
     } else {
       setIsModalOpen(true);
     }

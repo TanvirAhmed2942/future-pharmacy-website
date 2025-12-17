@@ -1,10 +1,29 @@
 "use client";
-import React from "react";
+import React, { useState, useMemo } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
 import { useTranslations } from "next-intl";
-
+import { LiaQuestionCircle } from "react-icons/lia";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import PricingBreakdownModal from "./pricingBreakdownModal";
+import { Textarea } from "@/components/ui/textarea";
+import { useAppSelector, useAppDispatch } from "@/store/hooks";
+import {
+  selectCheckoutData,
+  clearCheckoutData,
+} from "@/store/slices/checkoutSlice";
+import {
+  selectIsLoggedIn,
+  selectUser,
+} from "@/store/slices/userSlice/userSlice";
+import { useCreateCheckoutMutation } from "@/store/Apis/checkoutApi/checkOutApi";
+import useShowToast from "@/hooks/useShowToast";
+import { useRouter } from "next/navigation";
 interface OrderSummaryProps {
   formData: {
     email: string;
@@ -17,12 +36,322 @@ interface OrderSummaryProps {
   onComplete: () => void;
 }
 
+// Parse distance string to get numeric value in miles
+const parseDistance = (distanceStr: string): number => {
+  if (!distanceStr) return 0;
+
+  // Extract number and unit from strings like "10 mi", "295 ft", "5.5 km", etc.
+  const match = distanceStr.match(
+    /(\d+\.?\d*)\s*(ft|feet|mi|miles|m|meters|km|kilometers|km|kilometres)?/i
+  );
+
+  if (!match) return 0;
+
+  const value = parseFloat(match[1]);
+  const unit = (match[2] || "").toLowerCase();
+
+  // Convert to miles based on unit
+  switch (unit) {
+    case "ft":
+    case "feet":
+      // 1 mile = 5280 feet
+      return value / 5280;
+    case "m":
+    case "meters":
+      // 1 mile = 1609.34 meters
+      return value / 1609.34;
+    case "km":
+    case "kilometers":
+    case "kilometres":
+      // 1 mile = 1.60934 km
+      return value / 1.60934;
+    case "mi":
+    case "miles":
+    default:
+      // Already in miles or no unit specified (assume miles)
+      return value;
+  }
+};
+
+// Check if the selected time is during rush hour (11AM-1PM & 4PM-6PM on weekdays)
+const isRushHour = (
+  selectedTime: string | null,
+  selectedDate: string | null
+): boolean => {
+  if (!selectedTime || !selectedDate) return false;
+
+  try {
+    const date = new Date(selectedDate);
+    const dayOfWeek = date.getDay(); // 0 = Sunday, 6 = Saturday
+
+    // Only weekdays (Monday-Friday, 1-5)
+    if (dayOfWeek === 0 || dayOfWeek === 6) return false;
+
+    // Parse time from selectedTime (format might be "11:00 AM - 12:00 PM" or just "11:00 AM")
+    const timeStr = selectedTime.split(" - ")[0]; // Get start time
+    const timeMatch = timeStr.match(/(\d+):(\d+)\s*(AM|PM)/i);
+
+    if (!timeMatch) return false;
+
+    let hours = parseInt(timeMatch[1]);
+    const minutes = parseInt(timeMatch[2]);
+    const period = timeMatch[3].toUpperCase();
+
+    // Convert to 24-hour format
+    if (period === "PM" && hours !== 12) hours += 12;
+    if (period === "AM" && hours === 12) hours = 0;
+
+    // Check if time falls in rush hour windows
+    // 11AM-1PM (11:00-13:00) or 4PM-6PM (16:00-18:00)
+    const timeInMinutes = hours * 60 + minutes;
+    const rushHour1Start = 11 * 60; // 11:00 AM
+    const rushHour1End = 13 * 60; // 1:00 PM
+    const rushHour2Start = 16 * 60; // 4:00 PM
+    const rushHour2End = 18 * 60; // 6:00 PM
+
+    return (
+      (timeInMinutes >= rushHour1Start && timeInMinutes < rushHour1End) ||
+      (timeInMinutes >= rushHour2Start && timeInMinutes < rushHour2End)
+    );
+  } catch {
+    return false;
+  }
+};
+
+// Calculate delivery fee based on distance and rush hour
+const calculateDeliveryFee = (
+  distance: string,
+  selectedTime: string | null,
+  selectedDate: string | null
+): number => {
+  const distanceInMiles = parseDistance(distance);
+  let fee = 0;
+
+  if (distanceInMiles <= 2) {
+    fee = 5.99;
+  } else {
+    // $5.99 for first 2 miles + $1.89 per additional mile
+    const additionalMiles = distanceInMiles - 2;
+    fee = 5.99 + additionalMiles * 1.89;
+  }
+
+  // Add rush hour fee if applicable
+  if (isRushHour(selectedTime, selectedDate)) {
+    fee += 1.65;
+  }
+
+  return Math.round(fee * 100) / 100; // Round to 2 decimal places
+};
+
+// Format date for display
+const formatDateDisplay = (dateStr: string | null): string => {
+  if (!dateStr) return "";
+  try {
+    const date = new Date(dateStr);
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    // Check if it's today
+    if (date.toDateString() === today.toDateString()) {
+      return "Today";
+    }
+    // Check if it's tomorrow
+    if (date.toDateString() === tomorrow.toDateString()) {
+      return "Tomorrow";
+    }
+    // Otherwise format as "MMM DD, YYYY"
+    return date.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+  } catch {
+    return "";
+  }
+};
+
+// Format time for display
+const formatTimeDisplay = (timeStr: string | null): string => {
+  if (!timeStr) return "";
+  // Return just the start time if it's a range
+  return timeStr.split(" - ")[0];
+};
+
+// Convert time from "11:00 AM" format to "14:30" format (24-hour)
+const convertTimeTo24Hour = (timeStr: string): string => {
+  if (!timeStr) return "";
+
+  try {
+    // Extract start time if it's a range
+    const time = timeStr.split(" - ")[0].trim();
+    const match = time.match(/(\d+):(\d+)\s*(AM|PM)/i);
+
+    if (!match) return "";
+
+    let hours = parseInt(match[1]);
+    const minutes = parseInt(match[2]);
+    const period = match[3].toUpperCase();
+
+    // Convert to 24-hour format
+    if (period === "PM" && hours !== 12) hours += 12;
+    if (period === "AM" && hours === 12) hours = 0;
+
+    return `${hours.toString().padStart(2, "0")}:${minutes
+      .toString()
+      .padStart(2, "0")}`;
+  } catch {
+    return "";
+  }
+};
+
+// Format date to YYYY-MM-DD format
+const formatDateToAPI = (dateStr: string | null): string => {
+  if (!dateStr) return "";
+  try {
+    const date = new Date(dateStr);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  } catch {
+    return "";
+  }
+};
+
 export default function OrderSummary({
   formData,
   onPrevious,
   onComplete,
 }: OrderSummaryProps) {
   const t = useTranslations("orderSummary");
+  const [isPricingModalOpen, setIsPricingModalOpen] = useState(false);
+  const dispatch = useAppDispatch();
+  const checkoutData = useAppSelector(selectCheckoutData);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const user = useAppSelector(selectUser);
+  const [createCheckout, { isLoading: isSubmitting }] =
+    useCreateCheckoutMutation();
+  const { showSuccess, showError } = useShowToast();
+  const router = useRouter();
+  // Calculate prices
+  const prices = useMemo(() => {
+    const deliveryFee = calculateDeliveryFee(
+      checkoutData.distance,
+      checkoutData.selectedTime,
+      checkoutData.selectedDate
+    );
+    const serviceFee = 1.0; // Fixed service fee
+    const total = deliveryFee + serviceFee;
+
+    return {
+      deliveryFee,
+      serviceFee,
+      total,
+    };
+  }, [
+    checkoutData.distance,
+    checkoutData.selectedTime,
+    checkoutData.selectedDate,
+  ]);
+
+  // Handle checkout payment
+  const handleCompletePayment = async () => {
+    try {
+      // Prepare checkout request data
+      const checkoutRequest = {
+        ...(isLoggedIn && user._id && { userId: user._id }),
+        typeUser: (isLoggedIn ? "registered" : "guest") as
+          | "registered"
+          | "guest",
+        pickupAddress: checkoutData.pickupAddress,
+        deliveryAddress: checkoutData.dropoffAddress,
+        deliveryDate: formatDateToAPI(checkoutData.selectedDate),
+        deliveryTime: convertTimeTo24Hour(checkoutData.selectedTime || ""),
+        email: checkoutData.email || formData.email,
+        phone: checkoutData.contactNumber || formData.contactNumber,
+        legalName: `${checkoutData.firstName || formData.firstName} ${
+          checkoutData.lastName || formData.lastName
+        }`,
+        dateOfBirth: formatDateToAPI(
+          checkoutData.dateOfBirth || formData.dateOfBirth
+        ),
+        amount: prices.total,
+      };
+
+      // Validate required fields
+      if (!checkoutRequest.pickupAddress || !checkoutRequest.deliveryAddress) {
+        showError({
+          message: "Please ensure pickup and delivery addresses are selected",
+        });
+        return;
+      }
+
+      if (!checkoutRequest.deliveryDate || !checkoutRequest.deliveryTime) {
+        showError({
+          message: "Please ensure delivery date and time are selected",
+        });
+        return;
+      }
+
+      if (
+        !checkoutRequest.email ||
+        !checkoutRequest.phone ||
+        !checkoutRequest.legalName ||
+        !checkoutRequest.dateOfBirth
+      ) {
+        showError({
+          message: "Please ensure all contact details are filled",
+        });
+        return;
+      }
+
+      // Call the checkout API
+      const response = await createCheckout(checkoutRequest).unwrap();
+
+      if (response.success) {
+        showSuccess({
+          message: response.message || "Redirecting to payment...",
+        });
+
+        // Clear checkout data from Redux slice after successful checkout
+        dispatch(clearCheckoutData());
+
+        // Redirect to Stripe checkout URL in a new tab if URL is provided
+        if (response.data?.url) {
+          window.open(response.data.url, "_blank", "noopener,noreferrer");
+        }
+
+        // Call the original onComplete callback
+        onComplete();
+        router.push("/");
+      } else {
+        showError({
+          message:
+            response.error ||
+            response.message ||
+            "Failed to complete checkout. Please try again.",
+        });
+      }
+    } catch (error: unknown) {
+      console.error("Checkout error:", error);
+      let errorMessage = "Failed to complete checkout. Please try again.";
+
+      if (error && typeof error === "object") {
+        if ("data" in error && error.data && typeof error.data === "object") {
+          const data = error.data as { message?: string; error?: string };
+          errorMessage = data.message || data.error || errorMessage;
+        } else if ("message" in error && typeof error.message === "string") {
+          errorMessage = error.message;
+        }
+      }
+
+      showError({
+        message: errorMessage,
+      });
+    }
+  };
+
   return (
     <div className="px-6 relative min-h-[600px]">
       <div className="flex items-center gap-3 mb-6 relative z-20">
@@ -52,20 +381,70 @@ export default function OrderSummary({
           </div>
           <div className="flex justify-between py-2 border-b border-gray-200">
             <span className="text-gray-600">{t("details.pickupAddress")}</span>
-            <span className="font-medium">CVS Pharmacy Broadway</span>
+            <span className="font-medium">
+              {checkoutData.pickupAddress || "Not selected"}
+            </span>
           </div>
           <div className="flex justify-between py-2 border-b border-gray-200">
             <span className="text-gray-600">{t("details.deliverAddress")}</span>
-            <span className="font-medium">7th Avenue, New York, NY</span>
+            <span className="font-medium">
+              {checkoutData.dropoffAddress || "Not selected"}
+            </span>
+          </div>
+          <div className="flex justify-between py-2 border-b border-gray-200">
+            <span className="text-gray-600">{t("details.distance")}</span>
+            <span className="font-medium">
+              {checkoutData.distance || "Not calculated"}
+            </span>
           </div>
           <div className="flex justify-between py-2 border-b border-gray-200">
             <span className="text-gray-600">{t("details.date")}</span>
-            <span className="font-medium">{t("details.today")}</span>
+            <span className="font-medium">
+              {checkoutData.selectedDate
+                ? formatDateDisplay(checkoutData.selectedDate)
+                : t("details.today")}
+            </span>
           </div>
           <div className="flex justify-between py-2 border-b border-gray-200">
             <span className="text-gray-600">{t("details.time")}</span>
-            <span className="font-medium">{t("details.now")}</span>
+            <span className="font-medium">
+              {checkoutData.selectedTime
+                ? formatTimeDisplay(checkoutData.selectedTime)
+                : t("details.now")}
+            </span>
           </div>
+          <div className="flex justify-between py-2">
+            <span className="text-gray-600">
+              {t("details.additionalInstructions")}{" "}
+            </span>
+            <span className="font-medium">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <LiaQuestionCircle
+                    size={20}
+                    className="text-peter cursor-pointer"
+                  />
+                </TooltipTrigger>
+                <TooltipContent
+                  side="right"
+                  className="max-w-xs text-gray-800 bg-gray-100"
+                >
+                  <div className="space-y-2">
+                    <p className="text-sm">{t("tooltip.title")}</p>
+                    <ul className="list-disc list-inside text-sm space-y-1">
+                      <li>{t("tooltip.items.rxCount")}</li>
+                      <li>{t("tooltip.items.gateCodes")}</li>
+                    </ul>
+                    <p className="text-xs mt-2">{t("tooltip.disclaimer")}</p>
+                  </div>
+                </TooltipContent>
+              </Tooltip>
+            </span>
+          </div>
+          <Textarea
+            className="w-full h-24"
+            placeholder={t("details.additionalInstructionsPlaceholder")}
+          />
         </div>
 
         {/* Price Details */}
@@ -78,28 +457,37 @@ export default function OrderSummary({
               <span className="text-gray-600">
                 {t("priceDetails.deliveryFee")}
               </span>
-              <span className="font-medium">$7.99</span>
+              <span className="font-medium">
+                ${prices.deliveryFee.toFixed(2)}
+              </span>
             </div>
             <div className="flex justify-between py-2 border-b border-gray-200">
               <span className="text-gray-600">
                 {t("priceDetails.serviceFee")}
               </span>
-              <span className="font-medium">$1.09</span>
-            </div>
-            <div className="flex justify-between py-2 border-b border-gray-200">
-              <span className="text-gray-600">
-                {t("priceDetails.processingFee")}
+              <span className="font-medium">
+                ${prices.serviceFee.toFixed(2)}
               </span>
-              <span className="font-medium">$1.09</span>
             </div>
+
             <div className="flex justify-between py-2 border-b-2 border-gray-300">
               <span className="text-lg font-semibold text-gray-900">
                 {t("priceDetails.totalUSD")}
               </span>
-              <span className="text-lg font-bold text-gray-900">$10.17</span>
+              <span className="text-lg font-bold text-gray-900">
+                ${prices.total.toFixed(2)}
+              </span>
             </div>
           </div>
         </div>
+
+        <Button
+          variant="link"
+          className="text-peter hover:underline -ml-4"
+          onClick={() => setIsPricingModalOpen(true)}
+        >
+          {t("seePricingBreakdown")}
+        </Button>
 
         {/* Legal Agreement Text */}
         <p className="text-sm text-gray-600">
@@ -124,10 +512,11 @@ export default function OrderSummary({
 
         {/* Complete Payment Button */}
         <Button
-          onClick={onComplete}
-          className="w-full bg-peter hover:bg-peter-dark text-white py-3 rounded-lg font-semibold"
+          onClick={handleCompletePayment}
+          disabled={isSubmitting}
+          className="w-full bg-peter hover:bg-peter-dark text-white py-3 rounded-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {t("completePayment")}
+          {isSubmitting ? "Processing..." : t("completePayment")}
         </Button>
       </div>
 
@@ -141,6 +530,12 @@ export default function OrderSummary({
           className="object-contain w-60 h-60 -rotate-45 opacity-100"
         />
       </div>
+
+      {/* Pricing Breakdown Modal */}
+      <PricingBreakdownModal
+        isOpen={isPricingModalOpen}
+        onClose={() => setIsPricingModalOpen(false)}
+      />
     </div>
   );
 }

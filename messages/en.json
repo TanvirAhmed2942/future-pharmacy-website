@@ -1030,10 +1030,21 @@
       "contactNumber": "Contact Number:",
       "pickupAddress": "Pick up address:",
       "deliverAddress": "Deliver address:",
+      "distance": "Distance:",
       "date": "Date:",
       "time": "Time:",
       "today": "Today",
-      "now": "Now"
+      "now": "Now",
+      "additionalInstructions": "Additional pickup instructions for driver (optional)",
+      "additionalInstructionsPlaceholder": "Enter additional pickup instructions for driver"
+    },
+    "tooltip": {
+      "title": "Help us complete your pickup smoothly. You may include details like:",
+      "items": {
+        "rxCount": "How many Rx or items to expect",
+        "gateCodes": "Gate codes or delivery instructions"
+      },
+      "disclaimer": "* Please do not include any personal health information such as drug names, conditions, insurance info etc."
     },
     "priceDetails": {
       "title": "Price Details",
@@ -1042,6 +1053,7 @@
       "processingFee": "Processing Fee:",
       "totalUSD": "Total USD:"
     },
+    "seePricingBreakdown": "See Pricing Breakdown",
     "legalAgreement": {
       "text": "By clicking place order, you agree to Optimus Health Solutions",
       "termsOfService": "Terms of Service",
@@ -1052,6 +1064,20 @@
       "privacyPolicy": "Privacy Policy"
     },
     "completePayment": "Complete Payment On Stripe"
+  },
+  "pricingBreakdown": {
+    "title": "Pricing Breakdown",
+    "deliveryFee": {
+      "title": "Delivery fee",
+      "first2Miles": "You pay $5.99 for first 2 miles",
+      "perAdditionalMile": "$1.89 per additional mile",
+      "rushHourFee": "+$1.65 during rush-hour delivery",
+      "rushHourTime": "Rush hour: Weekdays 11AM-1PM & 4PM-6PM"
+    },
+    "serviceFee": {
+      "title": "Service fee",
+      "description": "This fee helps cover secure processing, customer support, and technology so we can maintain reliable delivery operations."
+    }
   },
 
   "checkUserStatusModal": {

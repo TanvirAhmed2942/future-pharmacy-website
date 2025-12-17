@@ -3,9 +3,13 @@ import React, { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import ContactDetails from "./ContactDetails";
 import OrderSummary from "./OrderSummary";
-import { useAppSelector } from "@/store/hooks";
+import { useAppSelector, useAppDispatch } from "@/store/hooks";
 import { selectIsLoggedIn } from "@/store/slices/userSlice/userSlice";
 import { useGetProfileQuery } from "@/store/Apis/profileApi/profileApi";
+import {
+  setCheckoutData,
+  selectCheckoutData,
+} from "@/store/slices/checkoutSlice";
 
 // Parse date from "dd-mm-yyyy" format to ISO string
 const parseDateOfBirth = (dateStr: string): string => {
@@ -30,6 +34,8 @@ const parseDateOfBirth = (dateStr: string): string => {
 export default function CheckOutDetailsLayout() {
   const { data: profile } = useGetProfileQuery();
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const dispatch = useAppDispatch();
+  const checkoutData = useAppSelector(selectCheckoutData);
   const [currentStep, setCurrentStep] = useState(1);
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -41,9 +47,28 @@ export default function CheckOutDetailsLayout() {
     dateOfBirth: "",
   });
 
-  // Prepopulate form data if user is logged in
+  // Load contact details from persisted checkout data if available
   useEffect(() => {
-    if (isLoggedIn && profile?.data) {
+    if (checkoutData.email || checkoutData.firstName) {
+      setFormData({
+        email: checkoutData.email || "",
+        contactNumber: checkoutData.contactNumber || "",
+        firstName: checkoutData.firstName || "",
+        lastName: checkoutData.lastName || "",
+        dateOfBirth: checkoutData.dateOfBirth || "",
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Only run on mount
+
+  // Prepopulate form data if user is logged in (only if not already loaded from checkout data)
+  useEffect(() => {
+    if (
+      isLoggedIn &&
+      profile?.data &&
+      !checkoutData.email &&
+      !checkoutData.firstName
+    ) {
       setFormData({
         email: profile?.data?.email || "",
         contactNumber: profile?.data?.phone || "",
@@ -52,13 +77,24 @@ export default function CheckOutDetailsLayout() {
         dateOfBirth: parseDateOfBirth(profile?.data?.dateOfBirth || ""),
       });
     }
-  }, [isLoggedIn, profile?.data]);
+  }, [isLoggedIn, profile?.data, checkoutData.email, checkoutData.firstName]);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleNext = () => {
+    // Save contact details to checkout slice before moving to next step
+    dispatch(
+      setCheckoutData({
+        email: formData.email,
+        contactNumber: formData.contactNumber,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        dateOfBirth: formData.dateOfBirth,
+      })
+    );
+
     setIsAnimating(true);
     setTimeout(() => {
       setCurrentStep(2);
