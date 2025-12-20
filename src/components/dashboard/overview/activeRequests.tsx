@@ -3,7 +3,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MyRequestItem } from "@/store/Apis/dashboard/myrequestApi/myrequestApi";
-
+import { BiDollarCircle } from "react-icons/bi";
 interface ActiveRequestsProps {
   requests: MyRequestItem[];
 }
@@ -110,6 +110,10 @@ export default function ActiveRequests({ requests }: ActiveRequestsProps) {
                             request.status
                           )} text-white mb-2`}
                         >
+                          <BiDollarCircle
+                            size={25}
+                            className="text-white font-bold"
+                          />
                           {formatStatus(request.status)}
                         </Badge>
                         <h3 className="text-xl font-semibold text-gray-900 mb-1">

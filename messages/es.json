@@ -1085,5 +1085,39 @@
     "description": "Crea una cuenta de Optimus Health Solutions para un checkout más rápido más tarde. ¿No tienes tiempo ahora? No hay problema. Puedes hacer checkout como invitado.",
     "loginSignup": "Iniciar Sesión / Registrarse",
     "checkoutAsGuest": "Checkout como Invitado"
+  },
+  "checkZoneCoverage": {
+    "title": "Verifica si estás en nuestra Zona de Entrega",
+    "zipCodePlaceholder": "Ingresa tu código postal ej: 10017",
+    "inDeliveryArea": "Estás en nuestra zona de entrega",
+    "errors": {
+      "enterZipCode": "Por favor ingresa un código postal",
+      "validZipCode": "Por favor ingresa un código postal válido",
+      "numbersOnly": "Por favor ingresa solo números",
+      "enterEmail": "Por favor ingresa tu correo electrónico"
+    },
+    "checking": "Verificando...",
+    "check": "Verificar",
+    "toast": {
+      "inZone": "Estás en nuestra zona de entrega",
+      "notInZone": "Aún no estamos en tu zona. Puedes solicitar una notificación.",
+      "checkFailed": "Error al verificar la cobertura. Por favor intenta de nuevo.",
+      "notifySuccess": "Te notificaremos cuando lleguemos a tu área.",
+      "submitFailed": "Error al enviar. Por favor intenta de nuevo."
+    },
+    "notifyCoverage": {
+      "back": "Atrás",
+      "title": "Obtén acceso anticipado",
+      "description": "¡Pronto llegaremos a {zipCode}. Mantengámonos en contacto y te avisaremos cuando lleguemos!",
+      "emailPlaceholder": "Correo Electrónico",
+      "submitting": "Enviando...",
+      "notifyMe": "NOTIFICARME",
+      "tryAnotherZip": "PROBAR OTRO CÓDIGO POSTAL",
+      "termsText": "Al hacer clic en notificarme, acepto los",
+      "termsOfService": "Términos de Servicio",
+      "privacyPolicy": "Política de Privacidad",
+      "hipaaPolicy": "Política HIPAA",
+      "modalMessage": "Te notificaremos cuando lleguemos a tu área"
+    }
   }
 }

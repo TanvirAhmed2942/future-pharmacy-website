@@ -1085,5 +1085,39 @@
     "description": "Create a Optimus health Solutions account for faster checkout later. No time right now? No problem. You can check out as guest.",
     "loginSignup": "Login / Signup",
     "checkoutAsGuest": "Checkout as Guest"
+  },
+  "checkZoneCoverage": {
+    "title": "Check if you are in our Delivery Zone",
+    "zipCodePlaceholder": "Enter your zip code ex: 10017",
+    "inDeliveryArea": "You're in our delivery area",
+    "errors": {
+      "enterZipCode": "Please enter a zip code",
+      "validZipCode": "Please enter a valid zip code",
+      "numbersOnly": "Please enter numbers only",
+      "enterEmail": "Please enter your email"
+    },
+    "checking": "Checking...",
+    "check": "Check",
+    "toast": {
+      "inZone": "You're in our delivery zone",
+      "notInZone": "Not in zone yet. You can request notification.",
+      "checkFailed": "Failed to check coverage. Please try again.",
+      "notifySuccess": "We'll notify you when we arrive in your area.",
+      "submitFailed": "Failed to submit. Please try again."
+    },
+    "notifyCoverage": {
+      "back": "Back",
+      "title": "Get early access",
+      "description": "We're coming to {zipCode} soon. Let's stay in touch and we'll let you know when we arrive!",
+      "emailPlaceholder": "Email",
+      "submitting": "Submitting...",
+      "notifyMe": "NOTIFY ME",
+      "tryAnotherZip": "TRY ANOTHER ZIP CODE",
+      "termsText": "By clicking notify me, I accept the",
+      "termsOfService": "Terms of Service",
+      "privacyPolicy": "Privacy Policy",
+      "hipaaPolicy": "HIPAA Policy",
+      "modalMessage": "We'll notify you when we arrive in your area"
+    }
   }
 }

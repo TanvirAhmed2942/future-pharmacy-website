@@ -9,7 +9,10 @@ import CommonModal from "@/components/common/commonModal/commonModal";
 import { useLazyGetZipcodeQuery } from "@/store/Apis/zipcodeApi/zipcodeApi";
 import { toast } from "sonner";
 import { useEffect } from "react";
+import { useTranslations } from "next-intl";
+
 function CheckZoneCoverage() {
+  const t = useTranslations("checkZoneCoverage");
   const [zip, setZip] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isCovered, setIsCovered] = useState<boolean | null>(null);
@@ -35,12 +38,12 @@ function CheckZoneCoverage() {
       if (!trimmedSearch) {
         setIsCovered(null);
         setNotFoundZip("");
-        setError("Please enter a zip code");
+        setError(t("errors.enterZipCode"));
         return;
       }
 
       if (trimmedSearch.length !== 5) {
-        setError("Please enter a valid zip code");
+        setError(t("errors.validZipCode"));
         return;
       }
 
@@ -55,21 +58,21 @@ function CheckZoneCoverage() {
         const exists = res.data?.isExist === true;
         if (exists) {
           setIsCovered(true);
-          toast.success("You're in our delivery zone");
+          toast.success(t("toast.inZone"));
         } else {
           setNotFoundZip(trimmedSearch);
           setIsCovered(false);
           setZip("");
-          toast.info("Not in zone yet. You can request notification.");
+          toast.info(t("toast.notInZone"));
         }
       } catch (err) {
         console.error(err);
-        toast.error("Failed to check coverage. Please try again.");
+        toast.error(t("toast.checkFailed"));
       } finally {
         setIsLoading(false);
       }
     },
-    [isLoading, triggerZipCheck]
+    [isLoading, triggerZipCheck, t]
   );
 
   const handleNotify = useCallback(
@@ -82,19 +85,17 @@ function CheckZoneCoverage() {
           email,
         }).unwrap();
         await delay(1000); // show loader for 1s
-        toast.success(
-          res?.message || "We'll notify you when we arrive in your area."
-        );
+        toast.success(res?.message || t("toast.notifySuccess"));
         return true;
       } catch (err) {
         console.error(err);
-        toast.error("Failed to submit. Please try again.");
+        toast.error(t("toast.submitFailed"));
         return false;
       } finally {
         setIsLoading(false);
       }
     },
-    [notFoundZip, triggerZipCheck]
+    [notFoundZip, triggerZipCheck, t]
   );
 
   return (
@@ -118,12 +119,12 @@ function CheckZoneCoverage() {
               {useIcon({ name: "check-zone-coverage" })}
             </div>
             <h1 className="text-3xl md:text-4xl font-bold text-center text-peter ">
-              Check if you are in our Delivery Zone
+              {t("title")}
             </h1>
             <div className="flex flex-col items-center justify-center gap-4">
               <Input
                 type="text"
-                placeholder="Enter your zip code ex: 10017"
+                placeholder={t("zipCodePlaceholder")}
                 className="w-full max-w-md flex items-center justify-center placeholder:text-center text-center"
                 maxLength={5}
                 value={zip}
@@ -138,15 +139,15 @@ function CheckZoneCoverage() {
                       setNotFoundZip("");
                     }
                   } else {
-                    setError("Please enter numbers only");
+                    setError(t("errors.numbersOnly"));
                   }
                 }}
                 disabled={isLoading}
               />
               {isCovered && (
                 <p className="text-sm text-green-500 flex items-center justify-center gap-2">
-                  <TbCircleCheckFilled className="size-5" /> You&apos;re in our
-                  delivery area
+                  <TbCircleCheckFilled className="size-5" />{" "}
+                  {t("inDeliveryArea")}
                 </p>
               )}
               {error && (
@@ -159,7 +160,7 @@ function CheckZoneCoverage() {
                 onClick={() => handleSearch(zip.toString())}
                 disabled={isLoading}
               >
-                {isLoading ? "Checking..." : "Check"}
+                {isLoading ? t("checking") : t("check")}
               </Button>
             </div>
           </div>
@@ -205,13 +206,15 @@ const NotifyCoverage = ({
   onNotify: (email: string) => Promise<boolean | void>;
   isLoading: boolean;
 }) => {
+  const t = useTranslations("checkZoneCoverage.notifyCoverage");
+  const tMain = useTranslations("checkZoneCoverage");
   const [email, setEmail] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async () => {
     if (!email.trim()) {
-      setError("Please enter your email");
+      setError(tMain("errors.enterEmail"));
       return;
     }
     setError(null);
@@ -237,7 +240,7 @@ const NotifyCoverage = ({
   };
   return (
     <>
-      <div className="max-w-2xl mx-auto px-4 md:px-0 py-4 md:py-8 ">
+      <div className="max-w-3xl mx-auto px-4 md:px-0 py-4 md:py-8  ">
         {/* Back button */}
         <Button
           variant="ghost"
@@ -245,24 +248,20 @@ const NotifyCoverage = ({
           onClick={handleBack}
         >
           <span className="mr-2">‹</span>
-          <span>Back</span>
+          <span>{t("back")}</span>
         </Button>
 
         {/* Heading */}
-        <h1 className="text-4xl font-bold text-peter mb-4">Get early access</h1>
+        <h1 className="text-4xl font-bold text-peter mb-4">{t("title")}</h1>
 
         {/* Description */}
-        <p className="text-gray-700 mb-8">
-          We&apos;re coming to <span className="font-bold">{zipCode}</span>{" "}
-          soon. Let&apos;s stay in touch and we&apos;ll let you know when we
-          arrive!
-        </p>
+        <p className="text-gray-700 mb-8">{t("description", { zipCode })}</p>
 
         {/* Email input */}
         <div className="mb-6">
           <Input
             type="email"
-            placeholder="Email"
+            placeholder={t("emailPlaceholder")}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="w-full px-0 py-3 border-0 border-b-2 border-[#8d4585]/50 rounded-none focus-visible:ring-0 focus-visible:border-[#8d4585] text-gray-700 placeholder:text-[#8d4585]"
@@ -285,30 +284,30 @@ const NotifyCoverage = ({
             className=" bg-peter text-white rounded hover:bg-peter-dark"
             disabled={isLoading}
           >
-            {isLoading ? "Submitting..." : "NOTIFY ME"}
+            {isLoading ? t("submitting") : t("notifyMe")}
           </Button>
           <Button
             variant="link"
             className="text-peter font-medium hover:underline p-0 cursor-pointer"
             onClick={handleBack}
           >
-            TRY ANOTHER ZIP CODE
+            {t("tryAnotherZip")}
           </Button>
         </div>
 
         {/* Terms */}
         <p className="text-sm text-gray-600">
-          By clicking notify me, I accept the{" "}
+          {t("termsText")}{" "}
           <a href="#" className="text-peter hover:underline">
-            Terms of Service
+            {t("termsOfService")}
           </a>
           ,{" "}
           <a href="#" className="text-peter hover:underline">
-            Privacy Policy
+            {t("privacyPolicy")}
           </a>
           , and{" "}
           <a href="#" className="text-peter hover:underline">
-            HIPAA Policy
+            {t("hipaaPolicy")}
           </a>
         </p>
       </div>
@@ -316,7 +315,7 @@ const NotifyCoverage = ({
       <CommonModal
         isOpen={isOpen}
         type="success"
-        message="We'll notify you when we arrive in your area"
+        message={t("modalMessage")}
         onClose={handleClose}
         onOk={handleOk}
       />
