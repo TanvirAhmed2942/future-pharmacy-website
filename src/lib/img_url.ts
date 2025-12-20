@@ -7,7 +7,8 @@ export const imgUrl = (path?: string) => {
   if (!path || path === "N/A" || path.trim() === "") return "";
 
   // Get base URL from environment variable or use default
-  const baseUrl = process.env.IMG_URL || "http://10.10.7.65:5010";
+  const baseUrl =
+    process.env.IMG_URL || "https://humayon5002.binarybards.online/";
 
   // Convert Windows-style paths to URL paths (backslashes to forward slashes)
   const normalized = path.replace(/\\/g, "/");

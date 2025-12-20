@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       { hostname: "images.unsplash.com" },
       { hostname: "10.10.7.65" },
+      { hostname: "humayon5002.binarybards.online" },
     ],
   },
 };

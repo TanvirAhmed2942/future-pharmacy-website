@@ -5,6 +5,8 @@ import type { RootState } from "@/store/store";
 interface User {
   _id?: string;
   name: string;
+  first_name: string;
+  last_name: string;
   email: string;
   phone: string;
   address: string;
@@ -27,6 +29,8 @@ export interface UserState {
 const initialState: UserState = {
   user: {
     name: "",
+    first_name: "",
+    last_name: "",
     email: "",
     phone: "",
     address: "",

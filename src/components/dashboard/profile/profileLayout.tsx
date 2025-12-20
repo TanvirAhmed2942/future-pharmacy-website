@@ -28,6 +28,8 @@ function ProfileLayout() {
           name: `${profile.data.first_name || ""} ${
             profile.data.last_name || ""
           }`.trim(),
+          first_name: profile.data.first_name,
+          last_name: profile.data.last_name,
           email: profile.data.email,
           phone: profile.data.phone,
           dateOfBirth: profile.data.dateOfBirth,

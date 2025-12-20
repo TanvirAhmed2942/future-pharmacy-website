@@ -9,8 +9,12 @@ import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
-import { selectIsLoggedIn } from "@/store/slices/userSlice/userSlice";
+import {
+  selectIsLoggedIn,
+  selectUser,
+} from "@/store/slices/userSlice/userSlice";
 import { logout } from "@/store/slices/userSlice/userSlice";
+import { imgUrl } from "@/lib/img_url";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -32,10 +36,31 @@ function NavBar() {
   const pathname = usePathname();
   const router = useRouter();
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
   const [isPending, startTransition] = useTransition();
 
   const t = useTranslations("header");
+
+  // Get user avatar and initials
+  const getUserInitials = (firstName?: string, lastName?: string): string => {
+    if (firstName && lastName) {
+      return `${firstName[0]}${lastName[0]}`.toUpperCase();
+    }
+    if (firstName) {
+      return firstName.substring(0, 2).toUpperCase();
+    }
+    return "U";
+  };
+
+  const userAvatar = user?.profile
+    ? imgUrl(user.profile) || "/testimonials/user.png"
+    : "/testimonials/user.png";
+  const userInitials = getUserInitials(user?.first_name, user?.last_name);
+  const userName =
+    user?.first_name && user?.last_name
+      ? `${user.first_name} ${user.last_name}`
+      : user?.first_name || "User";
 
   // Get locale from cookie or localStorage
   useEffect(() => {
@@ -154,11 +179,8 @@ function NavBar() {
                   <DropdownMenuTrigger asChild>
                     <button className="cursor-pointer focus:outline-none focus:ring-2 focus:ring-peter focus:ring-offset-2 rounded-full">
                       <Avatar className="w-8 h-8">
-                        <AvatarImage
-                          src="https://github.com/shadcn.png"
-                          alt="User"
-                        />
-                        <AvatarFallback>JD</AvatarFallback>
+                        <AvatarImage src={userAvatar} alt={userName} />
+                        <AvatarFallback>{userInitials}</AvatarFallback>
                       </Avatar>
                     </button>
                   </DropdownMenuTrigger>
@@ -308,11 +330,8 @@ function NavBar() {
                   <DropdownMenuTrigger asChild>
                     <button className="cursor-pointer focus:outline-none focus:ring-2 focus:ring-peter focus:ring-offset-2 rounded-full">
                       <Avatar className="w-10 h-10">
-                        <AvatarImage
-                          src="https://github.com/shadcn.png"
-                          alt="User"
-                        />
-                        <AvatarFallback>JD</AvatarFallback>
+                        <AvatarImage src={userAvatar} alt={userName} />
+                        <AvatarFallback>{userInitials}</AvatarFallback>
                       </Avatar>
                     </button>
                   </DropdownMenuTrigger>
