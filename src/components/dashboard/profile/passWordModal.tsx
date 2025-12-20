@@ -208,9 +208,9 @@ function PasswordModal({
     setOtpError("");
   };
 
-  const handleResendOtp = () => {
-    console.log("Resend OTP");
-  };
+  // const handleResendOtp = () => {
+  //   console.log("Resend OTP");
+  // };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -236,12 +236,12 @@ function PasswordModal({
                       <label className="text-sm font-medium text-gray-700 mb-2 block">
                         Enter 4-digit OTP
                       </label>
-                      <p
+                      {/* <p
                         className="text-sm text-gray-500 mb-2 cursor-pointer hover:text-[#8d4585]"
                         onClick={handleResendOtp}
                       >
                         Resend OTP
-                      </p>
+                      </p> */}
                     </div>
                     <Input
                       type="text"
