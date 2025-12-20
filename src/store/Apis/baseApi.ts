@@ -58,6 +58,7 @@ export const baseApi = createApi({
     "Zipcode",
     "Map",
     "Notification",
+    "Policies",
   ],
   endpoints: () => ({}),
 });
