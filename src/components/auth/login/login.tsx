@@ -38,48 +38,69 @@ function Login() {
       const response = await loginMutation({ email, password }).unwrap();
 
       if (response.success && response.data) {
-        // Store tokens in cookies only
-        if (response.data.accessToken) {
-          setCookie("token", response.data.accessToken);
-        }
-        if (response.data.refreshToken) {
-          setCookie("refreshToken", response.data.refreshToken);
-        }
+        // Check if 2FA is enabled (data is a string token)
+        if (typeof response.data === "string") {
+          // Store two-step token in cookie
+          setCookie("two-step-token", response.data);
 
-        // Update Redux store with user data
-        if (response.data.user) {
-          const userData = {
-            _id: response.data.user._id,
-            name: response.data.user.fullName,
-            email: response.data.user.email,
-            phone: "",
-            address: "",
-            city: "",
-            state: "",
-            zip: "",
-            country: "",
-            role: response.data.user.role || "user",
-            dateOfBirth: "",
-            profile: response.data.user.profile,
-            isLoggedIn: true,
-          };
+          showSuccess({
+            message: response.message || "Please verify your OTP",
+          });
 
-          dispatch(login(userData));
-
-          // Also store user data in localStorage for restoration on refresh
-          if (typeof window !== "undefined") {
-            localStorage.setItem("userData", JSON.stringify(userData));
+          // Redirect to two-step verification page with redirect parameter
+          const redirectUrl = redirectPath
+            ? `/auth/two-step-verification?redirect=${encodeURIComponent(
+                redirectPath
+              )}`
+            : "/auth/two-step-verification";
+          setTimeout(() => {
+            router.push(redirectUrl);
+          }, 1000);
+        } else {
+          // Normal login flow (data is an object)
+          // Store tokens in cookies only
+          if (response.data.accessToken) {
+            setCookie("token", response.data.accessToken);
           }
+          if (response.data.refreshToken) {
+            setCookie("refreshToken", response.data.refreshToken);
+          }
+
+          // Update Redux store with user data
+          if (response.data.user) {
+            const userData = {
+              _id: response.data.user._id,
+              name: response.data.user.fullName,
+              email: response.data.user.email,
+              phone: "",
+              address: "",
+              city: "",
+              state: "",
+              zip: "",
+              country: "",
+              role: response.data.user.role || "user",
+              dateOfBirth: "",
+              profile: response.data.user.profile,
+              isLoggedIn: true,
+            };
+
+            dispatch(login(userData));
+
+            // Also store user data in localStorage for restoration on refresh
+            if (typeof window !== "undefined") {
+              localStorage.setItem("userData", JSON.stringify(userData));
+            }
+          }
+
+          showSuccess({
+            message: response.message || "Login successful",
+          });
+
+          // Redirect to dashboard or the original requested path after successful login
+          setTimeout(() => {
+            router.push(redirectPath);
+          }, 1000);
         }
-
-        showSuccess({
-          message: response.message || "Login successful",
-        });
-
-        // Redirect to dashboard or the original requested path after successful login
-        setTimeout(() => {
-          router.push(redirectPath);
-        }, 1000);
       } else {
         showError({
           message: response.error || response.message || "Login failed",

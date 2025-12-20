@@ -9,17 +9,19 @@ interface LoginRequest {
 interface LoginResponse {
   success: boolean;
   message?: string;
-  data?: {
-    user: {
-      _id: string;
-      profile?: string;
-      fullName: string;
-      email: string;
-      role: string;
-    };
-    accessToken: string;
-    refreshToken: string;
-  };
+  data?:
+    | {
+        user: {
+          _id: string;
+          profile?: string;
+          fullName: string;
+          email: string;
+          role: string;
+        };
+        accessToken: string;
+        refreshToken: string;
+      }
+    | string; // String token when 2FA is enabled
   error?: string;
 }
 
@@ -148,6 +150,34 @@ export const authApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["Auth"],
     }),
+    twoStepVerification: builder.mutation<LoginResponse, string>({
+      query: (otp: string) => {
+        const twoStepToken = getCookie("two-step-token");
+        return {
+          url: "/auth/2step-verification",
+          method: "POST",
+          body: { otp: otp },
+          headers: {
+            token: twoStepToken || "",
+          },
+        };
+      },
+      invalidatesTags: ["Auth"],
+    }),
+    resendTwoStepOtp: builder.mutation<ResendCreateUserOtpResponse, void>({
+      query: () => {
+        const twoStepToken = getCookie("two-step-token");
+
+        return {
+          url: "/otp/resend-otp",
+          method: "PATCH",
+          headers: {
+            token: twoStepToken || "",
+          },
+        };
+      },
+      invalidatesTags: ["Auth"],
+    }),
 
     resendCreateUserOtp: builder.mutation<ResendCreateUserOtpResponse, void>({
       query: () => {
@@ -242,4 +272,6 @@ export const {
   useForgotPasswordOtpMatchMutation,
   useResendForgotPasswordOtpMutation,
   useResetPasswordMutation,
+  useTwoStepVerificationMutation,
+  useResendTwoStepOtpMutation,
 } = authApi;
