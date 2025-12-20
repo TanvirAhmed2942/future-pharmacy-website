@@ -4,9 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import PasswordModal from "./passWordModal";
-import { useTwoStepVerificationMutation } from "@/store/Apis/profileApi/profileApi";
+
+import { useChangePasswordMutation } from "@/store/Apis/authApis/authApi";
 import useShowToast from "@/hooks/useShowToast";
 import { Badge } from "@/components/ui/badge";
+import { useTwoStepVerificationMutation } from "@/store/Apis/profileApi/profileApi";
 
 type TwofaInfoProps = {
   twoStepVerification: boolean;
@@ -21,14 +23,54 @@ export default function PasswordAnd2FA({
     twofaInfo.twoStepVerification
   );
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [apiResponse, setApiResponse] = useState<{
+    success?: boolean;
+    message?: string;
+    error?: string;
+    data?: string;
+  } | null>(null);
   const [twoStepVerificationMutation, { isLoading: is2FALoading }] =
     useTwoStepVerificationMutation();
+  const [changePasswordMutation, { isLoading: isChangingPassword }] =
+    useChangePasswordMutation();
   const { showSuccess, showError } = useShowToast();
 
   // Sync state with prop when it changes (e.g., when API data loads)
   useEffect(() => {
     setIs2FAEnabled(twofaInfo.twoStepVerification);
   }, [twofaInfo.twoStepVerification]);
+
+  // Handle change password button click - call API first
+  const handleChangePasswordClick = async () => {
+    try {
+      // Call the API when user clicks "Change password"
+      // You can adjust the request body based on what the API expects
+      const response = await changePasswordMutation({
+        oldPassword: "",
+        newPassword: "",
+      }).unwrap();
+
+      // Store the response and open modal
+      setApiResponse(response);
+      setIsPasswordModalOpen(true);
+    } catch (error: unknown) {
+      // Handle error - maybe still show modal or show error
+      let errorMessage = "An error occurred while initiating password change";
+
+      if (error && typeof error === "object") {
+        if ("data" in error && error.data && typeof error.data === "object") {
+          const data = error.data as { message?: string; error?: string };
+          errorMessage = data.message || data.error || errorMessage;
+        } else if ("message" in error && typeof error.message === "string") {
+          errorMessage = error.message;
+        }
+      }
+
+      // Store error response and still open modal if needed
+      setApiResponse({ error: errorMessage });
+      setIsPasswordModalOpen(true);
+    }
+  };
 
   // Handle 2FA toggle
   const handle2FAToggle = async (checked: boolean) => {
@@ -99,9 +141,10 @@ export default function PasswordAnd2FA({
           </div>
           <Button
             className="bg-peter hover:bg-peter-dark text-white px-6 cursor-pointer w-full md:w-auto mt-4 md:mt-0"
-            onClick={() => setIsPasswordModalOpen(true)}
+            onClick={handleChangePasswordClick}
+            disabled={isChangingPassword}
           >
-            Change password
+            {isChangingPassword ? "Loading..." : "Change password"}
           </Button>
         </div>
       </div>
@@ -140,8 +183,12 @@ export default function PasswordAnd2FA({
       {/* Password Modal */}
       <PasswordModal
         isOpen={isPasswordModalOpen}
-        onClose={() => setIsPasswordModalOpen(false)}
+        onClose={() => {
+          setIsPasswordModalOpen(false);
+          setApiResponse(null);
+        }}
         is2FAEnabled={is2FAEnabled}
+        apiResponse={apiResponse}
         onPasswordChange={(newPassword) => {
           setPassword(newPassword);
           // Here you would typically call an API to update the password

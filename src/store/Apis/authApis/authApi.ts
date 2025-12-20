@@ -116,6 +116,19 @@ interface ResetPasswordResponse {
   data?: string;
 }
 
+interface ChangePasswordRequest {
+  oldPassword?: string;
+  newPassword: string;
+  otp?: string;
+}
+
+interface ChangePasswordResponse {
+  success: boolean;
+  message?: string;
+  error?: string;
+  data?: string;
+}
+
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation<LoginResponse, LoginRequest>({
@@ -150,7 +163,7 @@ export const authApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["Auth"],
     }),
-    twoStepVerification: builder.mutation<LoginResponse, string>({
+    two_StepVerification: builder.mutation<LoginResponse, string>({
       query: (otp: string) => {
         const twoStepToken = getCookie("two-step-token");
         return {
@@ -260,7 +273,42 @@ export const authApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["Auth"],
     }),
+    changePassword: builder.mutation<
+      ChangePasswordResponse,
+      ChangePasswordRequest
+    >({
+      query: (body: ChangePasswordRequest) => {
+        const token = getCookie("token");
+        return {
+          url: "/auth/change-password",
+          method: "POST",
+          body: body,
+          headers: {
+            token: token || "",
+          },
+        };
+      },
+      invalidatesTags: ["Auth"],
+    }),
+    changePasswordVerfication: builder.mutation<
+      ChangePasswordResponse,
+      ChangePasswordRequest
+    >({
+      query: (body: ChangePasswordRequest) => {
+        const token = getCookie("token");
+        return {
+          url: "/auth/change-password-verification",
+          method: "PATCH",
+          body: body,
+          headers: {
+            token: token || "",
+          },
+        };
+      },
+      invalidatesTags: ["Auth"],
+    }),
   }),
+  overrideExisting: true,
 });
 
 export const {
@@ -272,6 +320,8 @@ export const {
   useForgotPasswordOtpMatchMutation,
   useResendForgotPasswordOtpMutation,
   useResetPasswordMutation,
-  useTwoStepVerificationMutation,
+  useTwo_StepVerificationMutation,
   useResendTwoStepOtpMutation,
+  useChangePasswordMutation,
+  useChangePasswordVerficationMutation,
 } = authApi;

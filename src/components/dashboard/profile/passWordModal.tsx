@@ -10,11 +10,19 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useChangePasswordVerficationMutation } from "@/store/Apis/authApis/authApi";
+import useShowToast from "@/hooks/useShowToast";
 
 interface PasswordModalProps {
   isOpen: boolean;
   onClose: () => void;
   is2FAEnabled: boolean;
+  apiResponse: {
+    success?: boolean;
+    message?: string;
+    error?: string;
+    data?: string;
+  } | null;
   onPasswordChange: (newPassword: string) => void;
 }
 
@@ -22,6 +30,7 @@ function PasswordModal({
   isOpen,
   onClose,
   is2FAEnabled,
+  apiResponse,
   onPasswordChange,
 }: PasswordModalProps) {
   // State for 2FA enabled flow
@@ -40,6 +49,20 @@ function PasswordModal({
   const [passwordError, setPasswordError] = useState("");
   const [passwordMatchError, setPasswordMatchError] = useState("");
 
+  // API hooks
+  const [changePasswordVerficationMutation, { isLoading: isChangingPassword }] =
+    useChangePasswordVerficationMutation();
+  const { showSuccess, showError } = useShowToast();
+
+  // Log API response to understand what it contains
+  useEffect(() => {
+    if (apiResponse && isOpen) {
+      console.log("Change Password API Response:", apiResponse);
+      // TODO: Based on apiResponse, determine what to show in the modal
+      // The user will tell us what each response should do
+    }
+  }, [apiResponse, isOpen]);
+
   // Reset form when modal opens/closes
   useEffect(() => {
     if (!isOpen) {
@@ -56,19 +79,29 @@ function PasswordModal({
     }
   }, [isOpen]);
 
-  // Handle OTP verification (mock implementation)
+  // Handle OTP verification - just validate format, API will verify
   const handleOtpVerification = () => {
-    // Mock OTP verification - in real app, this would call an API
-    if (otp.length === 4 && otp === "1234") {
-      setIsOtpVerified(true);
-      setOtpError("");
-    } else {
-      setOtpError("Invalid OTP. Please try again.");
+    // Validate OTP is 4 digits and numbers only
+    if (otp.length !== 4) {
+      setOtpError("OTP must be 4 digits");
+      return;
     }
+    if (!/^\d+$/.test(otp)) {
+      setOtpError("OTP must contain only numbers");
+      return;
+    }
+    // OTP format is valid, proceed to password step
+    setIsOtpVerified(true);
+    setOtpError("");
   };
 
   // Handle password change for 2FA enabled
-  const handlePasswordChange2FA = () => {
+  const handlePasswordChange2FA = async () => {
+    // Clear previous errors
+    setPasswordError("");
+    setPasswordMatchError("");
+
+    // Validation
     if (newPassword2FA !== confirmPassword2FA) {
       setPasswordMatchError("Passwords do not match");
       return;
@@ -78,12 +111,53 @@ function PasswordModal({
       return;
     }
 
-    onPasswordChange(newPassword2FA);
-    onClose();
+    try {
+      // Send OTP and new password to API (no oldPassword needed when 2FA is enabled)
+      // API will validate the OTP
+      const response = await changePasswordVerficationMutation({
+        otp: otp, // Send OTP for verification
+        newPassword: newPassword2FA,
+      }).unwrap();
+
+      if (response.success) {
+        showSuccess({
+          message: response.message || "Password changed successfully!",
+        });
+        onPasswordChange(newPassword2FA);
+        onClose();
+      } else {
+        showError({
+          message:
+            response.error || response.message || "Failed to change password",
+        });
+      }
+    } catch (error: unknown) {
+      let errorMessage = "An error occurred while changing password";
+
+      if (error && typeof error === "object") {
+        if ("data" in error && error.data && typeof error.data === "object") {
+          const data = error.data as { message?: string; error?: string };
+          errorMessage = data.message || data.error || errorMessage;
+        } else if ("message" in error && typeof error.message === "string") {
+          errorMessage = error.message;
+        }
+      }
+
+      showError({ message: errorMessage });
+    }
   };
 
   // Handle password change for 2FA disabled
-  const handlePasswordChange = () => {
+  const handlePasswordChange = async () => {
+    // Clear previous errors
+    setPasswordError("");
+    setPasswordMatchError("");
+
+    // Validation
+    if (!currentPassword) {
+      setPasswordError("Please enter your current password");
+      return;
+    }
     if (newPassword !== confirmPassword) {
       setPasswordMatchError("Passwords do not match");
       return;
@@ -92,13 +166,39 @@ function PasswordModal({
       setPasswordError("Password must be at least 6 characters long");
       return;
     }
-    if (!currentPassword) {
-      setPasswordError("Please enter your current password");
-      return;
-    }
 
-    onPasswordChange(newPassword);
-    onClose();
+    try {
+      const response = await changePasswordVerficationMutation({
+        oldPassword: currentPassword,
+        newPassword: newPassword,
+      }).unwrap();
+
+      if (response.success) {
+        showSuccess({
+          message: response.message || "Password changed successfully!",
+        });
+        onPasswordChange(newPassword);
+        onClose();
+      } else {
+        showError({
+          message:
+            response.error || response.message || "Failed to change password",
+        });
+      }
+    } catch (error: unknown) {
+      let errorMessage = "An error occurred while changing password";
+
+      if (error && typeof error === "object") {
+        if ("data" in error && error.data && typeof error.data === "object") {
+          const data = error.data as { message?: string; error?: string };
+          errorMessage = data.message || data.error || errorMessage;
+        } else if ("message" in error && typeof error.message === "string") {
+          errorMessage = error.message;
+        }
+      }
+
+      showError({ message: errorMessage });
+    }
   };
 
   // Handle OTP input change
@@ -158,7 +258,7 @@ function PasswordModal({
                   <Button
                     onClick={handleOtpVerification}
                     disabled={otp.length !== 4}
-                    className="w-full bg-peter hover:bg-peter-dark text-white"
+                    className="w-full bg-peter hover:bg-peter-dark text-white disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     Verify OTP
                   </Button>
@@ -173,7 +273,11 @@ function PasswordModal({
                     <Input
                       type="password"
                       value={newPassword2FA}
-                      onChange={(e) => setNewPassword2FA(e.target.value)}
+                      onChange={(e) => {
+                        setNewPassword2FA(e.target.value);
+                        setPasswordError("");
+                        setPasswordMatchError("");
+                      }}
                       placeholder="Enter new password"
                     />
                   </div>
@@ -184,7 +288,10 @@ function PasswordModal({
                     <Input
                       type="password"
                       value={confirmPassword2FA}
-                      onChange={(e) => setConfirmPassword2FA(e.target.value)}
+                      onChange={(e) => {
+                        setConfirmPassword2FA(e.target.value);
+                        setPasswordMatchError("");
+                      }}
                       placeholder="Confirm new password"
                     />
                     {passwordMatchError && (
@@ -211,7 +318,10 @@ function PasswordModal({
                 <Input
                   type="password"
                   value={currentPassword}
-                  onChange={(e) => setCurrentPassword(e.target.value)}
+                  onChange={(e) => {
+                    setCurrentPassword(e.target.value);
+                    setPasswordError("");
+                  }}
                   placeholder="Enter current password"
                 />
               </div>
@@ -222,7 +332,11 @@ function PasswordModal({
                 <Input
                   type="password"
                   value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
+                  onChange={(e) => {
+                    setNewPassword(e.target.value);
+                    setPasswordError("");
+                    setPasswordMatchError("");
+                  }}
                   placeholder="Enter new password"
                 />
               </div>
@@ -233,7 +347,10 @@ function PasswordModal({
                 <Input
                   type="password"
                   value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  onChange={(e) => {
+                    setConfirmPassword(e.target.value);
+                    setPasswordMatchError("");
+                  }}
                   placeholder="Confirm new password"
                 />
                 {passwordMatchError && (
@@ -261,17 +378,19 @@ function PasswordModal({
             isOtpVerified && (
               <Button
                 onClick={handlePasswordChange2FA}
-                className="w-full sm:flex-1 bg-peter hover:bg-peter-dark text-white"
+                disabled={isChangingPassword}
+                className="w-full sm:flex-1 bg-peter hover:bg-peter-dark text-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Save Password
+                {isChangingPassword ? "Saving..." : "Save Password"}
               </Button>
             )
           ) : (
             <Button
               onClick={handlePasswordChange}
-              className="w-full sm:flex-1 bg-peter hover:bg-peter-dark text-white"
+              disabled={isChangingPassword}
+              className="w-full sm:flex-1 bg-peter hover:bg-peter-dark text-white disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Save Password
+              {isChangingPassword ? "Saving..." : "Save Password"}
             </Button>
           )}
         </DialogFooter>

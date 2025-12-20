@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useTwoStepVerificationMutation } from "@/store/Apis/authApis/authApi";
+import { useTwo_StepVerificationMutation } from "@/store/Apis/authApis/authApi";
 import useShowToast from "@/hooks/useShowToast";
 import { setCookie, deleteCookie } from "@/lib/cookies";
 import { useAppDispatch } from "@/store/hooks";
@@ -19,7 +19,7 @@ function TwoStepVerification() {
   const redirectPath = searchParams.get("redirect") || "/dashboard/overview";
   const dispatch = useAppDispatch();
   const [twoStepVerificationMutation, { isLoading }] =
-    useTwoStepVerificationMutation();
+    useTwo_StepVerificationMutation();
   const { showSuccess, showError } = useShowToast();
 
   const handleInputChange = (index: number, value: string) => {
