@@ -316,21 +316,21 @@ export default function MapAndFormSection() {
                 </button>
               </div>
               <div className="flex items-center justify-between gap-3">
-              <h1
-                id="request-your-rx-delivered-in-minutes"
-                className="hidden sm:block text-2xl lg:text-xl 2xl:text-2xl font-bold text-gray-900 "
-              >
-                {t("title")}
-              </h1>
-              <h1
-                id="request-your-rx-delivered-in-minutes"
-                className="block sm:hidden text-2xl lg:text-xl 2xl:text-2xl font-medium text-gray-900 text-center"
-              >
-                {t("titleforMobileView")}
-              </h1>
+                <h1
+                  id="request-your-rx-delivered-in-minutes"
+                  className="hidden sm:block text-2xl lg:text-xl 2xl:text-2xl font-bold text-gray-900 "
+                >
+                  {t("title")}
+                </h1>
+                <h1
+                  id="request-your-rx-delivered-in-minutes"
+                  className="block sm:hidden text-2xl lg:text-xl 2xl:text-2xl font-medium text-gray-900 text-center"
+                >
+                  {t("titleforMobileView")}
+                </h1>
                 <button
                   onClick={handleResetLocations}
-                  className="text-peter hover:text-peter-dark flex items-center gap-2 text-sm font-semibold"
+                  className="text-peter hover:text-peter-dark flex items-center gap-2 text-sm font-semibold cursor-pointer"
                   title="Reset pickup and dropoff locations"
                   aria-label="Reset locations"
                 >

@@ -22,6 +22,7 @@ export interface CheckoutData {
   // Pharmacy
   selectedPharmacyId: string | null;
   isPartnerPharmacy: boolean;
+  additionalInstructions: string;
 }
 
 export interface CheckoutState {
@@ -50,6 +51,7 @@ const initialState: CheckoutState = {
     // Pharmacy
     selectedPharmacyId: null,
     isPartnerPharmacy: false,
+    additionalInstructions: "",
   },
 };
 
@@ -63,13 +65,17 @@ const checkoutSlice = createSlice({
         ...action.payload,
       };
     },
+    setAdditionalInstructions: (state, action: PayloadAction<string>) => {
+      state.checkoutData.additionalInstructions = action.payload;
+    },
     clearCheckoutData: (state) => {
       state.checkoutData = initialState.checkoutData;
     },
   },
 });
 
-export const { setCheckoutData, clearCheckoutData } = checkoutSlice.actions;
+export const { setCheckoutData, setAdditionalInstructions, clearCheckoutData } =
+  checkoutSlice.actions;
 
 // Selectors
 export const selectCheckoutData = (state: RootState) =>
@@ -92,5 +98,6 @@ export const selectLastName = (state: RootState) =>
   state.checkout.checkoutData.lastName;
 export const selectDateOfBirth = (state: RootState) =>
   state.checkout.checkoutData.dateOfBirth;
-
+export const selectAdditionalInstructions = (state: RootState) =>
+  state.checkout.checkoutData.additionalInstructions;
 export default checkoutSlice.reducer;

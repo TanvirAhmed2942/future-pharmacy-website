@@ -16,6 +16,7 @@ import { useAppSelector, useAppDispatch } from "@/store/hooks";
 import {
   selectCheckoutData,
   clearCheckoutData,
+  setAdditionalInstructions,
 } from "@/store/slices/checkoutSlice";
 import {
   selectIsLoggedIn,
@@ -290,10 +291,13 @@ export default function OrderSummary({
         legalName: `${checkoutData.firstName || formData.firstName} ${
           checkoutData.lastName || formData.lastName
         }`,
+        deliveryInstruction: checkoutData.additionalInstructions || "",
         dateOfBirth: formatDateToAPI(
           checkoutData.dateOfBirth || formData.dateOfBirth
         ),
         amount: prices.total,
+        serviceCharge: prices.serviceFee,
+        deliveryCharge: prices.deliveryFee,
       };
 
       // Validate required fields
@@ -464,6 +468,10 @@ export default function OrderSummary({
           <Textarea
             className="w-full h-24"
             placeholder={t("details.additionalInstructionsPlaceholder")}
+            value={checkoutData.additionalInstructions}
+            onChange={(e) =>
+              dispatch(setAdditionalInstructions(e.target.value))
+            }
           />
         </div>
 

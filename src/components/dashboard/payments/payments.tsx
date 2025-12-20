@@ -60,7 +60,7 @@ export default function Payments() {
     return transactions.filter((transaction) => {
       const matchesSearch =
         (transaction.transactionId || "").toLowerCase().includes(q) ||
-        (transaction.email || "").toLowerCase().includes(q) ||
+        (transaction.userId?.email || "").toLowerCase().includes(q) ||
         (transaction.method || "").toLowerCase().includes(q);
 
       const matchesStatus =

@@ -11,7 +11,10 @@ export interface CheckoutRequest {
   phone: string;
   legalName: string;
   dateOfBirth: string; // Format: "1997-10-23"
+  deliveryInstruction?: string; // Additional instructions
   amount: number;
+  serviceCharge: number; // Service charge
+  deliveryCharge: number; // Delivery charge (amount if not partner pharmacy, 0 if partner)
 }
 
 export interface CheckoutResponse {
