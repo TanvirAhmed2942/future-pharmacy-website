@@ -60,9 +60,12 @@ export default function RecentTransactions() {
             <p className="text-gray-500 text-center py-8">No transactions</p>
           ) : (
             latestTransactions.map((transaction) => {
+              // Get orderId as a string - handle both string and object types
               const orderId =
                 transaction.transactionId ||
-                transaction.prescriptionOrderId ||
+                (typeof transaction.prescriptionOrderId === "string"
+                  ? transaction.prescriptionOrderId
+                  : transaction.prescriptionOrderId?._id) ||
                 transaction._id;
               const transactionDate =
                 transaction.transactionDate || transaction.createdAt;
