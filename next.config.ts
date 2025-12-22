@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
       { hostname: "images.unsplash.com" },
       { hostname: "10.10.7.65" },
       { hostname: "humayon5002.binarybards.online" },
-      { hostname: "future-pharmacy-website.vercel.app" },
+      // { hostname: "future-pharmacy-website.vercel.app" },
     ],
   },
 };
