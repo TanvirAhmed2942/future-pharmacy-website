@@ -14,6 +14,8 @@ import {
   useGetBlogDetailsByIdQuery,
   useGetBlogSubscribersQuery,
   useCreateBlogLikeMutation,
+  useCreateBlogSavedMutation,
+  useDeleteSavedBlogMutation,
 } from "@/store/Apis/blogApi/blogApi";
 
 import { useSelector } from "react-redux";
@@ -29,6 +31,10 @@ function BlogDetailsLayout() {
   const { showSuccess, showError } = useShowToast();
   const [createBlogLike, { isLoading: isSubmitting }] =
     useCreateBlogLikeMutation();
+  const [createBlogSaved, { isLoading: isSaving }] =
+    useCreateBlogSavedMutation();
+  const [deleteSavedBlog, { isLoading: isDeleting }] =
+    useDeleteSavedBlogMutation();
   const [isSubscribeModalOpen, setIsSubscribeModalOpen] = useState(false);
   const { data: subscribersData } = useGetBlogSubscribersQuery();
   const isSubscribed = useMemo(
@@ -48,7 +54,6 @@ function BlogDetailsLayout() {
   const blogData = blogResponse?.data;
 
   const [isCommentSheetOpen, setIsCommentSheetOpen] = useState(false);
-  const [isBookmarked, setIsBookmarked] = useState(false);
 
   // Format date for display
   const formatDate = (dateString: string) => {
@@ -67,6 +72,11 @@ function BlogDetailsLayout() {
   const isLiked = useMemo(
     () => blogData?.blogLikes.includes(userId || ""),
     [blogData?.blogLikes, userId]
+  );
+
+  const isBookmarked = useMemo(
+    () => blogData?.blogSavedUsers?.includes(userId || ""),
+    [blogData?.blogSavedUsers, userId]
   );
 
   const handleLike = async (isLiked: boolean | undefined) => {
@@ -90,12 +100,31 @@ function BlogDetailsLayout() {
     }
   };
 
-  const handleBookmark = () => {
-    setIsBookmarked(!isBookmarked);
-    showSuccess({
-      message: isBookmarked ? "Removed from bookmarks" : "Added to bookmarks",
-    });
-    // TODO: Implement API call for bookmark functionality when backend is ready
+  const handleBookmark = async () => {
+    try {
+      if (isBookmarked) {
+        // Unsave/remove from saved blogs
+        await deleteSavedBlog(blogId).unwrap();
+        showSuccess({
+          message: "Removed from saved blogs",
+        });
+      } else {
+        // Save blog
+        await createBlogSaved(blogId).unwrap();
+        showSuccess({
+          message: "Added to saved blogs",
+        });
+      }
+      refetch();
+    } catch (error: unknown) {
+      console.error("Failed to save/unsave blog:", error);
+      const errorMessage =
+        (error as { data?: { message?: string } })?.data?.message ||
+        "Failed to update saved blogs. Please try again.";
+      showError({
+        message: errorMessage,
+      });
+    }
   };
 
   const copyToClipboard = async (text: string): Promise<boolean> => {
@@ -283,9 +312,12 @@ function BlogDetailsLayout() {
             <span className="text-base">{blogData.comments?.length || 0}</span>
           </button>
           <button
-            className="text-gray-600 hover:text-peter flex items-center gap-2 transition-colors cursor-pointer"
+            className="text-gray-600 hover:text-peter flex items-center gap-2 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={handleBookmark}
-            title={isBookmarked ? "Remove from bookmarks" : "Add to bookmarks"}
+            disabled={isSaving || isDeleting}
+            title={
+              isBookmarked ? "Remove from saved blogs" : "Add to saved blogs"
+            }
           >
             <FiBookmark
               className={`w-5 h-5 ${

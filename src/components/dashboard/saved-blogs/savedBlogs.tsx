@@ -21,75 +21,70 @@ import {
 import { Button } from "@/components/ui/button";
 import { Trash2, ExternalLink } from "lucide-react";
 import Loader from "@/components/common/loader/Loader";
+import {
+  useGetSavedBlogsQuery,
+  useDeleteSavedBlogMutation,
+  BlogItem,
+} from "@/store/Apis/blogApi/blogApi";
+import useShowToast from "@/hooks/useShowToast";
 
 const ITEMS_PER_PAGE = 10;
 
-// Interface for saved blog item
-interface SavedBlogItem {
-  _id: string;
-  blogId: string;
-  blogTitle: string;
-  link: string;
-  date: string;
-  createdAt?: string;
-}
-
-// Mock data - Replace this with actual API call
-const mockSavedBlogs: SavedBlogItem[] = [
-  {
-    _id: "1",
-    blogId: "blog1",
-    blogTitle: "Understanding Pharmacy Services",
-    link: "/blog/blog-details/blog1",
-    date: "2024-01-15",
-  },
-  {
-    _id: "2",
-    blogId: "blog2",
-    blogTitle: "Health Tips for Winter",
-    link: "/blog/blog-details/blog2",
-    date: "2024-01-20",
-  },
-  {
-    _id: "3",
-    blogId: "blog3",
-    blogTitle: "Medication Management Guide",
-    link: "/blog/blog-details/blog3",
-    date: "2024-02-01",
-  },
-];
-
 function SavedBlogs() {
   const router = useRouter();
+  const { showSuccess, showError } = useShowToast();
   const [currentPage, setCurrentPage] = useState(1);
-  const [savedBlogs, setSavedBlogs] = useState<SavedBlogItem[]>(mockSavedBlogs);
-  const isLoading = false; // TODO: Replace with actual loading state from API
 
-  // TODO: Replace with actual API call
-  // const { data: savedBlogsResponse, isLoading, isError } = useGetSavedBlogsQuery({
-  //   page: currentPage,
-  //   limit: ITEMS_PER_PAGE,
-  // });
+  const {
+    data: savedBlogsResponse,
+    isLoading,
+    isError,
+    refetch,
+  } = useGetSavedBlogsQuery({
+    page: currentPage,
+    limit: ITEMS_PER_PAGE,
+  });
 
-  // Format date for display
-  const formatDate = (dateString: string) => {
-    try {
-      const date = new Date(dateString);
-      return date.toLocaleDateString("en-US", {
+  const [deleteSavedBlog, { isLoading: isDeleting }] =
+    useDeleteSavedBlogMutation();
+
+  const savedBlogs = useMemo<BlogItem[]>(
+    () => savedBlogsResponse?.data || [],
+    [savedBlogsResponse?.data]
+  );
+  const meta = savedBlogsResponse?.meta;
+
+  // Format date for display, preferring updatedAt as the authoritative value
+  const formatDate = (updatedAt?: string, dateString?: string) => {
+    const format = (value?: string | null) => {
+      if (!value) return null;
+      const parsed = new Date(value);
+      if (isNaN(parsed.getTime())) return null;
+      return parsed.toLocaleDateString("en-US", {
         month: "long",
         day: "numeric",
         year: "numeric",
       });
-    } catch {
-      return dateString;
-    }
+    };
+
+    // 1) Prefer updatedAt (ISO from backend)
+    const fromUpdatedAt = format(updatedAt);
+    if (fromUpdatedAt) return fromUpdatedAt;
+
+    // 2) Fallback to dateString after normalizing double dashes
+    const normalizedDate = dateString?.replace(/--/g, "-");
+    const fromDate = format(normalizedDate);
+    if (fromDate) return fromDate;
+
+    // 3) Last resort: show raw updatedAt/dateString
+    return updatedAt || dateString || "";
   };
 
   // Calculate pagination
-  const totalPages = Math.ceil(savedBlogs.length / ITEMS_PER_PAGE) || 1;
+  const totalPages = meta?.totalPage || 1;
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const endIndex = startIndex + ITEMS_PER_PAGE;
-  const currentBlogs = savedBlogs.slice(startIndex, endIndex);
+  const totalItems = meta?.total ?? savedBlogs.length;
+  const endDisplay = Math.min(startIndex + savedBlogs.length, totalItems);
 
   // Generate page numbers for pagination
   const renderPageNumbers = useMemo(() => {
@@ -133,22 +128,37 @@ function SavedBlogs() {
   );
 
   const handleDelete = useCallback(
-    (blogId: string) => {
-      // TODO: Replace with actual API call
-      // await deleteSavedBlog(blogId);
-      setSavedBlogs((prev) => prev.filter((blog) => blog._id !== blogId));
+    async (blogId: string) => {
+      try {
+        await deleteSavedBlog(blogId).unwrap();
+        showSuccess({ message: "Blog removed from saved list" });
 
-      // Adjust page if current page becomes empty
-      if (currentBlogs.length === 1 && currentPage > 1) {
-        setCurrentPage(currentPage - 1);
+        // Adjust page if current page becomes empty
+        if (savedBlogs.length === 1 && currentPage > 1) {
+          setCurrentPage(currentPage - 1);
+        } else {
+          refetch();
+        }
+      } catch (error: unknown) {
+        const errorMessage =
+          (error as { data?: { message?: string } })?.data?.message ||
+          "Failed to remove blog from saved list";
+        showError({ message: errorMessage });
       }
     },
-    [currentBlogs.length, currentPage]
+    [
+      deleteSavedBlog,
+      savedBlogs.length,
+      currentPage,
+      refetch,
+      showSuccess,
+      showError,
+    ]
   );
 
   const handleGoTo = useCallback(
-    (link: string) => {
-      router.push(link);
+    (blogId: string) => {
+      router.push(`/blog/blog-details/${blogId}`);
     },
     [router]
   );
@@ -165,7 +175,13 @@ function SavedBlogs() {
         </div>
       )}
 
-      {!isLoading && (
+      {isError && (
+        <div className="w-full flex justify-center items-center py-10">
+          <p className="text-red-500 text-lg">Failed to load saved blogs.</p>
+        </div>
+      )}
+
+      {!isLoading && !isError && (
         <>
           <div className="border rounded-lg overflow-hidden">
             <Table>
@@ -189,7 +205,7 @@ function SavedBlogs() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {currentBlogs.length === 0 ? (
+                {savedBlogs.length === 0 ? (
                   <TableRow>
                     <TableCell
                       colSpan={5}
@@ -199,36 +215,37 @@ function SavedBlogs() {
                     </TableCell>
                   </TableRow>
                 ) : (
-                  currentBlogs.map((blog, index) => (
+                  savedBlogs.map((blog, index) => (
                     <TableRow key={blog._id}>
                       <TableCell className="font-medium text-gray-900">
                         {startIndex + index + 1}
                       </TableCell>
                       <TableCell className="text-gray-700">
-                        {blog.blogTitle}
+                        {blog.title}
                       </TableCell>
                       <TableCell className="text-gray-700">
                         <a
-                          href={blog.link}
+                          href={`/blog/blog-details/${blog._id}`}
                           className="text-blue-600 hover:text-blue-800 hover:underline"
                           onClick={(e) => {
                             e.preventDefault();
-                            handleGoTo(blog.link);
+                            handleGoTo(blog._id);
                           }}
                         >
-                          {blog.link}
+                          /blog/blog-details/{blog._id}
                         </a>
                       </TableCell>
                       <TableCell className="text-gray-700">
-                        {formatDate(blog.date)}
+                        {formatDate(blog.updatedAt, blog.date)}
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center gap-2">
                           <Button
                             variant="outline"
                             size="sm"
-                            onClick={() => handleGoTo(blog.link)}
+                            onClick={() => handleGoTo(blog._id)}
                             className="flex items-center gap-1"
+                            disabled={isDeleting}
                           >
                             <ExternalLink className="size-4" />
                             Go To
@@ -238,6 +255,7 @@ function SavedBlogs() {
                             size="sm"
                             onClick={() => handleDelete(blog._id)}
                             className="flex items-center gap-1"
+                            disabled={isDeleting}
                           >
                             <Trash2 className="size-4" />
                             Delete
@@ -251,12 +269,11 @@ function SavedBlogs() {
             </Table>
           </div>
 
-          {savedBlogs.length > 0 && (
+          {savedBlogs.length > 0 && meta && (
             <div className="flex items-center justify-between mt-6">
               <p className="text-sm text-gray-600 w-full">
-                Showing {startIndex + 1} to{" "}
-                {Math.min(endIndex, savedBlogs.length)} of {savedBlogs.length}{" "}
-                entries
+                Showing {totalItems === 0 ? 0 : startIndex + 1} to {endDisplay}{" "}
+                of {totalItems} entries
               </p>
 
               <div>

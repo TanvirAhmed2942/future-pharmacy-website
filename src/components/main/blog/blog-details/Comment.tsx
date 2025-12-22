@@ -40,6 +40,10 @@ function Comment({ open, onOpenChange, blogId }: CommentProps) {
     refetch,
   } = useGetBlogCommentsByIdQuery(blogId, {
     skip: !open, // Only fetch when sheet is open
+    refetchOnMountOrArgChange: true,
+    refetchOnFocus: true,
+    refetchOnReconnect: true,
+    pollingInterval: 10000, // 10 seconds
   });
 
   const [createComment, { isLoading: isSubmitting }] =

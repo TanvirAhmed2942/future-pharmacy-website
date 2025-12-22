@@ -9,6 +9,7 @@ export interface BlogItem {
   description: string;
   isDeleted: boolean;
   blogLikes: string[];
+  blogSavedUsers?: string[];
   createdAt: string;
   updatedAt: string;
 }
@@ -34,6 +35,8 @@ export interface BlogComment {
 // Extended blog item with populated comments (for single blog details)
 export interface BlogItemWithComments extends BlogItem {
   comments: BlogComment[];
+  blogSavedUsers: string[];
+  __v?: number;
 }
 
 export interface BlogMeta {
@@ -116,6 +119,14 @@ export interface BlogSubscribersResponse {
   data: BlogSubscribersData;
 }
 
+// Saved blogs response
+export interface SavedBlogsResponse {
+  success: boolean;
+  message: string;
+  meta: BlogMeta;
+  data: BlogItem[];
+}
+
 export const blogApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getBlog: builder.query<BlogResponse, BlogQueryParams | void>({
@@ -184,6 +195,28 @@ export const blogApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Blog"],
     }),
+    createBlogSaved: builder.mutation<void, string>({
+      query: (blogId) => ({
+        url: `/blog/blog-saved/${blogId}`,
+        method: "POST",
+      }),
+      invalidatesTags: ["Blog", "SavedBlogs"],
+    }),
+    getSavedBlogs: builder.query<SavedBlogsResponse, BlogQueryParams | void>({
+      query: (params) => ({
+        url: "/blog/user/saved-blogs",
+        method: "GET",
+        params: params || { page: 1, limit: 10 },
+      }),
+      providesTags: ["SavedBlogs"],
+    }),
+    deleteSavedBlog: builder.mutation<void, string>({
+      query: (blogId) => ({
+        url: `/blog/blog-saved/${blogId}`,
+        method: "POST",
+      }),
+      invalidatesTags: ["Blog", "SavedBlogs"],
+    }),
   }),
   overrideExisting: true,
 });
@@ -197,4 +230,7 @@ export const {
   useDeleteBlogCommentMutation,
   useGetBlogSubscribersQuery,
   useSubscribeToBlogMutation,
+  useCreateBlogSavedMutation,
+  useGetSavedBlogsQuery,
+  useDeleteSavedBlogMutation,
 } = blogApi;

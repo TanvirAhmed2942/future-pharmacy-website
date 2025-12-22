@@ -53,6 +53,7 @@ export const baseApi = createApi({
     "RefillTransferSchedule",
     "Business",
     "Blog",
+    "SavedBlogs",
     "MyRequests",
     "Payment",
     "Zipcode",
