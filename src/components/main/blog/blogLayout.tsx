@@ -36,10 +36,18 @@ function BlogLayout() {
     data: blogResponse,
     isLoading,
     isError,
-  } = useGetBlogQuery({
-    page: currentPage,
-    limit: 10,
-  });
+  } = useGetBlogQuery(
+    {
+      page: currentPage,
+      limit: 10,
+    },
+    {
+      pollingInterval: 30000, // 30 seconds
+      refetchOnFocus: true,
+      refetchOnMountOrArgChange: true,
+      refetchOnReconnect: true,
+    }
+  );
 
   const blogs = blogResponse?.data?.data || [];
   const meta = blogResponse?.meta;

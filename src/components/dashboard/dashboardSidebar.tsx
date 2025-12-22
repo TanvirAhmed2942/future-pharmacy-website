@@ -1,6 +1,6 @@
 "use client";
 
-import { CreditCard, Inbox, LogOut } from "lucide-react";
+import { Bookmark, CreditCard, Inbox, LogOut } from "lucide-react";
 import { TbLayoutDashboard } from "react-icons/tb";
 import {
   Sidebar,
@@ -34,6 +34,11 @@ const items = [
     title: "Payments",
     url: "/dashboard/payments",
     icon: CreditCard,
+  },
+  {
+    title: "Saved Blogs",
+    url: "/dashboard/saved-blogs",
+    icon: Bookmark,
   },
   {
     title: "Logout",

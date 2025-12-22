@@ -124,6 +124,7 @@ export const blogApi = baseApi.injectEndpoints({
         method: "GET",
         params: params || { page: 1, limit: 10 },
       }),
+
       providesTags: ["Blog"],
     }),
     getBlogDetailsById: builder.query<BlogDetailsResponse, string>({

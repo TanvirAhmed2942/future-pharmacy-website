@@ -57,9 +57,10 @@ function BlogCard({ blog }: { blog: BlogItem }) {
             </h2>
 
             {/* Description */}
-            <p className="text-sm md:text-base text-gray-600 mb-6 line-clamp-3 flex-1">
-              {blog.description}
-            </p>
+            <p
+              className="text-sm md:text-base text-gray-600 mb-6 line-clamp-3 flex-1"
+              dangerouslySetInnerHTML={{ __html: blog.description }}
+            />
 
             {/* Footer - Title Initial Badge, Date, Read Time */}
             <div className="flex items-center gap-3 border-gray-200">
