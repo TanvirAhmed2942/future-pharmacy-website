@@ -14,6 +14,7 @@ import {
   selectUser,
 } from "@/store/slices/userSlice/userSlice";
 import { logout } from "@/store/slices/userSlice/userSlice";
+import { clearCheckoutData } from "@/store/slices/checkoutSlice";
 import { imgUrl } from "@/lib/img_url";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -195,7 +196,19 @@ function NavBar() {
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
                       onClick={() => {
+                        dispatch(clearCheckoutData());
                         dispatch(logout());
+                        // Also manually clear all persisted data from localStorage
+                        if (typeof window !== "undefined") {
+                          localStorage.removeItem("persist:checkout");
+                          localStorage.removeItem("persist:root");
+                          // Clear any other persist keys that might exist
+                          Object.keys(localStorage).forEach((key) => {
+                            if (key.startsWith("persist:")) {
+                              localStorage.removeItem(key);
+                            }
+                          });
+                        }
                         router.push("/");
                       }}
                       className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50"
@@ -346,7 +359,19 @@ function NavBar() {
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
                       onClick={() => {
+                        dispatch(clearCheckoutData());
                         dispatch(logout());
+                        // Also manually clear all persisted data from localStorage
+                        if (typeof window !== "undefined") {
+                          localStorage.removeItem("persist:checkout");
+                          localStorage.removeItem("persist:root");
+                          // Clear any other persist keys that might exist
+                          Object.keys(localStorage).forEach((key) => {
+                            if (key.startsWith("persist:")) {
+                              localStorage.removeItem(key);
+                            }
+                          });
+                        }
                         router.push("/");
                       }}
                       className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50"
