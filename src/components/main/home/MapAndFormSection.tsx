@@ -16,7 +16,10 @@ import TimePickerModal from "@/components/ui/time-picker-modal";
 import LocationPickerModal from "@/components/main/home/location-picker-modal";
 import NewCustomerModal from "./checkUserStatusModal";
 
-import { selectIsLoggedIn } from "@/store/slices/userSlice/userSlice";
+import {
+  selectIsLoggedIn,
+  selectUser,
+} from "@/store/slices/userSlice/userSlice";
 import { useRouter } from "next/navigation";
 import { Label } from "@radix-ui/react-label";
 import { useTranslations } from "next-intl";
@@ -46,6 +49,7 @@ export default function MapAndFormSection() {
   const t = useTranslations("home.mapAndFormSection");
   const tForm = useTranslations("home.form");
   const dispatch = useAppDispatch();
+  const currentUser = useAppSelector(selectUser);
 
   // Redux state
   const pickupAddress = useAppSelector((state) => state.map.pickupAddress);
@@ -207,8 +211,10 @@ export default function MapAndFormSection() {
     }
 
     // Save checkout data to Redux persist
+    const currentUserId = currentUser?._id || null;
     dispatch(
       setCheckoutData({
+        userId: currentUserId,
         pickupAddress,
         dropoffAddress,
         pickupLocation: pickupLocationCoords,

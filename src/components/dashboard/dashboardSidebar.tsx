@@ -17,6 +17,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/store/hooks";
 import { logout } from "@/store/slices/userSlice/userSlice";
+import { clearCheckoutData } from "@/store/slices/checkoutSlice";
 
 // Menu items.
 const items = [
@@ -52,7 +53,19 @@ export function DashboardSidebar() {
   const dispatch = useAppDispatch();
 
   const handleLogout = () => {
+    dispatch(clearCheckoutData());
     dispatch(logout());
+    // Also manually clear all persisted data from localStorage
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("persist:checkout");
+      localStorage.removeItem("persist:root");
+      // Clear any other persist keys that might exist
+      Object.keys(localStorage).forEach((key) => {
+        if (key.startsWith("persist:")) {
+          localStorage.removeItem(key);
+        }
+      });
+    }
     router.push("/auth/login");
   };
 

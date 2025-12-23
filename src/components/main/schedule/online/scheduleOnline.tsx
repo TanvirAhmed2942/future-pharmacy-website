@@ -20,7 +20,7 @@ import {
 import { ChevronDownIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import CalendarModal from "./calendarModal";
@@ -31,6 +31,12 @@ import {
   type ScheduleRequest,
 } from "@/store/Apis/refillTransferScheduleApi/refillTransferScheduleApi";
 import useShowToast from "@/hooks/useShowToast";
+import { useAppSelector } from "@/store/hooks";
+import {
+  selectIsLoggedIn,
+  selectUser,
+} from "@/store/slices/userSlice/userSlice";
+import { useGetProfileQuery } from "@/store/Apis/profileApi/profileApi";
 
 type FormValues = {
   firstName: string;
@@ -63,8 +69,49 @@ type FormValues = {
   consent: boolean;
 };
 
+// Parse date from "dd-mm-yyyy" or ISO format to Date object
+const parseDateOfBirth = (dateStr: string | undefined): Date | undefined => {
+  if (!dateStr) return undefined;
+
+  try {
+    // Try parsing as ISO date first
+    const isoDate = new Date(dateStr);
+    if (!isNaN(isoDate.getTime())) {
+      return isoDate;
+    }
+
+    // Try parsing "dd-mm-yyyy" format
+    if (dateStr.includes("-") && !dateStr.includes("T")) {
+      const parts = dateStr.split("-");
+      if (parts.length === 3) {
+        const [day, month, year] = parts;
+        const date = new Date(
+          parseInt(year),
+          parseInt(month) - 1,
+          parseInt(day)
+        );
+        if (!isNaN(date.getTime())) {
+          return date;
+        }
+      }
+    }
+  } catch {
+    // Return undefined if parsing fails
+  }
+
+  return undefined;
+};
+
 function ScheduleOnline() {
   const t = useTranslations("scheduleOnline");
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const currentUser = useAppSelector(selectUser);
+  const { data: profile, refetch: refetchProfile } = useGetProfileQuery(
+    undefined,
+    {
+      skip: !isLoggedIn, // Skip query if not logged in
+    }
+  );
   const {
     register,
     control,
@@ -104,6 +151,60 @@ function ScheduleOnline() {
 
   // State for calendar modal
   const [isCalendarModalOpen, setIsCalendarModalOpen] = useState(false);
+
+  // Track previous user ID to detect user changes
+  const [previousUserId, setPreviousUserId] = useState<string | null>(null);
+
+  // Clear form and refetch profile when user changes
+  useEffect(() => {
+    const currentUserId = currentUser?._id || null;
+
+    // If user ID changed, clear personal info immediately and refetch profile
+    if (isLoggedIn && currentUserId && currentUserId !== previousUserId) {
+      // Clear personal info immediately to avoid showing old data
+      setValue("firstName", "");
+      setValue("lastName", "");
+      setValue("phoneNumber", "");
+      setValue("dateOfBirth", undefined);
+      // Update previous user ID
+      setPreviousUserId(currentUserId);
+      // Force refetch to get fresh data for the new user
+      refetchProfile();
+    } else if (!isLoggedIn) {
+      // Reset previous user ID on logout
+      setPreviousUserId(null);
+      // Clear personal info if user logs out (for guests)
+      setValue("firstName", "");
+      setValue("lastName", "");
+      setValue("phoneNumber", "");
+      setValue("dateOfBirth", undefined);
+    } else if (isLoggedIn && currentUserId && !previousUserId) {
+      // First time user logs in, set previous user ID
+      setPreviousUserId(currentUserId);
+    }
+  }, [isLoggedIn, currentUser?._id, previousUserId, refetchProfile, setValue]);
+
+  // Pre-populate personal information if user is logged in
+  useEffect(() => {
+    if (isLoggedIn && profile?.data) {
+      // Populate personal information fields from profile
+      if (profile.data.first_name) {
+        setValue("firstName", profile.data.first_name);
+      }
+      if (profile.data.last_name) {
+        setValue("lastName", profile.data.last_name);
+      }
+      if (profile.data.phone) {
+        setValue("phoneNumber", profile.data.phone);
+      }
+
+      // Parse and set date of birth
+      const dob = parseDateOfBirth(profile.data.dateOfBirth);
+      if (dob) {
+        setValue("dateOfBirth", dob);
+      }
+    }
+  }, [isLoggedIn, profile?.data, setValue]);
 
   // Watch the service category to update available options in second dropdown
   const selectedCategory = watch("serviceCategory");

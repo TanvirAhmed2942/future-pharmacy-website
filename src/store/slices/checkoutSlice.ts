@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "@/store/store";
 
 export interface CheckoutData {
+  userId: string | null; // Track which user this checkout data belongs to
   pickupAddress: string;
   dropoffAddress: string;
   pickupLocation: { lat: number; lng: number } | null;
@@ -31,6 +32,7 @@ export interface CheckoutState {
 
 const initialState: CheckoutState = {
   checkoutData: {
+    userId: null,
     pickupAddress: "",
     dropoffAddress: "",
     pickupLocation: null,
