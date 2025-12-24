@@ -63,10 +63,10 @@ export default function LocationPickerModal({
         {/* Header */}
         <DialogHeader className="p-6 border-b">
           <DialogTitle className="text-xl font-bold text-gray-900">
-            Change City or Zip Code
+            Change Zip Code
           </DialogTitle>
           <p className="text-sm text-gray-600 mt-2">
-            Enter your city, state, or ZIP code to update your location.
+            Enter your ZIP code to update your location.
           </p>
         </DialogHeader>
 
@@ -89,7 +89,7 @@ export default function LocationPickerModal({
             </h3>
             <Input
               type="text"
-              placeholder="Enter city, state, or ZIP code"
+              placeholder="Enter ZIP code"
               value={newLocation}
               onChange={(e) => setNewLocation(e.target.value)}
               className="w-full h-12 border-2 border-gray-200 focus:border-peter focus:ring-peter/20"
