@@ -25,6 +25,7 @@ export default function PersonalInfo({
   const profileImage = personalInfo.profile
     ? imgUrl(personalInfo.profile) || "/testimonials/user.png"
     : "/testimonials/user.png";
+  console.log("profileImage", imgUrl(personalInfo.profile));
   return (
     <>
       <div className="w-full mx-auto">
