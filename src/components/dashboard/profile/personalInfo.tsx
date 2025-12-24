@@ -21,17 +21,10 @@ export default function PersonalInfo({
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  // Use default placeholder if image is empty, undefined, or "N/A"
-  // Using local placeholder image to avoid external image configuration
-  const hasValidImage =
-    personalInfo.profile &&
-    personalInfo.profile.trim() !== "" &&
-    personalInfo.profile !== "N/A";
-  const imageUrl = hasValidImage ? imgUrl(personalInfo.profile) : "";
-  // Ensure we always have a valid src - fallback to placeholder if imgUrl returns empty
-  const profileImage =
-    imageUrl && imageUrl.trim() !== "" ? imageUrl : "/testimonials/user.png";
-  console.log("profileImage", profileImage);
+  // Use the same logic as navbar for consistency
+  const profileImage = personalInfo.profile
+    ? imgUrl(personalInfo.profile) || "/testimonials/user.png"
+    : "/testimonials/user.png";
   return (
     <>
       <div className="w-full mx-auto">

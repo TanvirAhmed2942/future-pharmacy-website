@@ -56,35 +56,25 @@ export const profileApi = baseApi.injectEndpoints({
       query: (body) => {
         const { profileFile, ...rest } = body;
 
-        // If there's a file, use FormData
-        if (profileFile) {
-          const formData = new FormData();
-          formData.append("firstName", rest.firstName);
-          formData.append("lastName", rest.lastName);
-          formData.append("phone", rest.phone);
-          formData.append("dateOfBirth", rest.dateOfBirth);
-          formData.append("gender", rest.gender);
-          formData.append("profile", profileFile);
+        // Always use FormData with the same property names
+        const formData = new FormData();
+        formData.append("firstName", rest.firstName);
+        formData.append("lastName", rest.lastName);
+        formData.append("phone", rest.phone);
+        formData.append("dateOfBirth", rest.dateOfBirth);
+        formData.append("gender", rest.gender);
 
-          return {
-            url: "/users/update-my-profile",
-            method: "PATCH",
-            body: formData,
-          };
+        // Always append profile field - file if changed, otherwise existing profile string (or empty string)
+        if (profileFile) {
+          formData.append("profile", profileFile);
+        } else {
+          formData.append("profile", rest.profile || "");
         }
 
-        // Otherwise, send JSON with profile field
         return {
           url: "/users/update-my-profile",
           method: "PATCH",
-          body: {
-            firstName: rest.firstName,
-            lastName: rest.lastName,
-            phone: rest.phone,
-            dateOfBirth: rest.dateOfBirth,
-            gender: rest.gender,
-            profile: rest.profile || "",
-          },
+          body: formData,
         };
       },
       invalidatesTags: ["Profile"],
