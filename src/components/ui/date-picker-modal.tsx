@@ -26,6 +26,8 @@ export default function DatePickerModal({
   const t = useTranslations("home.datePickerModal");
 
   const today = new Date();
+  // Set today's time to start of day for accurate comparison
+  today.setHours(0, 0, 0, 0);
   const currentMonth = currentDate.getMonth();
   const currentYear = currentDate.getFullYear();
 
@@ -76,7 +78,29 @@ export default function DatePickerModal({
     });
   };
 
+  // Check if a date is in the past (before today)
+  const isDateDisabled = (day: number, isCurrentMonth: boolean = true) => {
+    const date = new Date(
+      currentYear,
+      isCurrentMonth ? currentMonth : currentMonth + (isCurrentMonth ? 0 : 1),
+      day
+    );
+    date.setHours(0, 0, 0, 0);
+    return date < today;
+  };
+
+  // Check if previous month button should be disabled
+  const isPrevMonthDisabled = () => {
+    const firstDayOfCurrentMonth = new Date(currentYear, currentMonth, 1);
+    firstDayOfCurrentMonth.setHours(0, 0, 0, 0);
+    return firstDayOfCurrentMonth <= today;
+  };
+
   const handleDateClick = (day: number, isCurrentMonth: boolean = true) => {
+    // Don't allow selecting disabled (past) dates
+    if (isDateDisabled(day, isCurrentMonth)) {
+      return;
+    }
     const date = new Date(
       currentYear,
       isCurrentMonth ? currentMonth : currentMonth + (isCurrentMonth ? 0 : 1),
@@ -113,12 +137,18 @@ export default function DatePickerModal({
     // Previous month days
     for (let i = startingDayOfWeek - 1; i >= 0; i--) {
       const day = daysInPrevMonth - i;
+      const isDisabled = isDateDisabled(day, false);
       days.push(
         <button
           key={`prev-${day}`}
           onClick={() => handleDateClick(day, false)}
-          className={`w-10 h-10 rounded-full text-gray-400 hover:bg-gray-100 transition-colors ${
-            isDateSelected(day, false) ? "bg-peter text-white" : ""
+          disabled={isDisabled}
+          className={`w-10 h-10 rounded-full transition-colors ${
+            isDisabled
+              ? "text-gray-300 cursor-not-allowed opacity-50"
+              : isDateSelected(day, false)
+              ? "bg-peter text-white hover:bg-peter-dark"
+              : "text-gray-400 hover:bg-gray-100"
           }`}
         >
           {day}
@@ -130,16 +160,20 @@ export default function DatePickerModal({
     for (let day = 1; day <= daysInMonth; day++) {
       const isSelected = isDateSelected(day);
       const isTodayDate = isToday(day);
+      const isDisabled = isDateDisabled(day);
 
       days.push(
         <button
           key={day}
           onClick={() => handleDateClick(day)}
+          disabled={isDisabled}
           className={`w-10 h-10 rounded-full transition-colors ${
-            isSelected
-              ? "bg-peter text-white"
+            isDisabled
+              ? "text-gray-300 cursor-not-allowed opacity-50"
+              : isSelected
+              ? "bg-peter text-white hover:bg-peter-dark"
               : isTodayDate
-              ? "bg-[#f3ecf3] text-peter font-semibold"
+              ? "bg-[#f3ecf3] text-peter font-semibold hover:bg-[#e8d5e8]"
               : "text-gray-700 hover:bg-gray-100"
           }`}
         >
@@ -151,12 +185,18 @@ export default function DatePickerModal({
     // Next month days to fill the grid
     const remainingDays = 42 - days.length; // 6 rows × 7 days
     for (let day = 1; day <= remainingDays; day++) {
+      const isDisabled = isDateDisabled(day, false);
       days.push(
         <button
           key={`next-${day}`}
           onClick={() => handleDateClick(day, false)}
-          className={`w-10 h-10 rounded-full text-gray-400 hover:bg-gray-100 transition-colors ${
-            isDateSelected(day, false) ? "bg-peter text-white" : ""
+          disabled={isDisabled}
+          className={`w-10 h-10 rounded-full transition-colors ${
+            isDisabled
+              ? "text-gray-300 cursor-not-allowed opacity-50"
+              : isDateSelected(day, false)
+              ? "bg-peter text-white hover:bg-peter-dark"
+              : "text-gray-400 hover:bg-gray-100"
           }`}
         >
           {day}
@@ -199,7 +239,12 @@ export default function DatePickerModal({
           <div className="flex items-center justify-between mb-6">
             <button
               onClick={() => navigateMonth("prev")}
-              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+              disabled={isPrevMonthDisabled()}
+              className={`p-2 rounded-full transition-colors ${
+                isPrevMonthDisabled()
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:bg-gray-100"
+              }`}
             >
               <ChevronLeft className="w-5 h-5 text-gray-600" />
             </button>
