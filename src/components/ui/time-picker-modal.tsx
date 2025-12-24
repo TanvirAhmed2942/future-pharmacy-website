@@ -26,27 +26,29 @@ export default function TimePickerModal({
 }: TimePickerModalProps) {
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(selectedTime || "");
   const t = useTranslations("home.timePickerModal");
-  // Generate time slots with AM/PM format
+
+  // Helper function to format time with AM/PM
+  const formatTime = (hour: number, minute: number) => {
+    const displayHour = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
+    const ampm = hour >= 12 ? "PM" : "AM";
+    return `${displayHour}:${minute.toString().padStart(2, "0")} ${ampm}`;
+  };
+
+  // Generate time slots with AM/PM format (29-minute intervals)
   const generateTimeSlots = () => {
     const morningSlots = [];
     const afternoonSlots = [];
     const eveningSlots = [];
 
-    // Helper function to format time with AM/PM
-    const formatTime = (hour: number, minute: number) => {
-      const displayHour = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
-      const ampm = hour >= 12 ? "PM" : "AM";
-      return `${displayHour}:${minute.toString().padStart(2, "0")} ${ampm}`;
-    };
-
     // Morning slots (6:00 AM - 12:00 PM)
     for (let hour = 6; hour < 12; hour++) {
       for (let minute = 0; minute < 60; minute += 30) {
-        const endHour = minute === 30 ? hour + 1 : hour;
-        const endMinute = minute === 30 ? 0 : 30;
+        const endMinute = minute + 29;
+        const endHour = endMinute >= 60 ? hour + 1 : hour;
+        const finalEndMinute = endMinute >= 60 ? endMinute - 60 : endMinute;
 
         const startTime = formatTime(hour, minute);
-        const endTime = formatTime(endHour, endMinute);
+        const endTime = formatTime(endHour, finalEndMinute);
 
         const timeSlot = `${startTime} - ${endTime}`;
         morningSlots.push(timeSlot);
@@ -56,11 +58,12 @@ export default function TimePickerModal({
     // Afternoon slots (12:00 PM - 4:00 PM)
     for (let hour = 12; hour < 16; hour++) {
       for (let minute = 0; minute < 60; minute += 30) {
-        const endHour = minute === 30 ? hour + 1 : hour;
-        const endMinute = minute === 30 ? 0 : 30;
+        const endMinute = minute + 29;
+        const endHour = endMinute >= 60 ? hour + 1 : hour;
+        const finalEndMinute = endMinute >= 60 ? endMinute - 60 : endMinute;
 
         const startTime = formatTime(hour, minute);
-        const endTime = formatTime(endHour, endMinute);
+        const endTime = formatTime(endHour, finalEndMinute);
 
         const timeSlot = `${startTime} - ${endTime}`;
         afternoonSlots.push(timeSlot);
@@ -70,11 +73,12 @@ export default function TimePickerModal({
     // Evening slots (4:00 PM - 6:30 PM)
     for (let hour = 16; hour < 19; hour++) {
       for (let minute = 0; minute < 60; minute += 30) {
-        const endHour = minute === 30 ? hour + 1 : hour;
-        const endMinute = minute === 30 ? 0 : 30;
+        const endMinute = minute + 29;
+        const endHour = endMinute >= 60 ? hour + 1 : hour;
+        const finalEndMinute = endMinute >= 60 ? endMinute - 60 : endMinute;
 
         const startTime = formatTime(hour, minute);
-        const endTime = formatTime(endHour, endMinute);
+        const endTime = formatTime(endHour, finalEndMinute);
 
         const timeSlot = `${startTime} - ${endTime}`;
         eveningSlots.push(timeSlot);
@@ -94,8 +98,86 @@ export default function TimePickerModal({
     });
   };
 
+  // Check if a time slot is disabled
+  const isTimeSlotDisabled = (timeSlot: string): boolean => {
+    if (!selectedDate) return false;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const selected = new Date(selectedDate);
+    selected.setHours(0, 0, 0, 0);
+
+    // If selected date is in the past, disable ALL slots
+    if (selected.getTime() < today.getTime()) {
+      return true;
+    }
+
+    // If selected date is in the future, enable ALL slots
+    if (selected.getTime() > today.getTime()) {
+      return false;
+    }
+
+    // If selected date is today, disable only past time slots
+    // Parse the time slot to get both start and end times
+    // Format: "6:00 AM - 6:29 AM"
+    const timeMatch = timeSlot.match(
+      /^(\d{1,2}):(\d{2})\s+(AM|PM)\s+-\s+(\d{1,2}):(\d{2})\s+(AM|PM)/
+    );
+    if (!timeMatch) return false;
+
+    // Parse start time
+    let startHour = parseInt(timeMatch[1]);
+    const startMinute = parseInt(timeMatch[2]);
+    const startAmpm = timeMatch[3];
+
+    // Parse end time
+    let endHour = parseInt(timeMatch[4]);
+    const endMinute = parseInt(timeMatch[5]);
+    const endAmpm = timeMatch[6];
+
+    // Convert start time to 24-hour format
+    if (startAmpm === "PM" && startHour !== 12) {
+      startHour += 12;
+    } else if (startAmpm === "AM" && startHour === 12) {
+      startHour = 0;
+    }
+
+    // Convert end time to 24-hour format
+    if (endAmpm === "PM" && endHour !== 12) {
+      endHour += 12;
+    } else if (endAmpm === "AM" && endHour === 12) {
+      endHour = 0;
+    }
+
+    // Create date objects for the time slot start and end times
+    const slotStartTime = new Date();
+    slotStartTime.setHours(startHour, startMinute, 0, 0);
+    slotStartTime.setSeconds(0, 0);
+
+    const slotEndTime = new Date();
+    slotEndTime.setHours(endHour, endMinute, 0, 0);
+    slotEndTime.setSeconds(0, 0);
+
+    // Get current time
+    const now = new Date();
+    now.setSeconds(0, 0); // Reset seconds and milliseconds for accurate comparison
+
+    // Disable only if the current time is AFTER the slot end time
+    // This means:
+    // - If current time is within the slot (start <= now <= end): ENABLE (user is in this time)
+    // - If current time is before the slot start: ENABLE (future slot)
+    // - If current time is after the slot end: DISABLE (past slot)
+    // Example: if current time is 11:45 AM:
+    // - 11:30 AM - 11:59 AM: enabled (11:45 is within this range)
+    // - 11:00 AM - 11:29 AM: disabled (end 11:29 < 11:45)
+    // - 12:00 PM - 12:29 PM: enabled (start 12:00 > 11:45)
+    return now > slotEndTime;
+  };
+
   const handleTimeSlotClick = (timeSlot: string) => {
-    setSelectedTimeSlot(timeSlot);
+    if (!isTimeSlotDisabled(timeSlot)) {
+      setSelectedTimeSlot(timeSlot);
+    }
   };
 
   const handleConfirm = () => {
@@ -105,28 +187,36 @@ export default function TimePickerModal({
     }
   };
 
-  const renderTimeSlots = (slots: string[], sectionName: string) => (
-    <div className="mb-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-3">
-        {sectionName}
-      </h3>
-      <div className="grid grid-cols-3 gap-2">
-        {slots.map((slot, index) => (
-          <button
-            key={`${sectionName}-${index}`}
-            onClick={() => handleTimeSlotClick(slot)}
-            className={`p-3 rounded-lg border-2 transition-all text-sm font-medium ${
-              selectedTimeSlot === slot
-                ? "border-peter bg-peter text-white"
-                : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
-            }`}
-          >
-            {slot}
-          </button>
-        ))}
+  const renderTimeSlots = (slots: string[], sectionName: string) => {
+    return (
+      <div className="mb-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-3">
+          {sectionName}
+        </h3>
+        <div className="grid grid-cols-3 gap-2">
+          {slots.map((slot, index) => {
+            const isDisabled = isTimeSlotDisabled(slot);
+            return (
+              <button
+                key={`${sectionName}-${index}`}
+                onClick={() => handleTimeSlotClick(slot)}
+                disabled={isDisabled}
+                className={`p-3 rounded-lg border-2 transition-all text-sm font-medium ${
+                  isDisabled
+                    ? "border-gray-200 bg-gray-100 text-gray-400 cursor-not-allowed opacity-50"
+                    : selectedTimeSlot === slot
+                    ? "border-peter bg-peter text-white hover:bg-peter-dark"
+                    : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
+                }`}
+              >
+                {slot}
+              </button>
+            );
+          })}
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
