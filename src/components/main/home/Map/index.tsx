@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import PharmacyMap from "./PharmacyMap";
 import { Location, Pharmacy } from "./types";
 import { useGeocode } from "./useGeocode";
@@ -56,6 +56,8 @@ export default function MapComponent({
     searchPharmaciesByLocation,
     loading: pharmacyLoading,
   } = usePharmacySearch();
+  const pharmacySearchTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const lastSearchedLocationRef = useRef<string | null>(null);
 
   // Initial load: search pharmacies with default center if no location provided
   useEffect(() => {
@@ -72,6 +74,33 @@ export default function MapComponent({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Only run once on mount
 
+  // Debounced pharmacy search helper
+  const debouncedPharmacySearch = useCallback(
+    (location: Location | null) => {
+      if (pharmacySearchTimerRef.current) {
+        clearTimeout(pharmacySearchTimerRef.current);
+      }
+
+      if (!location) {
+        return;
+      }
+
+      // Create a location key to avoid duplicate searches
+      const locationKey = `${location.lat.toFixed(4)},${location.lng.toFixed(
+        4
+      )}`;
+      if (lastSearchedLocationRef.current === locationKey) {
+        return; // Skip if we already searched this location
+      }
+
+      pharmacySearchTimerRef.current = setTimeout(() => {
+        lastSearchedLocationRef.current = locationKey;
+        searchPharmaciesByLocation(location);
+      }, 800); // 800ms debounce for pharmacy searches
+    },
+    [searchPharmaciesByLocation]
+  );
+
   // Update map center based on zipCode, city, or state
   useEffect(() => {
     const updateLocation = async () => {
@@ -79,13 +108,13 @@ export default function MapComponent({
         const location = await geocodeByZipCode(zipCode);
         if (location) {
           setMapCenter(location);
-          searchPharmaciesByLocation(location);
+          debouncedPharmacySearch(location);
         }
       } else if (city && state) {
         const location = await geocodeByCityState(city, state);
         if (location) {
           setMapCenter(location);
-          searchPharmaciesByLocation(location);
+          debouncedPharmacySearch(location);
         }
       }
     };
@@ -97,7 +126,7 @@ export default function MapComponent({
     state,
     geocodeByZipCode,
     geocodeByCityState,
-    searchPharmaciesByLocation,
+    debouncedPharmacySearch,
   ]);
 
   // Debounce timer ref for pickup address geocoding
@@ -114,7 +143,7 @@ export default function MapComponent({
       // Use the location directly from prop (selected from map)
       setPickupLocation(pickupLocationProp);
       setMapCenter(pickupLocationProp);
-      searchPharmaciesByLocation(pickupLocationProp);
+      debouncedPharmacySearch(pickupLocationProp);
     } else if (pickupAddress && pickupAddress.trim().length > 0) {
       // Debounce geocoding to avoid too many requests while typing
       pickupGeocodeTimerRef.current = setTimeout(async () => {
@@ -122,7 +151,7 @@ export default function MapComponent({
         if (location) {
           setPickupLocation(location);
           setMapCenter(location);
-          searchPharmaciesByLocation(location);
+          debouncedPharmacySearch(location);
         } else {
           // If geocoding fails, keep the previous location or clear it
           // Don't clear if user is still typing
@@ -143,7 +172,7 @@ export default function MapComponent({
     pickupAddress,
     pickupLocationProp,
     geocodeAddress,
-    searchPharmaciesByLocation,
+    debouncedPharmacySearch,
   ]);
 
   // Debounce timer ref for dropoff address geocoding
@@ -162,7 +191,7 @@ export default function MapComponent({
       // Only update map center if pickup is not set
       if (!pickupLocation) {
         setMapCenter(dropoffLocationProp);
-        searchPharmaciesByLocation(dropoffLocationProp);
+        debouncedPharmacySearch(dropoffLocationProp);
       }
     } else if (dropoffAddress && dropoffAddress.trim().length > 0) {
       // Debounce geocoding to avoid too many requests while typing
@@ -173,7 +202,7 @@ export default function MapComponent({
           // Only update map center if pickup is not set
           if (!pickupLocation) {
             setMapCenter(location);
-            searchPharmaciesByLocation(location);
+            debouncedPharmacySearch(location);
           }
         }
       }, 500); // 500ms debounce delay
@@ -193,8 +222,17 @@ export default function MapComponent({
     dropoffLocationProp,
     geocodeAddress,
     pickupLocation,
-    searchPharmaciesByLocation,
+    debouncedPharmacySearch,
   ]);
+
+  // Cleanup pharmacy search timer on unmount
+  useEffect(() => {
+    return () => {
+      if (pharmacySearchTimerRef.current) {
+        clearTimeout(pharmacySearchTimerRef.current);
+      }
+    };
+  }, []);
 
   const { isLoaded: mapsLoaded, loadError: mapsError } = useGoogleMaps();
 

@@ -49,6 +49,8 @@ export default function PharmacyMap({
   const [selectedPharmacy, setSelectedPharmacy] = useState<Pharmacy | null>(
     null
   );
+  const mapRef = React.useRef<google.maps.Map | null>(null);
+  const hasInitializedBounds = React.useRef(false);
 
   // Calculate map center and bounds
   const mapCenter = useMemo(() => {
@@ -181,15 +183,28 @@ export default function PharmacyMap({
 
   const onLoad = useCallback(
     (map: google.maps.Map) => {
-      if (bounds) {
+      mapRef.current = map;
+      // Only fit bounds on initial load or when bounds actually change (not on every pan/zoom)
+      if (bounds && !hasInitializedBounds.current) {
         map.fitBounds(bounds);
         // Add padding to bounds
         const padding = 50;
         map.fitBounds(bounds, padding);
+        hasInitializedBounds.current = true;
       }
     },
     [bounds]
   );
+
+  // Update bounds only when locations or pharmacies actually change (not on map pan/zoom)
+  React.useEffect(() => {
+    if (mapRef.current && bounds && hasInitializedBounds.current) {
+      // Only update if bounds have meaningfully changed (locations/pharmacies changed)
+      // Don't update on every pan/zoom
+      const padding = 50;
+      mapRef.current.fitBounds(bounds, padding);
+    }
+  }, [bounds]);
 
   // Handle map click to select location
   const handleMapClick = useCallback(
