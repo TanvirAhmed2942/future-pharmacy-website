@@ -93,7 +93,7 @@ export default function PharmacyMarker({
               : undefined
           }
         >
-          <div className="relative p-4 max-w-xs min-w-[260px] bg-white rounded-lg shadow-md overflow-hidden">
+          <div className="relative mt-4 p-4  min-w-[260px] bg-white rounded-lg shadow-md">
             {/* Custom close button (in addition to default InfoWindow close) */}
             <button
               onClick={handleClose}

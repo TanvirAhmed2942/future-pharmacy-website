@@ -302,17 +302,6 @@ html body[data-scroll-locked] {
   }
 }
 
-/* Hide Google Maps default info windows - we use custom ones
-.gm-style-iw {
+.gm-ui-hover-effect {
   display: none !important;
 }
-
-.gm-style-iw-c {
-  display: none !important;
-}
-
-.gm-style-iw-d {
-  display: none !important;
-}
-  
-*/
