@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useTransition } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Clock } from "lucide-react";
+import { Menu, X, Clock, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -193,6 +193,13 @@ function NavBar() {
                       <LayoutDashboard className="mr-2 h-4 w-4" />
                       <span>Go to Dashboard</span>
                     </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => router.push("/dashboard/profile")}
+                      className="cursor-pointer"
+                    >
+                      <User className="mr-2 h-4 w-4" />
+                      <span>My Profile</span>
+                    </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
                       onClick={() => {
@@ -355,6 +362,13 @@ function NavBar() {
                     >
                       <LayoutDashboard className="mr-2 h-4 w-4" />
                       <span>Go to Dashboard</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => router.push("/dashboard/profile")}
+                      className="cursor-pointer"
+                    >
+                      <User className="mr-2 h-4 w-4" />
+                      <span>My Profile</span>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
