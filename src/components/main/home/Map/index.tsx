@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import PharmacyMap from "./PharmacyMap";
 import { Location, Pharmacy } from "./types";
 import { useGeocode } from "./useGeocode";
@@ -100,65 +100,98 @@ export default function MapComponent({
     searchPharmaciesByLocation,
   ]);
 
-  // Update pickup location from prop (when selected from map) or geocode from address
+  // Debounce timer ref for pickup address geocoding
+  const pickupGeocodeTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Update pickup location from prop (when selected from map) or geocode from address in real-time
   useEffect(() => {
+    // Clear any existing timer
+    if (pickupGeocodeTimerRef.current) {
+      clearTimeout(pickupGeocodeTimerRef.current);
+    }
+
     if (pickupLocationProp) {
       // Use the location directly from prop (selected from map)
       setPickupLocation(pickupLocationProp);
-      if (!mapCenter) {
-        setMapCenter(pickupLocationProp);
-        searchPharmaciesByLocation(pickupLocationProp);
-      }
-    } else if (pickupAddress) {
-      // Geocode the address string (when typed in)
-      const geocodePickup = async () => {
+      setMapCenter(pickupLocationProp);
+      searchPharmaciesByLocation(pickupLocationProp);
+    } else if (pickupAddress && pickupAddress.trim().length > 0) {
+      // Debounce geocoding to avoid too many requests while typing
+      pickupGeocodeTimerRef.current = setTimeout(async () => {
         const location = await geocodeAddress(pickupAddress);
-        setPickupLocation(location);
-        if (location && !mapCenter) {
+        if (location) {
+          setPickupLocation(location);
           setMapCenter(location);
           searchPharmaciesByLocation(location);
+        } else {
+          // If geocoding fails, keep the previous location or clear it
+          // Don't clear if user is still typing
         }
-      };
-      geocodePickup();
+      }, 500); // 500ms debounce delay
     } else {
+      // Address is cleared - remove marker immediately
       setPickupLocation(null);
     }
+
+    // Cleanup timer on unmount or when dependencies change
+    return () => {
+      if (pickupGeocodeTimerRef.current) {
+        clearTimeout(pickupGeocodeTimerRef.current);
+      }
+    };
   }, [
     pickupAddress,
     pickupLocationProp,
     geocodeAddress,
-    mapCenter,
     searchPharmaciesByLocation,
   ]);
 
-  // Update dropoff location from prop (when selected from map) or geocode from address
+  // Debounce timer ref for dropoff address geocoding
+  const dropoffGeocodeTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Update dropoff location from prop (when selected from map) or geocode from address in real-time
   useEffect(() => {
+    // Clear any existing timer
+    if (dropoffGeocodeTimerRef.current) {
+      clearTimeout(dropoffGeocodeTimerRef.current);
+    }
+
     if (dropoffLocationProp) {
       // Use the location directly from prop (selected from map)
       setDropoffLocation(dropoffLocationProp);
-      if (!mapCenter && !pickupLocation) {
+      // Only update map center if pickup is not set
+      if (!pickupLocation) {
         setMapCenter(dropoffLocationProp);
         searchPharmaciesByLocation(dropoffLocationProp);
       }
-    } else if (dropoffAddress) {
-      // Geocode the address string (when typed in)
-      const geocodeDropoff = async () => {
+    } else if (dropoffAddress && dropoffAddress.trim().length > 0) {
+      // Debounce geocoding to avoid too many requests while typing
+      dropoffGeocodeTimerRef.current = setTimeout(async () => {
         const location = await geocodeAddress(dropoffAddress);
-        setDropoffLocation(location);
-        if (location && !mapCenter && !pickupLocation) {
-          setMapCenter(location);
-          searchPharmaciesByLocation(location);
+        if (location) {
+          setDropoffLocation(location);
+          // Only update map center if pickup is not set
+          if (!pickupLocation) {
+            setMapCenter(location);
+            searchPharmaciesByLocation(location);
+          }
         }
-      };
-      geocodeDropoff();
+      }, 500); // 500ms debounce delay
     } else {
+      // Address is cleared - remove marker immediately
       setDropoffLocation(null);
     }
+
+    // Cleanup timer on unmount or when dependencies change
+    return () => {
+      if (dropoffGeocodeTimerRef.current) {
+        clearTimeout(dropoffGeocodeTimerRef.current);
+      }
+    };
   }, [
     dropoffAddress,
     dropoffLocationProp,
     geocodeAddress,
-    mapCenter,
     pickupLocation,
     searchPharmaciesByLocation,
   ]);
