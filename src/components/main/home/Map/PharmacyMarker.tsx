@@ -162,7 +162,7 @@ function PharmacyMarker({
                 className="absolute top-2 right-2 p-1 rounded-full hover:bg-gray-100 transition-colors"
                 aria-label="Close"
               >
-                <X className="w-4 h-4 text-gray-500" />
+                <X className="w-4 h-4 mr-4 text-gray-500" />
               </button>
               <div className="flex items-center gap-2 mb-2">
                 {pharmacy.logo && (

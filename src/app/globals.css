@@ -308,7 +308,7 @@ html body[data-scroll-locked] {
 
 .gm-style-iw-d {
   overflow: hidden;
-  max-width: 260px;
+  max-width: 300px;
   min-width: 260px;
   scrollbar-width: none;
   -ms-overflow-style: none;
