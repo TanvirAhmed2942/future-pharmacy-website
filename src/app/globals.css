@@ -305,3 +305,15 @@ html body[data-scroll-locked] {
 .gm-ui-hover-effect {
   display: none !important;
 }
+
+.gm-style-iw-d {
+  overflow: hidden;
+  max-width: 260px;
+  min-width: 260px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  max-height: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
