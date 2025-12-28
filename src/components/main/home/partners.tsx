@@ -72,23 +72,6 @@ function Partners() {
             </div>
           ))}
         </div>
-
-        {/* Alternative: If you want a simpler approach with just text placeholders */}
-        {/* Uncomment this section if logos are not available */}
-        {/*
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 md:gap-8 items-center justify-items-center">
-          {partners.map((partner, index) => (
-            <div
-              key={index}
-              className="flex items-center justify-center w-full h-20 md:h-24 lg:h-28 p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
-            >
-              <span className="text-gray-800 font-semibold text-sm md:text-base text-center">
-                {partner.name}
-              </span>
-            </div>
-          ))}
-        </div>
-        */}
       </div>
     </section>
   );

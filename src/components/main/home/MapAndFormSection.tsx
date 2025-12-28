@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import {
   MapPin,
   Calendar,
@@ -116,9 +116,52 @@ export default function MapAndFormSection() {
   const [mapSelectionMode, setMapSelectionMode] = useState<
     "pickup" | "dropoff" | null
   >(null);
+  const [displayedPharmacies, setDisplayedPharmacies] = useState<Pharmacy[]>(
+    []
+  );
 
   const router = useRouter();
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
+
+  // Function to randomly select pharmacies for display
+  const selectRandomPharmacies = useCallback((pharmacies: Pharmacy[]) => {
+    if (pharmacies.length === 0) {
+      setDisplayedPharmacies([]);
+      return;
+    }
+
+    if (pharmacies.length <= 2) {
+      // If 2 or fewer, show all of them
+      setDisplayedPharmacies([...pharmacies]);
+    } else {
+      // If more than 2, randomly select 2
+      const shuffled = [...pharmacies].sort(() => Math.random() - 0.5);
+      setDisplayedPharmacies(shuffled.slice(0, 2));
+    }
+  }, []);
+
+  // Update displayed pharmacies when pharmaciesFromApi changes
+  useEffect(() => {
+    if (pharmaciesFromApi.length > 0) {
+      selectRandomPharmacies(pharmaciesFromApi);
+    } else {
+      setDisplayedPharmacies([]);
+    }
+  }, [pharmaciesFromApi, selectRandomPharmacies]);
+
+  // Refresh displayed pharmacies every 5 minutes
+  useEffect(() => {
+    if (pharmaciesFromApi.length <= 2) {
+      // No need to refresh if we're showing all pharmacies
+      return;
+    }
+
+    const interval = setInterval(() => {
+      selectRandomPharmacies(pharmaciesFromApi);
+    }, 5 * 60 * 1000); // 5 minutes in milliseconds
+
+    return () => clearInterval(interval);
+  }, [pharmaciesFromApi, selectRandomPharmacies]);
 
   // Parse location string to extract zipcode, city, state using geocoding
   useEffect(() => {
@@ -495,41 +538,34 @@ export default function MapAndFormSection() {
             </button>
 
             {/* Pharmacy Suggestions */}
-            <div className="mt-8">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">
-                {t("pharmacySuggestions")}
-              </h2>
-              <div className="space-y-3">
-                <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer">
-                  <div className="flex items-start gap-3">
-                    <MapPin className="w-5 h-5 text-red-500 mt-1" />
-
-                    <div>
-                      <h3 className="font-semibold text-gray-900">
-                        CVS Pharmacy- Downtown
-                      </h3>
-                      <p className="text-sm text-gray-500">
-                        123 main St, Newark, NJ 07102
-                      </p>
-                    </div>
-                  </div>
-                </Card>
-                <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer">
-                  <div className="flex items-start gap-3">
-                    <MapPin className="w-5 h-5 text-red-500 mt-1" />
-
-                    <div>
-                      <h3 className="font-semibold text-gray-900">
-                        Walgreens - Medical Center
-                      </h3>
-                      <p className="text-sm text-gray-500">
-                        123 main St, Newark, NJ 07102
-                      </p>
-                    </div>
-                  </div>
-                </Card>
+            {displayedPharmacies.length > 0 && (
+              <div className="mt-8">
+                <h2 className="text-xl font-bold text-gray-900 mb-4">
+                  {t("pharmacySuggestions")}
+                </h2>
+                <div className="space-y-3">
+                  {displayedPharmacies.map((pharmacy) => (
+                    <Card
+                      key={pharmacy.id}
+                      className="p-4 hover:shadow-md transition-shadow cursor-pointer"
+                      onClick={() => handlePharmacySelect(pharmacy)}
+                    >
+                      <div className="flex items-start gap-3">
+                        <MapPin className="w-5 h-5 text-red-500 mt-1" />
+                        <div>
+                          <h3 className="font-semibold text-gray-900">
+                            {pharmacy.name}
+                          </h3>
+                          <p className="text-sm text-gray-500">
+                            {pharmacy.address}
+                          </p>
+                        </div>
+                      </div>
+                    </Card>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
 
