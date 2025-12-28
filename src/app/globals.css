@@ -317,3 +317,17 @@ html body[data-scroll-locked] {
     display: none;
   }
 }
+.gm-style-iw-a {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 8px;
+  overflow: hidden;
+  max-width: 260px;
+  min-width: 260px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  max-height: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
