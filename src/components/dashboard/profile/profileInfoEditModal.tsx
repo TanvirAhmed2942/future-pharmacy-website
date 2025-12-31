@@ -240,8 +240,9 @@ function ProfileInfoEditModal({ isOpen, onClose }: ProfileInfoEditModalProps) {
                     <Image
                       src={profileImagePreview}
                       alt="Profile preview"
-                      width={100}
-                      height={100}
+                      width={200}
+                      height={200}
+                      quality={100}
                       className="w-24 h-24 rounded-full object-cover border-2 border-gray-200"
                     />
                     {profileImageFile && (

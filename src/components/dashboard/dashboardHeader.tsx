@@ -64,8 +64,14 @@ function DashboardHeader() {
           <DropdownMenuTrigger asChild>
             <div className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 rounded-lg px-2 py-1 transition-colors">
               <Avatar>
-                <AvatarImage src={userAvatar} alt={userName} />
-                <AvatarFallback>{userInitials}</AvatarFallback>
+                <AvatarImage
+                  src={userAvatar}
+                  alt={userName}
+                  className="w-full h-full object-cover"
+                />
+                <AvatarFallback className="w-full h-full object-cover">
+                  {userInitials}
+                </AvatarFallback>
               </Avatar>
               <span className="text-gray-500 hidden sm:block">{userName}</span>
             </div>

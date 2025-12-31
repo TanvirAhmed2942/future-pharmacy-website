@@ -52,7 +52,6 @@ export default function PersonalInfo({
                   height={500}
                   quality={100}
                   className="w-full h-full rounded-full object-cover"
-                  onError={() => setImageError(true)}
                   unoptimized={isExternalImage}
                 />
               </div>
