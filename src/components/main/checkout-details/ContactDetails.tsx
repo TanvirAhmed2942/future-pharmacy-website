@@ -207,19 +207,33 @@ export default function ContactDetails({
                     ? new Date(formData.dateOfBirth)
                     : undefined
                 }
+                defaultMonth={new Date()} // Start at current month
                 onSelect={(date) => {
-                  // Prevent future dates
-                  if (date && date <= new Date()) {
-                    handleFieldChange(
-                      "dateOfBirth",
-                      date ? date.toISOString() : ""
-                    );
+                  // Prevent future dates - compare dates without time
+                  if (date) {
+                    const today = new Date();
+                    today.setHours(23, 59, 59, 999); // End of today
+                    const selectedDate = new Date(date);
+                    selectedDate.setHours(0, 0, 0, 0);
+
+                    // Only allow dates that are today or in the past
+                    if (selectedDate <= today) {
+                      handleFieldChange("dateOfBirth", date.toISOString());
+                    }
                   }
                 }}
                 captionLayout="dropdown"
                 fromYear={1900}
                 toYear={new Date().getFullYear()}
-                disabled={(date) => date > new Date()}
+                toDate={new Date()} // Set maximum date to today - prevents navigation to future dates
+                disabled={(date) => {
+                  // Disable future dates (dates after today)
+                  const today = new Date();
+                  today.setHours(23, 59, 59, 999); // End of today
+                  const checkDate = new Date(date);
+                  checkDate.setHours(0, 0, 0, 0);
+                  return checkDate > today;
+                }}
                 initialFocus
               />
             </PopoverContent>
