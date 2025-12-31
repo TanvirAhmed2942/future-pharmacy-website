@@ -189,11 +189,11 @@ export default function TimePickerModal({
 
   const renderTimeSlots = (slots: string[], sectionName: string) => {
     return (
-      <div className="mb-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-3">
+      <div className="mb-4 sm:mb-6">
+        <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2 sm:mb-3">
           {sectionName}
         </h3>
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-2.5">
           {slots.map((slot, index) => {
             const isDisabled = isTimeSlotDisabled(slot);
             return (
@@ -201,7 +201,7 @@ export default function TimePickerModal({
                 key={`${sectionName}-${index}`}
                 onClick={() => handleTimeSlotClick(slot)}
                 disabled={isDisabled}
-                className={`p-3 rounded-lg border-2 transition-all text-sm font-medium ${
+                className={`p-2.5 sm:p-3 rounded-lg border-2 transition-all text-xs sm:text-sm font-medium ${
                   isDisabled
                     ? "border-gray-200 bg-gray-100 text-gray-400 cursor-not-allowed opacity-50"
                     : selectedTimeSlot === slot
@@ -220,17 +220,17 @@ export default function TimePickerModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-2xl bg-white rounded-xl shadow-2xl border-0 p-0 max-h-[80vh] overflow-hiddden">
+      <DialogContent className="w-[95vw] max-w-[95vw] sm:max-w-lg md:max-w-xl lg:max-w-2xl bg-white rounded-xl shadow-2xl border-0 p-0 max-h-[90vh] sm:max-h-[85vh] lg:max-h-[80vh] overflow-hidden">
         {/* Header */}
-        <DialogHeader className="p-4 border-b">
-          <DialogTitle className="text-xl font-bold text-gray-900">
+        <DialogHeader className="p-3 sm:p-4 border-b">
+          <DialogTitle className="text-lg sm:text-xl font-bold text-gray-900">
             {t("title")}
           </DialogTitle>
         </DialogHeader>
 
         {/* Delivery date info */}
-        <div className="px-6 py-2 bg-gray-50">
-          <p className="text-sm text-gray-600">
+        <div className="px-4 sm:px-6 py-2 bg-gray-50">
+          <p className="text-xs sm:text-sm text-gray-600">
             {t("description")}{" "}
             <span className="font-semibold text-peter">
               {selectedDate ? formatDate(selectedDate) : "Tuesday, July 23"}
@@ -239,25 +239,25 @@ export default function TimePickerModal({
         </div>
 
         {/* Time slots with scroll area */}
-        <ScrollArea className="h-[300px] max-h-[350px] lg:h-[400px] lg:max-h-[450px]">
-          <div className="p-6">
+        <ScrollArea className="h-[250px] sm:h-[300px] md:h-[350px] lg:h-[400px] max-h-[50vh] sm:max-h-[45vh] lg:max-h-[40vh]">
+          <div className="p-4 sm:p-5 lg:p-6">
             {renderTimeSlots(morningSlots, t("morning"))}
             {renderTimeSlots(afternoonSlots, t("afternoon"))}
             {renderTimeSlots(eveningSlots, t("evening"))}
           </div>
         </ScrollArea>
         {/* Action buttons */}
-        <div className="flex gap-3 p-6 border-t">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 p-4 sm:p-5 lg:p-6 border-t">
           <Button
             onClick={onClose}
             variant="outline"
-            className="flex-1 border-gray-300 text-gray-700 hover:bg-gray-50"
+            className="w-full sm:flex-1 border-gray-300 text-gray-700 hover:bg-gray-50 text-sm sm:text-base py-2.5 sm:py-2"
           >
             {t("cancel")}
           </Button>
           <Button
             onClick={handleConfirm}
-            className="flex-1 bg-peter hover:bg-peter-dark text-white"
+            className="w-full sm:flex-1 bg-peter hover:bg-peter-dark text-white text-sm sm:text-base py-2.5 sm:py-2"
             disabled={!selectedTimeSlot}
           >
             {t("confirmTime")}

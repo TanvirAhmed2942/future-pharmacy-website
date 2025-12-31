@@ -41,8 +41,8 @@ export interface GetPharmaciesParams {
 export const mapApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getPharmacies: builder.query<GetPharmaciesResponse, GetPharmaciesParams>({
-      query: ({ postCode, city, state }) => ({
-        url: `/pharmacies/all-pharmacie-by-map?postCode=${postCode}&city=${city}&state=${state}`,
+      query: ({ postCode }) => ({
+        url: `/pharmacies/all-pharmacie-by-map?postCode=${postCode}`,
         method: "GET",
       }),
       providesTags: ["Map"],
@@ -52,3 +52,4 @@ export const mapApi = baseApi.injectEndpoints({
 });
 
 export const { useGetPharmaciesQuery } = mapApi;
+// &city=${city}&state=${state}
