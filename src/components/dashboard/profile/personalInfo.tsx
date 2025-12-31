@@ -20,14 +20,22 @@ export default function PersonalInfo({
   personalInfo: PersonalInfoProps;
 }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   // Use the same logic as navbar for consistency
   const profileImage = personalInfo.profile
     ? imgUrl(personalInfo.profile) || "/testimonials/user.png"
     : "/testimonials/user.png";
-  console.log("profileImage-->", imgUrl(personalInfo.profile));
 
-  console.log("profileImage-->", profileImage);
+  // Use fallback image if there's an error or no profile image
+  const displayImage =
+    imageError || !profileImage || profileImage === "/testimonials/user.png"
+      ? "/testimonials/user.png"
+      : profileImage;
+
+  // Check if image is external (http/https) for unoptimized prop
+  const isExternalImage =
+    profileImage.startsWith("http://") || profileImage.startsWith("https://");
   return (
     <>
       <div className="w-full mx-auto">
@@ -36,13 +44,16 @@ export default function PersonalInfo({
           <div className="block sm:hidden">
             <div className="flex flex-col items-center space-y-6">
               {/* Profile Image */}
-              <div className="flex-shrink-0">
+              <div className="flex-shrink-0 aspect-square">
                 <Image
-                  src={profileImage}
+                  src={displayImage}
                   alt="Profile"
-                  width={128}
-                  height={128}
-                  className="w-24 h-24 rounded-full object-cover"
+                  width={500}
+                  height={500}
+                  quality={100}
+                  className="w-full h-full rounded-full object-cover"
+                  onError={() => setImageError(true)}
+                  unoptimized={isExternalImage}
                 />
               </div>
 
@@ -115,11 +126,13 @@ export default function PersonalInfo({
               {/* Profile Image */}
               <div className="flex-shrink-0">
                 <Image
-                  src={profileImage}
+                  src={displayImage}
                   alt="Profile"
                   width={128}
                   height={128}
                   className="w-32 h-32 rounded-full border-2 border-gray-200 object-cover"
+                  onError={() => setImageError(true)}
+                  unoptimized={isExternalImage}
                 />
 
                 {/* <img
