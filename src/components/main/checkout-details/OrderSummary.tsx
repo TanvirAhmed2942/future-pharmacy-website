@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
@@ -242,6 +242,35 @@ export default function OrderSummary({
     useCreateCheckoutMutation();
   const { showSuccess, showError } = useShowToast();
 
+  // Safety check: Clear guest checkout data if user is logged in
+  useEffect(() => {
+    const currentUserId = user?._id || null;
+    if (
+      isLoggedIn &&
+      currentUserId &&
+      checkoutData.userId === null &&
+      (checkoutData.email ||
+        checkoutData.firstName ||
+        checkoutData.pickupAddress ||
+        checkoutData.dropoffAddress)
+    ) {
+      // User is logged in but checkout data is guest data - clear it immediately
+      dispatch(clearCheckoutData());
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("persist:checkout");
+      }
+    }
+  }, [
+    isLoggedIn,
+    user?._id,
+    checkoutData.userId,
+    checkoutData.email,
+    checkoutData.firstName,
+    checkoutData.pickupAddress,
+    checkoutData.dropoffAddress,
+    dispatch,
+  ]);
+
   // Calculate prices
   const prices = useMemo(() => {
     // Calculate original delivery fee (what it would be without partner discount)
@@ -396,12 +425,15 @@ export default function OrderSummary({
           <div className="flex justify-between py-2 border-b border-gray-200">
             <span className="text-gray-600">{t("details.name")}</span>
             <span className="font-medium">
-              {formData.firstName} {formData.lastName}
+              {checkoutData.firstName || formData.firstName}{" "}
+              {checkoutData.lastName || formData.lastName}
             </span>
           </div>
           <div className="flex justify-between py-2 border-b border-gray-200">
             <span className="text-gray-600">{t("details.contactNumber")}</span>
-            <span className="font-medium">{formData.contactNumber}</span>
+            <span className="font-medium">
+              {checkoutData.contactNumber || formData.contactNumber}
+            </span>
           </div>
           <div className="flex justify-between py-2 border-b border-gray-200">
             <span className="text-gray-600">{t("details.pickupAddress")}</span>

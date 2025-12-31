@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import ContactDetails from "./ContactDetails";
 import OrderSummary from "./OrderSummary";
@@ -49,6 +49,16 @@ export default function CheckOutDetailsLayout() {
   const [currentStep, setCurrentStep] = useState(1);
   const [isAnimating, setIsAnimating] = useState(false);
 
+  // Use refs to track latest values for cleanup function
+  const checkoutDataRef = useRef(checkoutData);
+  const isLoggedInRef = useRef(isLoggedIn);
+
+  // Update refs whenever values change
+  useEffect(() => {
+    checkoutDataRef.current = checkoutData;
+    isLoggedInRef.current = isLoggedIn;
+  }, [checkoutData, isLoggedIn]);
+
   const [formData, setFormData] = useState({
     email: "",
     contactNumber: "",
@@ -87,75 +97,83 @@ export default function CheckOutDetailsLayout() {
     }
   }, [isLoggedIn, currentUser?._id, previousUserId, refetchProfile]);
 
-  // Clear checkout data on logout or if it belongs to a different user
+  // Clear guest checkout data when user is logged in
+  // This runs FIRST and IMMEDIATELY whenever user is logged in
   useEffect(() => {
     const currentUserId = currentUser?._id || null;
 
-    // If user logged out, clear all checkout data
-    if (!isLoggedIn) {
-      if (checkoutData.email || checkoutData.firstName || checkoutData.userId) {
+    // If user is logged in, clear any guest checkout data (userId === null)
+    if (isLoggedIn && currentUserId) {
+      // Check if there's any guest data (userId is null) OR data from different user
+      const hasGuestData =
+        checkoutData.userId === null &&
+        (checkoutData.email ||
+          checkoutData.firstName ||
+          checkoutData.pickupAddress ||
+          checkoutData.dropoffAddress);
+
+      const hasDifferentUserData =
+        checkoutData.userId &&
+        checkoutData.userId !== currentUserId &&
+        (checkoutData.email ||
+          checkoutData.firstName ||
+          checkoutData.pickupAddress ||
+          checkoutData.dropoffAddress);
+
+      if (hasGuestData || hasDifferentUserData) {
+        // Clear form data immediately to prevent showing guest/different user data
+        setFormData({
+          email: "",
+          contactNumber: "",
+          firstName: "",
+          lastName: "",
+          dateOfBirth: "",
+        });
+        // Clear checkout data from Redux
         dispatch(clearCheckoutData());
-        // Also manually clear all persisted checkout data from localStorage
+        // Also manually clear persisted checkout data from localStorage
         if (typeof window !== "undefined") {
           localStorage.removeItem("persist:checkout");
-          localStorage.removeItem("persist:root");
-          // Clear any other persist keys that might exist
-          Object.keys(localStorage).forEach((key) => {
-            if (key.startsWith("persist:")) {
-              localStorage.removeItem(key);
-            }
-          });
         }
       }
-      return;
-    }
-
-    // If user is logged in but checkout data belongs to a different user, clear it
-    if (
-      isLoggedIn &&
-      currentUserId &&
-      checkoutData.userId &&
-      checkoutData.userId !== currentUserId
-    ) {
-      dispatch(clearCheckoutData());
-      // Also manually clear persisted checkout data from localStorage
-      if (typeof window !== "undefined") {
-        localStorage.removeItem("persist:checkout");
-      }
-      return;
     }
   }, [
-    currentUser?._id,
     isLoggedIn,
+    currentUser?._id,
     checkoutData.userId,
     checkoutData.email,
     checkoutData.firstName,
+    checkoutData.pickupAddress,
+    checkoutData.dropoffAddress,
     dispatch,
   ]);
 
-  // Load form data: from checkout data (if belongs to user) OR from profile (if logged in) OR clear (if logged out)
+  // Load form data: For logged-in users, ALWAYS prioritize profile data
+  // For guests, load from checkout data
   useEffect(() => {
     const currentUserId = currentUser?._id || null;
 
-    // If user is logged out, clear form immediately
-    if (!isLoggedIn) {
-      setFormData({
-        email: "",
-        contactNumber: "",
-        firstName: "",
-        lastName: "",
-        dateOfBirth: "",
-      });
-      return;
-    }
-
-    // If user is logged in
+    // PRIORITY 1: If user is logged in, ALWAYS load from profile first (never from guest checkout data)
     if (isLoggedIn && currentUserId) {
-      // Priority 1: Load from checkout data if it belongs to current user
+      // If profile data is available, use it
+      if (profile?.data) {
+        setFormData({
+          email: profile.data.email || "",
+          contactNumber: profile.data.phone || "",
+          firstName: profile.data.first_name || "",
+          lastName: profile.data.last_name || "",
+          dateOfBirth: parseDateOfBirth(profile.data.dateOfBirth || ""),
+        });
+        return;
+      }
+
+      // If profile is not loaded yet, only load from checkout data if it belongs to this user
+      // NEVER load guest data (userId === null) for logged-in users
       if (
         checkoutData.userId === currentUserId &&
         (checkoutData.email || checkoutData.firstName)
       ) {
+        // This user's own checkout data (from a previous session)
         setFormData({
           email: checkoutData.email || "",
           contactNumber: checkoutData.contactNumber || "",
@@ -166,20 +184,7 @@ export default function CheckOutDetailsLayout() {
         return;
       }
 
-      // Priority 2: Load from profile if available (when no checkout data or checkout data cleared)
-      // This will update immediately when profile data is available
-      if (profile?.data) {
-        setFormData({
-          email: profile?.data?.email || "",
-          contactNumber: profile?.data?.phone || "",
-          firstName: profile?.data?.first_name || "",
-          lastName: profile?.data?.last_name || "",
-          dateOfBirth: parseDateOfBirth(profile?.data?.dateOfBirth || ""),
-        });
-        return;
-      }
-
-      // If profile is not loaded yet but user is logged in, clear form to avoid showing old data
+      // If profile not loaded and no valid checkout data, keep form empty until profile loads
       if (!profile?.data) {
         setFormData({
           email: "",
@@ -188,7 +193,33 @@ export default function CheckOutDetailsLayout() {
           lastName: "",
           dateOfBirth: "",
         });
+        return;
       }
+    }
+
+    // PRIORITY 2: For guests, load from checkout data if available
+    if (!isLoggedIn && checkoutData.userId === null) {
+      if (checkoutData.email || checkoutData.firstName) {
+        setFormData({
+          email: checkoutData.email || "",
+          contactNumber: checkoutData.contactNumber || "",
+          firstName: checkoutData.firstName || "",
+          lastName: checkoutData.lastName || "",
+          dateOfBirth: checkoutData.dateOfBirth || "",
+        });
+        return;
+      }
+    }
+
+    // PRIORITY 3: If no data available, start with empty form
+    if (!checkoutData.email && !checkoutData.firstName) {
+      setFormData({
+        email: "",
+        contactNumber: "",
+        firstName: "",
+        lastName: "",
+        dateOfBirth: "",
+      });
     }
   }, [
     isLoggedIn,
@@ -208,7 +239,12 @@ export default function CheckOutDetailsLayout() {
 
   const handleNext = () => {
     // Save contact details to checkout slice before moving to next step
+    // The setCheckoutData reducer automatically merges, so we only need to update contact details
+    // All existing checkout data (pickup/dropoff addresses, distance, date, time, etc.) will be preserved
     const currentUserId = currentUser?._id || null;
+
+    // Merge contact details with existing checkout data
+    // The reducer will merge this with existing state, preserving all pickup/dropoff data
     dispatch(
       setCheckoutData({
         userId: currentUserId,
@@ -217,6 +253,20 @@ export default function CheckOutDetailsLayout() {
         firstName: formData.firstName,
         lastName: formData.lastName,
         dateOfBirth: formData.dateOfBirth,
+        // Explicitly preserve critical fields to ensure they're not lost
+        pickupAddress: checkoutData.pickupAddress,
+        dropoffAddress: checkoutData.dropoffAddress,
+        pickupLocation: checkoutData.pickupLocation,
+        dropoffLocation: checkoutData.dropoffLocation,
+        selectedDate: checkoutData.selectedDate,
+        selectedTime: checkoutData.selectedTime,
+        distance: checkoutData.distance,
+        duration: checkoutData.duration,
+        zipCode: checkoutData.zipCode,
+        city: checkoutData.city,
+        state: checkoutData.state,
+        selectedPharmacyId: checkoutData.selectedPharmacyId,
+        isPartnerPharmacy: checkoutData.isPartnerPharmacy,
       })
     );
 
@@ -228,6 +278,25 @@ export default function CheckOutDetailsLayout() {
   };
 
   const handlePrevious = () => {
+    // Reload form data from checkout data when going back
+    const currentUserId = currentUser?._id || null;
+    if (checkoutData.email || checkoutData.firstName) {
+      // For guests: only reload if userId is null
+      // For logged-in users: only reload if userId matches currentUserId
+      if (
+        (!isLoggedIn && checkoutData.userId === null) ||
+        (isLoggedIn && currentUserId && checkoutData.userId === currentUserId)
+      ) {
+        setFormData({
+          email: checkoutData.email || "",
+          contactNumber: checkoutData.contactNumber || "",
+          firstName: checkoutData.firstName || "",
+          lastName: checkoutData.lastName || "",
+          dateOfBirth: checkoutData.dateOfBirth || "",
+        });
+      }
+    }
+
     setIsAnimating(true);
     setTimeout(() => {
       setCurrentStep(1);
@@ -241,6 +310,34 @@ export default function CheckOutDetailsLayout() {
     // You can add navigation logic here or close the modal
     // For now, we'll just log the completion
   };
+
+  // Clear guest checkout data when guest navigates away from checkout-details page
+  // This does NOT apply to logged-in users
+  useEffect(() => {
+    // Cleanup function: Clear guest checkout data when component unmounts (user navigates away)
+    return () => {
+      // Use refs to get latest values at cleanup time
+      const currentCheckoutData = checkoutDataRef.current;
+      const currentIsLoggedIn = isLoggedInRef.current;
+
+      // Only clear for guests (not logged in) when component unmounts
+      if (!currentIsLoggedIn) {
+        if (
+          currentCheckoutData.userId === null &&
+          (currentCheckoutData.email ||
+            currentCheckoutData.firstName ||
+            currentCheckoutData.pickupAddress ||
+            currentCheckoutData.dropoffAddress)
+        ) {
+          dispatch(clearCheckoutData());
+          // Also manually clear persisted checkout data from localStorage
+          if (typeof window !== "undefined") {
+            localStorage.removeItem("persist:checkout");
+          }
+        }
+      }
+    };
+  }, [dispatch]);
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
