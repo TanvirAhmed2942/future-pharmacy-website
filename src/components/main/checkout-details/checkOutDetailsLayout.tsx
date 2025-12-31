@@ -53,11 +53,40 @@ export default function CheckOutDetailsLayout() {
   const checkoutDataRef = useRef(checkoutData);
   const isLoggedInRef = useRef(isLoggedIn);
 
+  // Store initial checkout data (from MapAndFormSection) to preserve it
+  // This ensures we don't lose pickup/dropoff data even if checkoutData becomes stale
+  const initialCheckoutDataRef = useRef<typeof checkoutData | null>(null);
+
   // Update refs whenever values change
   useEffect(() => {
     checkoutDataRef.current = checkoutData;
     isLoggedInRef.current = isLoggedIn;
   }, [checkoutData, isLoggedIn]);
+
+  // Store initial checkout data when component mounts or when valid checkout data is available
+  // This preserves the data from MapAndFormSection (pickup/dropoff addresses, date, time, etc.)
+  useEffect(() => {
+    // Only store if we have critical checkout data (pickup/dropoff addresses)
+    // and we haven't stored it yet, or if the stored data is missing these fields
+    if (
+      checkoutData.pickupAddress &&
+      checkoutData.dropoffAddress &&
+      (!initialCheckoutDataRef.current ||
+        !initialCheckoutDataRef.current.pickupAddress ||
+        !initialCheckoutDataRef.current.dropoffAddress)
+    ) {
+      // Deep copy to preserve all fields
+      initialCheckoutDataRef.current = {
+        ...checkoutData,
+        pickupLocation: checkoutData.pickupLocation
+          ? { ...checkoutData.pickupLocation }
+          : null,
+        dropoffLocation: checkoutData.dropoffLocation
+          ? { ...checkoutData.dropoffLocation }
+          : null,
+      };
+    }
+  }, [checkoutData]);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -239,12 +268,20 @@ export default function CheckOutDetailsLayout() {
 
   const handleNext = () => {
     // Save contact details to checkout slice before moving to next step
-    // The setCheckoutData reducer automatically merges, so we only need to update contact details
-    // All existing checkout data (pickup/dropoff addresses, distance, date, time, etc.) will be preserved
+    // Use the preserved initial checkout data if current checkoutData is missing critical fields
+    // This ensures we never lose the data from MapAndFormSection
     const currentUserId = currentUser?._id || null;
+
+    // Get the most reliable source of checkout data
+    // Prefer current checkoutData if it has critical fields, otherwise use initial stored data
+    const sourceData =
+      checkoutData.pickupAddress && checkoutData.dropoffAddress
+        ? checkoutData
+        : initialCheckoutDataRef.current || checkoutData;
 
     // Merge contact details with existing checkout data
     // The reducer will merge this with existing state, preserving all pickup/dropoff data
+    // Use sourceData directly since it's already the most reliable source
     dispatch(
       setCheckoutData({
         userId: currentUserId,
@@ -253,20 +290,21 @@ export default function CheckOutDetailsLayout() {
         firstName: formData.firstName,
         lastName: formData.lastName,
         dateOfBirth: formData.dateOfBirth,
-        // Explicitly preserve critical fields to ensure they're not lost
-        pickupAddress: checkoutData.pickupAddress,
-        dropoffAddress: checkoutData.dropoffAddress,
-        pickupLocation: checkoutData.pickupLocation,
-        dropoffLocation: checkoutData.dropoffLocation,
-        selectedDate: checkoutData.selectedDate,
-        selectedTime: checkoutData.selectedTime,
-        distance: checkoutData.distance,
-        duration: checkoutData.duration,
-        zipCode: checkoutData.zipCode,
-        city: checkoutData.city,
-        state: checkoutData.state,
-        selectedPharmacyId: checkoutData.selectedPharmacyId,
-        isPartnerPharmacy: checkoutData.isPartnerPharmacy,
+        // Explicitly preserve critical fields from the most reliable source
+        // This ensures we never overwrite with empty values
+        pickupAddress: sourceData.pickupAddress,
+        dropoffAddress: sourceData.dropoffAddress,
+        pickupLocation: sourceData.pickupLocation,
+        dropoffLocation: sourceData.dropoffLocation,
+        selectedDate: sourceData.selectedDate,
+        selectedTime: sourceData.selectedTime,
+        distance: sourceData.distance,
+        duration: sourceData.duration,
+        zipCode: sourceData.zipCode,
+        city: sourceData.city,
+        state: sourceData.state,
+        selectedPharmacyId: sourceData.selectedPharmacyId,
+        isPartnerPharmacy: sourceData.isPartnerPharmacy,
       })
     );
 
