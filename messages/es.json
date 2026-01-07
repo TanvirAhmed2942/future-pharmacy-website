@@ -82,11 +82,12 @@
     },
     "servicesWeOffer": {
       "headline": "Servicios que Ofrecemos",
-      "description": "Cuando recargas, transfieres recetas o programas servicios de salud esenciales a través de nuestra plataforma, te conectas con nuestras farmacias independientes locales confiables cerca de ti. Juntos, estamos fortaleciendo nuestras comunidades y ayudando a que las farmacias independientes prosperen.",
+      "headlineBold": "Solicita la entrega de recetas de cualquier farmacia local de tu elección. Rápido, confiable y entregado cuando y donde lo necesitas.",
+      "description": "Cuando recargas, transfieres recetas, o programas servicios de salud esenciales a través de nuestra plataforma, te conectas con farmacias locales en tu área. Juntos, fortalecemos nuestras comunidades y ayudamos a que las farmacias independientes prosperen.",
       "services": [
         {
           "title": "Solicitar Entrega de Receta",
-          "description": "Solicita tu entrega de recetas de tu farmacia local en minutos.",
+          "description": "Solicita tu entrega de recetas en minutos desde tu farmacia local.",
           "buttonText": "Solicitar Ahora"
         },
         {
@@ -96,20 +97,20 @@
         },
         {
           "title": "Transferir una Receta",
-          "description": "Transfiere tu Rx a tu farmacia local preferida utilizando nuestro formulario simple y seguro de transferencia.",
+          "description": "Transfiere tu receta a tu farmacia local preferida utilizando nuestro formulario simple y seguro de transferencia.",
           "buttonText": "Transferir Ahora"
         },
         {
           "title": "Programar Servicios de Salud Esenciales",
-          "description": "Programa servicios de salud esenciales (como vacunas, etc.) convenientemente con nuestras farmacias independientes confiables.",
+          "description": "Programa servicios de salud esenciales (como vacunas, etc.) convenientemente con tu farmacia local confiable.",
           "buttonText": "Programar Ahora"
         }
       ]
     },
     "ourStory": {
       "headline": "Nuestra Historia",
-      "description_1st": "Iniciamos Optimus Health Solutions con una creencia simple: que nadie debería tener que luchar para obtener sus recetas, y que ninguna comunidad debería perder su farmacia independiente confiable.",
-      "description_2nd": "Al conectar a los pacientes con farmacias independientes cercanas, hacemos que el cuidado sea más rápido, personal y cercano a la casa.",
+      "description_1st": "Fundamos Optimus Health Solutions en una creencia simple: que nadie debería tener que luchar para obtener sus recetas de farmacias locales, y que ninguna comunidad debería perder su farmacia independiente confiable.",
+      "description_2nd": "Al conectar a los pacientes con farmacias locales cercanas, hacemos que el cuidado sea más rápido, personal y cercano a la casa.",
       "buttonText": "Click para Aprender Más"
     },
     "ourImpact": {

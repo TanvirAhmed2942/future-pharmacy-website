@@ -82,11 +82,12 @@
     },
     "servicesWeOffer": {
       "headline": "Services We Offer",
-      "description": "When you refill, transfer prescription or schedule essential healthcare services through our platform, you're connecting with our trusted local independent pharmacies near you. Together, we're strengthening our communities and helping independent pharmacies thrive.",
+      "headlineBold": "Request prescription delivery from any local pharmacy of your choice. Fast, reliable, and delivered when and where you need it.",
+      "description": "When you refill, transfer prescriptions, or book essential care services using our platform, you connect with local pharmacies in your area.Together, we strengthen our communities and help independent pharmacies thrive.",
       "services": [
         {
           "title": "Request a Prescription Delivery",
-          "description": "Use our simple and secure online form to fill new and existing prescriptions at your preferred local pharmacy.",
+          "description": "Request your prescriptions delivered in minutes from your local pharmacy.",
           "buttonText": "Request Now"
         },
         {
@@ -96,20 +97,20 @@
         },
         {
           "title": "Transfer a Prescription",
-          "description": "Transfer your Rx to your preferred local pharmacy using our simple and secure transfer form.",
+          "description": "Transfer your prescription to your preferred local pharmacy using our simple and secure transfer form.",
           "buttonText": "Transfer Now"
         },
         {
           "title": "Schedule Essential Healthcare Services",
-          "description": "Schedule essential healthcare services (such as vaccinations etc) conveniently with our trusted independent pharmacies.",
+          "description": "Schedule essential healthcare services (such as vaccinations etc) conveniently with your trusted local pharmacy.",
           "buttonText": "Schedule Now"
         }
       ]
     },
     "ourStory": {
       "headline": "Our Story",
-      "description_1st": "We started Optimus Health Solutions with a simple belief that no one should have to struggle to get their prescriptions, and no community should lose its trusted local independent pharmacy.",
-      "description_2nd": "By connecting patients with nearby independent pharmacies, we make care faster, more personal, and closer to home.",
+      "description_1st": "We Founded Optimus Health Solutions on a simple belief that no one should have to struggle to get their prescriptions from local pharmacies, and no community should lose its trusted independent pharmacy.",
+      "description_2nd": "By connecting patients with nearby local pharmacies, we make care faster, more personal, and closer to home.",
       "buttonText": "Click to Learn More"
     },
     "ourImpact": {
