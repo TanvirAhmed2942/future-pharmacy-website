@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
-import { useGetPartnerPharmaciesLogoQuery } from '../../../store/Apis/mapApi/pharmapApi';
+import { useGetPartnerPharmaciesLogoQuery } from "../../../store/Apis/mapApi/pharmapApi";
+import { imgUrl } from "@/lib/img_url";
 
 interface Pharmacy {
   _id: string;
@@ -10,7 +11,6 @@ interface Pharmacy {
 
 function Partners() {
   const { data } = useGetPartnerPharmaciesLogoQuery({});
-
 
   // Get pharmacies from API response
   const pharmacies: Pharmacy[] = data?.data || [];
@@ -36,10 +36,8 @@ function Partners() {
         {/* Partners Grid - Responsive layout */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-6 md:gap-8 justify-items-center">
           {pharmacies.map((pharmacy) => {
-            // Handle the logo path - you might need to prepend your base URL
-            const logoUrl = pharmacy.logo.startsWith('http')
-              ? pharmacy.logo
-              : `/${pharmacy.logo}`.replace(/\\/g, '/');
+            // Use imgUrl function - it handles both full URLs and relative paths
+            const logoUrl = imgUrl(pharmacy?.logo) || "/testimonials/user.png";
 
             return (
               <div
@@ -49,12 +47,16 @@ function Partners() {
                 {/* Logo Container */}
                 <div className="flex items-center justify-center h-20 md:h-24 lg:h-28 w-full">
                   <Image
-                    src={`${"https://humayon5002.binarybards.online" + "/" + logoUrl}`}
+                    src={logoUrl}
                     alt={`${pharmacy.name} Logo`}
                     width={120}
                     height={80}
                     className="object-contain h-full w-auto max-w-[120px] filter grayscale group-hover:grayscale-0 transition-all duration-300"
                     loading="lazy"
+                    unoptimized={
+                      logoUrl.startsWith("http://") ||
+                      logoUrl.startsWith("https://")
+                    }
                   />
                 </div>
 

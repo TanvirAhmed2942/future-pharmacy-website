@@ -6,6 +6,11 @@
 export const imgUrl = (path?: string) => {
   if (!path || path === "N/A" || path.trim() === "") return "";
 
+  // If path is already a full URL (starts with http:// or https://), return it as is
+  if (path.startsWith("http://") || path.startsWith("https://")) {
+    return path;
+  }
+
   // Get base URL from environment variable (use NEXT_PUBLIC_ prefix for client-side access)
   // Try both NEXT_PUBLIC_IMG_URL and IMG_URL for backward compatibility
   const baseUrl =
