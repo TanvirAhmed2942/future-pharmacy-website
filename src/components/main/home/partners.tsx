@@ -24,14 +24,14 @@ function Partners() {
     <section className="py-8 md:py-12 lg:py-16 bg-gray-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Optional: Add a title/heading */}
-        <div className="text-center mb-8 md:mb-12">
+        {/* <div className="text-center mb-8 md:mb-12">
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-2">
             Our Partner Pharmacies
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
             Trusted by leading pharmacies across the region
           </p>
-        </div>
+        </div> */}
 
         {/* Partners Grid - Responsive layout */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-6 md:gap-8 justify-items-center">
