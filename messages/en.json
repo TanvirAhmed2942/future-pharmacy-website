@@ -20,7 +20,7 @@
     "bottomHeader": {
       "contactInformation": "Contact Information",
       "contactUsText": "Please Call or Text",
-      "contactUsPhone": "917-993-0549",
+      "contactUsPhone": "+1 973 961 1345",
       "mailUs": "Email us:",
       "businessHours": "Business Hours",
       "businessHoursText": "Mon-Fri: 8a.m.-7p.m.",
@@ -167,7 +167,7 @@
       "description": "e make prescription delivery faster, safer, and more accessible for patients across the USA."
     },
     "titleOne": {
-      "title":"Your Fast and Reliable GateWay to Local Pharmarcies",
+      "title": "Your Fast and Reliable GateWay to Local Pharmarcies",
       "description": "Built to Connect patients to their local pharmacies when access to presciption matters most."
     },
     "headline": "Our Mission & Vision",
@@ -234,7 +234,7 @@
       "description": "We handle the coordination so you can focus on your health, while your trusted local pharmacy takes care of the rest"
     },
     "headline": "Prescription Delivery",
-    "des":"We handle the stress so you can focus on your health, in partnership with your trusted local pharmacy.",
+    "des": "We handle the stress so you can focus on your health, in partnership with your trusted local pharmacy.",
     "steps": [
       {
         "title": "Request Delivery",
