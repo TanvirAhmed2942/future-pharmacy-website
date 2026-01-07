@@ -47,9 +47,20 @@ export const mapApi = baseApi.injectEndpoints({
       }),
       providesTags: ["Map"],
     }),
+    getPartnerPharmaciesLogo: builder.query<
+      GetPharmaciesResponse,
+      GetPharmaciesParams
+    >({
+      query: () => ({
+        url: `/pharmacies/all-pharmacie-by-map`, //limit 100
+        method: "GET",
+      }),
+      providesTags: ["Map"],
+    }),
   }),
   overrideExisting: true,
 });
 
-export const { useGetPharmaciesQuery } = mapApi;
+export const { useGetPharmaciesQuery, useGetPartnerPharmaciesLogoQuery } =
+  mapApi;
 // &city=${city}&state=${state}
