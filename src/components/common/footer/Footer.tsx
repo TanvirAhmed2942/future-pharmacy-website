@@ -103,13 +103,17 @@ function Footer() {
             <div className="flex gap-4 flex-wrap max-w-42">
               <Link
                 href="#"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition"
-                aria-label="Facebook"
+                aria-label="TikTok"
               >
                 <IoLogoTiktok className="w-5 h-5" />
               </Link>
               <Link
-                href="linkedin.com/optimus-hs"
+                href="https://linkedin.com/optimus-hs"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition"
                 aria-label="LinkedIn"
               >
@@ -117,21 +121,27 @@ function Footer() {
               </Link>
               <Link
                 href="https://www.Instagram.com/optimushealthsolutions?lgsh=Mm1ta2RsYWpmZjlI&utm_source=qr"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition"
-                aria-label="Facebook"
+                aria-label="Instagram"
               >
                 <FaInstagram className="w-5 h-5" />
               </Link>
 
               <Link
                 href="#"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition"
-                aria-label="Facebook"
+                aria-label="YouTube"
               >
                 <TbBrandYoutube className="w-5 h-5" />
               </Link>
               <Link
                 href="https://www.facebook.com/share/1BmulXNq9E/?mlbextid=wwXlfr"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition"
                 aria-label="Facebook"
               >
