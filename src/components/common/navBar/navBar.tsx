@@ -575,7 +575,7 @@ function NavBar() {
                 {/* Contact Details */}
                 <div className="space-y-1">
                   <div>{t("bottomHeader.contactUsText")}</div>
-                  <div className="text-peter font-medium">917-993-0549</div>
+                  <div className="text-peter font-medium">+1 973 961 1345</div>
                   <div>{t("bottomHeader.mailUs")}</div>
                   <a
                     href="mailto:support@optimushs.com"
@@ -605,7 +605,7 @@ function NavBar() {
             {/* Contact Section */}
             <div className="flex items-center gap-4">
               <span>{t("bottomHeader.contactUsText")}</span>
-              <span className="text-peter font-medium">917-993-0549</span>
+              <span className="text-peter font-medium">+1 973 961 1345</span>
               <div className="w-px h-4 bg-gray-600"></div>
               <span>{t("bottomHeader.mailUs")}</span>
               <a

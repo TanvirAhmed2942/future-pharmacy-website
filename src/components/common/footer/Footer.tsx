@@ -91,7 +91,7 @@ function Footer() {
                   href="mailto:help@optimus.com"
                   className="hover:text-white transition"
                 >
-                  support@optimushs.com
+                  info@optimushs.com
                 </Link>
               </li>
             </ul>
@@ -102,7 +102,7 @@ function Footer() {
             <h3 className="font-semibold text-base mb-4">{t("socialMedia")}</h3>
             <div className="flex gap-4 flex-wrap max-w-42">
               <Link
-                href="https://www.facebook.com/share/1BmulXNq9E/?mlbextid=wwXlfr"
+                href="#"
                 className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition"
                 aria-label="Facebook"
               >
@@ -116,7 +116,7 @@ function Footer() {
                 <Linkedin className="w-5 h-5" />
               </Link>
               <Link
-                href="#"
+                href="https://www.Instagram.com/optimushealthsolutions?lgsh=Mm1ta2RsYWpmZjlI&utm_source=qr"
                 className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition"
                 aria-label="Facebook"
               >
@@ -131,7 +131,7 @@ function Footer() {
                 <TbBrandYoutube className="w-5 h-5" />
               </Link>
               <Link
-                href="#"
+                href="https://www.facebook.com/share/1BmulXNq9E/?mlbextid=wwXlfr"
                 className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition"
                 aria-label="Facebook"
               >

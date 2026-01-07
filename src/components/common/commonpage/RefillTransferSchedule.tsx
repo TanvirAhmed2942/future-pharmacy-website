@@ -164,14 +164,14 @@ function RefillTransferSchedule({
   const displaySteps = stepsTransfer
     ? stepsTransfer
     : stepsSchedule
-      ? stepsSchedule
-      : stepsRefill
-        ? stepsRefill
-        : pageTitle?.toLowerCase().includes("transfer")
-          ? defaultStepsTransfer
-          : pageTitle?.toLowerCase().includes("schedule")
-            ? defaultStepsSchedule
-            : defaultStepsRefill;
+    ? stepsSchedule
+    : stepsRefill
+    ? stepsRefill
+    : pageTitle?.toLowerCase().includes("transfer")
+    ? defaultStepsTransfer
+    : pageTitle?.toLowerCase().includes("schedule")
+    ? defaultStepsSchedule
+    : defaultStepsRefill;
 
   return (
     <section className="bg-transparent py-8 md:py-16 xl:py-8 2xl:py-16 px-4 md:px-8 ">
@@ -186,7 +186,7 @@ function RefillTransferSchedule({
 
         <div className="mb-12 xl:mb-6 2xl:mb-8 ">
           <p className="text-gray-800 text-sm md:text-base mb-6 text-center md:text-left">
-            {tNeedHelp("needHelp")} 917-993-0549
+            {tNeedHelp("needHelp")} +1 973 961 1345
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -279,7 +279,7 @@ function RefillTransferSchedule({
       <ShowPhoneNumber
         isOpen={isShowPhoneNumberOpen}
         onClose={() => setIsShowPhoneNumberOpen(false)}
-        phoneNumber={"+197 396 11 345"}
+        phoneNumber={"+1 973 961 1345"}
         title={tNeedHelp("needHelp")}
       />
     </section>
