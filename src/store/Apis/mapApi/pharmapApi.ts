@@ -47,12 +47,9 @@ export const mapApi = baseApi.injectEndpoints({
       }),
       providesTags: ["Map"],
     }),
-    getPartnerPharmaciesLogo: builder.query<
-      GetPharmaciesResponse,
-      GetPharmaciesParams
-    >({
+    getPartnerPharmaciesLogo: builder.query({
       query: () => ({
-        url: `/pharmacies/all-pharmacie-by-map`, //limit 100
+        url: `/pharmacies/logo`, //limit 100
         method: "GET",
       }),
       providesTags: ["Map"],

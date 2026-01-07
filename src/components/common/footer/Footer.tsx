@@ -1,12 +1,11 @@
-import React from "react";
-import { Facebook, Linkedin } from "lucide-react";
-import Link from "next/link";
-import Image from "next/image";
 import useIcon from "@/hooks/useIcon";
-import { IoLogoTiktok } from "react-icons/io5";
-import { FaInstagram } from "react-icons/fa6";
-import { TbBrandYoutube } from "react-icons/tb";
+import { Facebook, Linkedin } from "lucide-react";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
+import Link from "next/link";
+import { FaInstagram } from "react-icons/fa6";
+import { IoLogoTiktok } from "react-icons/io5";
+import { TbBrandYoutube } from "react-icons/tb";
 function Footer() {
   const t = useTranslations("footer");
   return (
@@ -83,7 +82,7 @@ function Footer() {
                   href="tel:8889101808"
                   className="hover:text-white transition"
                 >
-                  (888) 910-1808
+                  +1 973 961 1345
                 </Link>
               </li>
               <li className="text-sm text-gray-300">
@@ -92,7 +91,7 @@ function Footer() {
                   href="mailto:help@optimus.com"
                   className="hover:text-white transition"
                 >
-                  help@optimus.com
+                  support@optimushs.com
                 </Link>
               </li>
             </ul>
@@ -103,14 +102,14 @@ function Footer() {
             <h3 className="font-semibold text-base mb-4">{t("socialMedia")}</h3>
             <div className="flex gap-4 flex-wrap max-w-42">
               <Link
-                href="#"
+                href="https://www.facebook.com/share/1BmulXNq9E/?mlbextid=wwXlfr"
                 className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition"
                 aria-label="Facebook"
               >
                 <IoLogoTiktok className="w-5 h-5" />
               </Link>
               <Link
-                href="#"
+                href="linkedin.com/optimus-hs"
                 className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition"
                 aria-label="LinkedIn"
               >

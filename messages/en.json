@@ -28,7 +28,6 @@
       "businessHoursText3": "Sun: Closed"
     }
   },
-
   "home": {
     "mapAndFormSection": {
       "title": "Request Your Prescriptions Delivered in Minutes",
@@ -162,20 +161,23 @@
       "submitButton": "Send Message"
     }
   },
-
   "aboutUs": {
     "banner": {
       "title": "Your Trusted Partner for Prescription Delivery",
       "description": "e make prescription delivery faster, safer, and more accessible for patients across the USA."
     },
+    "titleOne": {
+      "title":"Your Fast and Reliable GateWay to Local Pharmarcies",
+      "description": "Built to Connect patients to their local pharmacies when access to presciption matters most."
+    },
     "headline": "Our Mission & Vision",
     "mission": {
       "title": "Our Mission",
-      "description": "We are a team of dedicated professionals who are committed to providing the best possible service to our patients."
+      "description": "To make patient access to prescriptions from their local pharmacies simple and convenient, while preserving the independence pharmacies that communities rely on."
     },
     "vision": {
       "title": "Our Vision",
-      "description": "We are a team of dedicated professionals who are committed to providing the best possible service to our patients."
+      "description": "To be part of a future where patients can get their prescriptions quickly and effortlessly from their local pharmacy and every independent pharmacy continues to remain a vital part of its community."
     },
     "ourStory": {
       "headline": "Our Story",
@@ -222,8 +224,8 @@
     }
   },
   "readyToExperience": {
-    "title": "Ready to experience the convenience of Optimus Heath Solutions",
-    "description": "Join thousands of satisfied patients who trust us with their prescription delivery needs.",
+    "title": "Ready to experience the convenience of Optimus Heath Solutions?",
+    "description": "Join a growing community of patients and local pharmacies committed to easier access to Prescriptions.",
     "buttonText": "Send us a Message"
   },
   "howItWorks": {
@@ -232,17 +234,18 @@
       "description": "We handle the coordination so you can focus on your health, while your trusted local pharmacy takes care of the rest"
     },
     "headline": "Prescription Delivery",
+    "des":"We handle the stress so you can focus on your health, in partnership with your trusted local pharmacy.",
     "steps": [
       {
         "title": "Request Delivery",
-        "description": "Our team will contact your pharmacy to refill your prescriptionsSimply use our platform to request delivery in minutes. Select pharmacy location, your delivery address, day and time of delivery. You can create an account for easy process or checkout as guest"
+        "description": "Simply use our platform to request delivery in minutes.Enter your pharmacy location and delivery address , then choose your preferred day and time for delivery.you can create and account for easy process or checkout as guest."
       },
       {
         "title": "Get it Delivered",
-        "description": "Relax! Once the pharmacy receives and confirms fulfilment for pickup. We will deliver your prescription to your home, workplace, or any location of your choice quickly (in minutes), securely, and conveniently"
+        "description": "Relax! Once the pharmacy receives and confirms fulfilment for pickup.We will deliver your prescription to the location you choose.your order will arrive quickly , securely and conveniently."
       }
     ],
-    "message": "Whether you're refilling, transferring, or scheduling care, Optimus HS connects you directly with your trusted local pharmacy to make it fast, reliable, and stress-free",
+    "message": "When you refil or transfer a prescription, or schedule care , optimus HS connnects you with your trusted local pharmacy to make to process fast , reliable , and stress-free . your copay stays the same and Rx delivery is free when you choose a partner independent pharmacy near you .",
     "descriptionOfProcess": [
       {
         "title": "Refill Prescription",
@@ -269,7 +272,6 @@
       "Zero cost to deliver Rx when using our partner pharmacies"
     ]
   },
-
   "independentPharmacies": {
     "banner": {
       "title": "For Independent Pharmacies",
@@ -364,7 +366,6 @@
       }
     }
   },
-
   "earnAsDriver": {
     "banner": {
       "title": "Earn with Every Delivery",
@@ -413,7 +414,6 @@
         "Must be 21 years or older"
       ]
     },
-
     "testimonials": {
       "headline": "Ready to Join Us?"
     },
@@ -455,31 +455,30 @@
       }
     }
   },
-
   "investors": {
     "banner": {
       "title": "Invest in the Future of Prescription Delivery",
-      "description": "join us in revolutionizing prescription delivery with a scalable business model rooted in local community healthcare delivery model"
+      "description": "Join us in revolutionizing prescription delivery with a scalable bussiness modal built around local pharmacies and rooted in local communities "
     },
     "whyInvestWithUs": {
       "headline": "Why Invest with Us?",
-      "description": "Discover the Compelling reasons to invest in Optimus Health Solutions, a leader in prescription delivery.",
+      "description": "Discover the Compelling reasons to invest in Optimus Health Solutions, a next generation prescritpion delivery platform.",
       "features": [
         {
           "title": "Growing Market",
-          "description": "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere. "
+          "description": "$20B+ Prescription delivery market with 13% compound annual growth rate."
         },
         {
           "title": "HIPAA Compliant",
-          "description": "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere. "
+          "description": "Full regulatory compliance and healthcare data security standards."
         },
         {
           "title": "Scalable Platform",
-          "description": "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere. "
+          "description": "Technology infrastructure and data structure ready for rapid national expension."
         },
         {
           "title": "Experience Team",
-          "description": "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere. "
+          "description": "Proven Track Record in helthCare , logistics and technology "
         }
       ]
     },
@@ -523,7 +522,6 @@
       }
     }
   },
-
   "otherBusinesses": {
     "banner": {
       "title": {
@@ -534,23 +532,23 @@
     },
     "whyWorkWithUs": {
       "headline": "Why Work with Us?",
-      "description": "We provide our support to organizations that care about how their members get access to their medications. Our trusted services ensure fast, reliable delivery across your local community.",
+      "description": "We provide our support to organizations that care about how their members get access to their medications from local pharmacies",
       "features": [
         {
-          "title": "Improve Adherence",
-          "description": "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere. "
+          "title": "Improve Access and Adherence",
+          "description": "Avoids Missed Doses, avoid the Broken Promises of same-day delivery "
         },
         {
           "title": "Patient Experience",
-          "description": "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere. "
+          "description": "A patient-centered approach that eliminate stress and delays"
         },
         {
           "title": "Operational Visibility",
-          "description": "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere. "
+          "description": "On-demand executions and real time updates on delivery status"
         },
         {
           "title": "Data Insights",
-          "description": "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere. "
+          "description": "To guide decision on polpulation health access gaps, care plan and cost control"
         }
       ]
     },
@@ -598,7 +596,6 @@
       }
     }
   },
-
   "policies": {
     "hipaa": {
       "title": "HIPAA Policy",
@@ -613,7 +610,6 @@
       "description": "Please read these terms carefully before using our services."
     }
   },
-
   "refillTransferSchedule": {
     "needHelp": "Need help? please call or text us at",
     "pageTitleRefill": "Refill Your Prescription",
@@ -708,7 +704,6 @@
       }
     ]
   },
-
   "loginChoiceModal": {
     "title": "Choose Your Option",
     "description": "To continue with your {pageTitle}, please choose one of the following options:",
@@ -716,7 +711,6 @@
     "guestCheckout": "Continue as Guest",
     "cancel": "Cancel"
   },
-
   "refillOnline": {
     "pageTitle": "Refill Your Prescription",
     "personalInformation": {
@@ -784,7 +778,6 @@
     "submitting": "Submitting...",
     "submitButton": "Submit Refill Request"
   },
-
   "footer": {
     "slogan": "Connecting communities to their local pharmacies for fast, reliable access to prescriptions",
     "links": {
@@ -808,7 +801,6 @@
     },
     "footerText": "Optimus Health Solutions. All rights reserved."
   },
-
   "transferOnline": {
     "pageTitle": "Transfer Your Prescription",
     "personalInformation": {
@@ -887,7 +879,6 @@
     "submitting": "Submitting...",
     "submitButton": "Submit Transfer Request"
   },
-
   "scheduleOnline": {
     "pageTitle": "Schedule Essential Healthcare Services",
     "profileInfo": {
@@ -988,7 +979,6 @@
     "submitting": "Submitting...",
     "submitButton": "Submit Schedule Request"
   },
-
   "contactDetails": {
     "title": "Contact Details",
     "emailAddress": {
@@ -1023,7 +1013,6 @@
     },
     "agreeAndContinue": "Agree and Continue"
   },
-
   "orderSummary": {
     "title": "Order summary/confirmation",
     "details": {
@@ -1080,7 +1069,6 @@
       "description": "This fee helps cover secure processing, customer support, and technology so we can maintain reliable delivery operations."
     }
   },
-
   "checkUserStatusModal": {
     "title": "New Customers",
     "description": "Create a Optimus health Solutions account for faster checkout later. No time right now? No problem. You can check out as guest.",

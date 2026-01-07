@@ -1,6 +1,5 @@
-import React from "react";
-import { Truck, Search, Users } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { Search, Truck, Users } from "lucide-react";
 
 function Benefits() {
   const benefits = [

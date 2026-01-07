@@ -1,19 +1,19 @@
 "use client";
 
-import React, { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Laptop, Phone } from "lucide-react";
-import { useRouter } from "next/navigation";
-import RefillTransferScheduleForm from "@/components/common/refilltransferscheduleform/refilltransferscheduleform";
 import LoginChoiceModal from "@/components/common/refilltransferscheduleform/LoginChoiceModal";
+import RefillTransferScheduleForm from "@/components/common/refilltransferscheduleform/refilltransferscheduleform";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { useAppSelector } from "@/store/hooks";
 import { selectIsLoggedIn } from "@/store/slices/userSlice/userSlice";
+import { Laptop, Phone } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
-import useIcon from "@/hooks/useIcon";
-import ShowPhoneNumber from "../commonModal/showPhoneNumber";
 import Backbutton from "@/components/common/backbutton/backbutton";
+import useIcon from "@/hooks/useIcon";
 import { useTranslations } from "next-intl";
+import ShowPhoneNumber from "../commonModal/showPhoneNumber";
 interface RefillOption {
   title: string;
   description: string;
@@ -164,14 +164,14 @@ function RefillTransferSchedule({
   const displaySteps = stepsTransfer
     ? stepsTransfer
     : stepsSchedule
-    ? stepsSchedule
-    : stepsRefill
-    ? stepsRefill
-    : pageTitle?.toLowerCase().includes("transfer")
-    ? defaultStepsTransfer
-    : pageTitle?.toLowerCase().includes("schedule")
-    ? defaultStepsSchedule
-    : defaultStepsRefill;
+      ? stepsSchedule
+      : stepsRefill
+        ? stepsRefill
+        : pageTitle?.toLowerCase().includes("transfer")
+          ? defaultStepsTransfer
+          : pageTitle?.toLowerCase().includes("schedule")
+            ? defaultStepsSchedule
+            : defaultStepsRefill;
 
   return (
     <section className="bg-transparent py-8 md:py-16 xl:py-8 2xl:py-16 px-4 md:px-8 ">
@@ -279,7 +279,7 @@ function RefillTransferSchedule({
       <ShowPhoneNumber
         isOpen={isShowPhoneNumberOpen}
         onClose={() => setIsShowPhoneNumberOpen(false)}
-        phoneNumber={"+353 917 993 0549"}
+        phoneNumber={"+197 396 11 345"}
         title={tNeedHelp("needHelp")}
       />
     </section>

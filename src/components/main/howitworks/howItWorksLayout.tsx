@@ -1,12 +1,11 @@
-import React from "react";
 import Banner from "@/components/common/banner/Banner";
 // import SimpleSteps from "./simpleSteps";
 import WeWillBeRight from "./weWillBeRIght";
 // import SafetyAndSecuritySection from "./safetyandsecuritySection";
 import ReadyToExperience from "@/components/common/readyToExperience/ReadyToExperience";
-import TheProcess from "./theProcess";
-import PharmacyServices from "./descriptionOfProcess";
 import { useTranslations } from "next-intl";
+import PharmacyServices from "./descriptionOfProcess";
+import TheProcess from "./theProcess";
 
 function HowItWorksLayout() {
   const t = useTranslations("howItWorks");

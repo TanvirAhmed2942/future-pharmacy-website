@@ -162,20 +162,23 @@
       "submitButton": "Enviar Mensaje"
     }
   },
-
   "aboutUs": {
     "banner": {
       "title": "Tu socio de confianza para la entrega de recetas",
       "description": "Hacemos la entrega de recetas más rápida, segura y accesible para los pacientes en Estados Unidos de América."
     },
+    "titleOne": {
+      "title": "Via Rapida kaj Fidinda Enirejo al Lokaj Apotekoj",
+      "description": "Konstruita por konekti pacientojn al iliaj lokaj apotekoj kiam aliro al receptoj plej gravas."
+    },
     "headline": "Nuestra misión y visión",
     "mission": {
       "title": "Nuestra misión",
-      "description": "Somos un equipo de profesionales dedicados que estamos comprometidos a proporcionar el mejor servicio posible a nuestros pacientes."
+      "description": "Por fari la aliron de pacientoj al receptoj de iliaj lokaj apotekoj simpla kaj oportuna, samtempe konservante la sendependecajn apotekojn, je kiuj komunumoj dependas."
     },
     "vision": {
       "title": "Nuestra visión",
-      "description": "Somos un equipo de profesionales dedicados que estamos comprometidos a proporcionar el mejor servicio posible a nuestros pacientes."
+      "description": "Esti parto de estonteco, kie pacientoj povas rapide kaj senpene akiri siajn receptojn de sia loka apoteko, kaj ĉiu sendependa apoteko daŭre restas esenca parto de sia komunumo."
     },
     "ourStory": {
       "headline": "Nuestra historia",
@@ -222,8 +225,8 @@
     }
   },
   "readyToExperience": {
-    "title": "Listo para experimentar la conveniencia de Optimus Heath Solutions",
-    "description": "Únete a miles de pacientes satisfechos que confían en nosotros para sus necesidades de entrega de recetas.",
+    "title": "Listo para experimentar la conveniencia de Optimus Heath Solutions?",
+    "description": "Aliĝu al kreskanta komunumo de pacientoj kaj lokaj apotekoj dediĉitaj al pli facila aliro al Receptoj.",
     "buttonText": "Envíanos un mensaje"
   },
   "howItWorks": {
@@ -232,6 +235,7 @@
       "description": "Nos encargamos de la coordinación para que puedas enfocarte en tu salud, mientras tu farmacia local se encarga del resto"
     },
     "headline": "Entrega de recetas",
+    "des": "Ni traktas la streson por ke vi povu koncentriĝi pri via sano, en kunlaboro kun via fidinda loka apoteko.",
     "steps": [
       {
         "title": "Solicitar entrega",
@@ -242,7 +246,7 @@
         "description": "Relájate! Una vez que la farmacia recibe y confirma el cumplimiento para recoger. Nosotros entregaremos tu receta a tu casa, trabajo o cualquier ubicación de tu elección rápidamente (en minutos), de forma segura y convenientemente"
       }
     ],
-    "message": "Si estás recargando, transfiriendo o programando cuidados, Optimus HS te conecta directamente con tu farmacia local confiable para que sea rápido, confiable y sin estrés",
+    "message": "Kiam vi replenigas aŭ transdonas recepton, aŭ planas prizorgon, Optimus HS konektas vin kun via fidinda loka apoteko por fari la prilaboradon rapida, fidinda kaj senstresa. Via kunpago restas la sama kaj la liverado de recepto estas senpaga kiam vi elektas partneran sendependan apotekon proksime de vi.",
     "descriptionOfProcess": [
       {
         "title": "Recargar receta",
@@ -269,7 +273,6 @@
       "Sin costo para entregar Rx cuando usamos farmacias asociadas"
     ]
   },
-
   "independentPharmacies": {
     "banner": {
       "title": "Para farmacias independientes",
@@ -393,11 +396,11 @@
         },
         {
           "title": "Obtener verificado",
-          "description": "Nuestro equipo se pondrá en contacto con usted para indicarle los siguientes pasos. Este proceso incluirá verificación de antecedentes, verificación de la licencia de conducir y del seguro, inspección del vehículo (si corresponde) y capacitación sobre cumplimiento normativo."
+          "description": "Simple uzu nian platformon por peti liveron en minutoj. Enigu vian apotekan lokon kaj liveradreson, poste elektu vian preferatan tagon kaj horon por livero. Vi povas krei kaj konti por facila procezo aŭ kaso kiel gasto."
         },
         {
           "title": "¡Actívate y empieza a ganar!",
-          "description": "Una vez aprobada su solicitud, recibirá los detalles de entrega para recoger los medicamentos recetados en las farmacias locales y entregarlos en las ubicaciones preferidas del usuario de forma segura y con cuidado."
+          "description": "Relax! Once the pharmacy receives and confirms fulfilment for pickup.We will deliver your prescription to the location you choose.your order will arrive quickly , securely and conveniently."
         }
       ]
     },
@@ -453,31 +456,30 @@
       }
     }
   },
-
   "investors": {
     "banner": {
       "title": "Invierte en el futuro de la entrega de recetas",
-      "description": "Únete a la comunidad de inversores que apoyan a las farmacias locales y ayudan a los pacientes a obtener las recetas que necesitan mientras ganas un ingreso flexible."
+      "description": "Aliĝu al ni por revolucii la liveradon de receptoj per skalebla komerca modelo konstruita ĉirkaŭ lokaj apotekoj kaj enradikiĝinta en lokaj komunumoj."
     },
     "whyInvestWithUs": {
       "headline": "¿Por qué invertir con nosotros?",
-      "description": "Descubre las razones convincentes para invertir en Optimus Health Solutions, un líder en la entrega de recetas.",
+      "description": "Malkovru la konvinkajn kialojn investi en Optimus Health Solutions, platformon por liverado de receptoj de la sekva generacio.",
       "features": [
         {
           "title": "Mercado en crecimiento",
-          "description": "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere. "
+          "description": "Merkato por recepto-liverado de pli ol 20 miliardoj da usonaj dolaroj kun jara kreskorapideco de 13%."
         },
         {
           "title": "HIPAA compliant",
-          "description": "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere. "
+          "description": "Plena reguliga konformeco kaj normoj pri sekureco de sanservaj datumoj."
         },
         {
           "title": "Plataforma escalable",
-          "description": "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere. "
+          "description": "Teknologia infrastrukturo kaj datumstrukturo pretaj por rapida nacia ekspansio."
         },
         {
           "title": "Equipo experto",
-          "description": "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere. "
+          "description": "Pruvita sperto en sanservo, loĝistiko kaj teknologio"
         }
       ]
     },
@@ -521,39 +523,36 @@
       }
     }
   },
-
   "otherBusinesses": {
     "banner": {
       "title": {
         "first": "Descubra cómo",
         "second": "puede servirle mejor"
       },
-
-      "description": "Asóciese con Optimus Health para satisfacer de manera confiable las necesidades de entrega de última milla de sus miembros y pacientes, mejorando los resultados y reduciendo los costos."
+      "description": "Partneriĝu kun Optimus HS por certigi rapidan, fidindan lastmejlan liveradon de receptoj por viaj membroj, samtempe plibonigante rezultojn kaj reduktante kostojn."
     },
     "whyWorkWithUs": {
       "headline": "¿Por Qué Trabajar con Nosotros?",
-      "description": "Brindamos nuestro apoyo a organizaciones que se preocupan por cómo sus miembros acceden a sus medicamentos. Nuestros servicios confiables garantizan una entrega rápida y segura en su comunidad local.",
+      "description": "Ni subtenas organizojn, kiuj zorgas pri kiel iliaj membroj ricevas aliron al siaj medikamentoj de lokaj apotekoj.",
       "features": [
         {
-          "title": "Mejorar la Adherencia",
-          "description": "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere."
+          "title": "Plibonigu Aliron kaj Adheradon",
+          "description": "Evitas Maltrafitajn Dozojn, evitu la Rompitajn Promesojn de samtaga liverado"
         },
         {
-          "title": "Experiencia del Paciente",
-          "description": "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere."
+          "title": "Pacienta Sperto",
+          "description": "Paciento-centra aliro kiu forigas streson kaj prokrastojn"
         },
         {
-          "title": "Visibilidad Operativa",
-          "description": "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere."
+          "title": "Funkcia Videbleco",
+          "description": "On-demand executions and real time updates on delivery status"
         },
         {
-          "title": "Información Basada en Datos",
-          "description": "Lorem ipsum dolor sit amet consectetur. Massa nibh faucibus adipiscing aliquam posuere."
+          "title": "Datumaj Komprenoj",
+          "description": "To guide decision on polpulation health access gaps, care plan and cost control"
         }
       ]
     },
-
     "businessInquiryForm": {
       "headline": "Complete el formulario para expresar interés",
       "description": "Complete el formulario para expresar su interés en trabajar con Optimus Health Solutions.",
@@ -598,7 +597,6 @@
       }
     }
   },
-
   "policies": {
     "hipaa": {
       "title": "Política HIPAA",
@@ -613,7 +611,6 @@
       "description": "Por favor, lea estos términos cuidadosamente antes de usar nuestros servicios."
     }
   },
-
   "footer": {
     "slogan": "Conectando comunidades a sus farmacias locales para un acceso rápido y confiable a recetas",
     "links": {
@@ -637,7 +634,6 @@
     },
     "footerText": "Optimus Health Solutions. Todos los derechos reservados."
   },
-
   "refillTransferSchedule": {
     "needHelp": "¿Necesitas ayuda? Llámanos o envíanos un mensaje",
     "pageTitleRefill": "Renueva tu Prescripción",
@@ -732,7 +728,6 @@
       }
     ]
   },
-
   "loginChoiceModal": {
     "title": "Elige una Opción",
     "description": "Para continuar con tu {pageTitle}, por favor elige una de las siguientes opciones:",
@@ -740,7 +735,6 @@
     "guestCheckout": "Continuar como Invitado",
     "cancel": "Cancelar"
   },
-
   "refillOnline": {
     "pageTitle": "Renueva tu Prescripción",
     "personalInformation": {
@@ -808,7 +802,6 @@
     "submitting": "Enviando...",
     "submitButton": "Enviar Solicitud de Renovación"
   },
-
   "transferOnline": {
     "pageTitle": "Transfiere tu Prescripción",
     "personalInformation": {
@@ -887,7 +880,6 @@
     "submitting": "Enviando...",
     "submitButton": "Enviar Solicitud de Transferencia"
   },
-
   "scheduleOnline": {
     "pageTitle": "Programa Servicios Esenciales de Salud",
     "profileInfo": {
@@ -988,7 +980,6 @@
     "submitting": "Enviando...",
     "submitButton": "Enviar Solicitud de Programación"
   },
-
   "contactDetails": {
     "title": "Detalles de Contacto",
     "emailAddress": {
@@ -1023,7 +1014,6 @@
     },
     "agreeAndContinue": "Aceptar y Continuar"
   },
-
   "orderSummary": {
     "title": "Resumen/Confirmación de Pedido",
     "details": {
@@ -1080,7 +1070,6 @@
       "description": "Esta tarifa ayuda a cubrir el procesamiento seguro, atención al cliente y tecnología para que podamos mantener operaciones de entrega confiables."
     }
   },
-
   "checkUserStatusModal": {
     "title": "Nuevos Clientes",
     "description": "Crea una cuenta de Optimus Health Solutions para un checkout más rápido más tarde. ¿No tienes tiempo ahora? No hay problema. Puedes hacer checkout como invitado.",
