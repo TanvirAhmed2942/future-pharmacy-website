@@ -15,7 +15,7 @@ function IndependentPharmTestimonial() {
   const testimonials = [
     {
       name: "Jane Cooper",
-      role: "Patient",
+      role: "Pharmacy Owner",
       image: "/testimonials/user.png",
       text: "Lorem ipsum dolor sit amet consectetur. Sed sit tristique nisl gravida vel. Faucibus gravida eget enim magna. Mauris feugiat venenatis adipiscing pretium. Mollis quis nisi placerat sit amet purus feugiat at. In venenatis integer lectus amet rutrum.",
     },
@@ -91,13 +91,13 @@ function IndependentPharmTestimonial() {
                       {/* Avatar and Info */}
                       <div className="flex items-center gap-4">
                         {/* <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex-shrink-0" /> */}
-                        <Image
+                        {/* <Image
                           src={testimonial.image}
                           alt={testimonial.name}
                           width={100}
                           height={100}
                           className="w-16 h-16 md:w-20 md:h-20 rounded-full flex-shrink-0"
-                        />
+                        /> */}
                         <div>
                           <h3 className="font-semibold text-gray-900 text-lg font-inter">
                             {testimonial.name}

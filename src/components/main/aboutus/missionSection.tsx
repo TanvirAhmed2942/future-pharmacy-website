@@ -1,13 +1,12 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import useIcon from "@/hooks/useIcon";
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
 
 function MissionSection({
   missionTitle,
   missionDescription,
   visionTitle,
   visionDescription,
-  headline,
 }: {
   missionTitle: string;
   missionDescription: string;
@@ -15,17 +14,16 @@ function MissionSection({
   visionDescription: string;
   headline: string;
 }) {
-
   const t = useTranslations("aboutUs");
   return (
     <div className="my-8 sm:my-12 md:my-16 px-4 sm:px-6 md:px-8 max-w-7xl mx-auto">
-      <div className="text-center flex flex-col gap-3">
+      {/* <div className="text-center flex flex-col gap-3">
         <h1 className='text-4xl font-bold'>{t("titleOne.title")}</h1>
         <p className='text-base'>{t("titleOne.description")}</p>
       </div>
       <h2 className="heading-text text-center text-2xl sm:text-3xl md:text-4xl font-bold my-8 sm:my-12 md:my-16">
         {headline}
-      </h2>
+      </h2> */}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 md:gap-10">
         {/* Mission Card */}

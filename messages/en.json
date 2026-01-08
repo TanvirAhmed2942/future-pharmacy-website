@@ -70,11 +70,11 @@
         },
         {
           "title": "Request",
-          "description": "Be it prescription delivery, managing your rx refill, rx transfer or scheduling essential care with your pharmacist, we have made it simple for you."
+          "description": "Be it prescription delivery, managing your rx refills, rx transfer or scheduling essential care with your local pharmacy, we have made it simple for you."
         },
         {
           "title": "We Deliver!",
-          "description": "We deliver your request at the time and place that works best for you. "
+          "description": "We coordinate your refill, transfer or scheduling request with your selected local pharmacy"
         }
       ],
       "learnMore": "Learn More"
@@ -163,8 +163,8 @@
   },
   "aboutUs": {
     "banner": {
-      "title": "Your Trusted Partner for Prescription Delivery",
-      "description": "e make prescription delivery faster, safer, and more accessible for patients across the USA."
+      "title": "Your Fast and Reliable GateWay to Local Pharmarcies",
+      "description": "Built to connect patients to their local pharmacies when access to presciption matters most."
     },
     "titleOne": {
       "title": "Your Fast and Reliable GateWay to Local Pharmarcies",
@@ -177,7 +177,7 @@
     },
     "vision": {
       "title": "Our Vision",
-      "description": "To be part of a future where patients can get their prescriptions quickly and effortlessly from their local pharmacy and every independent pharmacy continues to remain a vital part of its community."
+      "description": "To be part of a future where patients receive prescriptions and care from their local pharmacy quickly, securely, and effortlessly, while every independent pharmacy continues to remain a vital part of its community."
     },
     "ourStory": {
       "headline": "Our Story",
@@ -231,25 +231,25 @@
   "howItWorks": {
     "banner": {
       "title": "\"How It Works\" - Simple, Secure and Local",
-      "description": "We handle the coordination so you can focus on your health, while your trusted local pharmacy takes care of the rest"
+      "description": "We handle the stress so you can focus on your health, in partnership with your trusted local pharmacy."
     },
     "headline": "Prescription Delivery",
-    "des": "We handle the stress so you can focus on your health, in partnership with your trusted local pharmacy.",
+    "des": "I have to remove",
     "steps": [
       {
-        "title": "Request Delivery",
-        "description": "Simply use our platform to request delivery in minutes.Enter your pharmacy location and delivery address , then choose your preferred day and time for delivery.you can create and account for easy process or checkout as guest."
+        "title": "Request  Delivery",
+        "description": "Simply use our platform to request delivery in minutes. Enter your pharmacy location and delivery address, then choose your preferred day and time for delivery. You can create an account for easy process or checkout as guest."
       },
       {
         "title": "Get it Delivered",
-        "description": "Relax! Once the pharmacy receives and confirms fulfilment for pickup.We will deliver your prescription to the location you choose.your order will arrive quickly , securely and conveniently."
+        "description": "Relax! Once the pharmacy receives and confirms fulfilment for pickup.We will deliver your prescription to the location you choose.Your order will arrive quickly, securely and conveniently."
       }
     ],
-    "message": "When you refil or transfer a prescription, or schedule care , optimus HS connnects you with your trusted local pharmacy to make to process fast , reliable , and stress-free . your copay stays the same and Rx delivery is free when you choose a partner independent pharmacy near you .",
+    "message": "When you refill or transfer a prescription, or schedule care, Optimus HS connnects you with your trusted local pharmacy to make to process fast, reliable, and stress-free. Your copay stays the same, and Rx delivery is free when you choose a partner independent pharmacy near you .",
     "descriptionOfProcess": [
       {
         "title": "Refill Prescription",
-        "description": "When you need a refill? Simply submit your refill request through our platform. We'll connect with your selected local pharmacy to process it quickly. Once filled, you'll get an instant update to track or schedule your delivery right to your doorstep."
+        "description": "Need a refill? Simply submit your refill request through our platform. We'll connect with your selected local pharmacy to process it quickly. Once filled, you'll get an instant update to track or schedule delivery right to your doorstep."
       },
       {
         "title": "Transfer Prescription",
@@ -257,7 +257,7 @@
       },
       {
         "title": "Schedule Essential Healthcare Services",
-        "description": "Easily schedule vaccinations, health screenings, or wellness consultations at your preferred local pharmacy. We'll coordinate your appointment details and confirm your slot instantly. It's convenient, community-based care -handled securely and at no extra cost to you."
+        "description": "Easily schedule vaccinations, health screenings, or wellness consultations at your preferred local pharmacy. We'll coordinate your appointment details and confirm your slot instantly. It's convenient, secure, and community-based care at no extra cost to you."
       }
     ]
   },
@@ -275,30 +275,30 @@
   "independentPharmacies": {
     "banner": {
       "title": "For Independent Pharmacies",
-      "description": "Grow your pharmacy’s reach and deliver medicines seamlessly to your customers."
+      "description": "Grow your pharmacy's reach and offer customers convenient access to their medications."
     },
     "benefits": [
       {
         "title": "Fast & Reliable Delivery",
-        "description": "Deliver prescriptions quickly and reliably to your customers with our efficient delivery network."
+        "description": "Deliver prescriptions quickly, securely, and reliably to your customers."
       },
       {
         "title": "HIPAA Compliant",
-        "description": "Ensure patient data security and compliance with HIPAA regulations through our secure platform."
+        "description": "Ensure patient data security and HIPAA compliance with our secure platform."
       },
       {
         "title": "Data Insights",
-        "description": "Access valuable analytics and insights to understand your customer base and optimize operations."
+        "description": "Gain actionable analytics and insights to understand your customers and optimize operations."
       },
       {
         "title": "Increase Revenue",
-        "description": "Expand your customer reach and grow revenue by offering convenient delivery services to more patients."
+        "description": "Expand your customer reach, increase Rx volume and foot traffic, and grow your business."
       }
     ],
     "headline": "Benefits of Joining Our Network",
-    "description": "As an Optimus partner, you’ll attract new customers, improve medication adherence, and compete effectively with large chain pharmacies while staying connected to your local community.",
+    "description": "As Optimus HS partner, you’ll attract new customers, improve medication adherence, and compete effectively with the big chain pharmacies while staying connected to your local community.",
     "howItWorks": {
-      "headline": "How It Works",
+      "headline": "Become a Partner Pharmacy in 4 Simple Steps",
       "steps": [
         {
           "title": "Register your pharmacy",
@@ -315,7 +315,7 @@
       ]
     },
     "testimonials": {
-      "headline": "What our Users Say"
+      "headline": "What our Partner Pharmacies Say"
     },
     "formSection": {
       "headline": "Get Started Today",
@@ -369,7 +369,7 @@
   "earnAsDriver": {
     "banner": {
       "title": "Earn with Every Delivery",
-      "description": "Join the community of independent courier drivers supporting local pharmacies and helping patients get the prescriptions they need while you .while earning a flexible income."
+      "description": "Join the community of independent courier drivers supporting local pharmacies and helping patients get the prescriptions they need at the right time and place, while earning a flexible income."
     },
     "whyDriveWithUs": {
       "headline": "Why Drive with Us?",
@@ -406,9 +406,9 @@
     "requirements": {
       "headline": "See all our Requirements",
       "requirements": [
-        "Valid driver's license (at least 2 years)",
+        "Valid driver's license (if applicable) - at least 2 years",
         "Clean driving record (no major violations)",
-        "Reliable vehicle (2005 or newer)",
+        "Reliable vehicle (if applicable) - 2005 and newer",
         "Smartphone with GPS capability",
         "Background check required",
         "Must be 21 years or older"

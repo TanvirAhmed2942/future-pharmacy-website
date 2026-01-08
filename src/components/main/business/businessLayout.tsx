@@ -10,7 +10,7 @@ function BusinessLayout() {
     <div className="bg-white">
       <Banner
         title="Partner with Our Prescription Delivery Network"
-        description="Grow your pharmacy’s reach and deliver medicines seamlessly to your customers."
+        description="Grow your pharmacy's reach and offer customers convenient access to their medications."
         image="/banner/business_banner.png"
       />
       <Benefits />

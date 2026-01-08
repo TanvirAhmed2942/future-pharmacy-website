@@ -22,10 +22,10 @@ function IndependentPharmciesLayout() {
         <h1 className="text-4xl font-bold text-center text-gray-900 mb-6">
           {tForm("headline")}
         </h1>
-        <p className="text-gray-600 text-base md:text-lg max-w-6xl  mx-auto leading-relaxed text-center ">
+        {/* <p className="text-gray-600 text-base md:text-lg max-w-6xl  mx-auto leading-relaxed text-center ">
           {tForm("description")}
          
-        </p>
+        </p> */}
       </div>
       <PharmacyRegForm />
     </div>

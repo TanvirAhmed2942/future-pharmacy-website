@@ -108,7 +108,7 @@ export default function RefilSection() {
           <p className="text-gray-700 text-base md:text-lg font-inter font-bold text-center px-4 md:px-0 mt-4">
             {tServices("headlineBold")}
           </p>
-          <p className="text-gray-700 text-base md:text-lg font-inter text-center px-4 md:px-0 mt-4">
+          <p className="text-gray-700 text-base md:text-lg font-inter text-center italic px-4 md:px-0 mt-4">
             {tServices("description")}
           </p>
         </div>

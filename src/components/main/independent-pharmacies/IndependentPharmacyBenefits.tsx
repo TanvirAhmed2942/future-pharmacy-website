@@ -1,9 +1,10 @@
 import React from "react";
-import { Truck, Search } from "lucide-react";
+import { Truck } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { PiChartLineUp } from "react-icons/pi";
 import useIcon from "@/hooks/useIcon";
 import { useTranslations } from "next-intl";
+import { LuDatabaseZap } from "react-icons/lu";
 function IndependentPharmacyBenefits() {
   const t = useTranslations("independentPharmacies.benefits");
   const tSection = useTranslations("independentPharmacies");
@@ -23,7 +24,7 @@ function IndependentPharmacyBenefits() {
       description: t("1.description") as string,
     },
     {
-      icon: Search,
+      icon: LuDatabaseZap,
       title: t("2.title") as string,
       description: t("2.description") as string,
     },

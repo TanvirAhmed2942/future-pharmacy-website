@@ -26,8 +26,8 @@ function HowItWorksLayout() {
           }[]
         }
       />
-      <div className="max-w-7xl mx-auto">
-        <p className="text-center text-peter font-semibold text-lg md:text-xl lg:text-2xl 2xl:text-[30px] leading-relaxed mt-0 mb-20 px-4 md:px-8 2xl:px-0">
+      <div className="max-w-[90rem] mx-auto">
+        <p className="text-center text-peter italic text-lg md:text-xl lg:text-2xl 2xl:text-[30px] leading-relaxed mt-0 mb-20 px-4 md:px-8 2xl:px-0">
           {t("message")}
         </p>
       </div>
