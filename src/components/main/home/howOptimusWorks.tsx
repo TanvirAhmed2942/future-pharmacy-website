@@ -9,7 +9,8 @@ import { useTranslations } from "next-intl";
 
 type WorkItem = {
   title: string;
-  description: string;
+  descriptionTopText: string;
+  descriptionBottomText: string;
 } & (
   | { iconType: "custom"; customIcon: ReactElement | null }
   | { iconType: "lucide"; icon: LucideIcon }
@@ -30,19 +31,22 @@ export default function HowOptimusWorks() {
       iconType: "custom",
       customIcon: sign_up_for_optimus,
       title: t("steps.0.title"),
-      description: t("steps.0.description"),
+      descriptionTopText: t("steps.0.descriptionTopText"),
+      descriptionBottomText: t("steps.0.descriptionBottomText"),
     },
     {
       iconType: "custom",
       customIcon: schedule_your_free_same_day_delivery,
       title: t("steps.1.title"),
-      description: t("steps.1.description"),
+      descriptionTopText: t("steps.1.descriptionTopText"),
+      descriptionBottomText: t("steps.1.descriptionBottomText"),
     },
     {
       iconType: "custom",
       customIcon: we_manage_your_refills,
       title: t("steps.2.title"),
-      description: t("steps.2.description"),
+      descriptionTopText: t("steps.2.descriptionTopText"),
+      descriptionBottomText: t("steps.2.descriptionBottomText"),
     },
   ];
 
@@ -121,7 +125,10 @@ export default function HowOptimusWorks() {
                 {/* Description section - flexible height with min-height */}
                 <div className="flex-1 flex items-start justify-center mb-2">
                   <p className="text-gray-600 text-sm leading-relaxed">
-                    {item.description}
+                    {item.descriptionTopText}
+                    <br />
+                    <br />
+                    {item.descriptionBottomText}
                   </p>
                 </div>
               </Card>

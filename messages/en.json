@@ -66,15 +66,18 @@
       "steps": [
         {
           "title": "Sign-up",
-          "description": "Create an Optimus Health Solutions account for faster checkout. No time right now? No problem. You can check out as guest."
+          "descriptionTopText": "Create an Optimus Health Solutions account for faster checkout.",
+          "descriptionBottomText": "No time right now? No problem. You can check out as guest."
         },
         {
           "title": "Request",
-          "description": "Be it prescription delivery, managing your rx refills, rx transfer or scheduling essential care with your local pharmacy, we have made it simple for you."
+          "descriptionTopText": "Be it Prescription delivery, managing refills, transfer rx, or scheduling essential care services with your local pharmacy, we have made it simple for you.",
+          "descriptionBottomText": "Just request"
         },
         {
           "title": "We Deliver!",
-          "description": "We coordinate your refill, transfer or scheduling request with your selected local pharmacy"
+          "descriptionTopText": "We deliver your Rx request at the time and place that works best for you.",
+          "descriptionBottomText": "We coordinate your refill, transfer or scheduling request with your selected local pharmacy."
         }
       ],
       "learnMore": "Learn More"
