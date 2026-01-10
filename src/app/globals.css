@@ -331,3 +331,14 @@ html body[data-scroll-locked] {
     display: none;
   }
 }
+
+.marquee-wrapper {
+  background-color: #f9fafc;
+}
+.overlay {
+  background: linear-gradient(
+    to right,
+    rgba(248, 251, 253, 1),
+    rgba(248, 251, 253, 0)
+  );
+}

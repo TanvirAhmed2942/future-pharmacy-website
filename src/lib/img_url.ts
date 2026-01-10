@@ -19,7 +19,7 @@ export const imgUrl = (path?: string) => {
       : process.env.IMG_URL) ||
     process.env.NEXT_PUBLIC_IMG_URL ||
     process.env.IMG_URL ||
-    "https://humayon5002.binarybards.online";
+    "https://api.optimushs.com/";
 
   // Convert Windows-style paths to URL paths (backslashes to forward slashes)
   const normalized = path.replace(/\\/g, "/");

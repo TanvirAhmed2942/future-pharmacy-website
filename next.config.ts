@@ -11,6 +11,7 @@ const nextConfig: NextConfig = {
       { hostname: "10.10.7.65" },
       { hostname: "humayon5002.binarybards.online" },
       { hostname: "future-pharmacy-website.vercel.app" },
+      { hostname: "api.optimushs.com" },
     ],
   },
 };
