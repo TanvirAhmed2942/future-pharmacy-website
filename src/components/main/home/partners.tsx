@@ -92,7 +92,7 @@ function Partners() {
                     className="flex flex-col items-center justify-center mx-8 group  py-4"
                   >
                     {/* Logo Container */}
-                    <div className="flex items-center justify-center h-24 md:h-28 lg:h-32 w-32 md:w-40 lg:w-48 px-4">
+                    <div className="flex items-center justify-center h-24 md:h-28 lg:h-28 w-32 md:w-40 lg:w-48 px-4">
                       <Image
                         src={pharmacy.logo}
                         alt={pharmacy.name}
