@@ -5,6 +5,7 @@ import { PiChartLineUp } from "react-icons/pi";
 import useIcon from "@/hooks/useIcon";
 import { useTranslations } from "next-intl";
 import { LuDatabaseZap } from "react-icons/lu";
+import { TbBinaryTreeFilled } from "react-icons/tb";
 function IndependentPharmacyBenefits() {
   const t = useTranslations("independentPharmacies.benefits");
   const tSection = useTranslations("independentPharmacies");

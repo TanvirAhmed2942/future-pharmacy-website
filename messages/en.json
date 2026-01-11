@@ -302,16 +302,20 @@
       "headline": "Become a Partner Pharmacy in 4 Simple Steps",
       "steps": [
         {
-          "title": "Register your pharmacy",
-          "description": "Complete the online registration form."
+          "title": "Complete Interest Form (see form below).",
+          "description": "It takes less than 2 minutes to complete the form."
         },
         {
-          "title": "Upload necessary licenses",
-          "description": "Provide valid pharmacy licenses and certifications."
+          "title": "Schedule a Brief Onboarding Call",
+          "description": ""
         },
         {
-          "title": "Start receiving delivery requests",
-          "description": "Manage and Fulfil delivery requests through our platform."
+          "title": "Complete Verification",
+          "description": "Licensing, compliance, and service setup are quick and straightforward."
+        },
+        {
+          "title": "Go Live & Start Receiving Requests",
+          "description": ""
         }
       ]
     },
@@ -467,7 +471,7 @@
     },
     "whyInvestWithUs": {
       "headline": "Why Invest with Us?",
-      "description": "Discover the Compelling reasons to invest in Optimus Health Solutions, a next generation prescritpion delivery platform.",
+      "description": "Discover the compelling reasons to invest in Optimus Health Solutions, a next-generation prescription delivery platform designed for everyday people.",
       "features": [
         {
           "title": "Growing Market",
@@ -483,7 +487,7 @@
         },
         {
           "title": "Experience Team",
-          "description": "Proven Track Record in helthCare , logistics and technology "
+          "description": "Proven track record in healthcare, logistics, and technology."
         }
       ]
     },
@@ -533,7 +537,7 @@
         "first": "Explore how",
         "second": "can best serve you"
       },
-      "description": "Partner with Optimus Health to reliably meet the last‑mile delivery needs of your members and patients while improving outcomes and reducing costs."
+      "description": "Partner with Optimus HS to ensure fast, reliable last-mile prescription delivery for your members, while improving outcomes and reducing costs."
     },
     "whyWorkWithUs": {
       "headline": "Why Work with Us?",
@@ -541,19 +545,19 @@
       "features": [
         {
           "title": "Improve Access and Adherence",
-          "description": "Avoids Missed Doses, avoid the Broken Promises of same-day delivery "
+          "description": "Avoid missed doses, avoid the broken promises of same-day delivery."
         },
         {
           "title": "Patient Experience",
-          "description": "A patient-centered approach that eliminate stress and delays"
+          "description": "A patient-centered approach that eliminate stress and delays."
         },
         {
           "title": "Operational Visibility",
-          "description": "On-demand executions and real time updates on delivery status"
+          "description": "On-demand execution and real time updates on delivery status."
         },
         {
           "title": "Data Insights",
-          "description": "To guide decision on polpulation health access gaps, care plan and cost control"
+          "description": "To guide decision on population health access gaps, care plan and cost control"
         }
       ]
     },

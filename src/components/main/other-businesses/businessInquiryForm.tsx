@@ -334,7 +334,7 @@ function BusinessInquiryForm() {
                         <SelectItem value="providers-health-systems">
                           Providers/Health Systems
                         </SelectItem>
-                        <SelectItem value="mocs">MOCs</SelectItem>
+                        <SelectItem value="mcos">Health Plans/MCOs</SelectItem>
                         <SelectItem value="acos">ACOs</SelectItem>
                         <SelectItem value="others">Others</SelectItem>
                       </SelectContent>

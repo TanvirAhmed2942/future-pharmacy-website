@@ -4,22 +4,28 @@ function HowIndependentPharmWorks() {
   const t = useTranslations("independentPharmacies.howItWorks");
   const items = [
     {
-      badge: "H1",
+      badge: "1",
       title: t("steps.0.title") as string,
 
       description: t("steps.0.description") as string,
     },
     {
-      badge: "H2",
+      badge: "2",
       title: t("steps.1.title") as string,
 
       description: t("steps.1.description") as string,
     },
     {
-      badge: "H3",
+      badge: "3",
       title: t("steps.2.title") as string,
 
       description: t("steps.2.description") as string,
+    },
+    {
+      badge: "4",
+      title: t("steps.3.title") as string,
+
+      description: t("steps.3.description") as string,
     },
   ];
 
@@ -31,10 +37,10 @@ function HowIndependentPharmWorks() {
         </h1>
 
         <div className="relative">
-          {/* Vertical connecting line */}
-          <div className="absolute left-6 top-2 bottom-18 w-0.5 border-l-2 border-dashed border-gray-300 " />
+          <div className="space-y-12 my-16 relative">
+            {/* Vertical connecting line - positioned from first badge center to last badge center */}
+            <div className="absolute left-6 w-0.5 top-0 bottom-0  border-l-2 border-dashed border-gray-300" />
 
-          <div className="space-y-12 my-16">
             {items.map((item, idx) => (
               <div key={idx} className="relative flex gap-6">
                 {/* Badge circle */}
@@ -51,9 +57,11 @@ function HowIndependentPharmWorks() {
                       {item.title}
                     </h3>
                   </div>
-                  <p className="text-sm text-gray-600 leading-relaxed">
-                    {item.description}
-                  </p>
+                  {item.description && item.description.trim() && (
+                    <p className="text-sm text-gray-600 leading-relaxed">
+                      {item.description}
+                    </p>
+                  )}
                 </div>
               </div>
             ))}

@@ -303,16 +303,20 @@
       "headline": "Cómo funciona",
       "steps": [
         {
-          "title": "Regístrate en nuestra plataforma",
-          "description": "Completa el formulario de registro en línea."
+          "title": "Completa el formulario de interés (ver formulario abajo).",
+          "description": "Completar el formulario toma menos de 2 minutos."
         },
         {
-          "title": "Carga tus licencias necesarias",
-          "description": "Proporciona licencias y certificaciones de farmacia válidas."
+          "title": "Programa una breve llamada de incorporación",
+          "description": ""
         },
         {
-          "title": "Comienza a recibir solicitudes de entrega",
-          "description": "Gestiona y cumple con las solicitudes de entrega a través de nuestra plataforma."
+          "title": "Completa la verificación",
+          "description": "La licencia, el cumplimiento normativo y la configuración del servicio son rápidos y sencillos."
+        },
+        {
+          "title": "Activa el servicio y comienza a recibir solicitudes",
+          "description": ""
         }
       ]
     },
@@ -468,7 +472,7 @@
     },
     "whyInvestWithUs": {
       "headline": "¿Por qué invertir con nosotros?",
-      "description": "Malkovru la konvinkajn kialojn investi en Optimus Health Solutions, platformon por liverado de receptoj de la sekva generacio.",
+      "description": "Descubre las razones convincentes para invertir en Optimus Health Solutions, una plataforma de entrega de recetas de próxima generación diseñada para personas comunes.",
       "features": [
         {
           "title": "Mercado en crecimiento",
@@ -483,8 +487,8 @@
           "description": "Teknologia infrastrukturo kaj datumstrukturo pretaj por rapida nacia ekspansio."
         },
         {
-          "title": "Equipo experto",
-          "description": "Pruvita sperto en sanservo, loĝistiko kaj teknologio"
+          "title": "Equipo con Experiencia",
+          "description": "Trayectoria comprobada en atención médica, logística y tecnología."
         }
       ]
     },
@@ -534,27 +538,27 @@
         "first": "Descubra cómo",
         "second": "puede servirle mejor"
       },
-      "description": "Partneriĝu kun Optimus HS por certigi rapidan, fidindan lastmejlan liveradon de receptoj por viaj membroj, samtempe plibonigante rezultojn kaj reduktante kostojn."
+      "description": "Asóciate con Optimus HS para garantizar una entrega de recetas de última milla rápida y confiable para tus miembros, al mismo tiempo que mejoras los resultados y reduces los costos."
     },
     "whyWorkWithUs": {
       "headline": "¿Por Qué Trabajar con Nosotros?",
       "description": "Ni subtenas organizojn, kiuj zorgas pri kiel iliaj membroj ricevas aliron al siaj medikamentoj de lokaj apotekoj.",
       "features": [
         {
-          "title": "Plibonigu Aliron kaj Adheradon",
-          "description": "Evitas Maltrafitajn Dozojn, evitu la Rompitajn Promesojn de samtaga liverado"
+          "title": "Mejora el acceso y la adherencia",
+          "description": "Evita dosis omitidas y evita las promesas incumplidas de la entrega el mismo día."
         },
         {
           "title": "Pacienta Sperto",
           "description": "Paciento-centra aliro kiu forigas streson kaj prokrastojn"
         },
         {
-          "title": "Funkcia Videbleco",
-          "description": "On-demand executions and real time updates on delivery status"
+          "title": "Visibilidad operativa",
+          "description": "Ejecución bajo demanda y actualizaciones en tiempo real sobre el estado de la entrega."
         },
         {
-          "title": "Datumaj Komprenoj",
-          "description": "To guide decision on polpulation health access gaps, care plan and cost control"
+          "title": "Información de Datos",
+          "description": "Para orientar decisiones sobre brechas en el acceso a la salud de la población, planes de atención y control de costos."
         }
       ]
     },

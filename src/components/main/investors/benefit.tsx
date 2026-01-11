@@ -5,12 +5,14 @@ import { Users, LucideIcon } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import useIcon from "@/hooks/useIcon";
 import { useTranslations } from "next-intl";
+import { TbBinaryTreeFilled } from "react-icons/tb";
 type BenefitItem = {
   title: string;
   description: string;
 } & (
   | { iconType: "custom"; customIcon: ReactElement | null }
   | { iconType: "lucide"; icon: LucideIcon }
+  | { iconType: "reactIcon"; icon: ReactElement }
 );
 
 function Benefits() {
@@ -23,29 +25,25 @@ function Benefits() {
       iconType: "custom",
       customIcon: growing_market,
       title: tWhyInvestWithUs("features.0.title"),
-      description:
-        tWhyInvestWithUs("features.0.description"),
+      description: tWhyInvestWithUs("features.0.description"),
     },
     {
       iconType: "custom",
       customIcon: hipaaIcon,
       title: tWhyInvestWithUs("features.1.title"),
-      description:
-        tWhyInvestWithUs("features.1.description"),
+      description: tWhyInvestWithUs("features.1.description"),
     },
     {
-      iconType: "lucide",
-      icon: Users,
+      iconType: "reactIcon",
+      icon: TbBinaryTreeFilled as unknown as ReactElement,
       title: tWhyInvestWithUs("features.2.title"),
-      description:
-        tWhyInvestWithUs("features.2.description"),
+      description: tWhyInvestWithUs("features.2.description"),
     },
     {
       iconType: "custom",
       customIcon: teamIcon,
       title: tWhyInvestWithUs("features.3.title"),
-      description:
-        tWhyInvestWithUs("features.3.description"),
+      description: tWhyInvestWithUs("features.3.description"),
     },
   ];
 
@@ -86,6 +84,16 @@ function Benefits() {
                             {React.createElement(benefit.icon, {
                               className: "w-8 h-8 text-peter",
                             })}
+                          </div>
+                        )}
+                        {benefit.iconType === "reactIcon" && (
+                          <div className=" text-peter flex items-center justify-center">
+                            {React.createElement(
+                              benefit.icon as unknown as React.ElementType,
+                              {
+                                className: "w-8 h-8 text-peter",
+                              }
+                            )}
                           </div>
                         )}
                       </div>
