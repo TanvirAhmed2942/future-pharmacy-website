@@ -1,8 +1,10 @@
 "use client";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Marquee from "react-fast-marquee";
 
 function Partners() {
+  const tPartners = useTranslations("home.partners");
   const pharmacies = [
     {
       id: "1",
@@ -58,7 +60,7 @@ function Partners() {
     <section className="py-8 md:py-12 lg:py-8 bg-gray-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-2xl md:text-3xl font-base italic text-gray-400 mb-2 text-left">
-          Partner Pharmacy Spotlight ..
+          {tPartners("headline")}
         </h2>
 
         {/* Horizontal Scrolling Marquee */}

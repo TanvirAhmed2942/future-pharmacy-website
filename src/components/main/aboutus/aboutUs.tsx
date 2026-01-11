@@ -38,6 +38,7 @@ function AboutUs() {
               description: string;
             }[]
           }
+          footerDescription={t("ourStory.footerDescription")}
         />
         <OurValues
           headline={t("ourValues.headline")}

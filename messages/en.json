@@ -60,6 +60,9 @@
       "afternoon": "Afternoon",
       "evening": "Evening"
     },
+    "partners": {
+      "headline": "Partner Pharmacy Spotlight .."
+    },
     "optimusHealthSolutions": {
       "headline1": "How",
       "headline2": "Works",
@@ -197,7 +200,8 @@
           "subtitle": "",
           "description": "At Optimus, we stand by two core beliefs:\n1. No one should have to struggle or change their daily routine just to get a prescription from their local pharmacy\n2. And no community should have to lose its local pharmacy.\n\nYet, across the U.S., more than 400 independent pharmacies close each year, which is about one every day. When a pharmacy shuts down, the community loses more than just a place to get medicine; it loses access, trust, convenience, and the personal care that big chains like CVS and Walgreens cannot offer. These closures create more \"pharmacy deserts\" and give even more power to these large corporations.\n\nRising costs, shrinking margins, and unfair reimbursement practices from Pharmacy Benefit Managers (PBMs) are driving local pharmacies out of business. PBMs and health systems often steer prescriptions to their own affiliated or in-house pharmacies, leaving mom-and-pop stores without the patient volume or script they need to stay in business."
         }
-      ]
+      ],
+      "footerDescription": "Many local pharmacies now offer same-day delivery to attract customers, but this service has turned into a broken promise, with delays and inefficiencies because it follows batch delivery routes that overlook patients who need their medication urgently."
     },
     "ourValues": {
       "headline": "Our Values",

@@ -60,22 +60,28 @@
       "afternoon": "Tarde",
       "evening": "Noche"
     },
+    "partners": {
+      "headline": "Destacado de Farmacias Asociadas ..."
+    },
     "optimusHealthSolutions": {
       "headline1": "Cómo",
       "headline2": "Funciona",
       "description": "Cuando recargas, transfieres recetas o programas servicios de salud esenciales a través de nuestra plataforma, te conectas con nuestras farmacias independientes locales confiables cerca de ti. Juntos, estamos fortaleciendo nuestras comunidades y ayudando a que las farmacias independientes prosperen.",
       "steps": [
         {
-          "title": "Regístrate",
-          "description": "Crea una cuenta de Optimus Health Solutions para un checkout más rápido más tarde. ¿No tienes tiempo ahora? No hay problema. Puedes hacer checkout como invitado."
+          "title": "Registro",
+          "descriptionTopText": "Crea una cuenta de Optimus Health Solutions para un proceso de pago más rápido.",
+          "descriptionBottomText": "¿No tienes tiempo ahora? No hay problema. Puedes pagar como invitado."
         },
         {
-          "title": "Solicitar",
-          "description": "Sea entrega de recetas, gestión de recarga de recetas, transferencia de recetas o programación de cuidados esenciales con su farmacéutico, lo hemos hecho simple para usted."
+          "title": "Solicitud",
+          "descriptionTopText": "Ya sea entrega de recetas, gestión de resurtidos, transferencia de recetas o programación de servicios de atención esencial con tu farmacia local, lo hemos hecho simple para ti.",
+          "descriptionBottomText": "Solo solicita"
         },
         {
-          "title": "Entregamos!",
-          "description": "Entregamos tu solicitud en el momento y lugar que mejor te funcione."
+          "title": "¡Entregamos!",
+          "descriptionTopText": "Entregamos tu solicitud de receta en el momento y lugar que mejor se adapten a ti.",
+          "descriptionBottomText": "Coordinamos tu resurtido, transferencia o solicitud de programación con la farmacia local que hayas seleccionado."
         }
       ],
       "learnMore": "Aprender más"
@@ -164,44 +170,39 @@
   },
   "aboutUs": {
     "banner": {
-      "title": "Tu socio de confianza para la entrega de recetas",
-      "description": "Hacemos la entrega de recetas más rápida, segura y accesible para los pacientes en Estados Unidos de América."
+      "title": "Tu puerta de acceso rápida y confiable a las farmacias locales",
+      "description": "Creado para conectar a los pacientes con sus farmacias locales cuando el acceso a las recetas es más importante."
     },
     "titleOne": {
-      "title": "Via Rapida kaj Fidinda Enirejo al Lokaj Apotekoj",
-      "description": "Konstruita por konekti pacientojn al iliaj lokaj apotekoj kiam aliro al receptoj plej gravas."
+      "title": "Tu puerta de acceso rápida y confiable a las farmacias locales",
+      "description": "Creado para conectar a los pacientes con sus farmacias locales cuando el acceso a las recetas es más importante."
     },
-    "headline": "Nuestra misión y visión",
+    "headline": "Nuestra Misión y Visión",
     "mission": {
-      "title": "Nuestra misión",
-      "description": "Por fari la aliron de pacientoj al receptoj de iliaj lokaj apotekoj simpla kaj oportuna, samtempe konservante la sendependecajn apotekojn, je kiuj komunumoj dependas."
+      "title": "Nuestra Misión",
+      "description": "Hacer que el acceso de los pacientes a las recetas de sus farmacias locales sea simple y conveniente, al mismo tiempo que se preserva la independencia de las farmacias en las que las comunidades confían."
     },
     "vision": {
-      "title": "Nuestra visión",
-      "description": "Esti parto de estonteco, kie pacientoj povas rapide kaj senpene akiri siajn receptojn de sia loka apoteko, kaj ĉiu sendependa apoteko daŭre restas esenca parto de sia komunumo."
+      "title": "Nuestra Visión",
+      "description": "Ser parte de un futuro en el que los pacientes reciban recetas y atención de su farmacia local de manera rápida, segura y sin esfuerzo, mientras cada farmacia independiente sigue siendo una parte vital de su comunidad."
     },
     "ourStory": {
-      "headline": "Nuestra historia",
+      "headline": "Nuestra Historia",
       "storyTimeline": [
         {
           "badge": "H1",
-          "title": "Quiénes somos",
-          "subtitle": "2022",
-          "description": "Somos un equipo de profesionales dedicados que estamos comprometidos a proporcionar el mejor servicio posible a nuestros pacientes."
+          "title": "Quiénes Somos",
+          "subtitle": "",
+          "description": "Fundada en 2026, Optimus Health Solutions está redefiniendo la forma en que los pacientes y las comunidades obtienen sus recetas de su farmacia local. Nuestra misión es simple: conectarte con tu farmacia local de confianza y asegurarnos de que cada receta se entregue de manera rápida, conveniente y con cuidado.\n\nNuestra plataforma te permite elegir tu farmacia local preferida y recibir tus recetas en tu hogar, lugar de trabajo o donde te encuentres. Es personal, sencilla y te mantiene conectado con tu comunidad.\n\nTe ahorra un viaje a la farmacia | Sin esperar en largas filas | Sin momentos incómodos en el mostrador | Sin dosis perdidas. Solo acceso confiable a la atención, impulsado por tu farmacia de barrio.\n\nNuestro equipo trabaja detrás de escena para que cada transacción sea simple, rápida y sin estrés. Nos asociamos con farmacias independientes comprometidas para ofrecer nuestros servicios sin costo alguno, ayudando a mantener la atención local y a fortalecer las comunidades."
         },
         {
           "badge": "H2",
-          "title": "Por qué lo hacemos",
-          "subtitle": "2025",
-          "description": "Somos un equipo de profesionales dedicados que estamos comprometidos a proporcionar el mejor servicio posible a nuestros pacientes."
-        },
-        {
-          "badge": "H3",
-          "title": "Actual",
-          "subtitle": "Presente",
-          "description": "Somos un equipo de profesionales dedicados que estamos comprometidos a proporcionar el mejor servicio posible a nuestros pacientes."
+          "title": "Por Qué Lo Hacemos",
+          "subtitle": "",
+          "description": "En Optimus, nos guiamos por dos creencias fundamentales:\n1. Nadie debería tener que esforzarse o cambiar su rutina diaria solo para obtener una receta de su farmacia local.\n2. Ninguna comunidad debería perder su farmacia local.\n\nSin embargo, en todo Estados Unidos, más de 400 farmacias independientes cierran cada año, lo que equivale a aproximadamente una por día. Cuando una farmacia cierra, la comunidad pierde más que un lugar para obtener medicamentos; pierde acceso, confianza, conveniencia y la atención personalizada que las grandes cadenas como CVS y Walgreens no pueden ofrecer.\n\nEl aumento de los costos, la reducción de los márgenes y las prácticas de reembolso injustas de los Pharmacy Benefit Managers (PBMs) están expulsando del mercado a las farmacias locales. Los PBMs y los sistemas de salud a menudo desvían las recetas hacia sus propias farmacias afiliadas o internas, dejando a las farmacias familiares sin el volumen de pacientes o las recetas necesarias para seguir operando."
         }
-      ]
+      ],
+      "footerDescription": "Muchas farmacias locales ahora ofrecen entrega el mismo día para atraer clientes, pero este servicio se ha convertido en una promesa incumplida, con retrasos e ineficiencias debido a rutas de entrega por lotes que pasan por alto a los pacientes que necesitan sus medicamentos con urgencia."
     },
     "ourValues": {
       "headline": "Nuestros valores",

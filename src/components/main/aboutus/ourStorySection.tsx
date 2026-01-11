@@ -4,6 +4,7 @@ import Image from "next/image";
 function OurStorySection({
   headline,
   storyTimeline,
+  footerDescription,
 }: {
   headline: string;
   storyTimeline: {
@@ -12,6 +13,7 @@ function OurStorySection({
     subtitle: string;
     description: string;
   }[];
+  footerDescription: string;
 }) {
   // Extract sections from timeline
   const whoWeAre = storyTimeline.find(
@@ -24,7 +26,7 @@ function OurStorySection({
   );
 
   return (
-    <div className="py-16">
+    <div className="pt-16 pb-0">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         {/* Main Title */}
         <h1 className="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-16">
@@ -34,30 +36,31 @@ function OurStorySection({
         {/* Who We Are Section */}
         {whoWeAre && (
           <div className="mb-20">
+            {/* Heading - Full Width */}
+
+            {/* Content Grid - Image aligns with paragraphs */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
               {/* Text Content - Left */}
-              <div className="space-y-4">
-                <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+              <div className="text-gray-700 text-base md:text-lg leading-relaxed space-y-4 text-justify">
+                <h2 className="text-3xl  font-bold text-gray-900 mb-6">
                   {whoWeAre.title}
                 </h2>
-                <div className="text-gray-700 text-base md:text-lg leading-relaxed space-y-4">
-                  {whoWeAre.description.includes("\n") ? (
-                    whoWeAre.description
-                      .split("\n")
-                      .filter((p) => p.trim())
-                      .map((paragraph, idx) => (
-                        <p key={idx}>{paragraph.trim()}</p>
-                      ))
-                  ) : (
-                    <p>{whoWeAre.description}</p>
-                  )}
-                </div>
+                {whoWeAre.description.includes("\n") ? (
+                  whoWeAre.description
+                    .split("\n")
+                    .filter((p) => p.trim())
+                    .map((paragraph, idx) => (
+                      <p key={idx}>{paragraph.trim()}</p>
+                    ))
+                ) : (
+                  <p>{whoWeAre.description}</p>
+                )}
               </div>
 
               {/* Image - Right */}
-              <div className="relative w-full h-[400px] lg:h-[500px] rounded-lg overflow-hidden">
+              <div className="relative w-full h-[400px] lg:h-[500px] rounded-lg overflow-hidden lg:mt-18">
                 <Image
-                  src="/home/our_story.webp"
+                  src="/aboutus/who_we_are.webp"
                   alt="Pharmacy shelves with medications"
                   fill
                   className="object-cover"
@@ -69,50 +72,95 @@ function OurStorySection({
         )}
 
         {/* Why We Do It Section */}
-        {whyWeDoIt && (
-          <div className="mb-12">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start mb-8">
-              {/* Image - Left */}
-              <div className="relative w-full h-[300px] lg:h-[400px] rounded-lg overflow-hidden order-2 lg:order-1">
-                <Image
-                  src="/home/our_story.webp"
-                  alt="Pharmacist at work"
-                  fill
-                  className="object-cover"
-                />
-              </div>
+        {whyWeDoIt &&
+          (() => {
+            // Parse the description to extract sub-heading, numbered list, and paragraphs
+            const allLines = whyWeDoIt.description.split("\n");
+            const subHeading = allLines[0]?.trim() || "";
+            const numberedItems: string[] = [];
+            const paragraphs: string[] = [];
 
-              {/* Text Content - Right */}
-              <div className="space-y-4 order-1 lg:order-2">
-                <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-                  {whyWeDoIt.title}
-                </h2>
-                <div className="text-gray-700 text-base md:text-lg leading-relaxed space-y-4">
-                  {whyWeDoIt.description.includes("\n") ? (
-                    whyWeDoIt.description
-                      .split("\n")
-                      .slice(0, -1)
-                      .filter((p) => p.trim())
-                      .map((paragraph, idx) => (
-                        <p key={idx}>{paragraph.trim()}</p>
-                      ))
-                  ) : (
-                    <p>{whyWeDoIt.description}</p>
-                  )}
+            let foundEmptyLineAfterList = false;
+
+            // Process lines starting from index 1
+            for (let i = 1; i < allLines.length; i++) {
+              const line = allLines[i].trim();
+
+              // Skip empty lines but track when we find one after the list
+              if (!line) {
+                if (numberedItems.length > 0 && !foundEmptyLineAfterList) {
+                  foundEmptyLineAfterList = true;
+                }
+                continue;
+              }
+
+              // Check if it's a numbered list item (starts with number followed by period)
+              if (/^\d+\.\s/.test(line)) {
+                numberedItems.push(line);
+                foundEmptyLineAfterList = false; // Reset if we find another numbered item
+              } else {
+                // It's a paragraph (comes after empty line or after list)
+                paragraphs.push(line);
+              }
+            }
+
+            // Separate paragraphs: first paragraph goes in right column, last one goes full width
+            const rightColumnParagraph = paragraphs[0] || "";
+            const fullWidthParagraph = paragraphs[1] || "";
+
+            return (
+              <div className="mb-12">
+                {/* Heading - Full Width */}
+
+                {/* Content Grid - Image aligns with paragraphs */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start mb-8">
+                  {/* Image - Left */}
+                  <div className="relative w-full h-[300px] lg:h-[500px] rounded-lg overflow-hidden order-2 lg:order-1 lg:mt-16 ">
+                    <Image
+                      src="/aboutus/queue.webp"
+                      alt="Pharmacist at work"
+                      fill
+                      className="object-fill"
+                    />
+                  </div>
+
+                  {/* Text Content - Right */}
+                  <div className="space-y-2 order-1 lg:order-2 text-justify">
+                    {/* Sub-heading */}
+                    <h2 className="text-3xl  font-bold text-gray-900 mb-4 ">
+                      {whyWeDoIt.title}
+                    </h2>
+                    {subHeading && (
+                      <p className="text-gray-700 text-base md:text-lg font-bold mb-3">
+                        {subHeading}
+                      </p>
+                    )}
+                    {/* Numbered List */}
+                    {numberedItems.length > 0 && (
+                      <ol className="list-none text-gray-700 text-base md:text-lg leading-relaxed space-y-2 mb-3">
+                        {numberedItems.map((item, idx) => (
+                          <li key={idx} className="pl-2 ">
+                            <span className="">{item}</span>
+                          </li>
+                        ))}
+                      </ol>
+                    )}
+                    {/* Paragraph in right column */}
+                    {rightColumnParagraph && (
+                      <div className="text-gray-700 text-base md:text-lg leading-relaxed space-y-4">
+                        <p>{rightColumnParagraph}</p>
+                        <p>{fullWidthParagraph}</p>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            {/* Full Width Paragraph Below */}
-            {whyWeDoIt.description.includes("\n") && (
-              <div className="mt-8">
-                <p className="text-gray-700 text-base md:text-lg leading-relaxed max-w-4xl mx-auto">
-                  {whyWeDoIt.description.split("\n").slice(-1)[0].trim()}
+                <p className="text-gray-700 text-base md:text-lg leading-relaxed text-justify">
+                  {footerDescription}
                 </p>
               </div>
-            )}
-          </div>
-        )}
+            );
+          })()}
       </div>
     </div>
   );
