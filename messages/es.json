@@ -392,16 +392,20 @@
       "headline": "Cómo funciona",
       "steps": [
         {
-          "title": "Regístrate en nuestra plataforma",
-          "description": "Comience por completar nuestro breve formulario de solicitud de conductor con su información básica, tipo de vehículo, etc."
+          "title": "Completa el formulario de solicitud para conductores (ver formulario abajo).",
+          "description": "Completar el formulario toma menos de 2 minutos."
         },
         {
-          "title": "Obtener verificado",
-          "description": "Simple uzu nian platformon por peti liveron en minutoj. Enigu vian apotekan lokon kaj liveradreson, poste elektu vian preferatan tagon kaj horon por livero. Vi povas krei kaj konti por facila procezo aŭ kaso kiel gasto."
+          "title": "Verificación",
+          "description": "Nuestro equipo se pondrá en contacto contigo con los próximos pasos. Este proceso incluye verificación de antecedentes, licencia y seguro (si corresponde)."
         },
         {
-          "title": "¡Actívate y empieza a ganar!",
-          "description": "Relax! Once the pharmacy receives and confirms fulfilment for pickup.We will deliver your prescription to the location you choose.your order will arrive quickly , securely and conveniently."
+          "title": "Completa la capacitación",
+          "description": "Este proceso incluye capacitación en cumplimiento de HIPAA y ética."
+        },
+        {
+          "title": "Actívate y comienza a ganar",
+          "description": "Una vez aprobado, recibirás los detalles de entrega para recoger las recetas en farmacias locales y entregarlas en las ubicaciones preferidas del usuario de manera segura, confiable y con cuidado."
         }
       ]
     },

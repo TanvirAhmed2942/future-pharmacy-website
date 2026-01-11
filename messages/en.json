@@ -391,16 +391,20 @@
       "headline": "How It Works",
       "steps": [
         {
-          "title": "Apply to become a driver",
-          "description": "Start by completing our short driver application form with your basic information, vehicle type etc."
+          "title": "Complete Driver Application Form (see form below).",
+          "description": "It takes less than 2 minutes to complete the form."
         },
         {
           "title": "Get verified",
-          "description": "Our team will contact you with next steps. This process will include background check, driver’s license and insurance verification and vehicle inspection(if applicable), compliance training"
+          "description": "Our team will contact you with next steps. This process will include background check, license and insurance verification (if applicable)."
         },
         {
-          "title": "Get activated and begin earning",
-          "description": "Once approved, you will get delivery details to pick up Rx from local pharmacies, and deliver them to user’s preferred locations safely, securely and with care."
+          "title": "Complete Training",
+          "description": "This process includes HIPAA compliance and ethics training."
+        },
+        {
+          "title": "Get Activated & Start Earning",
+          "description": "Once approved, you will get delivery details to pick up Rx from local pharmacies, and deliver them to user's preferred locations safely, securely and with care."
         }
       ]
     },

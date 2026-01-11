@@ -5,25 +5,28 @@ function HowItWorksSection() {
   const tHowItWorks = useTranslations("earnAsDriver.howItWorks");
   const items = [
     {
-      badge: "H1",
+      badge: "1",
       title: tHowItWorks("steps.0.title"),
 
-      description:
-        tHowItWorks("steps.0.description"),
+      description: tHowItWorks("steps.0.description"),
     },
     {
-      badge: "H2",
+      badge: "2",
       title: tHowItWorks("steps.1.title"),
 
-      description:
-        tHowItWorks("steps.1.description"),
+      description: tHowItWorks("steps.1.description"),
     },
     {
-      badge: "H3",
+      badge: "3",
       title: tHowItWorks("steps.2.title"),
 
-      description:
-        tHowItWorks("steps.2.description"),
+      description: tHowItWorks("steps.2.description"),
+    },
+    {
+      badge: "4",
+      title: tHowItWorks("steps.3.title"),
+
+      description: tHowItWorks("steps.3.description"),
     },
   ];
 
@@ -35,10 +38,16 @@ function HowItWorksSection() {
         </h1>
 
         <div className="relative">
-          {/* Vertical connecting line */}
-          <div className="absolute left-6 top-2 bottom-18 w-0.5 border-l-2 border-dashed border-gray-300 " />
+          <div className="space-y-12 my-16 relative">
+            {/* Vertical connecting line - positioned from first badge center to last badge center */}
+            <div
+              className="absolute left-6 w-0.5 top-0 bottom-20 md:bottom-10 border-l-2 border-dashed border-gray-300"
+              // style={{
+              //   top: "24px", // Center of first badge (half of w-12 h-12 = 24px)
+              //   bottom: "28px", // Center of last badge
+              // }}
+            />
 
-          <div className="space-y-12 my-16">
             {items.map((item, idx) => (
               <div key={idx} className="relative flex gap-6">
                 {/* Badge circle */}
