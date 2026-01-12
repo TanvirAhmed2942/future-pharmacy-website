@@ -224,7 +224,7 @@ export default function MyRequests() {
             ) : (
               currentRequests.map((request) => {
                 const requestId = request._id || "N/A";
-                const pharmacyName = request.pharmacyName || "N/A";
+                const pharmacyName = request.pickupAddress || "N/A";
                 // const pickup = request.pickupAddress || "N/A";
                 const delivery = request.deliveryAddress || "N/A";
                 const hasDateOrTime =

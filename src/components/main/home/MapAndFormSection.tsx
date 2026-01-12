@@ -31,6 +31,8 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   setPickupAddress,
   setDropoffAddress,
+  setPickupName,
+  setDropoffName,
   setPickupLocation,
   setDropoffLocation,
   setZipCode,
@@ -54,6 +56,8 @@ export default function MapAndFormSection() {
   // Redux state
   const pickupAddress = useAppSelector((state) => state.map.pickupAddress);
   const dropoffAddress = useAppSelector((state) => state.map.dropoffAddress);
+  const pickupName = useAppSelector((state) => state.map.pickupName);
+  const dropoffName = useAppSelector((state) => state.map.dropoffName);
   const pickupLocationCoords = useAppSelector(
     (state) => state.map.pickupLocation
   );
@@ -262,6 +266,8 @@ export default function MapAndFormSection() {
         userId: currentUserId,
         pickupAddress,
         dropoffAddress,
+        pickupName,
+        dropoffName,
         pickupLocation: pickupLocationCoords,
         dropoffLocation: dropoffLocationCoords,
         selectedDate: selectedDate.toISOString(),
@@ -293,6 +299,8 @@ export default function MapAndFormSection() {
     });
     dispatch(setPickupAddress(address));
     dispatch(setPickupLocation(location));
+    // Clear name when manually selecting a location (not from pharmacy marker)
+    dispatch(setPickupName(""));
     // Clear selected pharmacy if user manually selects a pickup location
     // handlePharmacySelect will set it again if selecting from a pharmacy
     dispatch(setSelectedPharmacy(null));
@@ -308,6 +316,8 @@ export default function MapAndFormSection() {
     });
     dispatch(setDropoffAddress(address));
     dispatch(setDropoffLocation(location));
+    // Clear name when manually selecting a location
+    dispatch(setDropoffName(""));
     setMapSelectionMode(null); // Reset selection mode after selection
   };
 
@@ -323,10 +333,14 @@ export default function MapAndFormSection() {
       lng: pharmacy.location.lng,
       address: pharmacy.address,
     };
-    handlePickupSelect(location, pharmacy.address);
+    // Set pickup address and name
+    dispatch(setPickupAddress(pharmacy.address));
+    dispatch(setPickupName(pharmacy.name));
+    dispatch(setPickupLocation(location));
 
     // Save selected pharmacy to Redux map state
     dispatch(setSelectedPharmacy(pharmacy));
+    setMapSelectionMode(null); // Reset selection mode after selection
   };
 
   const handleDistanceCalculated = (distance: string, duration: string) => {
@@ -337,6 +351,8 @@ export default function MapAndFormSection() {
   const handleResetLocations = () => {
     dispatch(setPickupAddress(""));
     dispatch(setDropoffAddress(""));
+    dispatch(setPickupName(""));
+    dispatch(setDropoffName(""));
     dispatch(setPickupLocation(null));
     dispatch(setDropoffLocation(null));
     dispatch(setDistance(null));
@@ -344,6 +360,14 @@ export default function MapAndFormSection() {
     setSelectedDate(undefined);
     setSelectedTime(undefined);
     setMapSelectionMode(null);
+  };
+
+  // Helper function to format display value with name
+  const formatDisplayValue = (name: string, address: string): string => {
+    if (name && name.trim()) {
+      return `${name} - ${address}`;
+    }
+    return address;
   };
 
   return (
@@ -399,8 +423,16 @@ export default function MapAndFormSection() {
                     <div className="w-4.5 h-4 rounded-full bg-black"></div>
                     <div className="w-full relative">
                       <AddressAutocomplete
-                        value={pickupAddress}
-                        onChange={(value) => dispatch(setPickupAddress(value))}
+                        value={formatDisplayValue(pickupName, pickupAddress)}
+                        onChange={(value) => {
+                          // When user types, clear the name and update address
+                          dispatch(setPickupName(""));
+                          // Extract address if format is "Name - Address", otherwise use value as address
+                          const address = value.includes(" - ")
+                            ? value.split(" - ").slice(1).join(" - ")
+                            : value;
+                          dispatch(setPickupAddress(address));
+                        }}
                         onSelect={handlePickupSelect}
                         placeholder={tForm("pickupLocation")}
                         className="bg-transparent border-none outline-none placeholder:text-gray-400 text-gray-700 w-full"
@@ -440,8 +472,16 @@ export default function MapAndFormSection() {
                     </div>
                     <div className="w-full relative">
                       <AddressAutocomplete
-                        value={dropoffAddress}
-                        onChange={(value) => dispatch(setDropoffAddress(value))}
+                        value={formatDisplayValue(dropoffName, dropoffAddress)}
+                        onChange={(value) => {
+                          // When user types, clear the name and update address
+                          dispatch(setDropoffName(""));
+                          // Extract address if format is "Name - Address", otherwise use value as address
+                          const address = value.includes(" - ")
+                            ? value.split(" - ").slice(1).join(" - ")
+                            : value;
+                          dispatch(setDropoffAddress(address));
+                        }}
                         onSelect={handleDropoffSelect}
                         placeholder={tForm("dropoffAddress")}
                         className="bg-transparent border-none outline-none placeholder:text-gray-400 text-gray-700 w-full"

@@ -294,6 +294,8 @@ export default function CheckOutDetailsLayout() {
         // This ensures we never overwrite with empty values
         pickupAddress: sourceData.pickupAddress,
         dropoffAddress: sourceData.dropoffAddress,
+        pickupName: sourceData.pickupName || "",
+        dropoffName: sourceData.dropoffName || "",
         pickupLocation: sourceData.pickupLocation,
         dropoffLocation: sourceData.dropoffLocation,
         selectedDate: sourceData.selectedDate,

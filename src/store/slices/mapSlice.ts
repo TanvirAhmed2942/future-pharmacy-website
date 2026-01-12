@@ -4,6 +4,8 @@ import { Location, Pharmacy } from "@/components/main/home/Map/types";
 interface MapState {
   pickupAddress: string;
   dropoffAddress: string;
+  pickupName: string;
+  dropoffName: string;
   pickupLocation: Location | null;
   dropoffLocation: Location | null;
   zipCode: string;
@@ -18,6 +20,8 @@ interface MapState {
 const initialState: MapState = {
   pickupAddress: "",
   dropoffAddress: "",
+  pickupName: "",
+  dropoffName: "",
   pickupLocation: null,
   dropoffLocation: null,
   zipCode: "10001",
@@ -38,6 +42,12 @@ const mapSlice = createSlice({
     },
     setDropoffAddress: (state, action: PayloadAction<string>) => {
       state.dropoffAddress = action.payload;
+    },
+    setPickupName: (state, action: PayloadAction<string>) => {
+      state.pickupName = action.payload;
+    },
+    setDropoffName: (state, action: PayloadAction<string>) => {
+      state.dropoffName = action.payload;
     },
     setPickupLocation: (state, action: PayloadAction<Location | null>) => {
       state.pickupLocation = action.payload;
@@ -69,6 +79,8 @@ const mapSlice = createSlice({
     resetMapState: (state) => {
       state.pickupAddress = "";
       state.dropoffAddress = "";
+      state.pickupName = "";
+      state.dropoffName = "";
       state.pickupLocation = null;
       state.dropoffLocation = null;
       state.distance = null;
@@ -81,6 +93,8 @@ const mapSlice = createSlice({
 export const {
   setPickupAddress,
   setDropoffAddress,
+  setPickupName,
+  setDropoffName,
   setPickupLocation,
   setDropoffLocation,
   setZipCode,

@@ -25,6 +25,7 @@ import {
 import { resetMapState, setSelectedPharmacy } from "@/store/slices/mapSlice";
 import { useCreateCheckoutMutation } from "@/store/Apis/checkoutApi/checkOutApi";
 import useShowToast from "@/hooks/useShowToast";
+import { useRouter } from "next/navigation";
 interface OrderSummaryProps {
   formData: {
     email: string;
@@ -241,6 +242,7 @@ export default function OrderSummary({
   const [createCheckout, { isLoading: isSubmitting }] =
     useCreateCheckoutMutation();
   const { showSuccess, showError } = useShowToast();
+  const router = useRouter();
 
   // Safety check: Clear guest checkout data if user is logged in
   useEffect(() => {
@@ -305,14 +307,28 @@ export default function OrderSummary({
   // Handle checkout payment
   const handleCompletePayment = async () => {
     try {
+      // Concatenate name with address if name exists
+      const formatAddressWithName = (name: string, address: string): string => {
+        if (name && name.trim()) {
+          return `${name}, ${address}`;
+        }
+        return address;
+      };
+
       // Prepare checkout request data
       const checkoutRequest = {
         ...(isLoggedIn && user._id && { userId: user._id }),
         typeUser: (isLoggedIn ? "registered" : "guest") as
           | "registered"
           | "guest",
-        pickupAddress: checkoutData.pickupAddress,
-        deliveryAddress: checkoutData.dropoffAddress,
+        pickupAddress: formatAddressWithName(
+          checkoutData.pickupName,
+          checkoutData.pickupAddress
+        ),
+        deliveryAddress: formatAddressWithName(
+          checkoutData.dropoffName,
+          checkoutData.dropoffAddress
+        ),
         deliveryDate: formatDateToAPI(checkoutData.selectedDate),
         deliveryTime: convertTimeTo24Hour(checkoutData.selectedTime || ""),
         email: checkoutData.email || formData.email,
@@ -376,6 +392,8 @@ export default function OrderSummary({
           window.open(response.data.url, "_blank", "noopener,noreferrer");
         }
 
+        router.push("/");
+
         // Call the original onComplete callback
         onComplete();
       } else {
@@ -437,14 +455,38 @@ export default function OrderSummary({
           </div>
           <div className="flex justify-between py-2 border-b border-gray-200">
             <span className="text-gray-600">{t("details.pickupAddress")}</span>
-            <span className="font-medium">
-              {checkoutData.pickupAddress || "Not selected"}
+            <span className="font-medium text-right">
+              {checkoutData.pickupName && checkoutData.pickupName.trim() ? (
+                <span>
+                  <span className="font-semibold">
+                    {checkoutData.pickupName}
+                  </span>
+                  <br />
+                  <span className="text-sm text-gray-600">
+                    {checkoutData.pickupAddress || "Not selected"}
+                  </span>
+                </span>
+              ) : (
+                checkoutData.pickupAddress || "Not selected"
+              )}
             </span>
           </div>
           <div className="flex justify-between py-2 border-b border-gray-200">
             <span className="text-gray-600">{t("details.deliverAddress")}</span>
-            <span className="font-medium">
-              {checkoutData.dropoffAddress || "Not selected"}
+            <span className="font-medium text-right">
+              {checkoutData.dropoffName && checkoutData.dropoffName.trim() ? (
+                <span>
+                  <span className="font-semibold">
+                    {checkoutData.dropoffName}
+                  </span>
+                  <br />
+                  <span className="text-sm text-gray-600">
+                    {checkoutData.dropoffAddress || "Not selected"}
+                  </span>
+                </span>
+              ) : (
+                checkoutData.dropoffAddress || "Not selected"
+              )}
             </span>
           </div>
           <div className="flex justify-between py-2 border-b border-gray-200">

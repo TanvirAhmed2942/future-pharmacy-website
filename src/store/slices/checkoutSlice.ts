@@ -5,6 +5,8 @@ export interface CheckoutData {
   userId: string | null; // Track which user this checkout data belongs to
   pickupAddress: string;
   dropoffAddress: string;
+  pickupName: string;
+  dropoffName: string;
   pickupLocation: { lat: number; lng: number } | null;
   dropoffLocation: { lat: number; lng: number } | null;
   selectedDate: string | null; // ISO string format
@@ -35,6 +37,8 @@ const initialState: CheckoutState = {
     userId: null,
     pickupAddress: "",
     dropoffAddress: "",
+    pickupName: "",
+    dropoffName: "",
     pickupLocation: null,
     dropoffLocation: null,
     selectedDate: null,
