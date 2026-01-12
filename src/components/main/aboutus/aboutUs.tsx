@@ -13,10 +13,14 @@ function AboutUs() {
       <Banner
         topText={
           <p className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-2 sm:mb-4 leading-tight">
-            Optimus Health Solutions
+            Welcome to Optimus Health Solutions
           </p>
         }
-        title={t("banner.title")}
+        title={
+          <span className="text-[42px] text-white font-semibold">
+            {t("banner.title")}
+          </span>
+        }
         description={<span className="italic">{t("banner.description")}</span>}
         image="/banner/about_us_banner.png"
       />

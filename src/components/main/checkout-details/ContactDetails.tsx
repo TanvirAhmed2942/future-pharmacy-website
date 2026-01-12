@@ -246,10 +246,9 @@ export default function ContactDetails({
         {/* Instructional Text */}
         <p className="text-sm text-gray-600">
           {t("instructionalText.text")}{" "}
-          <button className="text-peter hover:underline">
+          {/* <button className="text-peter hover:underline">
             {t("instructionalText.addPreferredName")}
-          </button>
-          .
+          </button> */}
         </p>
 
         {/* Terms and Conditions */}
@@ -259,14 +258,14 @@ export default function ContactDetails({
             {t("termsAndConditions.termsOfService")}
           </button>
           ,{" "}
-          <button className="text-peter hover:underline">
+          {/* <button className="text-peter hover:underline">
             {t("termsAndConditions.paymentsTermsOfService")}
-          </button>{" "}
-          {t("termsAndConditions.and")}{" "}
-          <button className="text-peter hover:underline">
+          </button>{" "} */}
+          {/* {t("termsAndConditions.and")}{" "} */}
+          {/* <button className="text-peter hover:underline">
             {t("termsAndConditions.nondiscriminationPolicy")}
-          </button>
-          , {t("termsAndConditions.acknowledge")}{" "}
+          </button> */}
+          {t("termsAndConditions.acknowledge")}{" "}
           <button className="text-peter hover:underline">
             {t("termsAndConditions.privacyPolicy")}
           </button>

@@ -90,13 +90,13 @@ function PartnerTestimonial() {
                     <div className="flex flex-col md:flex-row gap-6">
                       {/* Avatar and Info */}
                       <div className="flex items-center gap-4">
-                        <Image
+                        {/* <Image
                           src={testimonial.image}
                           alt={testimonial.name}
                           width={100}
                           height={100}
                           className="w-16 h-16 md:w-20 md:h-20 rounded-full flex-shrink-0"
-                        />
+                        /> */}
                         <div>
                           <h3 className="font-semibold text-gray-900 text-lg font-inter">
                             {testimonial.name}
@@ -108,7 +108,7 @@ function PartnerTestimonial() {
                       </div>
                       <div className="h-[12vh] w-[2px] bg-gray-300 hidden md:block"></div>
                       {/* Testimonial Text */}
-                      <div className="flex-1">
+                      <div className="flex-1 flex items-center justify-center">
                         <p className="text-gray-600 leading-relaxed text-sm md:text-base font-inter">
                           {testimonial.text}
                         </p>

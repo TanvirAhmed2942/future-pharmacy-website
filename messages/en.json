@@ -66,7 +66,7 @@
       "evening": "Evening"
     },
     "partners": {
-      "headline": "Partner Pharmacy Spotlight .."
+      "headline": "Partner Pharmacy Spotlight"
     },
     "optimusHealthSolutions": {
       "headline1": "How",
@@ -174,11 +174,11 @@
   },
   "aboutUs": {
     "banner": {
-      "title": "Your Fast and Reliable GateWay to Local Pharmarcies",
+      "title": "Your Fast and Reliable GateWay to Local Pharmacies",
       "description": "Built to connect patients to their local pharmacies when access to presciption matters most."
     },
     "titleOne": {
-      "title": "Your Fast and Reliable GateWay to Local Pharmarcies",
+      "title": "Your Fast and Reliable GateWay to Local Pharmacies",
       "description": "Built to Connect patients to their local pharmacies when access to presciption matters most."
     },
     "headline": "Our Mission & Vision",
@@ -251,7 +251,7 @@
         "description": "Relax! Once the pharmacy receives and confirms fulfilment for pickup.We will deliver your prescription to the location you choose.Your order will arrive quickly, securely and conveniently."
       }
     ],
-    "message": "When you refill or transfer a prescription, or schedule care, Optimus HS connnects you with your trusted local pharmacy to make to process fast, reliable, and stress-free. Your copay stays the same, and Rx delivery is free when you choose a partner independent pharmacy near you .",
+    "message": "When you refill or transfer a prescription, or schedule care, Optimus HS connnects you with your trusted local pharmacy to make the process fast, reliable, and stress-free. Your copay (if applicable) stays the same, and Rx delivery is free when you choose a partner independent pharmacy near you .",
     "descriptionOfProcess": [
       {
         "title": "Refill Prescription",
@@ -807,7 +807,7 @@
       "emailUs": "Email Us"
     },
     "socialMedia": "Social Media",
-    "hipaaCertified": "HIPAA Certified",
+    "hipaaCertified": "",
     "policies": {
       "hipaa": "HIPAA Policy",
       "privacy": "Privacy Policy",
@@ -1013,11 +1013,10 @@
       "placeholder": "Select date (MM/DD/YYYY)"
     },
     "instructionalText": {
-      "text": "To sign up, you need to be name on your government ID. If you go by another name, you can",
-      "addPreferredName": "add a preferred first name"
+      "text": "To sign up, you need to use the name on your government ID."
     },
     "termsAndConditions": {
-      "text": "By selecting agree and continue, I agree to Optimus Health Solutions",
+      "text": "By selecting Agree and Continue, You agree to Optimus Health Solutions",
       "termsOfService": "Terms of Service",
       "paymentsTermsOfService": "Payments Terms of service",
       "and": "and",
@@ -1059,7 +1058,7 @@
     },
     "seePricingBreakdown": "See Pricing Breakdown",
     "legalAgreement": {
-      "text": "By clicking place order, you agree to Optimus Health Solutions",
+      "text": "By selecting Complete Payment on Stripe, you agree to Optimus Health Solutions",
       "termsOfService": "Terms of Service",
       "paymentsTermsOfService": "Payments Terms of service",
       "and": "and",

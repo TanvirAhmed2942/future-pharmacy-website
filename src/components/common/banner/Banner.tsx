@@ -31,7 +31,7 @@ function Banner({ title, description, image, topText }: Props) {
         <h1 className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-2 sm:mb-4 leading-tight">
           {typeof title === "string" ? title : title}
         </h1>
-        <p className="text-white text-sm sm:text-base md:text-lg lg:text-xl text-center max-w-4xl leading-relaxed">
+        <p className="text-white text-sm sm:text-base md:text-lg lg:text-xl text-center max-w-5xl leading-relaxed">
           {/* {description} */}
           {typeof description === "string" ? description : description}
         </p>

@@ -288,7 +288,7 @@ export default function OrderSummary({
       ? 0
       : originalDeliveryFee;
 
-    const serviceFee = 1.0; // Fixed service fee
+    const serviceFee = 1.19; // Fixed service fee
     const total = deliveryFee + serviceFee;
 
     return {
@@ -605,14 +605,13 @@ export default function OrderSummary({
           <button className="text-peter hover:underline">
             {t("legalAgreement.termsOfService")}
           </button>
-          ,{" "}
-          <button className="text-peter hover:underline">
+          {/* <button className="text-peter hover:underline">
             {t("legalAgreement.paymentsTermsOfService")}
-          </button>{" "}
-          {t("legalAgreement.and")}{" "}
+          </button>{" "} */}
+          {/* {t("legalAgreement.and")}{" "}
           <button className="text-peter hover:underline">
             {t("legalAgreement.nondiscriminationPolicy")}
-          </button>
+          </button> */}
           , {t("legalAgreement.acknowledge")}{" "}
           <button className="text-peter hover:underline">
             {t("legalAgreement.privacyPolicy")}

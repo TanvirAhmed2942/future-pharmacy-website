@@ -328,9 +328,6 @@ function BusinessInquiryForm() {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="employers">Employers</SelectItem>
-                        <SelectItem value="health-plans">
-                          Health Plans
-                        </SelectItem>
                         <SelectItem value="providers-health-systems">
                           Providers/Health Systems
                         </SelectItem>

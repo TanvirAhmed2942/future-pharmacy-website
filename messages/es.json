@@ -66,7 +66,7 @@
       "evening": "Noche"
     },
     "partners": {
-      "headline": "Destacado de Farmacias Asociadas ..."
+      "headline": "Destacado de Farmacias Asociadas"
     },
     "optimusHealthSolutions": {
       "headline1": "Cómo",
@@ -640,7 +640,7 @@
       "emailUs": "Envíanos un mensaje"
     },
     "socialMedia": "Redes sociales",
-    "hipaaCertified": "HIPAA Certificado",
+    "hipaaCertified": "",
     "policies": {
       "hipaa": "Política HIPAA",
       "privacy": "Política de privacidad",
