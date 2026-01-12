@@ -192,14 +192,14 @@ function NavBar() {
                       className="cursor-pointer"
                     >
                       <LayoutDashboard className="mr-2 h-4 w-4" />
-                      <span>Go to Dashboard</span>
+                      <span>{t("profileDropdown.goToDashboard")}</span>
                     </DropdownMenuItem>
                     <DropdownMenuItem
                       onClick={() => router.push("/dashboard/profile")}
                       className="cursor-pointer"
                     >
                       <User className="mr-2 h-4 w-4" />
-                      <span>My Profile</span>
+                      <span>{t("profileDropdown.myProfile")}</span>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
@@ -362,14 +362,14 @@ function NavBar() {
                       className="cursor-pointer"
                     >
                       <LayoutDashboard className="mr-2 h-4 w-4" />
-                      <span>Go to Dashboard</span>
+                      <span>{t("profileDropdown.goToDashboard")}</span>
                     </DropdownMenuItem>
                     <DropdownMenuItem
                       onClick={() => router.push("/dashboard/profile")}
                       className="cursor-pointer"
                     >
                       <User className="mr-2 h-4 w-4" />
-                      <span>My Profile</span>
+                      <span>{t("profileDropdown.myProfile")}</span>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
@@ -392,7 +392,7 @@ function NavBar() {
                       className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50"
                     >
                       <LogOut className="mr-2 h-4 w-4" />
-                      <span>Logout</span>
+                      <span>{t("profileDropdown.logout")}</span>
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>

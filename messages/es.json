@@ -26,6 +26,11 @@
       "businessHoursText": "Lunes a Viernes: 8a.m.-7p.m.",
       "businessHoursText2": "Sábado: 8a.m.-1p.m.",
       "businessHoursText3": "Domingo: Cerrado"
+    },
+    "profileDropdown": {
+      "goToDashboard": "Ir al panel de control",
+      "myProfile": "Mi perfil",
+      "logout": "Cerrar sesión"
     }
   },
   "home": {
