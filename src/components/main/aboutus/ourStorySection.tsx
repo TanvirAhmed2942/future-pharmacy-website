@@ -27,7 +27,7 @@ function OurStorySection({
 
   return (
     <div className="pt-16 pb-0">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+      <div className="container mx-auto ">
         {/* Main Title */}
         <h1 className="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-16">
           {headline}
@@ -60,7 +60,7 @@ function OurStorySection({
               {/* Image - Right */}
               <div className="relative w-full h-[400px] lg:h-[500px] rounded-lg overflow-hidden lg:mt-18">
                 <Image
-                  src="/aboutus/who_we_are.webp"
+                  src="/aboutus/who_we_are.png"
                   alt="Pharmacy shelves with medications"
                   fill
                   className="object-cover"
@@ -117,7 +117,7 @@ function OurStorySection({
                   {/* Image - Left */}
                   <div className="relative w-full h-[300px] lg:h-[500px] rounded-lg overflow-hidden order-2 lg:order-1 lg:mt-16 ">
                     <Image
-                      src="/aboutus/queue.webp"
+                      src="/aboutus/iStock_why_we_do_it.jpg"
                       alt="Pharmacist at work"
                       fill
                       className="object-fill"
