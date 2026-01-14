@@ -628,7 +628,9 @@ export default function OrderSummary({
           >
             {t("legalAgreement.text")}{" "}
             <Link
-              href="/policies/terms-of-service"
+              href="/policies/Terms of Service.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-peter hover:underline"
               onClick={(e: React.MouseEvent<HTMLAnchorElement>) =>
                 e.stopPropagation()
@@ -638,7 +640,9 @@ export default function OrderSummary({
             </Link>
             , {t("legalAgreement.acknowledge")}{" "}
             <Link
-              href="/policies/privacy-policy"
+              href="/policies/Privacy Policy.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-peter hover:underline"
               onClick={(e: React.MouseEvent<HTMLAnchorElement>) =>
                 e.stopPropagation()

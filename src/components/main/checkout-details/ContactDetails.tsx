@@ -278,7 +278,9 @@ export default function ContactDetails({
           >
             {t("termsAndConditions.text")}{" "}
             <Link
-              href="/policies/terms-of-service"
+              href="/policies/Terms of Service.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-peter hover:underline"
               onClick={(e) => e.stopPropagation()}
             >
@@ -286,7 +288,9 @@ export default function ContactDetails({
             </Link>
             , {t("termsAndConditions.acknowledge")}{" "}
             <Link
-              href="/policies/privacy-policy"
+              href="/policies/Privacy Policy.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-peter hover:underline"
               onClick={(e) => e.stopPropagation()}
             >
