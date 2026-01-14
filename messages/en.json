@@ -197,16 +197,36 @@
           "badge": "H1",
           "title": "Who We Are",
           "subtitle": "",
-          "description": "Opened for business in 2026, Optimus Health Solutions is redefining how patients and communities get prescriptions from their local pharmacy. Our mission is simple: connect you with your trusted local pharmacy and make sure every prescription is delivered quickly, conveniently, and with care.\n\nOur platform lets you choose your preferred local pharmacy and have your prescriptions delivered to your home, workplace, or wherever you are. It's personal and easy and keeps you connected to your community.\n\nSaves you a trip to the pharmacy | No waiting in long lines | No awkward counter moments | No missed doses. Just reliable access to care, powered by your neighborhood pharmacy.\n\nOur team works behind the scenes to make every transaction simple, fast, and stress-free. We partner with dedicated independent pharmacies to offer our services to you at zero cost, helping keep care local and communities strong."
+          "description": "",
+          "paragraph1": "Opened for business in 2026, Optimus Health Solutions is redefining how patients and communities get prescriptions from their local pharmacy. Our mission is simple: connect you with your trusted local pharmacy and make sure every prescription is delivered quickly, conveniently, and with care.",
+          "paragraph2": "Our platform lets you choose your preferred local pharmacy and have your prescriptions delivered to your home, workplace, or wherever you are. It's personal and easy and keeps you connected to your community.",
+          "features": [
+            "Saves you a trip to the pharmacy",
+            "No waiting in long lines",
+            "No awkward counter moments",
+            "No missed doses"
+          ],
+          "emphasizedText": "Just reliable access to care, powered by your neighborhood pharmacy.",
+          "paragraph3": "Our team works behind the scenes to make every transaction simple, fast, and stress-free. We partner with dedicated independent pharmacies to offer our services to you at zero cost, helping keep care local and communities strong.",
+          "paragraph4": "While the platform allows you to choose your preferred pharmacy to fill your prescriptions, we encourage you to support local independent pharmacies. They are more than just businesses; they are a vital part of the community fabric. That's why we partner with dedicated ones to offer our services to you at no cost, helping keep care close to home and communities strong."
         },
         {
           "badge": "H2",
           "title": "Why We Do It",
           "subtitle": "",
-          "description": "At Optimus, we stand by two core beliefs:\n1. No one should have to struggle or change their daily routine just to get a prescription from their local pharmacy\n2. And no community should have to lose its local pharmacy.\n\nYet, across the U.S., more than 400 independent pharmacies close each year, which is about one every day. When a pharmacy shuts down, the community loses more than just a place to get medicine; it loses access, trust, convenience, and the personal care that big chains like CVS and Walgreens cannot offer. These closures create more \"pharmacy deserts\" and give even more power to these large corporations.\n\nRising costs, shrinking margins, and unfair reimbursement practices from Pharmacy Benefit Managers (PBMs) are driving local pharmacies out of business. PBMs and health systems often steer prescriptions to their own affiliated or in-house pharmacies, leaving mom-and-pop stores without the patient volume or script they need to stay in business."
+          "description": "",
+          "introText": "At Optimus, we stand by two core beliefs:",
+          "numberedList": [
+            "No one should have to struggle or change their daily routine just to get a prescription from their local pharmacy",
+            "And no community should have to lose its local pharmacy."
+          ],
+          "paragraph1": "Yet, across the U.S., more than 400 independent pharmacies close each year, which is about one every day. When a pharmacy shuts down, the community loses more than just a place to get medicine; it loses access, trust, convenience, and the personal care that big chains like CVS and Walgreens cannot offer. These closures create more \"pharmacy deserts\" and give even more power to these large corporations.",
+          "paragraph2": "Rising costs, shrinking margins, and unfair reimbursement practices from Pharmacy Benefit Managers (PBMs) are driving local pharmacies out of business. PBMs and health systems often steer prescriptions to their own affiliated or in-house pharmacies, leaving mom-and-pop stores without the patient volume or script they need to stay in business.",
+          "paragraph3": "Many local pharmacies now offer same-day delivery to attract customers, but this service has turned into a broken promise, with delays and inefficiencies because it follows batch delivery routes that overlook patients who need their medication urgently.",
+          "paragraph4": "At Optimus HS, we've tailored our services to meet our users' needs on a personal level by removing friction, coordinating in real time, and staying ready to help. We believe that when patients can choose where their prescriptions go, and receive them without delay, they get the care they need at the right time, while helping independent pharmacies thrive."
         }
       ],
-      "footerDescription": "Many local pharmacies now offer same-day delivery to attract customers, but this service has turned into a broken promise, with delays and inefficiencies because it follows batch delivery routes that overlook patients who need their medication urgently."
+      "footerDescription": ""
     },
     "ourValues": {
       "headline": "Our Values",

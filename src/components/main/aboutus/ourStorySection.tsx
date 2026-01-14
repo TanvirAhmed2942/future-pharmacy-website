@@ -12,6 +12,14 @@ function OurStorySection({
     title: string;
     subtitle: string;
     description: string;
+    paragraph1?: string;
+    paragraph2?: string;
+    features?: string[];
+    emphasizedText?: string;
+    paragraph3?: string;
+    paragraph4?: string;
+    introText?: string;
+    numberedList?: string[];
   }[];
   footerDescription: string;
 }) {
@@ -36,24 +44,51 @@ function OurStorySection({
         {/* Who We Are Section */}
         {whoWeAre && (
           <div className="mb-20">
-            {/* Heading - Full Width */}
-
             {/* Content Grid - Image aligns with paragraphs */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start mb-8">
               {/* Text Content - Left */}
-              <div className="text-gray-700 text-base md:text-lg leading-relaxed space-y-4 text-justify">
-                <h2 className="text-3xl  font-bold text-gray-900 mb-6">
-                  {whoWeAre.title}
-                </h2>
-                {whoWeAre.description.includes("\n") ? (
-                  whoWeAre.description
-                    .split("\n")
-                    .filter((p) => p.trim())
-                    .map((paragraph, idx) => (
-                      <p key={idx}>{paragraph.trim()}</p>
-                    ))
-                ) : (
-                  <p>{whoWeAre.description}</p>
+              <div className="text-gray-700 text-base md:text-lg leading-relaxed space-y-4">
+                <div>
+                  <h2 className="text-3xl font-bold text-gray-900 mb-2">
+                    {whoWeAre.title}
+                  </h2>
+                  <div className="w-16 h-1 bg-peter mb-6"></div>
+                </div>
+
+                {whoWeAre.paragraph1 && (
+                  <p className="text-justify">{whoWeAre.paragraph1}</p>
+                )}
+
+                {whoWeAre.paragraph2 && (
+                  <p className="text-justify">{whoWeAre.paragraph2}</p>
+                )}
+
+                {/* Features Grid - 2x2 with borders */}
+                {whoWeAre.features && Array.isArray(whoWeAre.features) && (
+                  <div className="grid grid-cols-2 gap-0 py-4  border-gray-300 my-4">
+                    {whoWeAre.features.map((feature: string, idx: number) => (
+                      <div
+                        key={idx}
+                        className={`text-justify px-4 py-2 ${
+                          idx < 2 ? "border-b-2 border-gray-300" : ""
+                        } ${
+                          idx % 2 === 0 ? "border-r-2  border-gray-300" : ""
+                        }`}
+                      >
+                        {feature}
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {whoWeAre.emphasizedText && (
+                  <p className="italic text-justify">
+                    {whoWeAre.emphasizedText}
+                  </p>
+                )}
+
+                {whoWeAre.paragraph3 && (
+                  <p className="text-justify">{whoWeAre.paragraph3}</p>
                 )}
               </div>
 
@@ -68,99 +103,91 @@ function OurStorySection({
                 />
               </div>
             </div>
+
+            {/* Full width paragraph at bottom */}
+            {whoWeAre.paragraph4 && (
+              <p className="text-gray-700 text-base md:text-lg leading-relaxed text-justify">
+                {whoWeAre.paragraph4}
+              </p>
+            )}
           </div>
         )}
 
         {/* Why We Do It Section */}
-        {whyWeDoIt &&
-          (() => {
-            // Parse the description to extract sub-heading, numbered list, and paragraphs
-            const allLines = whyWeDoIt.description.split("\n");
-            const subHeading = allLines[0]?.trim() || "";
-            const numberedItems: string[] = [];
-            const paragraphs: string[] = [];
-
-            let foundEmptyLineAfterList = false;
-
-            // Process lines starting from index 1
-            for (let i = 1; i < allLines.length; i++) {
-              const line = allLines[i].trim();
-
-              // Skip empty lines but track when we find one after the list
-              if (!line) {
-                if (numberedItems.length > 0 && !foundEmptyLineAfterList) {
-                  foundEmptyLineAfterList = true;
-                }
-                continue;
-              }
-
-              // Check if it's a numbered list item (starts with number followed by period)
-              if (/^\d+\.\s/.test(line)) {
-                numberedItems.push(line);
-                foundEmptyLineAfterList = false; // Reset if we find another numbered item
-              } else {
-                // It's a paragraph (comes after empty line or after list)
-                paragraphs.push(line);
-              }
-            }
-
-            // Separate paragraphs: first paragraph goes in right column, last one goes full width
-            const rightColumnParagraph = paragraphs[0] || "";
-            const fullWidthParagraph = paragraphs[1] || "";
-
-            return (
-              <div className="mb-12">
-                {/* Heading - Full Width */}
-
-                {/* Content Grid - Image aligns with paragraphs */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start mb-8">
-                  {/* Image - Left */}
-                  <div className="relative w-full h-[300px] lg:h-[500px] rounded-lg overflow-hidden order-2 lg:order-1 lg:mt-16 ">
-                    <Image
-                      src="/aboutus/iStock_why_we_do_it.jpg"
-                      alt="Pharmacist at work"
-                      fill
-                      className="object-fill"
-                    />
-                  </div>
-
-                  {/* Text Content - Right */}
-                  <div className="space-y-2 order-1 lg:order-2 text-justify">
-                    {/* Sub-heading */}
-                    <h2 className="text-3xl  font-bold text-gray-900 mb-4 ">
-                      {whyWeDoIt.title}
-                    </h2>
-                    {subHeading && (
-                      <p className="text-gray-700 text-base md:text-lg font-bold mb-3">
-                        {subHeading}
-                      </p>
-                    )}
-                    {/* Numbered List */}
-                    {numberedItems.length > 0 && (
-                      <ol className="list-none text-gray-700 text-base md:text-lg leading-relaxed space-y-2 mb-3">
-                        {numberedItems.map((item, idx) => (
-                          <li key={idx} className="pl-2 ">
-                            <span className="">{item}</span>
-                          </li>
-                        ))}
-                      </ol>
-                    )}
-                    {/* Paragraph in right column */}
-                    {rightColumnParagraph && (
-                      <div className="text-gray-700 text-base md:text-lg leading-relaxed space-y-4">
-                        <p>{rightColumnParagraph}</p>
-                        <p>{fullWidthParagraph}</p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                <p className="text-gray-700 text-base md:text-lg leading-relaxed text-justify">
-                  {footerDescription}
-                </p>
+        {whyWeDoIt && (
+          <div className="mb-12">
+            {/* Title, Intro Text, and Numbered List - Full Width */}
+            <div className="mb-6">
+              <div>
+                <h2 className="text-3xl font-bold text-gray-900 mb-2">
+                  {whyWeDoIt.title}
+                </h2>
+                <div className="w-16 h-1 bg-peter mb-4"></div>
               </div>
-            );
-          })()}
+
+              {whyWeDoIt.introText && (
+                <p className="text-gray-700 text-base font-semibold md:text-lg leading-relaxed mb-4">
+                  {whyWeDoIt.introText}
+                </p>
+              )}
+
+              {/* Numbered List */}
+              {whyWeDoIt.numberedList &&
+                Array.isArray(whyWeDoIt.numberedList) && (
+                  <ol className="list-none text-gray-700 text-normal font-medium md:text-lg leading-relaxed space-y-2 mb-6">
+                    {whyWeDoIt.numberedList.map((item, idx) => (
+                      <li key={idx} className="pl-2">
+                        <span>
+                          {idx + 1}. {item}
+                        </span>
+                      </li>
+                    ))}
+                  </ol>
+                )}
+            </div>
+
+            {/* Content Grid - Image on left (3 cols), paragraphs on right (9 cols) */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start mb-8">
+              {/* Image - Left (3 columns) */}
+              <div className="relative w-full h-[400px] lg:h-[600px] rounded-lg overflow-hidden order-2 lg:order-1 lg:col-span-8">
+                <Image
+                  src="/aboutus/iStock_why_we_do_it.jpg"
+                  alt="Pharmacist at work"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+
+              {/* Paragraphs - Right (9 columns) */}
+              <div className="space-y-4 order-1 lg:order-2 lg:col-span-4 text-justify">
+                {whyWeDoIt.paragraph1 && (
+                  <p className="text-gray-700 text-base md:text-lg leading-relaxed">
+                    {whyWeDoIt.paragraph1}
+                  </p>
+                )}
+
+                {whyWeDoIt.paragraph2 && (
+                  <p className="text-gray-700 text-base md:text-lg leading-relaxed">
+                    {whyWeDoIt.paragraph2}
+                  </p>
+                )}
+
+                {whyWeDoIt.paragraph3 && (
+                  <p className="text-gray-700 text-base md:text-lg leading-relaxed">
+                    {whyWeDoIt.paragraph3}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            {/* Full width paragraph at bottom */}
+            {whyWeDoIt.paragraph4 && (
+              <p className="text-gray-700 text-base md:text-lg leading-relaxed text-justify">
+                {whyWeDoIt.paragraph4}
+              </p>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

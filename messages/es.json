@@ -198,16 +198,36 @@
           "badge": "H1",
           "title": "Quiénes Somos",
           "subtitle": "",
-          "description": "Fundada en 2026, Optimus Health Solutions está redefiniendo la forma en que los pacientes y las comunidades obtienen sus recetas de su farmacia local. Nuestra misión es simple: conectarte con tu farmacia local de confianza y asegurarnos de que cada receta se entregue de manera rápida, conveniente y con cuidado.\n\nNuestra plataforma te permite elegir tu farmacia local preferida y recibir tus recetas en tu hogar, lugar de trabajo o donde te encuentres. Es personal, sencilla y te mantiene conectado con tu comunidad.\n\nTe ahorra un viaje a la farmacia | Sin esperar en largas filas | Sin momentos incómodos en el mostrador | Sin dosis perdidas. Solo acceso confiable a la atención, impulsado por tu farmacia de barrio.\n\nNuestro equipo trabaja detrás de escena para que cada transacción sea simple, rápida y sin estrés. Nos asociamos con farmacias independientes comprometidas para ofrecer nuestros servicios sin costo alguno, ayudando a mantener la atención local y a fortalecer las comunidades."
+          "description": "",
+          "paragraph1": "Fundada en 2026, Optimus Health Solutions está redefiniendo la forma en que los pacientes y las comunidades obtienen sus recetas de su farmacia local. Nuestra misión es simple: conectarte con tu farmacia local de confianza y asegurarnos de que cada receta se entregue de manera rápida, conveniente y con cuidado.",
+          "paragraph2": "Nuestra plataforma te permite elegir tu farmacia local preferida y recibir tus recetas en tu hogar, lugar de trabajo o donde te encuentres. Es personal, sencilla y te mantiene conectado con tu comunidad.",
+          "features": [
+            "Te ahorra un viaje a la farmacia",
+            "Sin esperar en largas filas",
+            "Sin momentos incómodos en el mostrador",
+            "Sin dosis perdidas"
+          ],
+          "emphasizedText": "Solo acceso confiable a la atención, impulsado por tu farmacia de barrio.",
+          "paragraph3": "Nuestro equipo trabaja entre bastidores para que cada transacción sea sencilla, rápida y sin estrés. Colaboramos con farmacias independientes comprometidas para ofrecerle nuestros servicios sin costo alguno, ayudando a mantener la atención local y a fortalecer las comunidades.",
+          "paragraph4": "Si bien la plataforma te permite elegir tu farmacia preferida para surtir tus recetas, te animamos a apoyar a las farmacias independientes locales. Son más que simples negocios; son una parte vital del tejido comunitario. Por eso nos asociamos con farmacias comprometidas para ofrecer nuestros servicios sin costo alguno, ayudando a mantener la atención cerca de casa y a fortalecer las comunidades."
         },
         {
           "badge": "H2",
           "title": "Por Qué Lo Hacemos",
           "subtitle": "",
-          "description": "En Optimus, nos guiamos por dos creencias fundamentales:\n1. Nadie debería tener que esforzarse o cambiar su rutina diaria solo para obtener una receta de su farmacia local.\n2. Ninguna comunidad debería perder su farmacia local.\n\nSin embargo, en todo Estados Unidos, más de 400 farmacias independientes cierran cada año, lo que equivale a aproximadamente una por día. Cuando una farmacia cierra, la comunidad pierde más que un lugar para obtener medicamentos; pierde acceso, confianza, conveniencia y la atención personalizada que las grandes cadenas como CVS y Walgreens no pueden ofrecer.\n\nEl aumento de los costos, la reducción de los márgenes y las prácticas de reembolso injustas de los Pharmacy Benefit Managers (PBMs) están expulsando del mercado a las farmacias locales. Los PBMs y los sistemas de salud a menudo desvían las recetas hacia sus propias farmacias afiliadas o internas, dejando a las farmacias familiares sin el volumen de pacientes o las recetas necesarias para seguir operando."
+          "description": "",
+          "introText": "En Optimus, nos guiamos por dos creencias fundamentales:",
+          "numberedList": [
+            "Nadie debería tener que esforzarse o cambiar su rutina diaria solo para obtener una receta de su farmacia local.",
+            "Ninguna comunidad debería perder su farmacia local."
+          ],
+          "paragraph1": "Sin embargo, en todo Estados Unidos, más de 400 farmacias independientes cierran cada año, lo que equivale a aproximadamente una por día. Cuando una farmacia cierra, la comunidad pierde más que un lugar para obtener medicamentos; pierde acceso, confianza, conveniencia y la atención personalizada que las grandes cadenas como CVS y Walgreens no pueden ofrecer. Estas clausuras crean más \"desiertos de farmacias\" y dan aún más poder a estas grandes corporaciones.",
+          "paragraph2": "El aumento de los costos, la reducción de los márgenes y las prácticas de reembolso injustas de los Pharmacy Benefit Managers (PBMs) están expulsando del mercado a las farmacias locales. Los PBMs y los sistemas de salud a menudo desvían las recetas hacia sus propias farmacias afiliadas o internas, dejando a las farmacias familiares sin el volumen de pacientes o las recetas necesarias para seguir operando.",
+          "paragraph3": "Muchas farmacias locales ahora ofrecen entrega el mismo día para atraer clientes, pero este servicio se ha convertido en una promesa incumplida, con retrasos e ineficiencias debido a rutas de entrega por lotes que pasan por alto a los pacientes que necesitan sus medicamentos con urgencia.",
+          "paragraph4": "En Optimus HS, hemos adaptado nuestros servicios para satisfacer las necesidades de nuestros usuarios a nivel personal, eliminando fricciones, coordinando en tiempo real y manteniéndonos listos para ayudar. Creemos que cuando los pacientes pueden elegir dónde van sus recetas y recibirlas sin demora, obtienen la atención que necesitan en el momento adecuado, mientras ayudan a que las farmacias independientes prosperen."
         }
       ],
-      "footerDescription": "Muchas farmacias locales ahora ofrecen entrega el mismo día para atraer clientes, pero este servicio se ha convertido en una promesa incumplida, con retrasos e ineficiencias debido a rutas de entrega por lotes que pasan por alto a los pacientes que necesitan sus medicamentos con urgencia."
+      "footerDescription": ""
     },
     "ourValues": {
       "headline": "Nuestros valores",
