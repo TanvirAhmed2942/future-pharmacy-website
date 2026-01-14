@@ -813,6 +813,11 @@
       "title": "Notas Adicionales o Instrucciones Especiales",
       "placeholder": "Cualquier instrucción especial, alergias o información adicional que debamos saber..."
     },
+    "consent": {
+      "label": "Doy mi consentimiento para que Optimus Health Solutions coordine mi resurtido y se comunique con mi farmacia para volver a surtir mi receta.",
+      "required": "Debe dar su consentimiento para resurtir sus recetas"
+    },
+
     "submitting": "Enviando...",
     "submitButton": "Enviar Solicitud de Renovación"
   },
@@ -888,8 +893,8 @@
       "notesPlaceholder": "Cualquier instrucción especial, alergias o información adicional que debamos saber..."
     },
     "consent": {
-      "label": "Consiento que Optimus Health Solutions se comunique con mi farmacia actual para transferir mis prescripciones y entiendo que este proceso puede tomar de 1 a 3 días hábiles.",
-      "required": "Debes consentir para transferir tus prescripciones"
+      "label": "Doy mi consentimiento para que Optimus Health Solutions coordine mi transferencia y se comunique con mi farmacia actual para transferir mi receta. Entiendo que este proceso puede tardar entre 1 y 2 días hábiles.",
+      "required": "Debe dar su consentimiento para transferir sus recetas"
     },
     "submitting": "Enviando...",
     "submitButton": "Enviar Solicitud de Transferencia"
@@ -988,8 +993,8 @@
       "placeholder": "Cualquier instrucción especial, alergias o información adicional que debamos saber..."
     },
     "consent": {
-      "label": "Consiento que Optimus Health Solutions programe mi cita y entiendo que este proceso puede tomar de 1 a 3 días hábiles. *",
-      "required": "Debes consentir para continuar"
+      "label": "Doy mi consentimiento para que Optimus Health Solutions coordine mi cita y se comunique con mi farmacia. Entiendo que este proceso puede tardar entre 1 y 2 días hábiles.",
+      "required": "Debe dar su consentimiento para continuar."
     },
     "submitting": "Enviando...",
     "submitButton": "Enviar Solicitud de Programación"

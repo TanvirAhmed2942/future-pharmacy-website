@@ -59,6 +59,7 @@ type FormValues = {
   medications: MedicationInput[];
   refillAll: boolean;
   notes: string;
+  consent: boolean;
 };
 
 // Parse date from "dd-mm-yyyy" or ISO format to Date object
@@ -132,6 +133,7 @@ function RefillOnline() {
       medications: [{ id: 1, name: "", rxNumber: "" }],
       refillAll: false,
       notes: "",
+      consent: false,
     },
   });
   const [createRefillRequest, { isLoading }] = useCreateRefillRequestMutation();
@@ -828,6 +830,38 @@ function RefillOnline() {
               placeholder={t("additionalNotes.placeholder")}
               className="w-full h-24"
             />
+          </div>
+          {/* Consent Section */}
+          <div className="bg-[#f3ecf3] rounded-lg border border-[#d2b5d2] p-6">
+            <div className="flex items-start ">
+              <Controller
+                control={control}
+                name="consent"
+                rules={{
+                  required: t("consent.required"),
+                }}
+                render={({ field }) => (
+                  <Checkbox
+                    id="consent"
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                    className={
+                      errors.consent
+                        ? "border-red-500 mt-0"
+                        : "border-[#d2b5d2] mt-0"
+                    }
+                  />
+                )}
+              />
+              <label htmlFor="consent" className="ml-2 text-xs text-gray-700">
+                {t("consent.label")}
+              </label>
+            </div>
+            {errors.consent && (
+              <p className="text-red-500 text-xs mt-1 ml-6">
+                {errors.consent.message}
+              </p>
+            )}
           </div>
 
           {/* Submit Button */}

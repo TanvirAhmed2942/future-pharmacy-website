@@ -38,11 +38,11 @@ function OurStory() {
   }, []);
 
   return (
-    <section className="py-8 md:py-16  overflow-hidden">
+    <section className="py-8 md:py-16 overflow-hidden">
       <div className="container mx-auto px-4 md:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
           {/* Left Side - Text Content */}
-          <div className="text-center md:text-left ">
+          <div className="text-center md:text-left relative z-50">
             <h2 className="text-3xl md:text-5xl font-bold text-peter mb-6">
               {t("headline")}
             </h2>
@@ -57,7 +57,7 @@ function OurStory() {
 
             <Link
               href="/about-us"
-              className="inline-flex items-center gap-2 text-peter hover:text-peter-dark font-semibold transition-colors"
+              className="inline-flex items-center gap-2 text-peter hover:text-peter-dark font-semibold transition-colors relative z-50"
             >
               {t("buttonText")}
               <HiArrowNarrowRight className="size-5 mt-0.5" />
@@ -65,55 +65,41 @@ function OurStory() {
           </div>
 
           {/* Right Side - Image */}
-          <div className="flex justify-center md:justify-end items-center">
-            <div className="relative w-96 h-96 md:w-[28rem] md:h-[28rem] ">
-              {/* Blob 1 - Rotating */}
-              {/* <div
-                ref={blob1Ref}
-                className="absolute inset-0 w-full h-full origin-center"
-                style={{
-                  backgroundImage: "url('/home/blob_4.svg')",
-                  backgroundSize: "contain",
-                  backgroundPosition: "center",
-                  backgroundRepeat: "no-repeat",
-                  scale: 1.4,
-                  zIndex: 1,
-                }}
-              /> */}
-
+          <div className="flex justify-center md:justify-end items-center relative z-10">
+            <div className="relative w-80 h-80 sm:w-96 sm:h-96 md:w-[28rem] md:h-[28rem] ">
               {/* Blob 2 - Rotating */}
               <div
                 ref={blob2Ref}
-                className="absolute inset-0 w-full h-full origin-center"
+                className="absolute inset-0 w-full h-full origin-center pointer-events-none"
                 style={{
                   backgroundImage: "url('/home/blob_4.svg')",
                   backgroundSize: "contain",
                   backgroundPosition: "center",
                   backgroundRepeat: "no-repeat",
                   opacity: 0.7,
-                  scale: 1.6,
-                  zIndex: 3,
+                  transform: "scale(1.6)",
+                  zIndex: 1,
                 }}
               />
 
               {/* Blob 3 - Rotating */}
               <div
                 ref={blob3Ref}
-                className="absolute inset-0 w-full h-full origin-center"
+                className="absolute inset-0 w-full h-full origin-center pointer-events-none"
                 style={{
                   backgroundImage: "url('/home/blob_4.svg')",
                   backgroundSize: "contain",
                   backgroundPosition: "center",
                   backgroundRepeat: "no-repeat",
-                  // opacity: 0.5,
-                  scale: 1.6,
+                  opacity: 0.5,
+                  transform: "scale(1.6)",
                   zIndex: 2,
                 }}
               />
 
               {/* Image Container - Static (Does Not Rotate) */}
-              <div className="absolute inset-0 flex items-center justify-center z-20">
-                <div className="relative w-64 h-64 md:w-72 md:h-72 lg:w-96 lg:h-96 rounded-full overflow-hidden shadow-lg scale-116">
+              <div className="absolute inset-0 flex items-center justify-center z-10">
+                <div className="relative w-64 h-64 md:w-72 md:h-72 lg:w-96 lg:h-96 rounded-full overflow-hidden shadow-lg">
                   <Image
                     src="/home/our_story.webp"
                     alt="Our Story - Optimus Health Solutions"
