@@ -361,10 +361,17 @@ function Signup() {
               >
                 Agree to{" "}
                 <a
-                  href="#"
+                  href="/policies/terms-of-service"
                   className="text-peter hover:text-peter-dark hover:underline"
                 >
-                  Terms & Privacy Policy
+                  Terms of Service
+                </a>
+                &nbsp;and&nbsp;
+                <a
+                  href="/policies/privacy-policy"
+                  className="text-peter hover:text-peter-dark hover:underline"
+                >
+                  &nbsp;Privacy Policy
                 </a>
               </Label>
             </div>

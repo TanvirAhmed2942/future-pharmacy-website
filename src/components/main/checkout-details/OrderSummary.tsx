@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/tooltip";
 import PricingBreakdownModal from "./pricingBreakdownModal";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
 import {
   selectCheckoutData,
@@ -26,6 +27,7 @@ import { resetMapState, setSelectedPharmacy } from "@/store/slices/mapSlice";
 import { useCreateCheckoutMutation } from "@/store/Apis/checkoutApi/checkOutApi";
 import useShowToast from "@/hooks/useShowToast";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 interface OrderSummaryProps {
   formData: {
     email: string;
@@ -235,6 +237,8 @@ export default function OrderSummary({
 }: OrderSummaryProps) {
   const t = useTranslations("orderSummary");
   const [isPricingModalOpen, setIsPricingModalOpen] = useState(false);
+  const [termsAgreed, setTermsAgreed] = useState<boolean>(false);
+  const [termsError, setTermsError] = useState<string>("");
   const dispatch = useAppDispatch();
   const checkoutData = useAppSelector(selectCheckoutData);
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
@@ -306,6 +310,12 @@ export default function OrderSummary({
 
   // Handle checkout payment
   const handleCompletePayment = async () => {
+    // Validate terms agreement
+    if (!termsAgreed) {
+      setTermsError("You must agree to the terms and conditions");
+      return;
+    }
+
     try {
       // Concatenate name with address if name exists
       const formatAddressWithName = (name: string, address: string): string => {
@@ -599,31 +609,59 @@ export default function OrderSummary({
           {t("seePricingBreakdown")}
         </Button>
 
-        {/* Legal Agreement Text */}
-        <p className="text-sm text-gray-600">
-          {t("legalAgreement.text")}{" "}
-          <button className="text-peter hover:underline">
-            {t("legalAgreement.termsOfService")}
-          </button>
-          {/* <button className="text-peter hover:underline">
-            {t("legalAgreement.paymentsTermsOfService")}
-          </button>{" "} */}
-          {/* {t("legalAgreement.and")}{" "}
-          <button className="text-peter hover:underline">
-            {t("legalAgreement.nondiscriminationPolicy")}
-          </button> */}
-          , {t("legalAgreement.acknowledge")}{" "}
-          <button className="text-peter hover:underline">
-            {t("legalAgreement.privacyPolicy")}
-          </button>
-          .
-        </p>
+        {/* Legal Agreement Checkbox */}
+        <div className="flex items-start gap-3">
+          <Checkbox
+            id="terms-agreement-summary"
+            checked={termsAgreed}
+            onCheckedChange={(checked) => {
+              setTermsAgreed(checked === true);
+              if (termsError) {
+                setTermsError("");
+              }
+            }}
+            className={`mt-1 ${termsError ? "border-red-500" : ""}`}
+          />
+          <label
+            htmlFor="terms-agreement-summary"
+            className="text-sm text-gray-600 leading-relaxed cursor-pointer"
+          >
+            {t("legalAgreement.text")}{" "}
+            <Link
+              href="/policies/terms-of-service"
+              className="text-peter hover:underline"
+              onClick={(e: React.MouseEvent<HTMLAnchorElement>) =>
+                e.stopPropagation()
+              }
+            >
+              {t("legalAgreement.termsOfService")}
+            </Link>
+            , {t("legalAgreement.acknowledge")}{" "}
+            <Link
+              href="/policies/privacy-policy"
+              className="text-peter hover:underline"
+              onClick={(e: React.MouseEvent<HTMLAnchorElement>) =>
+                e.stopPropagation()
+              }
+            >
+              {t("legalAgreement.privacyPolicy")}
+            </Link>
+            .
+          </label>
+        </div>
+        {termsError && (
+          <p className="text-red-500 text-xs mt-1">{termsError}</p>
+        )}
 
         {/* Complete Payment Button */}
         <Button
           onClick={handleCompletePayment}
-          disabled={isSubmitting}
-          className="w-full bg-peter hover:bg-peter-dark text-white py-3 rounded-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={isSubmitting || !termsAgreed}
+          className={`w-full py-3 rounded-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed ${
+            termsAgreed && !isSubmitting
+              ? "bg-peter hover:bg-peter-dark text-white"
+              : "bg-gray-300 text-gray-500"
+          }`}
         >
           {isSubmitting ? "Processing..." : t("completePayment")}
         </Button>

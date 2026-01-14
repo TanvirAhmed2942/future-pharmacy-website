@@ -11,7 +11,9 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { ChevronDownIcon } from "lucide-react";
+import Link from "next/link";
 import Backbutton from "@/components/common/backbutton/backbutton";
+import { Checkbox } from "@/components/ui/checkbox";
 
 // Format date as mm/dd/yyyy
 const formatDateDisplay = (dateStr: string): string => {
@@ -55,7 +57,9 @@ export default function ContactDetails({
     firstName?: string;
     lastName?: string;
     dateOfBirth?: string;
+    termsAgreed?: string;
   }>({});
+  const [termsAgreed, setTermsAgreed] = useState<boolean>(false);
 
   const validateForm = (): boolean => {
     const newErrors: typeof errors = {};
@@ -80,6 +84,10 @@ export default function ContactDetails({
 
     if (!formData.dateOfBirth.trim()) {
       newErrors.dateOfBirth = "Date of birth is required";
+    }
+
+    if (!termsAgreed) {
+      newErrors.termsAgreed = "You must agree to the terms and conditions";
     }
 
     setErrors(newErrors);
@@ -251,31 +259,55 @@ export default function ContactDetails({
           </button> */}
         </p>
 
-        {/* Terms and Conditions */}
-        <p className="text-sm text-gray-600">
-          {t("termsAndConditions.text")}{" "}
-          <button className="text-peter hover:underline">
-            {t("termsAndConditions.termsOfService")}
-          </button>
-          ,{" "}
-          {/* <button className="text-peter hover:underline">
-            {t("termsAndConditions.paymentsTermsOfService")}
-          </button>{" "} */}
-          {/* {t("termsAndConditions.and")}{" "} */}
-          {/* <button className="text-peter hover:underline">
-            {t("termsAndConditions.nondiscriminationPolicy")}
-          </button> */}
-          {t("termsAndConditions.acknowledge")}{" "}
-          <button className="text-peter hover:underline">
-            {t("termsAndConditions.privacyPolicy")}
-          </button>
-          .
-        </p>
+        {/* Terms and Conditions Checkbox */}
+        <div className="flex items-start gap-3">
+          <Checkbox
+            id="terms-agreement"
+            checked={termsAgreed}
+            onCheckedChange={(checked) => {
+              setTermsAgreed(checked === true);
+              if (errors.termsAgreed) {
+                setErrors((prev) => ({ ...prev, termsAgreed: undefined }));
+              }
+            }}
+            className={`mt-1 ${errors.termsAgreed ? "border-red-500" : ""}`}
+          />
+          <label
+            htmlFor="terms-agreement"
+            className="text-sm text-gray-600 leading-relaxed cursor-pointer"
+          >
+            {t("termsAndConditions.text")}{" "}
+            <Link
+              href="/policies/terms-of-service"
+              className="text-peter hover:underline"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {t("termsAndConditions.termsOfService")}
+            </Link>
+            , {t("termsAndConditions.acknowledge")}{" "}
+            <Link
+              href="/policies/privacy-policy"
+              className="text-peter hover:underline"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {t("termsAndConditions.privacyPolicy")}
+            </Link>
+            .
+          </label>
+        </div>
+        {errors.termsAgreed && (
+          <p className="text-red-500 text-xs mt-1">{errors.termsAgreed}</p>
+        )}
 
         {/* Agree and Continue Button */}
         <Button
           onClick={handleNextClick}
-          className="w-full bg-peter hover:bg-peter-dark text-white py-3 rounded-lg font-semibold"
+          disabled={!termsAgreed}
+          className={`w-full py-3 rounded-lg font-semibold ${
+            termsAgreed
+              ? "bg-peter hover:bg-peter-dark text-white"
+              : "bg-gray-300 text-gray-500 cursor-not-allowed"
+          }`}
         >
           {t("agreeAndContinue")}
         </Button>
