@@ -69,7 +69,7 @@ function OurStorySection({
                     {whoWeAre.features.map((feature: string, idx: number) => (
                       <div
                         key={idx}
-                        className={`text-justify px-4 py-2 ${
+                        className={` px-4 py-2 lg:text-sm 2xl:text-base ${
                           idx < 2 ? "border-b-2 border-gray-300" : ""
                         } ${
                           idx % 2 === 0 ? "border-r-2  border-gray-300" : ""
@@ -149,12 +149,12 @@ function OurStorySection({
             {/* Content Grid - Image on left (3 cols), paragraphs on right (9 cols) */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start mb-8">
               {/* Image - Left (3 columns) */}
-              <div className="relative w-full h-[400px] lg:h-[600px] rounded-lg overflow-hidden order-2 lg:order-1 lg:col-span-8">
+              <div className="relative w-full h-[250px] lg:h-[600px] rounded-lg overflow-hidden order-2 lg:order-1 lg:col-span-8">
                 <Image
                   src="/aboutus/iStock_why_we_do_it.jpg"
                   alt="Pharmacist at work"
                   fill
-                  className="object-cover"
+                  className="object-cover  "
                 />
               </div>
 
@@ -187,6 +187,12 @@ function OurStorySection({
               </p>
             )}
           </div>
+        )}
+
+        {footerDescription && (
+          <p className="text-gray-700 text-base md:text-lg leading-relaxed text-justify">
+            {footerDescription}
+          </p>
         )}
       </div>
     </div>

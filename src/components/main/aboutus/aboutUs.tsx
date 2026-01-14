@@ -34,6 +34,7 @@ function AboutUs() {
         />
         <OurStorySection
           headline={t("ourStory.headline")}
+          footerDescription={t("ourStory.footerDescription")}
           storyTimeline={
             t.raw("ourStory.storyTimeline") as {
               badge: string;
@@ -42,7 +43,6 @@ function AboutUs() {
               description: string;
             }[]
           }
-          footerDescription={t("ourStory.footerDescription")}
         />
         <OurValues
           headline={t("ourValues.headline")}
