@@ -12,12 +12,12 @@ function AboutUs() {
     <div className="bg-white">
       <Banner
         topText={
-          <p className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-2 sm:mb-4 leading-tight">
+          <p className="text-white text-3xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-2 sm:mb-4 leading-tight">
             Welcome to Optimus Health Solutions
           </p>
         }
         title={
-          <span className="text-[42px] text-white font-semibold">
+          <span className="text-2xl lg:text-[42px] text-white font-normal">
             {t("banner.title")}
           </span>
         }

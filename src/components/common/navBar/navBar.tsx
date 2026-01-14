@@ -159,15 +159,15 @@ function NavBar() {
 
             {/* Logo - Centered */}
             <div className="flex items-center justify-center flex-1">
-              <div className="relative w-32 h-8 aspect-square overflow-hidden">
+              <div className="relative w-32 h-10 mt-1">
                 <Link href="/">
                   <Image
                     src={"/nav/logo_last.svg"}
                     alt="Optimus Health Solutions Logo"
-                    width={200}
-                    height={200}
+                    width={128}
+                    height={50}
                     quality={100}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain"
                     priority
                   />
                 </Link>
