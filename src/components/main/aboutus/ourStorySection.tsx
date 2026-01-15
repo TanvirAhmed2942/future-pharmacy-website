@@ -88,7 +88,9 @@ function OurStorySection({
                 )}
 
                 {whoWeAre.paragraph3 && (
-                  <p className="text-justify">{whoWeAre.paragraph3}</p>
+                  <p className="text-justify xl:hidden 2xl:block">
+                    {whoWeAre.paragraph3}
+                  </p>
                 )}
               </div>
 
@@ -103,6 +105,12 @@ function OurStorySection({
                 />
               </div>
             </div>
+
+            {whoWeAre.paragraph3 && (
+              <p className="text-gray-700 text-base md:text-lg leading-relaxed text-justify xl:block  2xl:hidden mb-4">
+                {whoWeAre.paragraph3}
+              </p>
+            )}
 
             {/* Full width paragraph at bottom */}
             {whoWeAre.paragraph4 && (
@@ -173,12 +181,18 @@ function OurStorySection({
                 )}
 
                 {whyWeDoIt.paragraph3 && (
-                  <p className="text-gray-700 text-base md:text-lg leading-relaxed">
+                  <p className="text-gray-700 text-base md:text-lg leading-relaxed xl:hidden 2xl:block">
                     {whyWeDoIt.paragraph3}
                   </p>
                 )}
               </div>
             </div>
+
+            {whyWeDoIt.paragraph3 && (
+              <p className="text-gray-700 text-base md:text-lg leading-relaxed text-justify xl:block  2xl:hidden mb-4">
+                {whyWeDoIt.paragraph3}
+              </p>
+            )}
 
             {/* Full width paragraph at bottom */}
             {whyWeDoIt.paragraph4 && (
