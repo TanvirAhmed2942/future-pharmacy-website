@@ -25,12 +25,17 @@ import useShowToast from "@/hooks/useShowToast";
 import { imgUrl } from "@/lib/img_url";
 import Loader from "@/components/common/loader/Loader";
 import { useTranslations } from "next-intl";
+import { useAppSelector } from "@/store/hooks";
+import { selectIsLoggedIn } from "@/store/slices/userSlice/userSlice";
+import ShowAuthModal from "@/components/common/showforAuthModal/ShowAuthModal";
 function BlogDetailsLayout() {
   const t = useTranslations("blog.details");
   const tBlog = useTranslations("blog");
   const params = useParams();
   const blogId = params.id as string;
   const userId = useSelector((state: RootState) => state.user.user?._id);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const { showSuccess, showError } = useShowToast();
   const [createBlogLike, { isLoading: isSubmitting }] =
     useCreateBlogLikeMutation();
@@ -83,6 +88,10 @@ function BlogDetailsLayout() {
   );
 
   const handleLike = async (isLiked: boolean | undefined) => {
+    if (!isLoggedIn) {
+      setIsAuthModalOpen(true);
+      return;
+    }
     try {
       await createBlogLike(blogId).unwrap();
       if (isLiked) {
@@ -104,6 +113,10 @@ function BlogDetailsLayout() {
   };
 
   const handleBookmark = async () => {
+    if (!isLoggedIn) {
+      setIsAuthModalOpen(true);
+      return;
+    }
     try {
       if (isBookmarked) {
         // Unsave/remove from saved blogs
@@ -309,7 +322,13 @@ function BlogDetailsLayout() {
           </button>
           <button
             className="text-gray-600 hover:text-peter flex items-center gap-2 transition-colors cursor-pointer"
-            onClick={() => setIsCommentSheetOpen(true)}
+            onClick={() => {
+              if (!isLoggedIn) {
+                setIsAuthModalOpen(true);
+                return;
+              }
+              setIsCommentSheetOpen(true);
+            }}
           >
             <FiMessageCircle className="w-5 h-5 text-gray-600" />
             <span className="text-base">{blogData.comments?.length || 0}</span>
@@ -374,6 +393,10 @@ function BlogDetailsLayout() {
       <SubscribeModal
         isOpen={isSubscribeModalOpen}
         onClose={() => setIsSubscribeModalOpen(false)}
+      />
+      <ShowAuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
       />
     </div>
   );

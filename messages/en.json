@@ -1112,6 +1112,12 @@
     "loginSignup": "Login / Signup",
     "checkoutAsGuest": "Checkout as Guest"
   },
+  "authModal": {
+    "title": "Please Log In to Continue",
+    "description": "You need to be logged in to like, comment, or save blog posts. Please log in to continue.",
+    "continue": "Continue",
+    "cancel": "Cancel"
+  },
   "checkZoneCoverage": {
     "title": "Check if you are in our Delivery Zone",
     "zipCodePlaceholder": "Enter your zip code ex: 10017",
