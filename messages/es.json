@@ -1148,5 +1148,85 @@
       "hipaaPolicy": "Política HIPAA",
       "modalMessage": "Te notificaremos cuando lleguemos a tu área"
     }
+  },
+  "blog": {
+    "banner": {
+      "title": "Bienvenido al Blog de Optimus Health Solutions",
+      "description": "Donde compartimos información sobre noticias de la industria, historias reales y consejos prácticos para farmacias independientes y las comunidades a las que servimos"
+    },
+    "heading": "Hola, Querido - el Blog de Optimus Health Solutions",
+    "subtitle": "El Blog de Optimus Health Solutions",
+    "subscribers": "Suscriptores",
+    "articles": "Artículos",
+    "subscribe": "Suscribirse",
+    "subscribed": "Suscrito",
+    "searchPlaceholder": "Buscar temas: PBM, Parte D, entrega, adherencia...",
+    "errorMessage": "Error al cargar los blogs. Por favor, inténtalo de nuevo más tarde.",
+    "noBlogsFound": "No se encontraron blogs.",
+    "pagination": {
+      "pageInfo": "Página {page} de {totalPage} • Mostrando {showing} de {total} artículos"
+    },
+    "card": {
+      "like": "me gusta",
+      "likes": "me gusta"
+    },
+    "details": {
+      "errorMessage": "Error al cargar los detalles del blog. Por favor, inténtalo de nuevo más tarde.",
+      "goBack": "Volver",
+      "companyName": "Optimus Health Solutions",
+      "tagline": "Tu puerta de acceso rápida y confiable a las farmacias locales.",
+      "published": "Publicado:",
+      "updated": "Actualizado:",
+      "sharePost": "Compartir esta publicación",
+      "removeFromSaved": "Eliminar de blogs guardados",
+      "addToSaved": "Agregar a blogs guardados",
+      "messages": {
+        "unlikedSuccess": "¡Ya no te gusta!",
+        "likedSuccess": "¡Te gusta!",
+        "likeFailed": "Error al dar me gusta. Por favor, inténtalo de nuevo.",
+        "removedFromSaved": "Eliminado de blogs guardados",
+        "addedToSaved": "Agregado a blogs guardados",
+        "updateSavedFailed": "Error al actualizar blogs guardados. Por favor, inténtalo de nuevo.",
+        "sharedSuccess": "¡Compartido con éxito!",
+        "linkCopied": "¡Enlace copiado al portapapeles!",
+        "copyLinkFailed": "Error al copiar el enlace. Por favor, inténtalo de nuevo.",
+        "shareFailed": "Error al compartir. Por favor, inténtalo de nuevo."
+      },
+      "fallback": {
+        "blogPost": "Publicación del Blog",
+        "checkOutPost": "Mira esta publicación del blog"
+      }
+    },
+    "comment": {
+      "responses": "Respuestas ({count})",
+      "placeholder": "¿Qué piensas?",
+      "cancel": "Cancelar",
+      "posting": "Publicando...",
+      "respond": "Responder",
+      "errorLoad": "Error al cargar los comentarios. Por favor, inténtalo de nuevo.",
+      "emptyState": "Aún no hay comentarios. ¡Sé el primero en comentar!",
+      "messages": {
+        "deletedSuccess": "¡Comentario eliminado con éxito!",
+        "deleteFailed": "Error al eliminar el comentario. Por favor, inténtalo de nuevo.",
+        "postedSuccess": "¡Comentario publicado con éxito!",
+        "postFailed": "Error al publicar el comentario. Por favor, inténtalo de nuevo."
+      },
+      "timeAgo": {
+        "justNow": "Ahora mismo",
+        "minutesAgo": "hace {minutes}m",
+        "hoursAgo": "hace {hours}h",
+        "daysAgo": "hace {days}d"
+      }
+    },
+    "subscribes": {
+      "title": "Suscríbete para mantenerte actualizado con nuestras últimas noticias y actualizaciones de la industria",
+      "placeholder": "Ingresa tu correo electrónico",
+      "messages": {
+        "success": "¡Suscrito con éxito! Recibirás nuestras últimas actualizaciones.",
+        "emailRequired": "El correo electrónico es obligatorio",
+        "emailInvalid": "Por favor ingresa un correo electrónico válido",
+        "subscribeFailed": "Error al suscribirse. Por favor, inténtalo de nuevo."
+      }
+    }
   }
 }

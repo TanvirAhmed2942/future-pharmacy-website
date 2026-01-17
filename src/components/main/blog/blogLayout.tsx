@@ -23,7 +23,9 @@ import {
 import { useSelector } from "react-redux";
 import { selectIsSubscriberUser } from "@/store/slices/userSlice/userSlice";
 import Loader from "@/components/common/loader/Loader";
+import { useTranslations } from "next-intl";
 function BlogLayout() {
+  const t = useTranslations("blog");
   const isSubscriberUser = useSelector(selectIsSubscriberUser);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
@@ -129,8 +131,8 @@ function BlogLayout() {
         </div>
       )}
       <Banner
-        title="Welcome to the Optimus Health Solutions Blog"
-        description="Where we share insights on industry news, real stories and practical tips for independent pharmacies and the communities we serve"
+        title={t("banner.title")}
+        description={t("banner.description")}
         image="/banner/blog_banner.png"
       />
 
@@ -150,18 +152,18 @@ function BlogLayout() {
             </div>
             <div>
               <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-1">
-                Hello, Dear - the Optimus Health Solutions Blog
+                {t("heading")}
               </h1>
               <p className="text-gray-500 text-sm md:text-base">
-                The Optimus Health Solutions Blog
+                {t("subtitle")}
               </p>
               <div className="flex items-center gap-2">
                 <p className="text-gray-400 text-xs md:text-sm mt-1">
-                  {totalSubscribers} Subscribers
+                  {totalSubscribers} {t("subscribers")}
                 </p>
                 <span className="text-gray-400 text-xs md:text-sm mt-1">•</span>
                 <p className="text-gray-400 text-xs md:text-sm mt-1">
-                  {meta?.total || 0} Articles
+                  {meta?.total || 0} {t("articles")}
                 </p>
               </div>
             </div>
@@ -171,7 +173,7 @@ function BlogLayout() {
             onClick={handleSubscribe}
             disabled={isSubscribed}
           >
-            {isSubscribed ? "Subscribed" : "Subscribe"}
+            {isSubscribed ? t("subscribed") : t("subscribe")}
             {/* {isSubscribed === true ? (
               <CheckCircle className="w-4 h-4 text-white" />
             ) : (
@@ -184,7 +186,7 @@ function BlogLayout() {
         <div className="flex flex-col md:flex-row gap-4 mb-8 md:mb-12">
           <Input
             type="text"
-            placeholder="Search topics: PBM, Part D, delivery, adherence..."
+            placeholder={t("searchPlaceholder")}
             className="flex-1 bg-gray-50 border-gray-200 rounded-lg px-4 py-2 h-10"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -195,7 +197,7 @@ function BlogLayout() {
         {isError && (
           <div className="flex justify-center items-center py-20">
             <p className="text-red-500 text-lg">
-              Failed to load blogs. Please try again later.
+              {t("errorMessage")}
             </p>
           </div>
         )}
@@ -203,7 +205,7 @@ function BlogLayout() {
         {/* Empty State */}
         {!isLoading && !isError && filteredBlogs.length === 0 && (
           <div className="flex justify-center items-center py-20">
-            <p className="text-gray-500 text-lg">No blogs found.</p>
+            <p className="text-gray-500 text-lg">{t("noBlogsFound")}</p>
           </div>
         )}
 
@@ -273,8 +275,12 @@ function BlogLayout() {
                 {/* Page Info */}
                 <div className="text-center mt-4">
                   <p className="text-sm text-gray-500">
-                    Page {meta.page} of {meta.totalPage} • Showing{" "}
-                    {blogs.length} of {meta.total} articles
+                    {t("pagination.pageInfo", {
+                      page: meta.page,
+                      totalPage: meta.totalPage,
+                      showing: blogs.length,
+                      total: meta.total,
+                    })}
                   </p>
                 </div>
               </div>

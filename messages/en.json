@@ -1145,5 +1145,85 @@
       "hipaaPolicy": "HIPAA Policy",
       "modalMessage": "We'll notify you when we arrive in your area"
     }
+  },
+  "blog": {
+    "banner": {
+      "title": "Welcome to the Optimus Health Solutions Blog",
+      "description": "Where we share insights on industry news, real stories and practical tips for independent pharmacies and the communities we serve"
+    },
+    "heading": "Hello, Dear - the Optimus Health Solutions Blog",
+    "subtitle": "The Optimus Health Solutions Blog",
+    "subscribers": "Subscribers",
+    "articles": "Articles",
+    "subscribe": "Subscribe",
+    "subscribed": "Subscribed",
+    "searchPlaceholder": "Search topics: PBM, Part D, delivery, adherence...",
+    "errorMessage": "Failed to load blogs. Please try again later.",
+    "noBlogsFound": "No blogs found.",
+    "pagination": {
+      "pageInfo": "Page {page} of {totalPage} • Showing {showing} of {total} articles"
+    },
+    "card": {
+      "like": "like",
+      "likes": "likes"
+    },
+    "details": {
+      "errorMessage": "Failed to load blog details. Please try again later.",
+      "goBack": "Go Back",
+      "companyName": "Optimus Health Solutions",
+      "tagline": "Your fast and reliable gateway to local pharmacies.",
+      "published": "Published:",
+      "updated": "Updated:",
+      "sharePost": "Share this post",
+      "removeFromSaved": "Remove from saved blogs",
+      "addToSaved": "Add to saved blogs",
+      "messages": {
+        "unlikedSuccess": "Unliked successfully!",
+        "likedSuccess": "Liked successfully!",
+        "likeFailed": "Failed to like. Please try again.",
+        "removedFromSaved": "Removed from saved blogs",
+        "addedToSaved": "Added to saved blogs",
+        "updateSavedFailed": "Failed to update saved blogs. Please try again.",
+        "sharedSuccess": "Shared successfully!",
+        "linkCopied": "Link copied to clipboard!",
+        "copyLinkFailed": "Failed to copy link. Please try again.",
+        "shareFailed": "Failed to share. Please try again."
+      },
+      "fallback": {
+        "blogPost": "Blog Post",
+        "checkOutPost": "Check out this blog post"
+      }
+    },
+    "comment": {
+      "responses": "Responses ({count})",
+      "placeholder": "What are your thoughts?",
+      "cancel": "Cancel",
+      "posting": "Posting...",
+      "respond": "Respond",
+      "errorLoad": "Failed to load comments. Please try again.",
+      "emptyState": "No comments yet. Be the first to comment!",
+      "messages": {
+        "deletedSuccess": "Comment deleted successfully!",
+        "deleteFailed": "Failed to delete comment. Please try again.",
+        "postedSuccess": "Comment posted successfully!",
+        "postFailed": "Failed to post comment. Please try again."
+      },
+      "timeAgo": {
+        "justNow": "Just now",
+        "minutesAgo": "{minutes}m ago",
+        "hoursAgo": "{hours}h ago",
+        "daysAgo": "{days}d ago"
+      }
+    },
+    "subscribes": {
+      "title": "Subscribe to stay updated with our latest industry news and updates",
+      "placeholder": "Enter your email",
+      "messages": {
+        "success": "Successfully subscribed! You'll receive our latest updates.",
+        "emailRequired": "Email is required",
+        "emailInvalid": "Please enter a valid email address",
+        "subscribeFailed": "Failed to subscribe. Please try again."
+      }
+    }
   }
 }

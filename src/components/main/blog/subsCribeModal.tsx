@@ -12,6 +12,7 @@ import { ArrowRight } from "lucide-react";
 import { TbCircleX } from "react-icons/tb";
 import { useSubscribeToBlogMutation } from "@/store/Apis/blogApi/blogApi";
 import useShowToast from "@/hooks/useShowToast";
+import { useTranslations } from "next-intl";
 
 interface SubscribeModalProps {
   isOpen: boolean;
@@ -19,6 +20,7 @@ interface SubscribeModalProps {
 }
 
 const SubscribeModal: React.FC<SubscribeModalProps> = ({ isOpen, onClose }) => {
+  const t = useTranslations("blog.subscribes");
   const [email, setEmail] = useState("");
   const [error, setError] = useState<string | null>(null);
   const { showSuccess, showError } = useShowToast();
@@ -37,13 +39,13 @@ const SubscribeModal: React.FC<SubscribeModalProps> = ({ isOpen, onClose }) => {
 
     // Check if email is empty
     if (!email.trim()) {
-      setError("Email is required");
+      setError(t("messages.emailRequired"));
       return;
     }
 
     // Validate email format
     if (!validateEmail(email.trim())) {
-      setError("Please enter a valid email address");
+      setError(t("messages.emailInvalid"));
       return;
     }
 
@@ -51,7 +53,7 @@ const SubscribeModal: React.FC<SubscribeModalProps> = ({ isOpen, onClose }) => {
     try {
       await subscribeToBlog({ email: email.trim() }).unwrap();
       showSuccess({
-        message: "Successfully subscribed! You'll receive our latest updates.",
+        message: t("messages.success"),
       });
       setEmail("");
       onClose();
@@ -59,7 +61,7 @@ const SubscribeModal: React.FC<SubscribeModalProps> = ({ isOpen, onClose }) => {
       console.error("Failed to subscribe:", error);
       const errorMessage =
         (error as { data?: { message?: string } })?.data?.message ||
-        "Failed to subscribe. Please try again.";
+        t("messages.subscribeFailed");
       setError(errorMessage);
       showError({
         message: errorMessage,
@@ -78,7 +80,7 @@ const SubscribeModal: React.FC<SubscribeModalProps> = ({ isOpen, onClose }) => {
       <DialogContent className="sm:max-w-xl" showCloseButton={false}>
         <DialogHeader>
           <DialogTitle className="text-base font-medium text-current ">
-            Subscribe to stay updated with our latest industry news and updates
+            {t("title")}
           </DialogTitle>
         </DialogHeader>
 
@@ -86,7 +88,7 @@ const SubscribeModal: React.FC<SubscribeModalProps> = ({ isOpen, onClose }) => {
           <div className="flex items-center gap-2">
             <Input
               type="email"
-              placeholder="Enter your email"
+              placeholder={t("placeholder")}
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);

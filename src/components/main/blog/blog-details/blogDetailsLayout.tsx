@@ -24,7 +24,10 @@ import SubscribeModal from "../subsCribeModal";
 import useShowToast from "@/hooks/useShowToast";
 import { imgUrl } from "@/lib/img_url";
 import Loader from "@/components/common/loader/Loader";
+import { useTranslations } from "next-intl";
 function BlogDetailsLayout() {
+  const t = useTranslations("blog.details");
+  const tBlog = useTranslations("blog");
   const params = useParams();
   const blogId = params.id as string;
   const userId = useSelector((state: RootState) => state.user.user?._id);
@@ -84,18 +87,18 @@ function BlogDetailsLayout() {
       await createBlogLike(blogId).unwrap();
       if (isLiked) {
         showSuccess({
-          message: "Unliked successfully!",
+          message: t("messages.unlikedSuccess"),
         });
       } else {
         showSuccess({
-          message: "Liked successfully!",
+          message: t("messages.likedSuccess"),
         });
       }
       refetch();
     } catch (error: unknown) {
       console.error("Failed to like:", error);
       showError({
-        message: "Failed to like. Please try again.",
+        message: t("messages.likeFailed"),
       });
     }
   };
@@ -106,13 +109,13 @@ function BlogDetailsLayout() {
         // Unsave/remove from saved blogs
         await deleteSavedBlog(blogId).unwrap();
         showSuccess({
-          message: "Removed from saved blogs",
+          message: t("messages.removedFromSaved"),
         });
       } else {
         // Save blog
         await createBlogSaved(blogId).unwrap();
         showSuccess({
-          message: "Added to saved blogs",
+          message: t("messages.addedToSaved"),
         });
       }
       refetch();
@@ -120,7 +123,7 @@ function BlogDetailsLayout() {
       console.error("Failed to save/unsave blog:", error);
       const errorMessage =
         (error as { data?: { message?: string } })?.data?.message ||
-        "Failed to update saved blogs. Please try again.";
+        t("messages.updateSavedFailed");
       showError({
         message: errorMessage,
       });
@@ -162,8 +165,8 @@ function BlogDetailsLayout() {
   const handleShare = async () => {
     const url = window.location.href;
     const shareData = {
-      title: blogData?.title || "Blog Post",
-      text: blogData?.title || "Check out this blog post",
+      title: blogData?.title || t("fallback.blogPost"),
+      text: blogData?.title || t("fallback.checkOutPost"),
       url: url,
     };
 
@@ -176,18 +179,18 @@ function BlogDetailsLayout() {
       ) {
         await navigator.share(shareData);
         showSuccess({
-          message: "Shared successfully!",
+          message: t("messages.sharedSuccess"),
         });
       } else {
         // Fallback: Copy to clipboard
         const copied = await copyToClipboard(url);
         if (copied) {
           showSuccess({
-            message: "Link copied to clipboard!",
+            message: t("messages.linkCopied"),
           });
         } else {
           showError({
-            message: "Failed to copy link. Please try again.",
+            message: t("messages.copyLinkFailed"),
           });
         }
       }
@@ -198,11 +201,11 @@ function BlogDetailsLayout() {
         const copied = await copyToClipboard(url);
         if (copied) {
           showSuccess({
-            message: "Link copied to clipboard!",
+            message: t("messages.linkCopied"),
           });
         } else {
           showError({
-            message: "Failed to share. Please try again.",
+            message: t("messages.shareFailed"),
           });
         }
       }
@@ -229,13 +232,13 @@ function BlogDetailsLayout() {
         <div className="max-w-4xl mx-auto">
           <div className="flex flex-col justify-center items-center py-20">
             <p className="text-red-500 text-lg mb-4">
-              Failed to load blog details. Please try again later.
+              {t("errorMessage")}
             </p>
             <Button
               onClick={() => window.history.back()}
               className="bg-peter hover:bg-peter-dark text-white"
             >
-              Go Back
+              {t("goBack")}
             </Button>
           </div>
         </div>
@@ -260,10 +263,10 @@ function BlogDetailsLayout() {
             </div>
             <div className="flex-1">
               <h3 className="font-semibold text-gray-900 text-sm">
-                Optimus Health Solutions
+                {t("companyName")}
               </h3>
               <p className="text-xs text-gray-500 mt-1">
-                Your fast and reliable gateway to local pharmacies.
+                {t("tagline")}
               </p>
             </div>
           </div>
@@ -276,12 +279,12 @@ function BlogDetailsLayout() {
               onClick={() => setIsSubscribeModalOpen(true)}
               disabled={isSubscribed === true}
             >
-              {isSubscribed === true ? "Subscribed" : "Subscribe"}
+              {isSubscribed === true ? tBlog("subscribed") : tBlog("subscribe")}
             </Button>
 
             {/* Right - Read Time and Date */}
             <div className="text-right text-sm">
-              <p className="text-gray-600">{totalSubscribers} Subscribers</p>
+              <p className="text-gray-600">{totalSubscribers} {tBlog("subscribers")}</p>
               <p className="text-gray-500 text-xs mt-1">
                 {formatDate(blogData.createdAt)}
               </p>
@@ -316,7 +319,7 @@ function BlogDetailsLayout() {
             onClick={handleBookmark}
             disabled={isSaving || isDeleting}
             title={
-              isBookmarked ? "Remove from saved blogs" : "Add to saved blogs"
+              isBookmarked ? t("removeFromSaved") : t("addToSaved")
             }
           >
             <FiBookmark
@@ -328,7 +331,7 @@ function BlogDetailsLayout() {
           <button
             className="text-gray-600 hover:text-peter flex items-center gap-2 transition-colors cursor-pointer"
             onClick={handleShare}
-            title="Share this post"
+            title={t("sharePost")}
           >
             <FiShare2 className="w-5 h-5 text-gray-600" />
           </button>
@@ -356,8 +359,8 @@ function BlogDetailsLayout() {
         {/* Blog Footer */}
         <div className="mt-12 pt-6 border-t border-gray-200">
           <div className="flex items-center justify-between text-gray-600 text-sm">
-            <span>Published: {formatDate(blogData.createdAt)}</span>
-            <span>Updated: {formatDate(blogData.updatedAt)}</span>
+            <span>{t("published")} {formatDate(blogData.createdAt)}</span>
+            <span>{t("updated")} {formatDate(blogData.updatedAt)}</span>
           </div>
         </div>
       </article>

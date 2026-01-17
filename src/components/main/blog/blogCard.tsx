@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { imgUrl } from "@/lib/img_url";
+import { useTranslations } from "next-intl";
 
 export interface BlogItem {
   _id: string;
@@ -17,6 +18,8 @@ export interface BlogItem {
 }
 
 function BlogCard({ blog }: { blog: BlogItem }) {
+  const t = useTranslations("blog.card");
+  
   // Get first character of title for badge (since API doesn't have author)
   const titleInitial = blog.title.charAt(0).toUpperCase();
 
@@ -78,7 +81,7 @@ function BlogCard({ blog }: { blog: BlogItem }) {
                 </p>
                 <p className="text-xs text-gray-500">
                   {blog.blogLikes.length}{" "}
-                  {blog.blogLikes.length === 1 ? "like" : "likes"}
+                  {blog.blogLikes.length === 1 ? t("like") : t("likes")}
                 </p>
               </div>
             </div>

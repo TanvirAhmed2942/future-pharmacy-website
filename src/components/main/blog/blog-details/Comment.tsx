@@ -20,6 +20,7 @@ import { toast } from "sonner";
 import { useDeleteBlogCommentMutation } from "@/store/Apis/blogApi/blogApi";
 import { imgUrl } from "@/lib/img_url";
 import gsap from "gsap";
+import { useTranslations } from "next-intl";
 interface CommentProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -27,6 +28,7 @@ interface CommentProps {
 }
 
 function Comment({ open, onOpenChange, blogId }: CommentProps) {
+  const t = useTranslations("blog.comment");
   const [commentText, setCommentText] = useState("");
   const [deletingCommentId, setDeletingCommentId] = useState<string | null>(
     null
@@ -71,7 +73,7 @@ function Comment({ open, onOpenChange, blogId }: CommentProps) {
           .unwrap()
           .then(() => {
             showSuccess({
-              message: "Comment deleted successfully!",
+              message: t("messages.deletedSuccess"),
             });
             setDeletingCommentId(null);
             refetch();
@@ -87,7 +89,7 @@ function Comment({ open, onOpenChange, blogId }: CommentProps) {
             });
             setDeletingCommentId(null);
             showError({
-              message: "Failed to delete comment. Please try again.",
+              message: t("messages.deleteFailed"),
             });
           });
       },
@@ -104,10 +106,10 @@ function Comment({ open, onOpenChange, blogId }: CommentProps) {
       const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
       const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
 
-      if (diffMins < 1) return "Just now";
-      if (diffMins < 60) return `${diffMins}m ago`;
-      if (diffHours < 24) return `${diffHours}h ago`;
-      if (diffDays < 7) return `${diffDays}d ago`;
+      if (diffMins < 1) return t("timeAgo.justNow");
+      if (diffMins < 60) return t("timeAgo.minutesAgo", { minutes: diffMins });
+      if (diffHours < 24) return t("timeAgo.hoursAgo", { hours: diffHours });
+      if (diffDays < 7) return t("timeAgo.daysAgo", { days: diffDays });
 
       return date.toLocaleDateString("en-US", {
         month: "short",
@@ -136,10 +138,10 @@ function Comment({ open, onOpenChange, blogId }: CommentProps) {
       }).unwrap();
 
       setCommentText("");
-      toast.success("Comment posted successfully!");
+      toast.success(t("messages.postedSuccess"));
     } catch (error) {
       console.error("Failed to post comment:", error);
-      toast.error("Failed to post comment. Please try again.");
+      toast.error(t("messages.postFailed"));
     }
   };
 
@@ -149,7 +151,7 @@ function Comment({ open, onOpenChange, blogId }: CommentProps) {
         <SheetHeader className="px-6 py-4 border-b">
           <div className="flex items-center justify-between">
             <SheetTitle className="text-xl font-bold">
-              Responses ({comments.length})
+              {t("responses", { count: comments.length })}
             </SheetTitle>
           </div>
         </SheetHeader>
@@ -166,7 +168,7 @@ function Comment({ open, onOpenChange, blogId }: CommentProps) {
               </Avatar>
               <div className="flex-1">
                 <Textarea
-                  placeholder="What are your thoughts?"
+                  placeholder={t("placeholder")}
                   value={commentText}
                   onChange={(e) => setCommentText(e.target.value)}
                   className="min-h-[120px] resize-none bg-gray-50 border-gray-200 focus:bg-white"
@@ -184,14 +186,14 @@ function Comment({ open, onOpenChange, blogId }: CommentProps) {
                 className="text-gray-700 hover:bg-gray-100"
                 disabled={isSubmitting}
               >
-                Cancel
+                {t("cancel")}
               </Button>
               <Button
                 onClick={handleSubmit}
                 disabled={!commentText.trim() || isSubmitting}
                 className="bg-peter hover:bg-peter-dark text-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isSubmitting ? "Posting..." : "Respond"}
+                {isSubmitting ? t("posting") : t("respond")}
               </Button>
             </div>
           </div>
@@ -208,14 +210,14 @@ function Comment({ open, onOpenChange, blogId }: CommentProps) {
             {/* Error State */}
             {isError && (
               <p className="text-sm text-red-500 text-center py-8">
-                Failed to load comments. Please try again.
+                {t("errorLoad")}
               </p>
             )}
 
             {/* Empty State */}
             {!isLoading && !isError && comments.length === 0 && (
               <p className="text-sm text-gray-500 text-center py-8">
-                No comments yet. Be the first to comment!
+                {t("emptyState")}
               </p>
             )}
 
