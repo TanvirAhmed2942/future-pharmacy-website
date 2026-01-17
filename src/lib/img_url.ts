@@ -16,10 +16,7 @@ export const imgUrl = (path?: string) => {
   const baseUrl =
     (typeof window !== "undefined"
       ? process.env.NEXT_PUBLIC_IMG_URL
-      : process.env.IMG_URL) ||
-    process.env.NEXT_PUBLIC_IMG_URL ||
-    process.env.IMG_URL ||
-    "https://api.optimushs.com/";
+      : "optimushs.com") || "http://10.10.7.65:5010/";
 
   // Convert Windows-style paths to URL paths (backslashes to forward slashes)
   const normalized = path.replace(/\\/g, "/");
