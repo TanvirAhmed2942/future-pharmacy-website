@@ -1,7 +1,5 @@
 "use client";
 
-import { useTranslations } from "next-intl";
-
 function TheProcess({
   headline,
   steps,
@@ -9,7 +7,6 @@ function TheProcess({
   headline: string;
   steps: { title: string; description: string }[];
 }) {
-  const t = useTranslations("howItWorks");
   return (
     <section className="bg-white py-8 md:py-16 px-4 md:px-8">
       <div className="max-w-7xl mx-auto">

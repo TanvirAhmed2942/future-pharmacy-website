@@ -8,7 +8,6 @@ import { Autoplay, Pagination } from "swiper/modules";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
-import Image from "next/image";
 import { useTranslations } from "next-intl";
 function IndependentPharmTestimonial() {
   const t = useTranslations("independentPharmacies.testimonials");

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { ReactElement } from "react";
-import { Users, LucideIcon } from "lucide-react";
+import { LucideIcon } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import useIcon from "@/hooks/useIcon";
 import { useTranslations } from "next-intl";
