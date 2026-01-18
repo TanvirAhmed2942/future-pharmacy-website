@@ -1,10 +1,28 @@
-import Banner from "@/components/common/banner/Banner";
+"use client";
 import React from "react";
-import PharmacyRegForm from "./PharmacyRegForm";
-import HowIndependentPharmWorks from "./HowIndependentPharmWorks";
-import IndependentPharmacyBenefits from "./IndependentPharmacyBenefits";
-import IndependentPharmTestimonial from "./IndependentPharmTestimonial";
+import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
+
+// Lazy load components for better performance
+const Banner = dynamic(() => import("@/components/common/banner/Banner"), {
+  loading: () => <div className="min-h-[400px] animate-pulse bg-gray-200" />,
+});
+
+const IndependentPharmacyBenefits = dynamic(() => import("./IndependentPharmacyBenefits"), {
+  loading: () => <div className="min-h-[400px] animate-pulse bg-gray-100" />,
+});
+
+const HowIndependentPharmWorks = dynamic(() => import("./HowIndependentPharmWorks"), {
+  loading: () => <div className="min-h-[400px] animate-pulse bg-gray-100" />,
+});
+
+const IndependentPharmTestimonial = dynamic(() => import("./IndependentPharmTestimonial"), {
+  loading: () => <div className="min-h-[300px] animate-pulse bg-gray-100" />,
+});
+
+const PharmacyRegForm = dynamic(() => import("./PharmacyRegForm"), {
+  loading: () => <div className="min-h-[500px] animate-pulse bg-gray-100" />,
+});
 function IndependentPharmciesLayout() {
   const t = useTranslations("independentPharmacies.banner");
   const tForm = useTranslations("independentPharmacies.formSection");
