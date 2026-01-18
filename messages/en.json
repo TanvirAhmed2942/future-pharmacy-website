@@ -811,7 +811,11 @@
     },
     "consent": {
       "label": "I consent to Optimus Health Solutions coordinating my refill and contacting my pharmacy to refill my prescription.",
-      "required": "You must consent to refill your prescriptions"
+      "required": "You must consent to refill your prescriptions",
+      "agreementText": "By selecting Agree and Continue, you agree to the",
+      "termsOfService": "Terms of Service",
+      "and": " and ",
+      "privacyPolicy": "Privacy Policy"
     },
     "submitting": "Submitting...",
     "submitButton": "Submit Refill Request"
@@ -912,7 +916,11 @@
     },
     "consent": {
       "label": "I consent to Optimus Health Solutions coordinating my transfer and contacting my current pharmacy to transfer my prescription. I understand that this process may take 1-2 business days.",
-      "required": "You must consent to transfer your prescriptions"
+      "required": "You must consent to transfer your prescriptions",
+      "agreementText": "By selecting Agree and Continue, you agree to the",
+      "termsOfService": "Terms of Service",
+      "and": " and ",
+      "privacyPolicy": "Privacy Policy"
     },
     "submitting": "Submitting...",
     "submitButton": "Submit Transfer Request"
@@ -1012,7 +1020,11 @@
     },
     "consent": {
       "label": "I consent to Optimus Health Solutions coordinating my booking appointment and contacting my pharmacy. I understand that this process may take 1-2 business days.",
-      "required": "You must consent to proceed."
+      "required": "You must consent to proceed.",
+      "agreementText": "By selecting Agree and Continue, you agree to the",
+      "termsOfService": "Terms of Service",
+      "and": " and ",
+      "privacyPolicy": "Privacy Policy"
     },
     "submitting": "Submitting...",
     "submitButton": "Submit Schedule Request"

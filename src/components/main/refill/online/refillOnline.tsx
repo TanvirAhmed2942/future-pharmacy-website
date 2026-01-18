@@ -6,6 +6,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import { Calendar } from "@/components/ui/calendar";
 import { ChevronDownIcon } from "lucide-react";
+import Link from "next/link";
 import {
   Popover,
   PopoverContent,
@@ -853,9 +854,37 @@ function RefillOnline() {
                   />
                 )}
               />
-              <label htmlFor="consent" className="ml-2 text-xs text-gray-700">
-                {t("consent.label")}
+              <label htmlFor="consent" className="ml-2 text-xs text-gray-700 ">
+                {t("consent.label")}{" "}
+                <p className="text-xs text-gray-700 text-justify">
+                  {t("consent.agreementText")}{" "}
+                  <Link
+                    href="/policies/Terms of Service.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-peter hover:underline"
+                    onClick={(e: React.MouseEvent<HTMLAnchorElement>) =>
+                      e.stopPropagation()
+                    }
+                  >
+                    {t("consent.termsOfService")}
+                  </Link>
+                  {t("consent.and")}
+                  <Link
+                    href="/policies/Privacy Policy.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-peter hover:underline"
+                    onClick={(e: React.MouseEvent<HTMLAnchorElement>) =>
+                      e.stopPropagation()
+                    }
+                  >
+                    {t("consent.privacyPolicy")}
+                  </Link>
+                  .
+                </p>
               </label>
+             
             </div>
             {errors.consent && (
               <p className="text-red-500 text-xs mt-1 ml-6">

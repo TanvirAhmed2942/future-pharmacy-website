@@ -11,6 +11,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { ChevronDownIcon } from "lucide-react";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 import React, { useEffect, useState } from "react";
@@ -930,7 +931,34 @@ function TransferOnline() {
                 )}
               />
               <label htmlFor="consent" className="ml-2 text-xs text-gray-700">
-                {t("consent.label")}
+                {t("consent.label")}{" "}
+                <p className="text-xs text-gray-700">
+                  {t("consent.agreementText")}{" "}
+                  <Link
+                    href="/policies/Terms of Service.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-peter hover:underline"
+                    onClick={(e: React.MouseEvent<HTMLAnchorElement>) =>
+                      e.stopPropagation()
+                    }
+                  >
+                    {t("consent.termsOfService")}
+                  </Link>
+                  {t("consent.and")}
+                  <Link
+                    href="/policies/Privacy Policy.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-peter hover:underline"
+                    onClick={(e: React.MouseEvent<HTMLAnchorElement>) =>
+                      e.stopPropagation()
+                    }
+                  >
+                    {t("consent.privacyPolicy")}
+                  </Link>
+                  .
+                </p>
               </label>
             </div>
             {errors.consent && (

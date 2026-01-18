@@ -835,7 +835,11 @@
     },
     "consent": {
       "label": "Doy mi consentimiento para que Optimus Health Solutions coordine mi resurtido y se comunique con mi farmacia para volver a surtir mi receta.",
-      "required": "Debe dar su consentimiento para resurtir sus recetas"
+      "required": "Debe dar su consentimiento para resurtir sus recetas",
+      "agreementText": "Al seleccionar Aceptar y Continuar, acepta los",
+      "termsOfService": "Términos de Servicio",
+      "and": " y la ",
+      "privacyPolicy": "Política de Privacidad"
     },
 
     "submitting": "Enviando...",
@@ -914,7 +918,11 @@
     },
     "consent": {
       "label": "Doy mi consentimiento para que Optimus Health Solutions coordine mi transferencia y se comunique con mi farmacia actual para transferir mi receta. Entiendo que este proceso puede tardar entre 1 y 2 días hábiles.",
-      "required": "Debe dar su consentimiento para transferir sus recetas"
+      "required": "Debe dar su consentimiento para transferir sus recetas",
+      "agreementText": "Al seleccionar Aceptar y Continuar, acepta los",
+      "termsOfService": "Términos de Servicio",
+      "and": " y la ",
+      "privacyPolicy": "Política de Privacidad"
     },
     "submitting": "Enviando...",
     "submitButton": "Enviar Solicitud de Transferencia"
@@ -1014,7 +1022,11 @@
     },
     "consent": {
       "label": "Doy mi consentimiento para que Optimus Health Solutions coordine mi cita y se comunique con mi farmacia. Entiendo que este proceso puede tardar entre 1 y 2 días hábiles.",
-      "required": "Debe dar su consentimiento para continuar."
+      "required": "Debe dar su consentimiento para continuar.",
+      "agreementText": "Al seleccionar Aceptar y Continuar, acepta los",
+      "termsOfService": "Términos de Servicio",
+      "and": " y la ",
+      "privacyPolicy": "Política de Privacidad"
     },
     "submitting": "Enviando...",
     "submitButton": "Enviar Solicitud de Programación"
