@@ -1,10 +1,28 @@
+"use client";
 import React from "react";
-import Banner from "@/components/common/banner/Banner";
-import MissionSection from "./missionSection";
-import OurStorySection from "./ourStorySection";
-import ReadyToExperience from "@/components/common/readyToExperience/ReadyToExperience";
-import OurValues from "./ourValues";
+import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
+
+// Lazy load components for better performance
+const Banner = dynamic(() => import("@/components/common/banner/Banner"), {
+  loading: () => <div className="min-h-[400px] animate-pulse bg-gray-200" />,
+});
+
+const MissionSection = dynamic(() => import("./missionSection"), {
+  loading: () => <div className="min-h-[300px] animate-pulse bg-gray-100" />,
+});
+
+const OurStorySection = dynamic(() => import("./ourStorySection"), {
+  loading: () => <div className="min-h-[500px] animate-pulse bg-gray-100" />,
+});
+
+const OurValues = dynamic(() => import("./ourValues"), {
+  loading: () => <div className="min-h-[400px] animate-pulse bg-gray-100" />,
+});
+
+const ReadyToExperience = dynamic(() => import("@/components/common/readyToExperience/ReadyToExperience"), {
+  loading: () => <div className="min-h-[300px] animate-pulse bg-gray-100" />,
+});
 
 function AboutUs() {
   const t = useTranslations("aboutUs");

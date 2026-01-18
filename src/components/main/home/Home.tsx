@@ -1,13 +1,39 @@
 "use client";
 import React from "react";
-import MapAndFormSection from "./MapAndFormSection";
-import RefillSection from "./RefillSection";
-import OurImpact from "../aboutus/ourImpact";
-import HowOptimusWorks from "./howOptimusWorks";
-import CheckZoneCoverage from "./checKZoneCoverage";
-import OurStory from "./ourStory";
-import ManContactUs from "@/components/main/home/manContactUs";
-import Partners from "./partners";
+import dynamic from "next/dynamic";
+
+// Lazy load components for better performance
+const MapAndFormSection = dynamic(() => import("./MapAndFormSection"), {
+  loading: () => <div className="min-h-[400px] animate-pulse bg-gray-100" />,
+});
+
+const Partners = dynamic(() => import("./partners"), {
+  loading: () => <div className="min-h-[200px] animate-pulse bg-gray-50" />,
+});
+
+const HowOptimusWorks = dynamic(() => import("./howOptimusWorks"), {
+  loading: () => <div className="min-h-[300px] animate-pulse bg-gray-100" />,
+});
+
+const RefillSection = dynamic(() => import("./RefillSection"), {
+  loading: () => <div className="min-h-[300px] animate-pulse bg-gray-100" />,
+});
+
+const OurStory = dynamic(() => import("./ourStory"), {
+  loading: () => <div className="min-h-[400px] animate-pulse bg-gray-100" />,
+});
+
+const OurImpact = dynamic(() => import("../aboutus/ourImpact"), {
+  loading: () => <div className="min-h-[300px] animate-pulse bg-gray-100" />,
+});
+
+const CheckZoneCoverage = dynamic(() => import("./checKZoneCoverage"), {
+  loading: () => <div className="min-h-[300px] animate-pulse bg-gray-100" />,
+});
+
+const ManContactUs = dynamic(() => import("@/components/main/home/manContactUs"), {
+  loading: () => <div className="min-h-[300px] animate-pulse bg-gray-100" />,
+});
 
 function Home() {
   return (

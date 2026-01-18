@@ -1,12 +1,23 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import BlogCard from "./blogCard";
-import Banner from "@/components/common/banner/Banner";
+import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
-import SubscribeModal from "./subsCribeModal";
+
+// Lazy load components for better performance
+const BlogCard = dynamic(() => import("./blogCard"), {
+  loading: () => <div className="min-h-[400px] animate-pulse bg-gray-100 rounded-lg" />,
+});
+
+const Banner = dynamic(() => import("@/components/common/banner/Banner"), {
+  loading: () => <div className="min-h-[400px] animate-pulse bg-gray-200" />,
+});
+
+const SubscribeModal = dynamic(() => import("./subsCribeModal"), {
+  loading: () => null, // Modal doesn't need loading state
+});
 import {
   useGetBlogQuery,
   useGetBlogSubscribersQuery,

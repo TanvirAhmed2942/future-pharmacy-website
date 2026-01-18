@@ -1,5 +1,6 @@
 "use client";
 import React, { useMemo, useState } from "react";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -9,7 +10,6 @@ import {
   FiBookmark,
   FiShare2,
 } from "react-icons/fi";
-import Comment from "./Comment";
 import {
   useGetBlogDetailsByIdQuery,
   useGetBlogSubscribersQuery,
@@ -20,14 +20,25 @@ import {
 
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import SubscribeModal from "../subsCribeModal";
 import useShowToast from "@/hooks/useShowToast";
 import { imgUrl } from "@/lib/img_url";
 import Loader from "@/components/common/loader/Loader";
 import { useTranslations } from "next-intl";
 import { useAppSelector } from "@/store/hooks";
 import { selectIsLoggedIn } from "@/store/slices/userSlice/userSlice";
-import ShowAuthModal from "@/components/common/showforAuthModal/ShowAuthModal";
+
+// Lazy load components for better performance
+const Comment = dynamic(() => import("./Comment"), {
+  loading: () => null, // Comment sheet doesn't need loading state
+});
+
+const SubscribeModal = dynamic(() => import("../subsCribeModal"), {
+  loading: () => null, // Modal doesn't need loading state
+});
+
+const ShowAuthModal = dynamic(() => import("@/components/common/showforAuthModal/ShowAuthModal"), {
+  loading: () => null, // Modal doesn't need loading state
+});
 function BlogDetailsLayout() {
   const t = useTranslations("blog.details");
   const tBlog = useTranslations("blog");
