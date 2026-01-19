@@ -37,6 +37,8 @@ export interface MyRequestsResponse {
 export interface MyRequestsQuery {
   page?: number;
   limit?: number;
+  searchTerm?: string;
+  status?: string;
 }
 
 export const myRequestsApi = baseApi.injectEndpoints({

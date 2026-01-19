@@ -30,7 +30,13 @@
     "profileDropdown": {
       "goToDashboard": "Go to Dashboard",
       "myProfile": "My Profile",
-      "logout": "Logout"
+      "logout": "Logout",
+      "confirmLogout": {
+        "title": "Confirm Logout",
+        "message": "Are you sure you want to logout? You will need to login again to access your account.",
+        "cancel": "Cancel",
+        "confirm": "Logout"
+      }
     }
   },
   "home": {
@@ -1175,7 +1181,7 @@
     "articles": "Articles",
     "subscribe": "Subscribe",
     "subscribed": "Subscribed",
-    "searchPlaceholder": "Search topics: PBM, Part D, delivery, adherence...",
+    "searchPlaceholder": "Search by Blog Title or Description",
     "errorMessage": "Failed to load blogs. Please try again later.",
     "noBlogsFound": "No blogs found.",
     "pagination": {

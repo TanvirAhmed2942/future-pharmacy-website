@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useCallback } from "react";
 import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
+import useDebounce from "@/hooks/useDebounce";
 
 // Lazy load components for better performance
 const BlogCard = dynamic(() => import("./blogCard"), {
@@ -45,22 +46,38 @@ function BlogLayout() {
   const subscriberList = subscriberStatus?.data?.result?.data || [];
   const isSubscribedFromApi = subscriberList.some((item) => item.isSubscribed);
   const isSubscribed = isSubscriberUser || isSubscribedFromApi;
+
+  // Debounce search query to avoid too many API calls
+  const debouncedSearchQuery = useDebounce(searchQuery, 500);
+
+  // Build query params for API
+  const queryParams = useMemo(() => {
+    const params: {
+      page: number;
+      limit: number;
+      searchTerm?: string;
+    } = {
+      page: currentPage,
+      limit: 10,
+    };
+
+    if (debouncedSearchQuery.trim()) {
+      params.searchTerm = debouncedSearchQuery.trim();
+    }
+
+    return params;
+  }, [currentPage, debouncedSearchQuery]);
+
   const {
     data: blogResponse,
     isLoading,
     isError,
-  } = useGetBlogQuery(
-    {
-      page: currentPage,
-      limit: 10,
-    },
-    {
-      pollingInterval: 30000, // 30 seconds
-      refetchOnFocus: true,
-      refetchOnMountOrArgChange: true,
-      refetchOnReconnect: true,
-    }
-  );
+  } = useGetBlogQuery(queryParams, {
+    pollingInterval: 30000, // 30 seconds
+    refetchOnFocus: true,
+    refetchOnMountOrArgChange: true,
+    refetchOnReconnect: true,
+  });
 
   const blogs = blogResponse?.data?.data || [];
   const meta = blogResponse?.meta;
@@ -70,20 +87,18 @@ function BlogLayout() {
     setIsOpen(true);
   };
 
-  const handlePageChange = (page: number) => {
+  const handlePageChange = useCallback((page: number) => {
     if (page >= 1 && page <= (meta?.totalPage || 1)) {
       setCurrentPage(page);
       // Scroll to top when page changes
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
-  };
+  }, [meta?.totalPage]);
 
-  // Filter blogs based on search query
-  const filteredBlogs = blogs.filter(
-    (blog) =>
-      blog.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      blog.description.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const handleSearch = useCallback((value: string) => {
+    setSearchQuery(value);
+    setCurrentPage(1); // Reset to first page when searching
+  }, []);
 
   // Generate page numbers for pagination
   const generatePageNumbers = useMemo(() => {
@@ -200,7 +215,7 @@ function BlogLayout() {
             placeholder={t("searchPlaceholder")}
             className="flex-1 bg-gray-50 border-gray-200 rounded-lg px-4 py-2 h-10"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => handleSearch(e.target.value)}
           />
         </div>
 
@@ -214,17 +229,17 @@ function BlogLayout() {
         )}
 
         {/* Empty State */}
-        {!isLoading && !isError && filteredBlogs.length === 0 && (
+        {!isLoading && !isError && blogs.length === 0 && (
           <div className="flex justify-center items-center py-20">
             <p className="text-gray-500 text-lg">{t("noBlogsFound")}</p>
           </div>
         )}
 
         {/* Blog Grid - 4 columns */}
-        {!isLoading && !isError && filteredBlogs.length > 0 && (
+        {!isLoading && !isError && blogs.length > 0 && (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {filteredBlogs.map((blog) => (
+              {blogs.map((blog) => (
                 <BlogCard key={blog._id} blog={blog} />
               ))}
             </div>

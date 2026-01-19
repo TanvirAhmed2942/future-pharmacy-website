@@ -32,6 +32,7 @@ import {
   useGetPaymentQuery,
   PaymentItem,
 } from "@/store/Apis/paymentApi/paymentApi";
+import useDebounce from "@/hooks/useDebounce";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -39,13 +40,35 @@ export default function Payments() {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
-  const [dateRangeFilter, setDateRangeFilter] = useState("All");
   const router = useRouter();
 
-  const { data: paymentResponse } = useGetPaymentQuery({
-    page: currentPage,
-    limit: ITEMS_PER_PAGE,
-  });
+  // Debounce search query to avoid too many API calls
+  const debouncedSearchQuery = useDebounce(searchQuery, 500);
+
+  // Build query params for API
+  const queryParams = useMemo(() => {
+    const params: {
+      page: number;
+      limit: number;
+      searchTerm?: string;
+      status?: string;
+    } = {
+      page: currentPage,
+      limit: ITEMS_PER_PAGE,
+    };
+
+    if (debouncedSearchQuery.trim()) {
+      params.searchTerm = debouncedSearchQuery.trim();
+    }
+
+    if (statusFilter !== "All") {
+      params.status = statusFilter.toLowerCase();
+    }
+
+    return params;
+  }, [currentPage, debouncedSearchQuery, statusFilter]);
+
+  const { data: paymentResponse } = useGetPaymentQuery(queryParams);
 
   const transactions = useMemo<PaymentItem[]>(
     () => paymentResponse?.data?.result || [],
@@ -53,35 +76,14 @@ export default function Payments() {
   );
   const meta = paymentResponse?.data?.meta;
 
-  const filteredTransactions = useMemo(() => {
-    const q = searchQuery.toLowerCase();
-    const status = statusFilter.toLowerCase();
-
-    return transactions.filter((transaction) => {
-      const matchesSearch =
-        (transaction.transactionId || "").toLowerCase().includes(q) ||
-        (transaction.userId?.email || "").toLowerCase().includes(q) ||
-        (transaction.method || "").toLowerCase().includes(q);
-
-      const matchesStatus =
-        statusFilter === "All" ||
-        (transaction.status || "").toLowerCase() === status;
-
-      return matchesSearch && matchesStatus;
-    });
-  }, [transactions, searchQuery, statusFilter]);
-
-  const totalPages =
-    meta?.totalPage ||
-    Math.ceil(filteredTransactions.length / ITEMS_PER_PAGE) ||
-    1;
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const endIndex = startIndex + ITEMS_PER_PAGE;
-  const currentTransactions =
-    filteredTransactions.slice(startIndex, endIndex) || filteredTransactions;
+  // Use API response directly - no frontend filtering
+  const totalPages = meta?.totalPage || 1;
+  const totalItems = meta?.total || transactions.length;
 
   const getStatusColor = (status: string) => {
-    switch (status) {
+    switch (status.toLowerCase()) {
+      case "pending":
+        return "bg-yellow-100 text-yellow-700 hover:bg-yellow-100";
       case "paid":
         return "bg-green-100 text-green-700 hover:bg-green-100";
       case "failed":
@@ -134,6 +136,11 @@ export default function Payments() {
     setCurrentPage(1);
   }, []);
 
+  const handleStatusChange = useCallback((value: string) => {
+    setStatusFilter(value);
+    setCurrentPage(1);
+  }, []);
+
   return (
     <div className="w-full">
       <h1 className="text-2xl font-bold mb-6 text-gray-900">
@@ -144,7 +151,7 @@ export default function Payments() {
         <div className="relative flex-1">
           <Search className="size-5 absolute left-3 top-1/2 transform -translate-y-2 text-gray-400" />
           <Input
-            placeholder="Type Something"
+            placeholder="Search by Transaction ID"
             value={searchQuery}
             onChange={(e) => {
               handleSearch(e.target.value);
@@ -153,37 +160,14 @@ export default function Payments() {
           />
         </div>
 
-        <Select
-          value={dateRangeFilter}
-          onValueChange={(value) => {
-            setDateRangeFilter(value);
-            setCurrentPage(1);
-          }}
-        >
-          <SelectTrigger className="w-full sm:w-48 ">
-            <SelectValue placeholder="Date Range" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="All">Date Range</SelectItem>
-            <SelectItem value="Today">Today</SelectItem>
-            <SelectItem value="This Week">This Week</SelectItem>
-            <SelectItem value="This Month">This Month</SelectItem>
-          </SelectContent>
-        </Select>
-
-        <Select
-          value={statusFilter}
-          onValueChange={(value) => {
-            setStatusFilter(value);
-            setCurrentPage(1);
-          }}
-        >
+        <Select value={statusFilter} onValueChange={handleStatusChange}>
           <SelectTrigger className="w-full sm:w-48 ">
             <SelectValue placeholder="Status: All" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="All">Status: All</SelectItem>
-            <SelectItem value="Successful">Successful</SelectItem>
+            <SelectItem value="pending">Pending</SelectItem>
+            <SelectItem value="paid">Paid</SelectItem>
             <SelectItem value="Failed">Failed</SelectItem>
           </SelectContent>
         </Select>
@@ -211,7 +195,7 @@ export default function Payments() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {currentTransactions.length === 0 ? (
+            {transactions.length === 0 ? (
               <TableRow>
                 {Array.from({ length: 5 }).map((_, idx) => (
                   <TableCell key={idx} className="text-gray-700">
@@ -220,7 +204,7 @@ export default function Payments() {
                 ))}
               </TableRow>
             ) : (
-              currentTransactions.map((transaction) => {
+              transactions.map((transaction) => {
                 const id = transaction._id || "N/A";
                 const transactionId = transaction.transactionId || "N/A";
                 const amountText =
@@ -264,9 +248,9 @@ export default function Payments() {
 
       <div className="flex items-center justify-between mt-6">
         <p className="text-sm text-gray-600 w-full">
-          Showing {startIndex + 1} to{" "}
-          {Math.min(endIndex, filteredTransactions.length)} of{" "}
-          {filteredTransactions.length} entries
+          Showing {((currentPage - 1) * ITEMS_PER_PAGE) + 1} to{" "}
+          {Math.min(currentPage * ITEMS_PER_PAGE, totalItems)} of{" "}
+          {totalItems} entries
         </p>
 
         <div>

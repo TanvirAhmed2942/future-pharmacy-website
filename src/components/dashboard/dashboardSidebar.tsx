@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Bookmark, CreditCard, Inbox, LogOut } from "lucide-react";
 import { TbLayoutDashboard } from "react-icons/tb";
 import {
@@ -14,10 +15,12 @@ import {
 } from "@/components/ui/sidebar";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useAppDispatch } from "@/store/hooks";
 import { logout } from "@/store/slices/userSlice/userSlice";
 import { clearCheckoutData } from "@/store/slices/checkoutSlice";
+import { cn } from "@/lib/utils";
+import LogoutConfirmationModal from "@/components/common/logoutconfirmation/LogoutConfirmationModal";
 
 // Menu items.
 const items = [
@@ -50,9 +53,25 @@ const items = [
 
 export function DashboardSidebar() {
   const router = useRouter();
+  const pathname = usePathname();
   const dispatch = useAppDispatch();
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
-  const handleLogout = () => {
+  // Check if a link is active
+  const isActive = (url: string) => {
+    if (url === "/dashboard/overview") {
+      return pathname === "/dashboard/overview";
+    }
+    return pathname.startsWith(url);
+  };
+
+  // Show logout confirmation modal
+  const handleLogoutClick = () => {
+    setShowLogoutModal(true);
+  };
+
+  // Actually perform logout after confirmation
+  const confirmLogout = () => {
     dispatch(clearCheckoutData());
     dispatch(logout());
     // Also manually clear all persisted data from localStorage
@@ -76,11 +95,11 @@ export function DashboardSidebar() {
           <SidebarGroupLabel className="flex items-center justify-center my-10">
             {/* <div className="w-full h-full"> */}
             <Image
-              src="/nav/dashboard_logo.png"
+              src="/nav/Logo_footer.svg"
               alt="logo"
               width={1000}
               height={1000}
-              className="w-full h-14"
+              className="w-full h-20 object-contain"
             />
             {/* </div> */}
           </SidebarGroupLabel>
@@ -92,8 +111,8 @@ export function DashboardSidebar() {
                   return (
                     <SidebarMenuItem key={item.title}>
                       <SidebarMenuButton
-                        onClick={handleLogout}
-                        className="flex items-center gap-2 text-white cursor-pointer"
+                        onClick={handleLogoutClick}
+                        className="flex items-center gap-2 text-white cursor-pointer hover:text-red-500 active:text-red-500"
                       >
                         <item.icon />
                         <span>{item.title}</span>
@@ -103,12 +122,19 @@ export function DashboardSidebar() {
                 }
 
                 // Regular menu items with links
+                const active = isActive(item.url);
                 return (
                   <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
+                    <SidebarMenuButton 
+                      asChild
+                      isActive={active}
+                    >
                       <Link
                         href={item.url}
-                        className="flex items-center gap-2 text-white"
+                        className={cn(
+                          "flex items-center gap-2 text-white transition-colors hover:bg-white/20 hover:text-white",
+                          active && "bg-white/20 font-semibold hover:bg-white/20 hover:text-white"
+                        )}
                       >
                         <item.icon />
                         <span>{item.title}</span>
@@ -121,6 +147,13 @@ export function DashboardSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+
+      {/* Logout Confirmation Modal */}
+      <LogoutConfirmationModal
+        isOpen={showLogoutModal}
+        onClose={() => setShowLogoutModal(false)}
+        onConfirm={confirmLogout}
+      />
     </Sidebar>
   );
 }

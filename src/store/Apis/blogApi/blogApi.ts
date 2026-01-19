@@ -73,6 +73,7 @@ export interface BlogCommentsResponse {
 export interface BlogQueryParams {
   page?: number;
   limit?: number;
+  searchTerm?: string;
 }
 
 // Create comment input

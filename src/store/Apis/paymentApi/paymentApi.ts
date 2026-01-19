@@ -69,6 +69,8 @@ export interface SinglePaymentResponse {
 export interface PaymentQuery {
   page?: number;
   limit?: number;
+  searchTerm?: string;
+  status?: string;
 }
 
 export const paymentApi = baseApi.injectEndpoints({

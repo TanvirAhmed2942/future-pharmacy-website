@@ -32,6 +32,7 @@ import {
   MyRequestItem,
 } from "@/store/Apis/dashboard/myrequestApi/myrequestApi";
 import Loader from "@/components/common/loader/Loader";
+import useDebounce from "@/hooks/useDebounce";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -40,11 +41,37 @@ export default function MyRequests() {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
 
+  // Debounce search query to avoid too many API calls
+  const debouncedSearchQuery = useDebounce(searchQuery, 500);
+
+  // Build query params for API
+  const queryParams = useMemo(() => {
+    const params: {
+      page: number;
+      limit: number;
+      searchTerm?: string;
+      status?: string;
+    } = {
+      page: currentPage,
+      limit: ITEMS_PER_PAGE,
+    };
+
+    if (debouncedSearchQuery.trim()) {
+      params.searchTerm = debouncedSearchQuery.trim();
+    }
+
+    if (statusFilter !== "All") {
+      params.status = statusFilter.toLowerCase();
+    }
+
+    return params;
+  }, [currentPage, debouncedSearchQuery, statusFilter]);
+
   const {
     data: requestsResponse,
     isLoading,
     isError,
-  } = useGetMyRequestsQuery({ page: currentPage, limit: ITEMS_PER_PAGE });
+  } = useGetMyRequestsQuery(queryParams);
 
   const requests = useMemo<MyRequestItem[]>(
     () => requestsResponse?.data || [],
@@ -52,43 +79,22 @@ export default function MyRequests() {
   );
   const meta = requestsResponse?.meta;
 
-  // Filter requests based on search and status
-  const filteredRequests = useMemo(() => {
-    const q = searchQuery.toLowerCase();
-    const status = statusFilter.toLowerCase();
-
-    return requests.filter((request) => {
-      const matchesSearch =
-        request._id.toLowerCase().includes(q) ||
-        (request.legalName || "").toLowerCase().includes(q) ||
-        (request.pharmacyName || "").toLowerCase().includes(q) ||
-        (request.pickupAddress || "").toLowerCase().includes(q) ||
-        (request.deliveryAddress || "").toLowerCase().includes(q);
-
-      const matchesStatus =
-        statusFilter === "All" ||
-        (request.status || "").toLowerCase() === status;
-
-      return matchesSearch && matchesStatus;
-    });
-  }, [requests, searchQuery, statusFilter]);
-
-  // Pagination info from API (meta). If not available, fallback to filtered length.
-  const totalPages =
-    meta?.totalPage || Math.ceil(filteredRequests.length / ITEMS_PER_PAGE) || 1;
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const endIndex = startIndex + ITEMS_PER_PAGE;
-  const currentRequests =
-    filteredRequests.slice(startIndex, endIndex) || filteredRequests;
+  // Use API response directly - no frontend filtering
+  const totalPages = meta?.totalPage || 1;
+  const totalItems = meta?.total || requests.length;
 
   const getStatusColor = (status: string) => {
-    switch (status) {
+    switch (status.toLowerCase()) {
       case "pending":
         return "bg-yellow-100 text-yellow-700 hover:bg-yellow-100";
-      case "in-progress":
+      case "processing":
         return "bg-cyan-100 text-cyan-700 hover:bg-cyan-100";
       case "completed":
         return "bg-green-100 text-green-700 hover:bg-green-100";
+      case "delivered":
+        return "bg-blue-100 text-blue-700 hover:bg-blue-100";
+      case "cancelled":
+        return "bg-red-100 text-red-700 hover:bg-red-100";
       default:
         return "bg-gray-100 text-gray-700 hover:bg-gray-100";
     }
@@ -162,7 +168,7 @@ export default function MyRequests() {
         <div className="relative flex-1">
           <Search className="size-5 absolute left-3 top-1/2 transform -translate-y-2 text-gray-400 " />
           <Input
-            placeholder="Type Something"
+            placeholder="Search by Pharmacy Name or Delivery Address"
             value={searchQuery}
             onChange={(e) => {
               handleSearch(e.target.value);
@@ -181,9 +187,11 @@ export default function MyRequests() {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="All">Status: All</SelectItem>
-            <SelectItem value="In-Progress">In-Progress</SelectItem>
-            <SelectItem value="Pending">Pending</SelectItem>
-            <SelectItem value="Completed">Completed</SelectItem>
+            <SelectItem value="pending">Pending</SelectItem>
+            <SelectItem value="processing">Processing</SelectItem>
+            <SelectItem value="completed">Completed</SelectItem>
+            <SelectItem value="delivered">Delivered</SelectItem>
+            <SelectItem value="cancelled">Cancelled</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -213,7 +221,7 @@ export default function MyRequests() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {currentRequests.length === 0 ? (
+            {requests.length === 0 ? (
               <TableRow>
                 {Array.from({ length: 6 }).map((_, idx) => (
                   <TableCell key={idx} className="text-gray-700">
@@ -222,7 +230,7 @@ export default function MyRequests() {
                 ))}
               </TableRow>
             ) : (
-              currentRequests.map((request) => {
+              requests.map((request) => {
                 const requestId = request._id || "N/A";
                 const pharmacyName = request.pickupAddress || "N/A";
                 // const pickup = request.pickupAddress || "N/A";
@@ -273,9 +281,9 @@ export default function MyRequests() {
 
       <div className=" flex items-center justify-between mt-6 ">
         <p className="text-sm text-gray-600 w-full">
-          Showing {startIndex + 1} to{" "}
-          {Math.min(endIndex, filteredRequests.length)} of{" "}
-          {filteredRequests.length} entries
+          Showing {((currentPage - 1) * ITEMS_PER_PAGE) + 1} to{" "}
+          {Math.min(currentPage * ITEMS_PER_PAGE, totalItems)} of{" "}
+          {totalItems} entries
         </p>
 
         <div>

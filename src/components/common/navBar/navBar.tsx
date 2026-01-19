@@ -16,6 +16,7 @@ import {
 import { logout } from "@/store/slices/userSlice/userSlice";
 import { clearCheckoutData } from "@/store/slices/checkoutSlice";
 import { imgUrl } from "@/lib/img_url";
+import { useGetProfileQuery } from "@/store/Apis/profileApi/profileApi";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -26,6 +27,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { LogOut, LayoutDashboard } from "lucide-react";
 import { useTranslations } from "next-intl";
+import LogoutConfirmationModal from "@/components/common/logoutconfirmation/LogoutConfirmationModal";
 
 function NavBar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -40,6 +42,11 @@ function NavBar() {
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
   const [isPending, startTransition] = useTransition();
+  
+  // Fetch latest profile data from API (only if logged in)
+  const { data: profile } = useGetProfileQuery(undefined, {
+    skip: !isLoggedIn, // Only fetch if user is logged in
+  });
 
   const t = useTranslations("header");
 
@@ -54,14 +61,28 @@ function NavBar() {
     return "U";
   };
 
-  const userAvatar = user?.profile
-    ? imgUrl(user.profile) || "/testimonials/user.png"
-    : "/testimonials/user.png";
-  const userInitials = getUserInitials(user?.first_name, user?.last_name);
+  // Use profile data from API if available, otherwise fall back to Redux user data
+  const firstName = profile?.data?.first_name || user?.first_name;
+  const lastName = profile?.data?.last_name || user?.last_name;
+  const profileImage = profile?.data?.profile || user?.profile;
+
+  // Get user avatar URL with proper fallback
+  const getAvatarUrl = () => {
+    if (!profileImage || profileImage.trim() === "" || profileImage === "N/A") {
+      return "/testimonials/user.png";
+    }
+    const url = imgUrl(profileImage);
+    // Ensure we always return a valid URL (not empty string)
+    if (url && url.trim() !== "" && url !== "/testimonials/user.png") {
+      return url;
+    }
+    return "/testimonials/user.png";
+  };
+
+  const userAvatar = getAvatarUrl();
+  const userInitials = getUserInitials(firstName, lastName);
   const userName =
-    user?.first_name && user?.last_name
-      ? `${user.first_name} ${user.last_name}`
-      : user?.first_name || "User";
+    firstName && lastName ? `${firstName} ${lastName}` : firstName || "User";
 
   // Get locale from cookie or localStorage
   useEffect(() => {
@@ -142,6 +163,32 @@ function NavBar() {
     return pathname.startsWith(href);
   };
 
+  // Logout confirmation modal state
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+
+  // Show logout confirmation modal
+  const handleLogoutClick = () => {
+    setShowLogoutModal(true);
+  };
+
+  // Actually perform logout after confirmation
+  const confirmLogout = () => {
+    dispatch(clearCheckoutData());
+    dispatch(logout());
+    // Also manually clear all persisted data from localStorage
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("persist:checkout");
+      localStorage.removeItem("persist:root");
+      // Clear any other persist keys that might exist
+      Object.keys(localStorage).forEach((key) => {
+        if (key.startsWith("persist:")) {
+          localStorage.removeItem(key);
+        }
+      });
+    }
+    router.push("/");
+  };
+
   return (
     <div className="bg-[#1a0a1a] text-white sticky top-0 z-50">
       {/* Main Navigation */}
@@ -181,7 +228,14 @@ function NavBar() {
                   <DropdownMenuTrigger asChild>
                     <button className="cursor-pointer focus:outline-none focus:ring-2 focus:ring-peter focus:ring-offset-2 rounded-full">
                       <Avatar className="w-8 h-8">
-                        <AvatarImage src={userAvatar} alt={userName} />
+                        <AvatarImage 
+                          src={userAvatar} 
+                          alt={userName}
+                          onError={(e) => {
+                            // If image fails to load, the fallback will show automatically
+                            e.currentTarget.style.display = 'none';
+                          }}
+                        />
                         <AvatarFallback>{userInitials}</AvatarFallback>
                       </Avatar>
                     </button>
@@ -203,22 +257,7 @@ function NavBar() {
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
-                      onClick={() => {
-                        dispatch(clearCheckoutData());
-                        dispatch(logout());
-                        // Also manually clear all persisted data from localStorage
-                        if (typeof window !== "undefined") {
-                          localStorage.removeItem("persist:checkout");
-                          localStorage.removeItem("persist:root");
-                          // Clear any other persist keys that might exist
-                          Object.keys(localStorage).forEach((key) => {
-                            if (key.startsWith("persist:")) {
-                              localStorage.removeItem(key);
-                            }
-                          });
-                        }
-                        router.push("/");
-                      }}
+                      onClick={handleLogoutClick}
                       className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50"
                     >
                       <LogOut className="mr-2 h-4 w-4" />
@@ -240,8 +279,11 @@ function NavBar() {
           {/* Desktop Layout - Original */}
           <div className="hidden lg:flex items-center justify-between w-full">
             {/* Logo */}
-            <div className="flex items-center">
-              <div className="relative w-48 h-16">
+            <div className="flex items-center flex-shrink-0">
+              <div className={cn(
+                "relative h-16",
+                isSpanish ? "w-40 xl:w-48" : "w-48"
+              )}>
                 <Link href="/">
                   <Image
                     src={"/nav/logo_last.svg"}
@@ -256,13 +298,16 @@ function NavBar() {
             </div>
 
             {/* Desktop Navigation */}
-            <div className="flex items-center space-x-8">
+            <div className={cn(
+              "flex items-center",
+              isSpanish ? "space-x-4 xl:space-x-6" : "space-x-8"
+            )}>
               {navItems.map((item, index) => (
                 <div key={index} className="relative">
                   <Link
                     href={item.href}
                     className={cn(
-                      "text-white hover:text-[#ba5fb0] transition-colors",
+                      "text-white hover:text-[#ba5fb0] transition-colors whitespace-nowrap text-sm xl:text-base",
                       isActive(item.href) && "border-b-2 py-1 border-[#8d4585]"
                     )}
                   >
@@ -281,7 +326,7 @@ function NavBar() {
                   <span
                     suppressHydrationWarning
                     className={cn(
-                      "text-white hover:text-[#ba5fb0] transition-colors cursor-pointer",
+                      "text-white hover:text-[#ba5fb0] transition-colors cursor-pointer whitespace-nowrap text-sm xl:text-base",
                       (isActive("/independent-pharmacies") ||
                         isActive("/earn-as-driver") ||
                         isActive("/investors") ||
@@ -306,13 +351,16 @@ function NavBar() {
                 </div>
 
                 {isBusinessDropdownOpen && (
-                  <div className="absolute top-full left-0  w-64 bg-white rounded-lg shadow-lg py-2 z-50">
+                  <div className={cn(
+                    "absolute top-full left-0 bg-white rounded-lg shadow-lg py-2 z-50",
+                    isSpanish ? "w-72" : "w-64"
+                  )}>
                     {businessItems.map((item, index) => (
                       <Link
                         key={index}
                         href={item.href}
                         className={cn(
-                          "block px-4 py-2 text-gray-800 hover:bg-gray-100 transition-colors rounded-md mx-2",
+                          "block px-4 py-2 text-gray-800 hover:bg-gray-100 transition-colors rounded-md mx-2 text-sm",
                           isActive(item.href) && "bg-gray-100 font-medium"
                         )}
                       >
@@ -345,13 +393,23 @@ function NavBar() {
             </div>
 
             {/* Desktop Action Buttons */}
-            <div className="flex items-center space-x-4">
+            <div className={cn(
+              "flex items-center flex-shrink-0",
+              isSpanish ? "space-x-2 xl:space-x-4" : "space-x-4"
+            )}>
               {isLoggedIn ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <button className="cursor-pointer focus:outline-none focus:ring-2 focus:ring-peter focus:ring-offset-2 rounded-full">
                       <Avatar className="w-10 h-10">
-                        <AvatarImage src={userAvatar} alt={userName} />
+                        <AvatarImage 
+                          src={userAvatar} 
+                          alt={userName}
+                          onError={(e) => {
+                            // If image fails to load, the fallback will show automatically
+                            e.currentTarget.style.display = 'none';
+                          }}
+                        />
                         <AvatarFallback>{userInitials}</AvatarFallback>
                       </Avatar>
                     </button>
@@ -373,22 +431,7 @@ function NavBar() {
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
-                      onClick={() => {
-                        dispatch(clearCheckoutData());
-                        dispatch(logout());
-                        // Also manually clear all persisted data from localStorage
-                        if (typeof window !== "undefined") {
-                          localStorage.removeItem("persist:checkout");
-                          localStorage.removeItem("persist:root");
-                          // Clear any other persist keys that might exist
-                          Object.keys(localStorage).forEach((key) => {
-                            if (key.startsWith("persist:")) {
-                              localStorage.removeItem(key);
-                            }
-                          });
-                        }
-                        router.push("/");
-                      }}
+                      onClick={handleLogoutClick}
                       className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50"
                     >
                       <LogOut className="mr-2 h-4 w-4" />
@@ -545,9 +588,9 @@ function NavBar() {
 
       {/* Contact Information */}
       <div className="bg-[#1a0a1a] border-t border-gray-800">
-        <div className="container mx-auto px-4 sm:px-18  py-3">
-          {/* Mobile Layout - Collapsible */}
-          <div className="block sm:hidden">
+        <div className="container mx-auto px-4 md:px-6 lg:px-8 py-3">
+          {/* Mobile Layout - Collapsible (< 768px) */}
+          <div className="block md:hidden">
             {/* Toggle Button */}
             <button
               onClick={() => setIsContactSectionOpen(!isContactSectionOpen)}
@@ -600,38 +643,114 @@ function NavBar() {
             </div>
           </div>
 
-          {/* Desktop Layout - Side by Side */}
-          <div className="hidden sm:flex items-center justify-between text-sm text-white">
-            {/* Contact Section */}
-            <div className="flex items-center gap-4">
-              <span>{t("bottomHeader.contactUsText")}</span>
-              <span className="text-peter font-medium">+1 973 961 1345</span>
+          {/* Tablet Layout - Two Rows (768px - 1023px) */}
+          <div className="hidden md:flex lg:hidden flex-col gap-3 text-sm text-white">
+            {/* First Row - Contact Info */}
+            <div className={cn(
+              "flex items-center flex-wrap gap-2",
+              isSpanish && "gap-2"
+            )}>
+              <span className={isSpanish ? "text-xs" : ""}>{t("bottomHeader.contactUsText")}</span>
+              <span className="text-peter font-medium whitespace-nowrap">+1 973 961 1345</span>
               <div className="w-px h-4 bg-gray-600"></div>
-              <span>{t("bottomHeader.mailUs")}</span>
+              <span className={isSpanish ? "text-xs" : ""}>{t("bottomHeader.mailUs")}</span>
               <a
                 href="mailto:support@optimushs.com"
-                className="text-peter hover:underline font-medium"
+                className="text-peter hover:underline font-medium whitespace-nowrap"
+              >
+                support@optimushs.com
+              </a>
+            </div>
+
+            {/* Second Row - Business Hours */}
+            <div className="flex items-center gap-2">
+              <Clock className="w-4 h-4 text-purple-400 flex-shrink-0" />
+              <div className={cn(
+                "flex items-center gap-2 text-sm flex-wrap",
+                isSpanish && "gap-2"
+              )}>
+                <span className={cn(
+                  "border-r border-gray-600 pr-2",
+                  isSpanish && "text-xs pr-2"
+                )}>
+                  {t("bottomHeader.businessHoursText")}
+                </span>
+                <span className={cn(
+                  "border-r border-gray-600 pr-2",
+                  isSpanish && "text-xs pr-2"
+                )}>
+                  {t("bottomHeader.businessHoursText2")}
+                </span>
+                <span className={isSpanish ? "text-xs" : ""}>{t("bottomHeader.businessHoursText3")}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Desktop Layout - Side by Side (1024px+) */}
+          <div className={cn(
+            "hidden lg:flex text-sm text-white",
+            isSpanish 
+              ? "flex-col gap-3 2xl:flex-row 2xl:items-center 2xl:justify-between 2xl:gap-0" 
+              : "items-center justify-between"
+          )}>
+            {/* Contact Section */}
+            <div className={cn(
+              "flex items-center flex-wrap gap-2 xl:gap-4",
+              isSpanish && "gap-2"
+            )}>
+              <span className={cn(
+                "whitespace-nowrap",
+                isSpanish && "text-xs xl:text-sm"
+              )}>{t("bottomHeader.contactUsText")}</span>
+              <span className="text-peter font-medium whitespace-nowrap">+1 973 961 1345</span>
+              <div className="w-px h-4 bg-gray-600"></div>
+              <span className={cn(
+                "whitespace-nowrap",
+                isSpanish && "text-xs xl:text-sm"
+              )}>{t("bottomHeader.mailUs")}</span>
+              <a
+                href="mailto:support@optimushs.com"
+                className="text-peter hover:underline font-medium whitespace-nowrap"
               >
                 support@optimushs.com
               </a>
             </div>
 
             {/* Business Hours Section */}
-            <div className="flex items-center gap-2 mr-3">
+            <div className={cn(
+              "flex items-center gap-2 flex-shrink-0",
+              isSpanish ? "2xl:mr-3" : "mr-3"
+            )}>
               <Clock className="w-4 h-4 text-purple-400" />
-              <div className="flex items-center gap-4 text-sm">
-                <span className="border-r border-gray-600 pr-2">
+              <div className={cn(
+                "flex items-center gap-2 xl:gap-4 text-sm flex-wrap",
+                isSpanish && "gap-2 text-xs xl:text-sm"
+              )}>
+                <span className={cn(
+                  "border-r border-gray-600 pr-2 whitespace-nowrap",
+                  isSpanish && "pr-2"
+                )}>
                   {t("bottomHeader.businessHoursText")}
                 </span>
-                <span className="border-r border-gray-600 pr-2">
+                <span className={cn(
+                  "border-r border-gray-600 pr-2 whitespace-nowrap",
+                  isSpanish && "pr-2"
+                )}>
                   {t("bottomHeader.businessHoursText2")}
                 </span>
-                <span>{t("bottomHeader.businessHoursText3")}</span>
+                <span className="whitespace-nowrap">{t("bottomHeader.businessHoursText3")}</span>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Logout Confirmation Modal */}
+      <LogoutConfirmationModal
+        isOpen={showLogoutModal}
+        onClose={() => setShowLogoutModal(false)}
+        onConfirm={confirmLogout}
+      />
     </div>
   );
 }
