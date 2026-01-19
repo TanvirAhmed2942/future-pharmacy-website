@@ -1,43 +1,45 @@
-"use client";
-
 import React from "react";
 import InvestorsLayout from "@/components/main/investors/investorsLayout";
-import { metadata } from "@/lib/metadata";
+import type { Metadata } from "next";
 
-metadata.title = "Investors | Optimus Health Solutions";
-metadata.description = "Investors page of Optimus Health Solutions";
-metadata.icons = {
-  icon: "/icon.svg",
-};
-metadata.keywords = ["Investors", "Optimus Health Solutions", "Investors Page", "Investors Services", "Investors Benefits", "Invest in Optimus Health Solutions","Investors Inquiry", "Investors Inquiry Form", "Investors Relations","Pharmacy for Future"];
-metadata.authors = [{ name: "Optimus Health Solutions" }];
-metadata.robots = "index, follow";
-metadata.openGraph = {
-  title: metadata.title,
-  description: metadata.description,
-  images: "/icon.svg",
-};
-metadata.twitter = {
-  card: "summary_large_image",
-  title: metadata.title,
-  description: metadata.description,
-  images: "/icon.svg",
-};
-metadata.alternates = {
-  canonical: "https://optimushealthsolutions.com/investors",
-  languages: {
-    "en": "https://optimushealthsolutions.com/investors",
-    "es": "https://optimushealthsolutions.com/investors",
+export const metadata: Metadata = {
+  title: "Investors | Optimus HS",
+  description: "Investors page of Optimus Health Solutions",
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
   },
-};
-metadata.category = "health";
-metadata.applicationName = "Optimus Health Solutions";
-metadata.publisher = "Optimus Health Solutions";
-metadata.creator = "Optimus Health Solutions";
-metadata.formatDetection = {
-  email: false,
-  address: false,
-  telephone: false,
+  keywords: ["Investors", "Optimus Health Solutions", "Investors Page", "Investors Services", "Investors Benefits", "Invest in Optimus Health Solutions", "Investors Inquiry", "Investors Inquiry Form", "Investors Relations", "Pharmacy for Future"],
+  authors: [{ name: "Optimus Health Solutions" }],
+  robots: "index, follow",
+  openGraph: {
+    title: "Investors | Optimus HS",
+    description: "Investors page of Optimus Health Solutions",
+    images: "/icon.svg",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Investors | Optimus HS",
+    description: "Investors page of Optimus Health Solutions",
+    images: "/icon.svg",
+  },
+  alternates: {
+    canonical: "https://optimushs.com/investors",
+    languages: {
+      "en": "https://optimushs.com/investors",
+      "es": "https://optimushs.com/investors",
+    },
+  },
+  category: "health",
+  applicationName: "Optimus HS",
+  publisher: "Optimus Health Solutions",
+  creator: "Optimus Health Solutions",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
 };
 function page() {
   return (

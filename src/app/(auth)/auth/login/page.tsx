@@ -1,39 +1,46 @@
-import { metadata } from "@/lib/metadata";
 import Login from "@/components/auth/login/login";
 import React from "react";
+import type { Metadata } from "next";
 
-
-metadata.title = "Login | Optimus Health Solutions";
-metadata.description = "Login to your account to continue";
-metadata.icons = {
-  icon: "/icon.svg",
-};
-metadata.keywords = ["Login", "Optimus Health Solutions"];
-metadata.authors = [{ name: "Optimus Health Solutions" }];
-metadata.robots = "index, follow";
-metadata.openGraph = {
-  title: metadata.title,
-  description: metadata.description,
-  images: "/icon.svg",
-};
-metadata.twitter = {
-  card: "summary_large_image",
-  title: metadata.title,
-  description: metadata.description,
-  images: "/icon.svg",
-};
-metadata.alternates = {
-  canonical: "https://optimushealthsolutions.com/login",
-  languages: {
-    "en": "https://optimushealthsolutions.com/login",
-    "es": "https://optimushealthsolutions.com/login",
+export const metadata: Metadata = {
+  title: "Login | Optimus HS",
+  description: "Login to your account to continue",
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
+  keywords: ["Login", "Optimus HS"],
+  authors: [{ name: "Optimus Health Solutions" }],
+  robots: "index, follow",
+  openGraph: {
+    title: "Login | Optimus HS",
+    description: "Login to your account to continue",
+    images: "/icon.svg",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Login | Optimus HS",
+    description: "Login to your account to continue",
+    images: "/icon.svg",
+  },
+  alternates: {
+    canonical: "https://optimushs.com/auth/login",
+    languages: {
+      "en": "https://optimushs.com/auth/login",
+      "es": "https://optimushs.com/auth/login",
+    },
+  },
+  category: "health",
+  applicationName: "Optimus HS",
+  publisher: "Optimus Health Solutions",
+  creator: "Optimus Health Solutions",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
   },
 };
-
-metadata.category = "health";
-metadata.applicationName = "Optimus Health Solutions";
-metadata.publisher = "Optimus Health Solutions";
-metadata.creator = "Optimus Health Solutions";
 
 
 function page() {

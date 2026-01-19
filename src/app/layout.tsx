@@ -6,6 +6,18 @@ import { getMessages, getLocale } from "next-intl/server";
 import ReduxProvider from "@/store/ReduxProvider";
 import { Toaster } from "@/components/ui/sonner";
 import AuthRestorer from "@/components/common/AuthRestorer";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://optimushs.com"),
+  title: "Optimus HS",
+  description: "Optimus Health Solutions - Your fast and reliable gateway to local pharmacies",
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
+};
 
 const inter = Inter({
   variable: "--font-inter",

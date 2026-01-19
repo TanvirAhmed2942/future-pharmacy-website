@@ -2,8 +2,30 @@ import type { Metadata } from "next";
 import Image from "next/image";
 
 export const metadata: Metadata = {
-  title: "Auth",
-  description: "Auth",
+  title: "Auth | Optimus HS",
+  description: "Authentication page of Optimus Health Solutions",
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
+  keywords: ["Auth", "Authentication", "Login", "Signup", "Optimus Health Solutions", "Optimus HS"],
+  authors: [{ name: "Optimus Health Solutions" }],
+  robots: "index, follow",
+  openGraph: {
+    title: "Auth | Optimus HS",
+    description: "Authentication page of Optimus Health Solutions",
+    images: "/icon.svg",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Auth | Optimus HS",
+    description: "Authentication page of Optimus Health Solutions",
+    images: "/icon.svg",
+  },
+  applicationName: "Optimus Health Solutions",
+  publisher: "Optimus Health Solutions",
+  creator: "Optimus Health Solutions",
 };
 
 export default function AuthLayout({

@@ -5,6 +5,13 @@ const withNextIntl = createNextIntlPlugin("./i18n/request.js");
 
 const nextConfig: NextConfig = {
   trailingSlash: false,
+  // swcMinify is removed
+  compiler: {
+    // Removes console.log & console.info in production
+    removeConsole: {
+      exclude: ["error", "warn"], // keeps console.error & console.warn
+    },
+  },
   images: {
     remotePatterns: [
       { hostname: "images.unsplash.com" },
