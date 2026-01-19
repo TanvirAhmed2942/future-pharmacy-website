@@ -24,7 +24,7 @@
       "mailUs": "Email us:",
       "businessHours": "Business Hours",
       "businessHoursText": "Mon-Fri: 8a.m.-7p.m.",
-      "businessHoursText2": "Sat: 8a.m.-1p.m.",
+      "businessHoursText2": "Sat: 10a.m.-4p.m.",
       "businessHoursText3": "Sun: Closed"
     },
     "profileDropdown": {
@@ -99,7 +99,7 @@
     "servicesWeOffer": {
       "headline": "Services We Offer",
       "headlineBold": "Request prescription delivery from any local pharmacy of your choice. Fast, reliable, and delivered when and where you need it.",
-      "description": "When you refill, transfer prescriptions, or book essential care services using our platform, you connect with local pharmacies in your area.Together, we strengthen our communities and help independent pharmacies thrive.",
+      "description": "When you refill, transfer prescriptions, or book essential care services using our platform, you connect with local pharmacies in your area. Together, we strengthen our communities and help independent pharmacies thrive.",
       "services": [
         {
           "title": "Request a Prescription Delivery",
@@ -125,7 +125,7 @@
     },
     "ourStory": {
       "headline": "Our Story",
-      "description_1st": "We Founded Optimus Health Solutions on a simple belief that no one should have to struggle to get their prescriptions from local pharmacies, and no community should lose its trusted independent pharmacy.",
+      "description_1st": "We founded Optimus Health Solutions on a simple belief that no one should have to struggle to get their prescriptions from local pharmacies, and no community should lose its trusted independent pharmacy.",
       "description_2nd": "By connecting patients with nearby local pharmacies, we make care faster, more personal, and closer to home.",
       "buttonText": "Click to Learn More"
     },
@@ -194,7 +194,7 @@
     },
     "vision": {
       "title": "Our Vision",
-      "description": "To be part of a future where patients receive prescriptions and care from their local pharmacy quickly, securely, and effortlessly, while every independent pharmacy continues to remain a vital part of its community."
+      "description": "A future where patients receive prescriptions and care from their local pharmacy quickly, securely and effortlessly — and independent pharmacies remain vital to every community."
     },
     "ourStory": {
       "headline": "Our Story",

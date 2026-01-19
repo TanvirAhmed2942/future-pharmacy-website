@@ -24,7 +24,7 @@
       "mailUs": "Envíanos un mensaje:",
       "businessHours": "Horarios de atención",
       "businessHoursText": "Lunes a Viernes: 8a.m.-7p.m.",
-      "businessHoursText2": "Sábado: 8a.m.-1p.m.",
+      "businessHoursText2": "Sábado: 10a.m.-4p.m.",
       "businessHoursText3": "Domingo: Cerrado"
     },
     "profileDropdown": {
@@ -124,12 +124,13 @@
         }
       ]
     },
-    "ourStory": {
-      "headline": "Nuestra Historia",
-      "description_1st": "Fundamos Optimus Health Solutions en una creencia simple: que nadie debería tener que luchar para obtener sus recetas de farmacias locales, y que ninguna comunidad debería perder su farmacia independiente confiable.",
-      "description_2nd": "Al conectar a los pacientes con farmacias locales cercanas, hacemos que el cuidado sea más rápido, personal y cercano a la casa.",
-      "buttonText": "Click para Aprender Más"
-    },
+    
+      "ourStory": {
+        "headline": "Nuestra Historia",
+        "description_1st": "Fundamos Optimus Health Solutions con la simple creencia de que nadie debería tener dificultades para obtener sus recetas en las farmacias locales, y que ninguna comunidad debería perder su farmacia independiente de confianza.",
+        "description_2nd": "Al conectar a los pacientes con farmacias locales cercanas, hacemos que la atención sea más rápida, más personal y más cercana al hogar.",
+        "buttonText": "Haz clic para saber más"
+      },
     "ourImpact": {
       "headline": "Nuestro Impacto",
       "stats": [
@@ -193,9 +194,9 @@
       "title": "Nuestra Misión",
       "description": "Hacer que el acceso de los pacientes a las recetas de sus farmacias locales sea simple y conveniente, al mismo tiempo que se preserva la independencia de las farmacias en las que las comunidades confían."
     },
-    "vision": {
-      "title": "Nuestra Visión",
-      "description": "Ser parte de un futuro en el que los pacientes reciban recetas y atención de su farmacia local de manera rápida, segura y sin esfuerzo, mientras cada farmacia independiente sigue siendo una parte vital de su comunidad."
+      "vision": {
+        "title": "Nuestra Visión",
+      "description": "Un futuro en el que los pacientes reciben sus recetas y atención de su farmacia local de forma rápida, segura y sin esfuerzo, y en el que las farmacias independientes siguen siendo vitales para cada comunidad."
     },
     "ourStory": {
       "headline": "Nuestra Historia",
