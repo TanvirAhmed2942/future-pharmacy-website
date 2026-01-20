@@ -498,7 +498,7 @@
   "investors": {
     "banner": {
       "title": "Invest in the Future of Prescription Delivery",
-      "description": "Join us in revolutionizing prescription delivery with a scalable bussiness modal built around local pharmacies and rooted in local communities "
+      "description": "Join us in revolutionizing prescription delivery with a scalable bussiness model built around local pharmacies and rooted in local communities "
     },
     "whyInvestWithUs": {
       "headline": "Why Invest with Us?",
@@ -818,7 +818,7 @@
     "consent": {
       "label": "I consent to Optimus Health Solutions coordinating my refill and contacting my pharmacy to refill my prescription.",
       "required": "You must consent to refill your prescriptions",
-      "agreementText": "By selecting Agree and Continue, you agree to the",
+      "agreementText": "By clicking Submit Refill Request, you agree to the",
       "termsOfService": "Terms of Service",
       "and": " and ",
       "privacyPolicy": "Privacy Policy"
@@ -923,7 +923,7 @@
     "consent": {
       "label": "I consent to Optimus Health Solutions coordinating my transfer and contacting my current pharmacy to transfer my prescription. I understand that this process may take 1-2 business days.",
       "required": "You must consent to transfer your prescriptions",
-      "agreementText": "By selecting Agree and Continue, you agree to the",
+      "agreementText": "By clicking Submit Transfer Request, you agree to the",
       "termsOfService": "Terms of Service",
       "and": " and ",
       "privacyPolicy": "Privacy Policy"
@@ -1027,7 +1027,7 @@
     "consent": {
       "label": "I consent to Optimus Health Solutions coordinating my booking appointment and contacting my pharmacy. I understand that this process may take 1-2 business days.",
       "required": "You must consent to proceed.",
-      "agreementText": "By selecting Agree and Continue, you agree to the",
+      "agreementText": "By clicking Submit Schedule Request, you agree to the",
       "termsOfService": "Terms of Service",
       "and": " and ",
       "privacyPolicy": "Privacy Policy"

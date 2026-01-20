@@ -37,7 +37,7 @@ const ManContactUs = dynamic(() => import("@/components/main/home/manContactUs")
 
 function Home() {
   return (
-    <div className="min-h-screen  ">
+    <div className="min-h-screen overflow-hidden  ">
       <div className="container mx-auto space-y-4">
         <MapAndFormSection />
         <Partners />

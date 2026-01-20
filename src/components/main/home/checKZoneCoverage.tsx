@@ -10,6 +10,7 @@ import { useLazyGetZipcodeQuery } from "@/store/Apis/zipcodeApi/zipcodeApi";
 import { toast } from "sonner";
 import { useEffect } from "react";
 import { useTranslations } from "next-intl";
+import Link from "next/link";
 
 function CheckZoneCoverage() {
   const t = useTranslations("checkZoneCoverage");
@@ -106,7 +107,7 @@ function CheckZoneCoverage() {
         </div>
       )}
 
-      <div className="relative overflow-hidden">
+      <div className="relative overflow-visible">
         <section
           className="py-8 md:py-8 w-full flex flex-col items-center justify-center transition-all duration-500"
           style={{
@@ -167,7 +168,7 @@ function CheckZoneCoverage() {
         </section>
 
         <section
-          className="absolute top-0 left-0 w-full py-8 md:py-16 bg-white transition-all duration-500"
+          className="absolute top-0 left-0 w-full min-h-full py-8 md:py-16 bg-white transition-all duration-500 z-10"
           style={{
             transform:
               isCovered === false ? "translateX(0)" : "translateX(100%)",
@@ -184,6 +185,8 @@ function CheckZoneCoverage() {
             isLoading={isLoading}
           />
         </section>
+
+       
       </div>
     </>
   );
@@ -240,7 +243,7 @@ const NotifyCoverage = ({
   };
   return (
     <>
-      <div className="max-w-3xl mx-auto px-4 md:px-0 py-4 md:py-8  ">
+      <div className="max-w-3xl mx-auto px-4 md:px-4 lg:px-6 xl:px-8 py-4 md:py-8 ">
         {/* Back button */}
         <Button
           variant="ghost"
@@ -296,19 +299,34 @@ const NotifyCoverage = ({
         </div>
 
         {/* Terms */}
-        <p className="text-sm text-gray-600">
+        <p className="text-sm md:text-base text-gray-600 w-full">
           {t("termsText")}{" "}
-          <a href="#" className="text-peter hover:underline">
+          <Link 
+            href="/policies/Terms of Service.pdf" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-peter hover:underline"
+          >
             {t("termsOfService")}
-          </a>
+          </Link>
           ,{" "}
-          <a href="#" className="text-peter hover:underline">
+          <Link 
+            href="/policies/Privacy Policy.pdf" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-peter hover:underline"
+          >
             {t("privacyPolicy")}
-          </a>
+          </Link>
           , and{" "}
-          <a href="#" className="text-peter hover:underline">
+          <Link 
+            href="/policies/Privacy Policy.pdf" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-peter hover:underline"
+          >
             {t("hipaaPolicy")}
-          </a>
+          </Link>
         </p>
       </div>
 

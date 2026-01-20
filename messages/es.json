@@ -841,13 +841,13 @@
       "placeholder": "Cualquier instrucción especial, alergias o información adicional que debamos saber..."
     },
     "consent": {
-      "label": "Doy mi consentimiento para que Optimus Health Solutions coordine mi resurtido y se comunique con mi farmacia para volver a surtir mi receta.",
-      "required": "Debe dar su consentimiento para resurtir sus recetas",
-      "agreementText": "Al seleccionar Aceptar y Continuar, acepta los",
-      "termsOfService": "Términos de Servicio",
-      "and": " y la ",
-      "privacyPolicy": "Política de Privacidad"
-    },
+  "label": "Doy mi consentimiento para que Optimus Health Solutions coordine mi resurtido y se comunique con mi farmacia para resurtir mi receta.",
+  "required": "Debe otorgar su consentimiento para resurtir sus recetas",
+  "agreementText": "Al hacer clic en Enviar solicitud de resurtido, usted acepta los",
+  "termsOfService": "Términos del servicio",
+  "and": " y ",
+  "privacyPolicy": "Política de privacidad"
+},
 
     "submitting": "Enviando...",
     "submitButton": "Enviar Solicitud de Renovación"
@@ -926,7 +926,7 @@
     "consent": {
       "label": "Doy mi consentimiento para que Optimus Health Solutions coordine mi transferencia y se comunique con mi farmacia actual para transferir mi receta. Entiendo que este proceso puede tardar entre 1 y 2 días hábiles.",
       "required": "Debe dar su consentimiento para transferir sus recetas",
-      "agreementText": "Al seleccionar Aceptar y Continuar, acepta los",
+      "agreementText": "Al hacer clic en Enviar Solicitud de Transferencia, acepta los",
       "termsOfService": "Términos de Servicio",
       "and": " y la ",
       "privacyPolicy": "Política de Privacidad"
@@ -1030,7 +1030,7 @@
     "consent": {
       "label": "Doy mi consentimiento para que Optimus Health Solutions coordine mi cita y se comunique con mi farmacia. Entiendo que este proceso puede tardar entre 1 y 2 días hábiles.",
       "required": "Debe dar su consentimiento para continuar.",
-      "agreementText": "Al seleccionar Aceptar y Continuar, acepta los",
+      "agreementText": "Al hacer clic en Enviar Solicitud de Programación, acepta los",
       "termsOfService": "Términos de Servicio",
       "and": " y la ",
       "privacyPolicy": "Política de Privacidad"
