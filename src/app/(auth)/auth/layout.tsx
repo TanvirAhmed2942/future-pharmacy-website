@@ -34,11 +34,11 @@ export default function AuthLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="antialiased bg-white">
-      <div className="w-full min-h-screen flex flex-col lg:flex-row items-center lg:justify-between relative">
+    <div className="antialiased ">
+      <div className="w-full min-h-screen flex flex-col lg:flex-row items-center lg:justify-between relative overflow-hidden">
         {/* Left Section - Purple Background with Image */}
-        <div className="w-full lg:w-1/2 h-screen lg:h-screen bg-peter lg:rounded-tr-4xl lg:rounded-br-4xl lg:rounded-bl-none flex items-center justify-center relative z-0 lg:z-auto">
-          <div className="w-10/12 h-10/12 max-w-lg max-h-lg aspect-square relative">
+        <div className="w-full lg:w-1/2 h-screen lg:h-screen bg-peter lg:rounded-tr-4xl lg:rounded-br-4xl lg:rounded-bl-none flex items-center justify-center relative z-0 lg:z-auto py-4 lg:py-8">
+          <div className="w-9/12 h-9/12 max-w-md max-h-md aspect-square relative">
             <Image
               src="/auth/auth-left-img.png"
               alt="logo"
@@ -50,7 +50,7 @@ export default function AuthLayout({
           </div>
         </div>
         {/* Right Section - Login Form */}
-        <div className="w-full lg:w-1/2 absolute lg:relative top-0 left-0 lg:top-auto lg:left-auto z-10 lg:z-auto flex items-center justify-center min-h-screen lg:min-h-0">
+        <div className="w-full lg:w-1/2 absolute lg:relative top-0 left-0 lg:top-auto lg:left-auto z-10 lg:z-auto flex items-center justify-center min-h-screen lg:min-h-0 py-2 lg:py-3 overflow-y-auto lg:overflow-y-visible">
           {children}
         </div>
       </div>

@@ -31,6 +31,7 @@ interface SignupFormData {
 function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const [agreeToTerms, setAgreeToTerms] = useState(false);
+  const [hasAttemptedSubmit, setHasAttemptedSubmit] = useState(false);
   const router = useRouter();
   const [signupMutation, { isLoading }] = useSignupMutation();
   const { showSuccess, showError } = useShowToast();
@@ -53,6 +54,7 @@ function Signup() {
   });
 
   const onSubmit = async (data: SignupFormData) => {
+    setHasAttemptedSubmit(true);
     if (!agreeToTerms) {
       showError({ message: "You must agree to the Terms & Privacy Policy" });
       return;
@@ -132,6 +134,7 @@ function Signup() {
         // Reset form on failure
         reset();
         setAgreeToTerms(false);
+        setHasAttemptedSubmit(false);
         showError({
           message: response.error || response.message || "Signup failed",
         });
@@ -152,38 +155,39 @@ function Signup() {
       // Reset form on error
       reset();
       setAgreeToTerms(false);
+      setHasAttemptedSubmit(false);
       showError({ message: errorMessage });
     }
   };
 
   return (
-    <div className="w-full max-w-xl mx-auto bg-white/95 backdrop-blur-sm lg:bg-white p-4 sm:p-6 lg:p-8 rounded-lg shadow-lg lg:shadow-none flex flex-col max-h-[90vh] lg:max-h-auto overflow-hidden">
+    <div className="w-full max-w-xl mx-auto bg-white/95 backdrop-blur-sm lg:bg-white p-3 sm:p-4 lg:p-4 xl:p-5 rounded-lg shadow-lg lg:shadow-none flex flex-col max-h-[95vh] lg:max-h-auto overflow-y-auto lg:overflow-y-visible">
       {/* Logo and Header */}
-      <div className="text-center mb-4 sm:mb-6 lg:mb-6 flex-shrink-0">
+      <div className="text-center mb-1.5 sm:mb-2 lg:mb-2 flex-shrink-0">
         <Image
           src="/nav/Logo.svg"
           alt="logo"
           width={300}
           height={300}
-          className="w-40 sm:w-48 h-fit sm:h-fit object-cover mx-auto my-2 sm:my-4"
+          className="w-32 sm:w-40 lg:w-44 h-fit object-cover mx-auto my-0"
         />
-        <h2 className="text-xl sm:text-2xl font-semibold text-gray-800">
+        <h2 className="text-base sm:text-lg lg:text-xl 2xl:text-2xl font-semibold text-gray-800 leading-tight mt-1">
           Create your Optimus Health Solutions Account
         </h2>
       </div>
 
       {/* Scrollable Form Area - Mobile Only */}
-      <ScrollArea className="flex-1 h-[calc(90vh-200px)] lg:h-auto lg:max-h-none">
-        <div className="pr-4 lg:pr-0">
+      <ScrollArea className="flex-1 h-[calc(95vh-180px)] lg:h-auto lg:max-h-none">
+        <div className="pb-0">
           {/* Form */}
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="space-y-4  w-full min-w-0"
+            className="space-y-2.5 sm:space-y-3 lg:space-y-3 2xl:space-y-4 w-full min-w-0"
           >
             {/* First Name and Last Name - Grid Layout */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 sm:gap-3 lg:gap-3 2xl:gap-4">
               {/* First Name */}
-              <div className="space-y-2">
+              <div className="space-y-1">
                 <Label
                   htmlFor="firstName"
                   className="text-gray-700 font-medium text-sm sm:text-md"
@@ -207,14 +211,14 @@ function Signup() {
                   })}
                 />
                 {errors.firstName && (
-                  <p className="text-red-500 text-xs ">
+                  <p className="text-red-500 text-[10px] sm:text-xs lg:text-base 2xl:text-base leading-relaxed 2xl:mt-0.5">
                     {errors.firstName.message}
                   </p>
                 )}
               </div>
 
               {/* Last Name */}
-              <div className="space-y-2">
+              <div className="space-y-1">
                 <Label
                   htmlFor="lastName"
                   className="text-gray-700 font-medium text-sm sm:text-md"
@@ -238,7 +242,7 @@ function Signup() {
                   })}
                 />
                 {errors.lastName && (
-                  <p className="text-red-500 text-xs">
+                  <p className="text-red-500 text-[10px] sm:text-xs lg:text-base 2xl:text-base leading-relaxed lg:mt-0.2 2xl:mt-0.5">
                     {errors.lastName.message}
                   </p>
                 )}
@@ -246,7 +250,7 @@ function Signup() {
             </div>
 
             {/* Email Address */}
-            <div className="space-y-2">
+            <div className="space-y-1">
               <Label
                 htmlFor="email"
                 className="text-gray-700 font-medium text-sm sm:text-md"
@@ -270,12 +274,12 @@ function Signup() {
                 })}
               />
               {errors.email && (
-                <p className="text-red-500 text-xs">{errors.email.message}</p>
+                <p className="text-red-500 text-[10px] sm:text-xs lg:text-base 2xl:text-base leading-relaxed lg:mt-0.2 2xl:mt-0.5">{errors.email.message}</p>
               )}
             </div>
 
             {/* Phone Number */}
-            <div className="space-y-2">
+            <div className="space-y-1">
               <Label
                 htmlFor="phoneNumber"
                 className="text-gray-700 font-medium text-sm sm:text-md"
@@ -299,14 +303,14 @@ function Signup() {
                 })}
               />
               {errors.phoneNumber && (
-                <p className="text-red-500 text-xs">
+                <p className="text-red-500 text-[10px] sm:text-xs lg:text-base 2xl:text-base leading-relaxed lg:mt-0.2 2xl:mt-0.5">
                   {errors.phoneNumber.message}
                 </p>
               )}
             </div>
 
             {/* Create Password */}
-            <div className="space-y-2">
+            <div className="space-y-1">
               <Label
                 htmlFor="password"
                 className="text-gray-700 font-medium text-sm sm:text-md"
@@ -339,44 +343,49 @@ function Signup() {
                 </button>
               </div>
               {errors.password && (
-                <p className="text-red-500 text-xs">
+                <p className="text-red-500 text-[10px] sm:text-xs lg:text-base 2xl:text-base leading-relaxed lg:mt-0.2 2xl:mt-0.5">
                   {errors.password.message}
                 </p>
               )}
             </div>
 
             {/* Terms and Privacy Policy */}
-            <div className="flex items-center space-x-2">
+            <div className="flex items-start space-x-2 ">
               <Checkbox
                 id="terms"
                 checked={agreeToTerms}
                 onCheckedChange={(checked) =>
                   setAgreeToTerms(checked as boolean)
                 }
-                className="rounded-full bg-gray-200"
+                className="rounded-full bg-gray-200 mt-0.5 flex-shrink-0"
               />
-              <Label
+              <Label 
                 htmlFor="terms"
-                className="text-xs sm:text-sm text-gray-700"
+                className="text-xs sm:text-sm text-gray-700 flex-1 leading-relaxed !block"
               >
-                Agree to{" "}
-                <a
-                  href="/policies/terms-of-service"
-                  className="text-peter hover:text-peter-dark hover:underline"
-                >
-                  Terms of Service
-                </a>
-                &nbsp;and&nbsp;
-                <a
-                  href="/policies/privacy-policy"
-                  className="text-peter hover:text-peter-dark hover:underline"
-                >
-                  &nbsp;Privacy Policy
-                </a>
+                By clicking Sign Up, you agree to Optimus Health Solutions and acknowledge the{" "}
+                <span className="whitespace-nowrap">
+                  <Link
+                    href="/policies/terms-of-service"
+                    className="text-peter hover:text-peter-dark hover:underline"
+                  >
+                    Terms of Service
+                  </Link>
+                </span>
+                {" "}and{" "}
+                <span className="whitespace-nowrap">
+                  <Link
+                    href="/policies/privacy-policy"
+                    className="text-peter hover:text-peter-dark hover:underline"
+                  >
+                    Privacy Policy
+                  </Link>
+                </span>
+                .
               </Label>
             </div>
-            {!agreeToTerms && (
-              <p className="text-red-500 text-xs">
+            {hasAttemptedSubmit && !agreeToTerms && (
+              <p className="text-red-500 text-[10px] sm:text-xs lg:text-base 2xl:text-base leading-relaxed lg:mt-0.2 2xl:mt-0.5">
                 You must agree to the Terms & Privacy Policy
               </p>
             )}
@@ -385,7 +394,7 @@ function Signup() {
             <Button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-peter hover:bg-peter-dark text-white font-medium py-2 px-4 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-peter hover:bg-peter-dark text-white font-medium py-1.5 px-4 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed text-sm"
             >
               {isLoading ? "Creating Account..." : "Sign Up"}
             </Button>
@@ -394,7 +403,7 @@ function Signup() {
             <Button
               type="button"
               variant="outline"
-              className="w-full bg-purple-50 hover:bg-purple-100 text-gray-700 font-medium py-2 px-4 rounded-lg border-purple-200 cursor-pointer"
+              className="w-full bg-purple-50 hover:bg-purple-100 text-gray-700 font-medium py-1.5 px-4 rounded-lg border-purple-200 cursor-pointer text-sm"
             >
               <div className="flex items-center justify-center space-x-2">
                 <p>{useIcon({ name: "google" })}</p>
@@ -406,7 +415,7 @@ function Signup() {
           </form>
 
           {/* Footer Link */}
-          <div className="text-center mt-4 sm:mt-6 pb-4 lg:pb-2">
+          <div className="text-center mt-1.5 sm:mt-2 pb-0">
             <p className="text-xs sm:text-sm text-gray-700">
               Already have an account?{" "}
               <Link

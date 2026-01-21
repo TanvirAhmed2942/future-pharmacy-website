@@ -221,7 +221,7 @@
           "title": "Why We Do It",
           "subtitle": "",
           "description": "",
-          "introText": "At Optimus, we stand by two core beliefs:",
+          "introText": "At Optimus HS, we stand by two core beliefs:",
           "numberedList": [
             "No one should have to struggle or change their daily routine just to get a prescription from their local pharmacy",
             "And no community should have to lose its local pharmacy."
@@ -274,10 +274,10 @@
       },
       {
         "title": "Get it Delivered",
-        "description": "Relax! Once the pharmacy receives and confirms fulfilment for pickup.We will deliver your prescription to the location you choose.Your order will arrive quickly, securely and conveniently."
+        "description": "Relax! Once the pharmacy receives and confirms fulfilment for pickup, we will deliver your prescription to the location you choose. Your order will arrive quickly, securely and conveniently."
       }
     ],
-    "message": "When you refill or transfer a prescription, or schedule care, Optimus HS connnects you with your trusted local pharmacy to make the process fast, reliable, and stress-free. Your copay (if applicable) stays the same, and Rx delivery is free when you choose a partner independent pharmacy near you .",
+    "message": "When you refill or transfer a prescription, or schedule care, Optimus HS connnects you with your trusted local pharmacy to make the process fast, reliable, and stress-free. Your copay (if applicable) stays the same, and Rx delivery is free when you choose a partner independent pharmacy near you.",
     "descriptionOfProcess": [
       {
         "title": "Refill Prescription",
