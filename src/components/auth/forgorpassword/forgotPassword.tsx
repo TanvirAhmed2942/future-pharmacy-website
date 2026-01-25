@@ -32,7 +32,8 @@ function ForgotPassword() {
       showError({ message: "Please enter a valid email address" });
       return;
     }
-
+    // Store the email in a cookie
+    setCookie("forgotPasswordEmail", email);
     try {
       const response = await forgotPasswordMutation({ email }).unwrap();
 

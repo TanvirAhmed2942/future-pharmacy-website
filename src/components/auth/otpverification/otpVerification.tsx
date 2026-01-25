@@ -10,8 +10,8 @@ import {
   useResendForgotPasswordOtpMutation,
 } from "@/store/Apis/authApis/authApi";
 import useShowToast from "@/hooks/useShowToast";
-import { setCookie } from "@/lib/cookies";
-
+import { deleteCookie, setCookie } from "@/lib/cookies";
+import { getCookie } from "@/lib/cookies";
 function OtpVerification() {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
@@ -21,7 +21,8 @@ function OtpVerification() {
   const [resendForgotPasswordOtpMutation, { isLoading: isResending }] =
     useResendForgotPasswordOtpMutation();
   const { showSuccess, showError } = useShowToast();
-
+  const forgotPasswordEmail = getCookie("forgotPasswordEmail");
+  console.log(forgotPasswordEmail);
   const handleInputChange = (index: number, value: string) => {
     if (value.length > 1) return; // Only allow single digit
 
@@ -83,6 +84,7 @@ function OtpVerification() {
         showSuccess({
           message: response.message || "OTP verified successfully!",
         });
+        deleteCookie("forgotPasswordEmail");
 
         // Redirect to reset password page on success
         setTimeout(() => {
@@ -180,7 +182,7 @@ function OtpVerification() {
         </h3>
         <p className="text-gray-700 text-xs sm:text-sm">
           To get a verification code, first confirm the email address you added
-          to your account r****@coredevs.ltd. Standard rates apply.
+          to your account <span className="font-bold">({forgotPasswordEmail})</span>. Standard rates apply.
         </p>
 
         {/* Verification Code Inputs */}
