@@ -161,7 +161,7 @@ function Signup() {
   };
 
   return (
-    <div className="w-full max-w-xl mx-auto bg-white/95 backdrop-blur-sm lg:bg-white p-3 sm:p-4 lg:p-4 xl:p-5 rounded-lg shadow-lg lg:shadow-none flex flex-col max-h-[95vh] lg:max-h-auto overflow-y-auto lg:overflow-y-visible">
+    <div className="w-full max-w-xl mx-auto bg-white/95 backdrop-blur-sm lg:bg-white p-3 sm:p-4 lg:p-4 xl:p-5 rounded-lg shadow-lg lg:shadow-xs flex flex-col max-h-[95vh] lg:max-h-auto overflow-y-auto lg:overflow-y-visible">
       {/* Logo and Header */}
       <div className="text-center mb-1.5 sm:mb-2 lg:mb-2 flex-shrink-0">
         <Image

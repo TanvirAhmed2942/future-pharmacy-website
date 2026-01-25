@@ -37,7 +37,7 @@ export default function AuthLayout({
     <div className="antialiased ">
       <div className="w-full min-h-screen flex flex-col lg:flex-row items-center lg:justify-between relative overflow-hidden">
         {/* Left Section - Purple Background with Image */}
-        <div className="w-full lg:w-1/2 h-screen lg:h-screen bg-peter lg:rounded-tr-4xl lg:rounded-br-4xl lg:rounded-bl-none flex items-center justify-center relative z-0 lg:z-auto py-4 lg:py-8">
+        <div className="w-full lg:w-1/2 h-screen lg:h-screen bg-peter lg:rounded-tr-[4rem] lg:rounded-br-[4rem] lg:rounded-bl-none flex items-center justify-center relative z-0 lg:z-auto py-4 lg:py-8">
           <div className="w-9/12 h-9/12 max-w-md max-h-md aspect-square relative">
             <Image
               src="/auth/auth-left-img.png"

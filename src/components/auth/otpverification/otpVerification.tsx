@@ -154,7 +154,7 @@ function OtpVerification() {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto bg-white/95 backdrop-blur-sm lg:bg-white p-4 sm:p-6 lg:p-8 rounded-lg shadow-lg lg:shadow-none">
+    <div className="w-full max-w-md mx-auto bg-white/95 backdrop-blur-sm lg:bg-white p-4 sm:p-6 lg:p-8 rounded-lg shadow-lg lg:shadow-xs">
       {/* Logo and Header */}
       <div className="text-center mb-6 sm:mb-8">
         <div className="flex items-center justify-center mb-2 sm:mb-4">
@@ -167,24 +167,25 @@ function OtpVerification() {
           />
         </div>
         <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">
-          OTP Verification Codes
+        Email Verification Code
         </h2>
         <p className="text-gray-700 text-xs sm:text-sm mb-4 sm:mb-6">
-          To help keep your account safe, Optimus Health Solutions wants to make
-          sure it&apos;s really you trying to sign in.
+        To keep your account secure, we need to confirm your email
+        address. We've sent a 6-digit verification code to <span className="font-bold">({forgotPasswordEmail})</span>
         </p>
       </div>
 
       {/* Verification Code Section */}
       <div className="space-y-3 sm:space-y-4">
         <h3 className="text-base sm:text-lg font-bold text-gray-800">
-          Get a Verification Code
+        Get a Verification Code
         </h3>
         <p className="text-gray-700 text-xs sm:text-sm">
-          To get a verification code, first confirm the email address you added
-          to your account <span className="font-bold">({forgotPasswordEmail})</span>. Standard rates apply.
+        Please enter the code below to complete your sign-up. The code will expire in a few minutes.
+        <br/>
+        <span className="italic text-gray-500 text-xs -mt-1">* Standard rates apply.</span>
         </p>
-
+       
         {/* Verification Code Inputs */}
         <div className="flex justify-center space-x-2 sm:space-x-3 mt-4 sm:mt-6">
           {code.map((digit, index) => (

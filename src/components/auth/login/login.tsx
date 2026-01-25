@@ -123,7 +123,7 @@ function Login() {
     }
   };
   return (
-    <div className="w-full max-w-xl mx-auto bg-white/95 backdrop-blur-sm lg:bg-white p-4 sm:p-6 lg:p-8 rounded-lg shadow-lg lg:shadow-none">
+    <div className="w-full max-w-xl mx-auto bg-white/95 backdrop-blur-sm lg:bg-white p-4 sm:p-6 lg:p-8 rounded-lg shadow-lg lg:shadow-xs">
       {/* Logo and Header */}
       <div className="text-center mb-6 sm:mb-8">
         <Image
