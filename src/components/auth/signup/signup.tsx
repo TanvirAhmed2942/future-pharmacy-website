@@ -79,6 +79,7 @@ function Signup() {
         if (response.data?.createUserToken) {
           setCookie("createUserToken", response.data.createUserToken);
         }
+        setCookie("signupEmail", signupData.email);
 
         // If accessToken and refreshToken are provided, store them and log the user in
         if (response.data?.accessToken && response.data?.refreshToken) {

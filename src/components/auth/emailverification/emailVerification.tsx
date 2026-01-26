@@ -13,6 +13,7 @@ import useShowToast from "@/hooks/useShowToast";
 import { deleteCookie, setCookie } from "@/lib/cookies";
 import { useAppDispatch } from "@/store/hooks";
 import { login } from "@/store/slices/userSlice/userSlice";
+import { getCookie } from "@/lib/cookies";
 
 function EmailVerification() {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
@@ -23,7 +24,7 @@ function EmailVerification() {
     useResendCreateUserOtpMutation();
   const { showSuccess, showError } = useShowToast();
   const dispatch = useAppDispatch();
-
+  const signupEmail = getCookie("signupEmail");
   const handleInputChange = (index: number, value: string) => {
     if (value.length > 1) return; // Only allow single digit
 
@@ -79,6 +80,8 @@ function EmailVerification() {
 
       if (response.success) {
         if (response.data) {
+
+          
           deleteCookie("createUserToken");
           // Set token in cookie
           setCookie("token", response.data);
@@ -131,7 +134,11 @@ function EmailVerification() {
         setTimeout(() => {
           router.push("/");
         }, 1000);
+        deleteCookie("signupEmail");
       } else {
+
+
+        
         // Reset code on failure
         setCode(["", "", "", "", "", ""]);
         inputRefs.current[0]?.focus();
@@ -211,8 +218,8 @@ function EmailVerification() {
           Email Verification Code
         </h2>
         <p className="text-gray-700 text-xs sm:text-sm mb-4 sm:mb-6">
-          To help keep your account safe, Optimus Health Solutions wants to make
-          sure it&apos;s really you trying to sign in.
+        To keep your account secure, we need to confirm your email
+        address. We've sent a 6-digit verification code to <span className="font-bold">({signupEmail})</span>
         </p>
       </div>
 
@@ -222,8 +229,9 @@ function EmailVerification() {
           Get a Verification Code
         </h3>
         <p className="text-gray-700 text-xs sm:text-sm">
-          To get a verification code, first confirm the email address you added
-          to your account r****@coredevs.ltd. Standard rates apply.
+        Please enter the code below to complete your sign-up. The code
+will expire in a few minutes.<br/>
+<span className="italic text-gray-500 text-xs -mt-1">* Standard rates apply.</span>
         </p>
 
         {/* Verification Code Inputs */}

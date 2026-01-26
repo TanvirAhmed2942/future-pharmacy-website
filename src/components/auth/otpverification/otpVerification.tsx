@@ -128,6 +128,7 @@ function OtpVerification() {
             response.message ||
             "OTP resent successfully! Please check your email.",
         });
+
         // Reset the OTP input fields
         setCode(["", "", "", "", "", ""]);
         inputRefs.current[0]?.focus();
@@ -181,7 +182,7 @@ function OtpVerification() {
         Get a Verification Code
         </h3>
         <p className="text-gray-700 text-xs sm:text-sm">
-        Please enter the code below to complete your sign-up. The code will expire in a few minutes.
+        Please enter the code below to complete your password reset. The code will expire in a few minutes.
         <br/>
         <span className="italic text-gray-500 text-xs -mt-1">* Standard rates apply.</span>
         </p>
