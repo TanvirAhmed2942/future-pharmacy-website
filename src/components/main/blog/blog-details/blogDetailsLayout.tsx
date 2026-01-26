@@ -281,17 +281,22 @@ function BlogDetailsLayout() {
         {/* Blog Meta Header - Logo, Subscribe, Date, Read Time */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8 pb-6 border-b border-gray-200">
           {/* Left - Logo with tagline */}
-          <div className="flex items-start gap-4 flex-1">
-            <div className="w-12 h-12 rounded-full bg-peter bg-opacity-10 flex items-center justify-center flex-shrink-0">
-              <span className="text-peter font-bold text-lg">O</span>
+          <div className="flex items-start gap-4 flex-1 ">
+            
+            <div className="flex items-start gap-2 border border-gray-200 rounded-full p-2 transition-all duration-300 hover:border-[#8f4487] hover:shadow-[0_0_20px_rgba(143,68,135,0.4)] cursor-pointer">
+
+            
+            <div className="w-12 h-12 rounded-full bg-white  flex items-center justify-center flex-shrink-0">
+              <Image src={"/blog/blog_logo.svg"} alt="logo" width={192} height={192} className="object-contain rounded-full w-full h-full" />
             </div>
-            <div className="flex-1">
+            <div className="">
               <h3 className="font-semibold text-gray-900 text-sm">
                 {t("companyName")}
               </h3>
               <p className="text-xs text-gray-500 mt-1">
                 {t("tagline")}
               </p>
+            </div>
             </div>
           </div>
 

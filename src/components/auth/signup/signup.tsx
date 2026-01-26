@@ -364,7 +364,7 @@ function Signup() {
                 htmlFor="terms"
                 className="text-xs sm:text-sm text-gray-700 flex-1 leading-relaxed !block"
               >
-                By clicking Sign Up, you agree to Optimus Health Solutions and acknowledge the{" "}
+                By clicking Sign Up, you agree to Optimus Health Solutions {" "}
                 <span className="whitespace-nowrap">
                   <Link
                     href="/policies/terms-of-service"
@@ -373,7 +373,7 @@ function Signup() {
                     Terms of Service
                   </Link>
                 </span>
-                {" "}and{" "}
+                {" "}and acknowledge the{" "}
                 <span className="whitespace-nowrap">
                   <Link
                     href="/policies/privacy-policy"
