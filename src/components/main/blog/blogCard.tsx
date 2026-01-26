@@ -46,16 +46,18 @@ function BlogCard({ blog }: { blog: BlogItem }) {
 
   return (
     <Link href={`/blog/blog-details/${blog._id}`} className="block">
-      <Card className="py-2 bg-white border-0 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer overflow-hidden rounded-xl h-full">
+      <Card className="py-2 bg-white border-2 border-transparent shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer overflow-hidden rounded-xl h-full   hover:border-[#8f4487]"
+       style={{
+boxShadow: "12px 12px 24px #f0e9f2,-12px -12px 24px #fefbfb"}}>
         <CardContent className="p-4 flex flex-col h-full">
           {/* Image */}
-          <div className="relative w-full h-48 md:h-56 overflow-hidden rounded-md">
+          <div className="relative w-full h-48 md:h-56 overflow-hidden rounded-md bg-gray-100 flex items-center justify-center">
             <Image
               src={imgUrl(blog.image)}
               alt={blog.title}
               fill={true}
               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              className="object-cover  transition-transform duration-300 hover:scale-105 rounded-md"
+              className="object-contain  transition-transform duration-300 hover:scale-105 rounded-md"
             />
           </div>
 
