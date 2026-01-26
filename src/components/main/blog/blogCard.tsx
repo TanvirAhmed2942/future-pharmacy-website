@@ -4,6 +4,7 @@ import Link from "next/link";
 import React from "react";
 import { imgUrl } from "@/lib/img_url";
 import { useTranslations } from "next-intl";
+import { stripHtmlTags, truncateText } from "@/lib/utils";
 
 export interface BlogItem {
   _id: string;
@@ -37,33 +38,38 @@ function BlogCard({ blog }: { blog: BlogItem }) {
     }
   };
 
+  // Strip HTML tags and limit description to 60 characters
+  const getPlainTextDescription = (html: string): string => {
+    const plainText = stripHtmlTags(html);
+    return truncateText(plainText, 60);
+  };
+
   return (
     <Link href={`/blog/blog-details/${blog._id}`} className="block">
       <Card className="py-2 bg-white border-0 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer overflow-hidden rounded-xl h-full">
         <CardContent className="p-4 flex flex-col h-full">
           {/* Image */}
-          <div className="relative w-full h-48 md:h-56 overflow-hidden">
+          <div className="relative w-full h-48 md:h-56 overflow-hidden rounded-md">
             <Image
               src={imgUrl(blog.image)}
               alt={blog.title}
               fill={true}
               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              className="object-contain transition-transform duration-300 hover:scale-105 rounded-md"
+              className="object-cover  transition-transform duration-300 hover:scale-105 rounded-md"
             />
           </div>
 
           {/* Text Content */}
           <div className="px-4 flex flex-col flex-1 mt-4">
             {/* Title */}
-            <h2 className="text-lg md:text-xl font-bold text-gray-900 mb-3 line-clamp-2">
+            <h2 className="text-lg md:text-xl font-bold text-gray-900 mb-3 line-clamp-2 min-h-[3rem]">
               {blog.title}
             </h2>
 
             {/* Description */}
-            <p
-              className="text-sm md:text-base text-gray-600 mb-6 line-clamp-3 flex-1"
-              dangerouslySetInnerHTML={{ __html: blog.description }}
-            />
+            <p className="text-sm md:text-base text-gray-600 mb-6 line-clamp-2 flex-1">
+              {getPlainTextDescription(blog.description)}
+            </p>
 
             {/* Footer - Title Initial Badge, Date, Read Time */}
             <div className="flex items-center gap-3 border-gray-200">
