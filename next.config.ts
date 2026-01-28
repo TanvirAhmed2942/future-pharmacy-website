@@ -12,6 +12,8 @@ const nextConfig: NextConfig = {
       exclude: ["error", "warn"], // keeps console.error & console.warn
     },
   },
+  // Allow cross-origin requests from specific IPs during development
+  allowedDevOrigins: ["10.10.7.79","optimushs.com"],
   images: {
     remotePatterns: [
       { hostname: "images.unsplash.com" },
@@ -20,6 +22,8 @@ const nextConfig: NextConfig = {
       { hostname: "future-pharmacy-website.vercel.app" },
       { hostname: "api.optimushs.com" },
     ],
+    qualities: [25, 50, 75,100],
+    
   },
 };
 
