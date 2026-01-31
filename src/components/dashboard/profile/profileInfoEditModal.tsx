@@ -29,6 +29,7 @@ import {
   useUpdateProfileMutation,
 } from "@/store/Apis/profileApi/profileApi";
 import useShowToast from "@/hooks/useShowToast";
+import { useDateOfBirthValidation } from "@/hooks/useDateOfBirthValidation";
 import { imgUrl } from "@/lib/img_url";
 
 interface ProfileInfoEditModalProps {
@@ -55,6 +56,8 @@ function ProfileInfoEditModal({ isOpen, onClose }: ProfileInfoEditModalProps) {
     null
   );
   const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
+  const [dateOfBirthError, setDateOfBirthError] = useState<string | undefined>();
+  const { getDateOfBirthError } = useDateOfBirthValidation();
 
   // Populate form data when profile data loads or modal opens
   useEffect(() => {
@@ -128,6 +131,7 @@ function ProfileInfoEditModal({ isOpen, onClose }: ProfileInfoEditModalProps) {
       setProfileImagePreview(null);
       setProfileImageFile(null);
       setSelectedDate(undefined);
+      setDateOfBirthError(undefined);
     }
   }, [profile?.data, isOpen]);
 
@@ -173,6 +177,28 @@ function ProfileInfoEditModal({ isOpen, onClose }: ProfileInfoEditModalProps) {
       showError({ message: "First name and last name are required" });
       return;
     }
+
+    if (formData.dateOfBirth) {
+      const dateStr = formData.dateOfBirth;
+      let isoStr: string;
+      if (dateStr.includes("-") && dateStr.split("-").length === 3) {
+        const [day, month, year] = dateStr.split("-");
+        isoStr = new Date(
+          parseInt(year, 10),
+          parseInt(month, 10) - 1,
+          parseInt(day, 10)
+        ).toISOString();
+      } else {
+        isoStr = dateStr;
+      }
+      const dateError = getDateOfBirthError(isoStr);
+      if (dateError) {
+        setDateOfBirthError(dateError);
+        showError({ message: dateError });
+        return;
+      }
+    }
+    setDateOfBirthError(undefined);
 
     try {
       const response = await updateProfileMutation({
@@ -395,7 +421,7 @@ function ProfileInfoEditModal({ isOpen, onClose }: ProfileInfoEditModalProps) {
                   <Button
                     variant="outline"
                     disabled={isLoading}
-                    className="w-full justify-start text-left font-normal bg-gray-50 border-gray-200 hover:bg-gray-50 disabled:opacity-50"
+                    className={`w-full justify-start text-left font-normal bg-gray-50 border-gray-200 hover:bg-gray-50 disabled:opacity-50 ${dateOfBirthError ? "border-red-500" : ""}`}
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
                     {selectedDate ? (
@@ -426,8 +452,13 @@ function ProfileInfoEditModal({ isOpen, onClose }: ProfileInfoEditModalProps) {
                           "dateOfBirth",
                           `${day}-${month}-${year}`
                         );
+                        const dateError = getDateOfBirthError(
+                          date.toISOString()
+                        );
+                        setDateOfBirthError(dateError);
                       } else {
                         handleInputChange("dateOfBirth", "");
+                        setDateOfBirthError(undefined);
                       }
                     }}
                     captionLayout="dropdown"
@@ -438,6 +469,9 @@ function ProfileInfoEditModal({ isOpen, onClose }: ProfileInfoEditModalProps) {
                   />
                 </PopoverContent>
               </Popover>
+              {dateOfBirthError && (
+                <p className="text-red-500 text-xs mt-1">{dateOfBirthError}</p>
+              )}
             </div>
           </div>
 

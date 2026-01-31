@@ -175,19 +175,21 @@ function TwoStepVerification() {
           OTP Verification Codes
         </h2>
         <p className="text-gray-700 text-xs sm:text-sm mb-4 sm:mb-6">
-          To help keep your account safe, Optimus Health Solutions wants to make
-          sure it&apos;s really you trying to sign in.
+          To help protect your account, you have enabled to use
+          two-step verification for every sign-in. Please enter the{" "}
+          <span className="font-bold">4-digit</span> one-time password sent to your registered
+          email address to complete your sign-in.
         </p>
       </div>
 
       {/* Verification Code Section */}
       <div className="space-y-3 sm:space-y-4">
-        <h3 className="text-base sm:text-lg font-bold text-gray-800">
+        {/* <h3 className="text-base sm:text-lg font-bold text-gray-800">
           2 Step Verification
         </h3>
         <p className="text-gray-700 text-xs sm:text-sm">
           Enter the 4-digit code sent to your email address.
-        </p>
+        </p> */}
 
         {/* Verification Code Inputs */}
         <div className="flex justify-center space-x-2 sm:space-x-3 mt-4 sm:mt-6">
@@ -225,6 +227,8 @@ function TwoStepVerification() {
 
       {/* Retry Link */}
       <div className="text-center mt-6 sm:mt-8">
+        <p className="text-xs sm:text-sm text-gray-600"></p>
+        Didn&apos;t receive the code?{" "}
         <button
           type="button"
           onClick={handleRetry}

@@ -14,6 +14,7 @@ import { ChevronDownIcon } from "lucide-react";
 import Link from "next/link";
 import Backbutton from "@/components/common/backbutton/backbutton";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useDateOfBirthValidation } from "@/hooks/useDateOfBirthValidation";
 
 // Format date as mm/dd/yyyy
 const formatDateDisplay = (dateStr: string): string => {
@@ -60,6 +61,7 @@ export default function ContactDetails({
     termsAgreed?: string;
   }>({});
   const [termsAgreed, setTermsAgreed] = useState<boolean>(false);
+  const { getDateOfBirthError } = useDateOfBirthValidation();
 
   const validateForm = (): boolean => {
     const newErrors: typeof errors = {};
@@ -82,9 +84,8 @@ export default function ContactDetails({
       newErrors.lastName = "Last name is required";
     }
 
-    if (!formData.dateOfBirth.trim()) {
-      newErrors.dateOfBirth = "Date of birth is required";
-    }
+    const dateError = getDateOfBirthError(formData.dateOfBirth);
+    if (dateError) newErrors.dateOfBirth = dateError;
 
     if (!termsAgreed) {
       newErrors.termsAgreed = "You must agree to the terms and conditions";
@@ -181,8 +182,12 @@ export default function ContactDetails({
               )}
             </div>
           </div>
-        </div>
 
+        </div>
+        {/* Instructional Text */}
+        <p className="text-[11px] italic  text-gray-600 text-justify">
+          *{" "}{t("instructionalText.text")}
+        </p>
         {/* Date of Birth */}
         <div>
           <label className="block text-sm font-semibold text-gray-900 mb-2">
@@ -192,12 +197,11 @@ export default function ContactDetails({
             <PopoverTrigger asChild>
               <Button
                 variant="outline"
-                className={`w-full justify-between text-left font-normal ${
-                  errors.dateOfBirth ? "border-red-500" : ""
-                }`}
+                className={`w-full justify-between text-left font-normal ${errors.dateOfBirth ? "border-red-500" : ""
+                  }`}
               >
                 {formData.dateOfBirth &&
-                formatDateDisplay(formData.dateOfBirth) ? (
+                  formatDateDisplay(formData.dateOfBirth) ? (
                   formatDateDisplay(formData.dateOfBirth)
                 ) : (
                   <span className="text-muted-foreground">
@@ -226,7 +230,14 @@ export default function ContactDetails({
 
                     // Only allow dates that are today or in the past
                     if (selectedDate <= today) {
-                      handleFieldChange("dateOfBirth", date.toISOString());
+                      const iso = date.toISOString();
+                      handleFieldChange("dateOfBirth", iso);
+                      // Validate age as soon as date is selected (under 13 = show error)
+                      const dateError = getDateOfBirthError(iso);
+                      setErrors((prev) => ({
+                        ...prev,
+                        dateOfBirth: dateError,
+                      }));
                     }
                   }
                 }}
@@ -251,13 +262,7 @@ export default function ContactDetails({
           )}
         </div>
 
-        {/* Instructional Text */}
-        <p className="text-sm text-gray-600">
-          {t("instructionalText.text")}{" "}
-          {/* <button className="text-peter hover:underline">
-            {t("instructionalText.addPreferredName")}
-          </button> */}
-        </p>
+
 
         {/* Terms and Conditions Checkbox */}
         <div className="flex items-start gap-3">
@@ -307,11 +312,10 @@ export default function ContactDetails({
         <Button
           onClick={handleNextClick}
           disabled={!termsAgreed}
-          className={`w-full py-3 rounded-lg font-semibold ${
-            termsAgreed
-              ? "bg-peter hover:bg-peter-dark text-white"
-              : "bg-gray-300 text-gray-500 cursor-not-allowed"
-          }`}
+          className={`w-full py-3 rounded-lg font-semibold ${termsAgreed
+            ? "bg-peter hover:bg-peter-dark text-white"
+            : "bg-gray-300 text-gray-500 cursor-not-allowed"
+            }`}
         >
           {t("agreeAndContinue")}
         </Button>

@@ -124,13 +124,13 @@
         }
       ]
     },
-    
-      "ourStory": {
-        "headline": "Nuestra Historia",
-        "description_1st": "Fundamos Optimus Health Solutions con la simple creencia de que nadie debería tener dificultades para obtener sus recetas en las farmacias locales, y que ninguna comunidad debería perder su farmacia independiente de confianza.",
-        "description_2nd": "Al conectar a los pacientes con farmacias locales cercanas, hacemos que la atención sea más rápida, más personal y más cercana al hogar.",
-        "buttonText": "Haz clic para saber más"
-      },
+
+    "ourStory": {
+      "headline": "Nuestra Historia",
+      "description_1st": "Fundamos Optimus Health Solutions con la simple creencia de que nadie debería tener dificultades para obtener sus recetas en las farmacias locales, y que ninguna comunidad debería perder su farmacia independiente de confianza.",
+      "description_2nd": "Al conectar a los pacientes con farmacias locales cercanas, hacemos que la atención sea más rápida, más personal y más cercana al hogar.",
+      "buttonText": "Haz clic para saber más"
+    },
     "ourImpact": {
       "headline": "Nuestro Impacto",
       "stats": [
@@ -194,8 +194,8 @@
       "title": "Nuestra Misión",
       "description": "Hacer que el acceso de los pacientes a las recetas de sus farmacias locales sea simple y conveniente, al mismo tiempo que se preserva la independencia de las farmacias en las que las comunidades confían."
     },
-      "vision": {
-        "title": "Nuestra Visión",
+    "vision": {
+      "title": "Nuestra Visión",
       "description": "Un futuro en el que los pacientes reciben sus recetas y atención de su farmacia local de forma rápida, segura y sin esfuerzo, y en el que las farmacias independientes siguen siendo vitales para cada comunidad."
     },
     "ourStory": {
@@ -325,8 +325,8 @@
         "description": "Accede a análisis e información valiosa para comprender tu base de clientes y optimizar operaciones."
       },
       {
-        "title": "Aumenta los Ingresos",
-        "description": "Amplía tu alcance de clientes y aumenta los ingresos ofreciendo servicios de entrega convenientes a más pacientes."
+        "title": "Aumentar los ingresos",
+        "description": "Amplíe su alcance de clientes, incremente el volumen de recetas (Rx) y el tráfico de atención esencial, y haga crecer su negocio."
       }
     ],
     "headline": "Beneficios de unirse a nuestra red de farmacias independientes",
@@ -673,7 +673,7 @@
       "privacy": "Política de privacidad",
       "terms": "Política de términos de servicio"
     },
-    "footerText": "Optimus Health Solutions. Todos los derechos reservados."
+    "footerText": "Optimus Health Solutions, LLC. Todos Los Derechos Reservados."
   },
   "refillTransferSchedule": {
     "needHelp": "¿Necesitas ayuda? Llámanos o envíanos un mensaje",
@@ -841,13 +841,13 @@
       "placeholder": "Cualquier instrucción especial, alergias o información adicional que debamos saber..."
     },
     "consent": {
-  "label": "Doy mi consentimiento para que Optimus Health Solutions coordine mi resurtido y se comunique con mi farmacia para resurtir mi receta.",
-  "required": "Debe otorgar su consentimiento para resurtir sus recetas",
-  "agreementText": "Al hacer clic en Enviar solicitud de resurtido, usted acepta los",
-  "termsOfService": "Términos del servicio",
-  "and": " y ",
-  "privacyPolicy": "Política de privacidad"
-},
+      "label": "Doy mi consentimiento para que Optimus Health Solutions coordine mi resurtido y se comunique con mi farmacia para resurtir mi receta.",
+      "required": "Debe otorgar su consentimiento para resurtir sus recetas",
+      "agreementText": "Al hacer clic en Enviar solicitud de resurtido, usted acepta los",
+      "termsOfService": "Términos del servicio",
+      "and": " y ",
+      "privacyPolicy": "Política de privacidad"
+    },
 
     "submitting": "Enviando...",
     "submitButton": "Enviar Solicitud de Renovación"
@@ -1058,8 +1058,7 @@
       "placeholder": "Selecciona fecha (MM/DD/AAAA)"
     },
     "instructionalText": {
-      "text": "Para registrarte, necesitas usar el nombre que aparece en tu identificación gubernamental. Si usas otro nombre, puedes",
-      "addPreferredName": "agregar un nombre de preferencia"
+      "text": "Asegúrate de que coincida exactamente con el nombre de tu identificación oficial. Si usas otro nombre, agrégalo en la siguiente página donde dice “Instrucciones adicionales de recogida para el conductor”."
     },
     "termsAndConditions": {
       "text": "Al seleccionar aceptar y continuar, acepto los",

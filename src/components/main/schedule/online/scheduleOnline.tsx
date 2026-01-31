@@ -32,6 +32,7 @@ import {
   type ScheduleRequest,
 } from "@/store/Apis/refillTransferScheduleApi/refillTransferScheduleApi";
 import useShowToast from "@/hooks/useShowToast";
+import { useDateOfBirthValidation } from "@/hooks/useDateOfBirthValidation";
 import { useAppSelector } from "@/store/hooks";
 import {
   selectIsLoggedIn,
@@ -118,6 +119,7 @@ function ScheduleOnline() {
     control,
     handleSubmit,
     reset,
+    trigger,
     formState: { errors },
     watch,
     setValue,
@@ -149,6 +151,7 @@ function ScheduleOnline() {
   const [createScheduleRequest, { isLoading }] =
     useCreateScheduleRequestMutation();
   const { showSuccess, showError } = useShowToast();
+  const { getDateOfBirthError } = useDateOfBirthValidation();
 
   // State for calendar modal
   const [isCalendarModalOpen, setIsCalendarModalOpen] = useState(false);
@@ -305,6 +308,15 @@ function ScheduleOnline() {
             "Please select at least one appointment date and time",
         });
         return;
+      }
+
+      // Validate date of birth (must be at least 13 years old)
+      if (data.dateOfBirth) {
+        const dateError = getDateOfBirthError(data.dateOfBirth.toISOString());
+        if (dateError) {
+          showError({ message: dateError });
+          return;
+        }
       }
 
       // Format date of birth to YYYY-MM-DD
@@ -587,7 +599,13 @@ function ScheduleOnline() {
                 <Controller
                   control={control}
                   name="dateOfBirth"
-                  rules={{ required: t("profileInfo.dateOfBirthRequired") }}
+                  rules={{
+                    required: t("profileInfo.dateOfBirthRequired"),
+                    validate: (value) => {
+                      if (!value) return true;
+                      return getDateOfBirthError(value.toISOString()) ?? true;
+                    },
+                  }}
                   render={({ field }) => (
                     <Popover>
                       <PopoverTrigger asChild>
@@ -624,6 +642,10 @@ function ScheduleOnline() {
                             // Prevent future dates
                             if (date && date <= new Date()) {
                               field.onChange(date);
+                              void trigger("dateOfBirth");
+                            } else if (!date) {
+                              field.onChange(date);
+                              void trigger("dateOfBirth");
                             }
                           }}
                           captionLayout="dropdown"

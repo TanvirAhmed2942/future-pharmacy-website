@@ -65,6 +65,10 @@ export default function PharmacyMap({
     () => ({
       disableDefaultUI: false,
       clickableIcons: true,
+      center: mapCenter,
+      isFractionalZoomEnabled: true,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      colorScheme: google.maps.ColorScheme.FOLLOW_SYSTEM,
       scrollwheel: true,
       zoomControl: true,
       gestureHandling: "greedy",

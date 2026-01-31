@@ -49,7 +49,7 @@ function IndependentPharmacyBenefits() {
         </div>
 
         {/* Benefits Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-6">
+        <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-6">
           {benefits.map((benefit, index) => {
             const Icon = benefit.icon;
             return (

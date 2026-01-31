@@ -324,7 +324,7 @@
       },
       {
         "title": "Increase Revenue",
-        "description": "Expand your customer reach, increase Rx volume and foot traffic, and grow your business."
+        "description": "Expand your customer reach, increase Rx volume and essential care traffic, and grow your business."
       }
     ],
     "headline": "Benefits of Joining Our Network",
@@ -847,7 +847,7 @@
       "privacy": "Privacy Policy",
       "terms": "Terms of Service"
     },
-    "footerText": "Optimus Health Solutions. All rights reserved."
+    "footerText": "Optimus Health Solutions, LLC. All Rights Reserved."
   },
   "transferOnline": {
     "pageTitle": "Transfer Your Prescription",
@@ -1055,7 +1055,7 @@
       "placeholder": "Select date (MM/DD/YYYY)"
     },
     "instructionalText": {
-      "text": "To sign up, you need to use the name on your government ID."
+      "text": "Make sure this matches the name on your government ID. If you go by another name, add it on the next page where it says 'Additional pickup instructions for driver'"
     },
     "termsAndConditions": {
       "text": "By selecting Agree and Continue, You agree to Optimus Health Solutions",

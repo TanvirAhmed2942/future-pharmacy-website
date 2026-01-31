@@ -29,6 +29,7 @@ import {
   type RefillRequest,
 } from "@/store/Apis/refillTransferScheduleApi/refillTransferScheduleApi";
 import useShowToast from "@/hooks/useShowToast";
+import { useDateOfBirthValidation } from "@/hooks/useDateOfBirthValidation";
 import { useAppSelector } from "@/store/hooks";
 import {
   selectIsLoggedIn,
@@ -113,6 +114,7 @@ function RefillOnline() {
     handleSubmit,
     reset,
     setValue,
+    trigger,
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
@@ -139,6 +141,7 @@ function RefillOnline() {
   });
   const [createRefillRequest, { isLoading }] = useCreateRefillRequestMutation();
   const { showSuccess, showError } = useShowToast();
+  const { getDateOfBirthError } = useDateOfBirthValidation();
   const { fields, append } = useFieldArray({
     control,
     name: "medications",
@@ -217,6 +220,15 @@ function RefillOnline() {
           message: "Please add at least one medication to your refill request.",
         });
         return;
+      }
+
+      // Validate date of birth (must be at least 13 years old)
+      if (data.dateOfBirth) {
+        const dateError = getDateOfBirthError(data.dateOfBirth.toISOString());
+        if (dateError) {
+          showError({ message: dateError });
+          return;
+        }
       }
 
       // Format date of birth to YYYY-MM-DD
@@ -431,6 +443,10 @@ function RefillOnline() {
                   name="dateOfBirth"
                   rules={{
                     required: t("personalInformation.dateOfBirthRequired"),
+                    validate: (value) => {
+                      if (!value) return true;
+                      return getDateOfBirthError(value.toISOString()) ?? true;
+                    },
                   }}
                   render={({ field }) => (
                     <Popover>
@@ -468,6 +484,10 @@ function RefillOnline() {
                             // Prevent future dates
                             if (date && date <= new Date()) {
                               field.onChange(date);
+                              void trigger("dateOfBirth");
+                            } else if (!date) {
+                              field.onChange(date);
+                              void trigger("dateOfBirth");
                             }
                           }}
                           captionLayout="dropdown"
