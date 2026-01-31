@@ -373,8 +373,8 @@ export default function MapAndFormSection() {
   return (
     <GoogleMapsProvider>
       <div className="flex flex-col lg:flex-row bg-gray-50 pt-4 sm:pt-8 lg:px-4 px-0 pb-4 sm:pb-8 gap-x-16 gap-y-4 sm:gap-y-8 ">
-        {/* Left Section - Form */}
-        <div className="w-full lg:w-1/2 px-4 lg:px-8 py-6 overflow-y-auto bg-white rounded-xl ">
+        {/* Left Section - Form - z-0 keeps autocomplete dropdown below navbar when scrolling */}
+        <div className="relative z-0 w-full lg:w-1/2 px-4 lg:px-8 py-6 overflow-y-auto bg-white rounded-xl ">
           <div className="max-w-full">
             {/* Address Header */}
             <div className="mb-6">
@@ -415,9 +415,9 @@ export default function MapAndFormSection() {
               </div>
             </div>
 
-            {/* Pickup Location */}
-            <div className="relative">
-              <Card className="mb-4 p-4 border-2 border-gray-200 hover:border-[#be95be] cursor-pointer transition-colors">
+            {/* Pickup Location - overflow-visible so dropdown is not clipped */}
+            <div className="relative overflow-visible">
+              <Card className="mb-4 p-4 border-2 border-gray-200 hover:border-[#be95be] cursor-pointer transition-colors overflow-visible">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3 w-10/12">
                     <div className="w-4.5 h-4 rounded-full bg-black"></div>
@@ -450,11 +450,10 @@ export default function MapAndFormSection() {
                           mapSelectionMode === "pickup" ? null : "pickup"
                         );
                       }}
-                      className={`p-1.5 rounded transition-colors ${
-                        mapSelectionMode === "pickup"
+                      className={`p-1.5 rounded transition-colors ${mapSelectionMode === "pickup"
                           ? "bg-peter text-white"
                           : "text-gray-400 hover:text-peter hover:bg-gray-100"
-                      }`}
+                        }`}
                       title="Click on map to select pickup location"
                     >
                       <Map className="w-4 h-4" />
@@ -464,7 +463,7 @@ export default function MapAndFormSection() {
               </Card>
 
               {/* Drop-off Address */}
-              <Card className="mb-6 p-4 border-2 border-gray-200 hover:border-[#be95be] cursor-pointer transition-colors">
+              <Card className="mb-6 p-4 border-2 border-gray-200 hover:border-[#be95be] cursor-pointer transition-colors overflow-visible">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3 w-10/12">
                     <div className="w-4 h-4 bg-peter flex items-center justify-center border border-black">
@@ -499,11 +498,10 @@ export default function MapAndFormSection() {
                           mapSelectionMode === "dropoff" ? null : "dropoff"
                         );
                       }}
-                      className={`p-1.5 rounded transition-colors ${
-                        mapSelectionMode === "dropoff"
+                      className={`p-1.5 rounded transition-colors ${mapSelectionMode === "dropoff"
                           ? "bg-peter text-white"
                           : "text-gray-400 hover:text-peter hover:bg-gray-100"
-                      }`}
+                        }`}
                       title="Click on map to select dropoff location"
                     >
                       <Map className="w-4 h-4" />
@@ -519,20 +517,19 @@ export default function MapAndFormSection() {
                 <Label className="text-md text-gray-600">{tForm("date")}</Label>
                 <button
                   onClick={() => setIsDatePickerOpen(true)}
-                  className={`p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-[#be95be] w-full ${
-                    deliveryTime === "today"
+                  className={`p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-[#be95be] w-full ${deliveryTime === "today"
                       ? "border-peter bg-peter/10"
                       : "border-gray-200 bg-white hover:border-gray-300"
-                  }`}
+                    }`}
                 >
                   <div className="flex items-center gap-2">
                     <Calendar className="w-5 h-5 text-gray-600" />
                     <span className="font-medium text-gray-900">
                       {selectedDate
                         ? selectedDate.toLocaleDateString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                          })
+                          month: "short",
+                          day: "numeric",
+                        })
                         : tForm("today")}
                     </span>
                   </div>
@@ -542,11 +539,10 @@ export default function MapAndFormSection() {
                 <Label className="text-md text-gray-600">{tForm("time")}</Label>
                 <button
                   onClick={() => setIsTimePickerOpen(true)}
-                  className={`p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-[#be95be] w-full ${
-                    deliverySpeed === "now"
+                  className={`p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-[#be95be] w-full ${deliverySpeed === "now"
                       ? "border-peter bg-peter/10"
                       : "border-gray-200 bg-white hover:border-gray-300"
-                  }`}
+                    }`}
                 >
                   <div className="flex items-center  justify-between">
                     <div className="flex items-center gap-2">

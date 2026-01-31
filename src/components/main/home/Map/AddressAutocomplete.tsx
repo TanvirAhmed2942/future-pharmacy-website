@@ -335,9 +335,8 @@ export default function AddressAutocomplete({
         onBlur={handleBlur}
         placeholder={placeholder}
         disabled={disabled}
-        className={`w-full bg-transparent border-none outline-none placeholder:text-gray-400 ${className} ${
-          disabled ? "cursor-not-allowed" : ""
-        }`}
+        className={`w-full bg-transparent border-none outline-none placeholder:text-gray-400 ${className} ${disabled ? "cursor-not-allowed" : ""
+          }`}
       />
       {showSuggestions && suggestions.length > 0 && (
         <ul className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-auto">
@@ -347,9 +346,8 @@ export default function AddressAutocomplete({
               onClick={() =>
                 handleSelect(suggestion.place_id, suggestion.description)
               }
-              className={`px-4 py-2 cursor-pointer hover:bg-gray-100 transition-colors ${
-                index === selectedIndex ? "bg-peter/10" : ""
-              }`}
+              className={`px-4 py-2 cursor-pointer hover:bg-gray-100 transition-colors ${index === selectedIndex ? "bg-peter/10" : ""
+                }`}
             >
               <div className="flex items-start gap-2">
                 <span className="text-gray-800 mt-1">
