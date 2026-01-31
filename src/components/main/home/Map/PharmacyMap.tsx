@@ -216,11 +216,11 @@ export default function PharmacyMap({
     []
   );
 
-  const handleStreetViewClick = useCallback(() => {
-    const location =
-      pickupLocation ?? dropoffLocation ?? mapCenter ?? defaultCenter;
-    showStreetViewAt(location);
-  }, [pickupLocation, dropoffLocation, mapCenter, showStreetViewAt]);
+  // const handleStreetViewClick = useCallback(() => {
+  //   const location =
+  //     pickupLocation ?? dropoffLocation ?? mapCenter ?? defaultCenter;
+  //   showStreetViewAt(location);
+  // }, [pickupLocation, dropoffLocation, mapCenter, showStreetViewAt]);
 
   // Update bounds only when locations or pharmacies actually change (not on map pan/zoom)
   React.useEffect(() => {
