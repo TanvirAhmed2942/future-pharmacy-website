@@ -110,7 +110,7 @@ function RefillTransferSchedule({
     countryCode: string;
     dateOfBirth: string;
   }) => {
-    console.log("Form data:", formData);
+    // console.log("Form data:", formData);
     // Handle form submission logic here
     setIsFormModalOpen(false);
   };
@@ -164,14 +164,14 @@ function RefillTransferSchedule({
   const displaySteps = stepsTransfer
     ? stepsTransfer
     : stepsSchedule
-    ? stepsSchedule
-    : stepsRefill
-    ? stepsRefill
-    : pageTitle?.toLowerCase().includes("transfer")
-    ? defaultStepsTransfer
-    : pageTitle?.toLowerCase().includes("schedule")
-    ? defaultStepsSchedule
-    : defaultStepsRefill;
+      ? stepsSchedule
+      : stepsRefill
+        ? stepsRefill
+        : pageTitle?.toLowerCase().includes("transfer")
+          ? defaultStepsTransfer
+          : pageTitle?.toLowerCase().includes("schedule")
+            ? defaultStepsSchedule
+            : defaultStepsRefill;
 
   return (
     <section className="bg-transparent py-8 md:py-16 xl:py-8 2xl:py-16 px-4 md:px-8 ">

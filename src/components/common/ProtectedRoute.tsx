@@ -21,7 +21,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
 
     // If no token and not logged in, redirect to login
     if (!token && !isLoggedIn) {
-      console.log("🔒 [ProtectedRoute] No token found, redirecting to login");
+      // console.log("🔒 [ProtectedRoute] No token found, redirecting to login");
       const loginUrl = `/auth/login?redirect=${encodeURIComponent(pathname)}`;
       router.push(loginUrl);
       return;
@@ -29,7 +29,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
 
     // If we have a token but auth context says not logged in, update it
     if (token && !isLoggedIn) {
-      console.log("🔒 [ProtectedRoute] Token found but not logged in context");
+      // console.log("🔒 [ProtectedRoute] Token found but not logged in context");
       // The auth context should be updated on login, but if token exists,
       // we might need to verify it with the backend
     }

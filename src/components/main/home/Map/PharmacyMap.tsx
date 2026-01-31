@@ -164,14 +164,14 @@ export default function PharmacyMap({
 
   const handlePharmacyClick = useCallback(
     (pharmacy: Pharmacy) => {
-      console.log("handlePharmacyClick called with:", pharmacy.name);
-      // Toggle: if same pharmacy is clicked, close it; otherwise open it
+      // console.log("handlePharmacyClick called with:", pharmacy.name);
+      // Toggle: if same pharmacy is clicked, close it; otherwise open it 
       setSelectedPharmacy((prev) => {
         if (prev?.id === pharmacy.id) {
-          console.log("Closing info window for:", pharmacy.name);
+          // console.log("Closing info window for:", pharmacy.name);
           return null;
         } else {
-          console.log("Opening info window for:", pharmacy.name);
+          // console.log("Opening info window for:", pharmacy.name);
           return pharmacy;
         }
       });
@@ -275,11 +275,11 @@ export default function PharmacyMap({
                 address: address,
               };
 
-              console.log("Map click - Using clicked coordinates:", {
-                lat: clickedLat,
-                lng: clickedLng,
-                address: address,
-              });
+              //  console.log("Map click - Using clicked coordinates:", {
+              //   lat: clickedLat,
+              //   lng: clickedLng,
+              //   address: address,
+              // });
 
               onMapClick(location, address);
             } else {
@@ -291,10 +291,10 @@ export default function PharmacyMap({
               const fallbackAddress = `${location.lat.toFixed(
                 6
               )}, ${location.lng.toFixed(6)}`;
-              console.warn(
-                "Geocoding failed, using clicked coordinates:",
-                location
-              );
+              // console.warn(
+              // "Geocoding failed, using clicked coordinates:",
+              location
+              // );
               onMapClick(
                 { ...location, address: fallbackAddress },
                 fallbackAddress
@@ -302,7 +302,7 @@ export default function PharmacyMap({
             }
           });
         } catch (error) {
-          console.error("Geocoder error:", error);
+          // console.error("Geocoder error:", error);
           // Fallback: use clicked coordinates
           const location: Location = {
             lat: clickedLocation.lat(),
@@ -317,9 +317,9 @@ export default function PharmacyMap({
           );
         }
       } else {
-        console.error(
-          "Google Maps Geocoder is not available. Make sure Geocoding API is enabled in Google Cloud Console."
-        );
+        // console.error(
+        // "Google Maps Geocoder is not available. Make sure Geocoding API is enabled in Google Cloud Console."
+        // );
         // Fallback: use clicked coordinates
         const location: Location = {
           lat: clickedLocation.lat(),
@@ -335,7 +335,7 @@ export default function PharmacyMap({
   );
   // Debug: Log selected pharmacy
   React.useEffect(() => {
-    console.log("Selected pharmacy changed:", selectedPharmacy);
+    // console.log("Selected pharmacy changed:", selectedPharmacy);
   }, [selectedPharmacy]);
 
   return (

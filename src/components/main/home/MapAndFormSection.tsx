@@ -224,7 +224,7 @@ export default function MapAndFormSection() {
           }
         });
       } catch (error) {
-        console.error("Error geocoding location:", error);
+        // console.error("Error geocoding location:", error);
       }
     };
 
@@ -235,7 +235,7 @@ export default function MapAndFormSection() {
     return isLoggedIn;
   };
 
-  console.log("checkIsLoggedIn", checkIsLoggedIn());
+  // console.log("checkIsLoggedIn", checkIsLoggedIn());
 
   const handleRedirect = () => {
     // Validation checks
@@ -291,12 +291,12 @@ export default function MapAndFormSection() {
   };
 
   const handlePickupSelect = (location: Location, address: string) => {
-    console.log("Pickup Location Selected:", {
-      address: address,
-      latitude: location.lat,
-      longitude: location.lng,
-      coordinates: `Lat: ${location.lat}, Lng: ${location.lng}`,
-    });
+    // console.log("Pickup Location Selected:", {
+    //   address: address,
+    //   latitude: location.lat,
+    //   longitude: location.lng,
+    //   coordinates: `Lat: ${location.lat}, Lng: ${location.lng}`,
+    // });
     dispatch(setPickupAddress(address));
     dispatch(setPickupLocation(location));
     // Clear name when manually selecting a location (not from pharmacy marker)
@@ -308,12 +308,12 @@ export default function MapAndFormSection() {
   };
 
   const handleDropoffSelect = (location: Location, address: string) => {
-    console.log("Dropoff Location Selected:", {
-      address: address,
-      latitude: location.lat,
-      longitude: location.lng,
-      coordinates: `Lat: ${location.lat}, Lng: ${location.lng}`,
-    });
+    // console.log("Dropoff Location Selected:", {
+    //   address: address,
+    //   latitude: location.lat,
+    //   longitude: location.lng,
+    //   coordinates: `Lat: ${location.lat}, Lng: ${location.lng}`,
+    // });
     dispatch(setDropoffAddress(address));
     dispatch(setDropoffLocation(location));
     // Clear name when manually selecting a location
@@ -322,7 +322,7 @@ export default function MapAndFormSection() {
   };
 
   const handlePharmacyClick = (pharmacy: Pharmacy) => {
-    console.log("Pharmacy clicked:", pharmacy);
+    // console.log("Pharmacy clicked:", pharmacy);
     // You can add modal or navigation logic here
   };
 
@@ -451,8 +451,8 @@ export default function MapAndFormSection() {
                         );
                       }}
                       className={`p-1.5 rounded transition-colors ${mapSelectionMode === "pickup"
-                          ? "bg-peter text-white"
-                          : "text-gray-400 hover:text-peter hover:bg-gray-100"
+                        ? "bg-peter text-white"
+                        : "text-gray-400 hover:text-peter hover:bg-gray-100"
                         }`}
                       title="Click on map to select pickup location"
                     >
@@ -499,8 +499,8 @@ export default function MapAndFormSection() {
                         );
                       }}
                       className={`p-1.5 rounded transition-colors ${mapSelectionMode === "dropoff"
-                          ? "bg-peter text-white"
-                          : "text-gray-400 hover:text-peter hover:bg-gray-100"
+                        ? "bg-peter text-white"
+                        : "text-gray-400 hover:text-peter hover:bg-gray-100"
                         }`}
                       title="Click on map to select dropoff location"
                     >
@@ -518,8 +518,8 @@ export default function MapAndFormSection() {
                 <button
                   onClick={() => setIsDatePickerOpen(true)}
                   className={`p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-[#be95be] w-full ${deliveryTime === "today"
-                      ? "border-peter bg-peter/10"
-                      : "border-gray-200 bg-white hover:border-gray-300"
+                    ? "border-peter bg-peter/10"
+                    : "border-gray-200 bg-white hover:border-gray-300"
                     }`}
                 >
                   <div className="flex items-center gap-2">
@@ -540,8 +540,8 @@ export default function MapAndFormSection() {
                 <button
                   onClick={() => setIsTimePickerOpen(true)}
                   className={`p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-[#be95be] w-full ${deliverySpeed === "now"
-                      ? "border-peter bg-peter/10"
-                      : "border-gray-200 bg-white hover:border-gray-300"
+                    ? "border-peter bg-peter/10"
+                    : "border-gray-200 bg-white hover:border-gray-300"
                     }`}
                 >
                   <div className="flex items-center  justify-between">

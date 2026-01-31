@@ -45,7 +45,7 @@ function ContactUsSection() {
   const selectedSubject = watch("subject");
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log("Message sent:", data);
+    // console.log("Message sent:", data);
     // Handle form submission logic here
   };
 

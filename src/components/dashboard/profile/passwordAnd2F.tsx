@@ -88,8 +88,7 @@ export default function PasswordAnd2FA({
         showSuccess({
           message:
             response.message ||
-            `Two-Factor Authentication ${
-              new2FAState ? "enabled" : "disabled"
+            `Two-Factor Authentication ${new2FAState ? "enabled" : "disabled"
             } successfully!`,
         });
       } else {
@@ -192,7 +191,7 @@ export default function PasswordAnd2FA({
         onPasswordChange={(newPassword) => {
           setPassword(newPassword);
           // Here you would typically call an API to update the password
-          console.log("Password changed to:", newPassword);
+          // console.log("Password changed to:", newPassword);
         }}
       />
     </div>

@@ -27,16 +27,13 @@ function ShowPhoneNumber({
   // Copy handler - using the Clipboard API which is more reliable
   const handleCopy = async () => {
     if (!phoneNumber || typeof window === "undefined") {
-      console.log("Phone number or window is undefined");
       return;
     }
 
     try {
       // Use modern Clipboard API
       if (navigator.clipboard) {
-        console.log("Using Clipboard API to copy:", phoneNumber);
         await navigator.clipboard.writeText(phoneNumber);
-        console.log("Successfully copied:", phoneNumber);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
         return;
@@ -46,7 +43,6 @@ function ShowPhoneNumber({
     }
 
     // Fallback for older browsers
-    console.log("Using textarea fallback...");
     try {
       const textarea = document.createElement("textarea");
       textarea.value = phoneNumber;
@@ -73,7 +69,6 @@ function ShowPhoneNumber({
       document.body.removeChild(textarea);
 
       if (result) {
-        console.log("Successfully copied using textarea fallback");
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
       }

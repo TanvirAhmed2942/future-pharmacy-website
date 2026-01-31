@@ -70,26 +70,26 @@ export default function AddressAutocomplete({
       );
       requestOptions.radius = 32186; // ~20 miles
 
-      console.log("Using location bias:", {
-        lat: locationBias.lat,
-        lng: locationBias.lng,
-        radius: 32186,
-        zipCode: locationBias.zipCode,
-        input,
-      });
+      // console.log("Using location bias:", {
+      //   lat: locationBias.lat,
+      //   lng: locationBias.lng,
+      //   radius: 32186,
+      //   zipCode: locationBias.zipCode,
+      //   input,
+      // });
     } else {
-      console.log("No location bias, searching:", input);
+      // console.log("No location bias, searching:", input);
     }
 
     service.getPlacePredictions(requestOptions, (predictions, status) => {
-      console.log("Autocomplete API response:", {
-        status,
-        statusText: window.google.maps.places.PlacesServiceStatus[status],
-        predictionsCount: predictions?.length || 0,
-        input,
-        hasBias: !!locationBias,
-        predictions: predictions?.slice(0, 3).map((p) => p.description),
-      });
+      // console.log("Autocomplete API response:", {
+      //   status,
+      //   statusText: window.google.maps.places.PlacesServiceStatus[status],
+      //   predictionsCount: predictions?.length || 0,
+      //   input,
+      //   hasBias: !!locationBias,
+      //   predictions: predictions?.slice(0, 3).map((p) => p.description),
+      // });
 
       if (
         status === window.google.maps.places.PlacesServiceStatus.OK &&
@@ -109,13 +109,13 @@ export default function AddressAutocomplete({
               (p) => !p.description.includes(locationBias.zipCode!)
             );
             filteredPredictions = [...zipMatches, ...otherResults];
-            console.log(
-              `Found ${zipMatches.length} zipcode matches, ${otherResults.length} other nearby results`
-            );
+            // console.log(
+            //   `Found ${zipMatches.length} zipcode matches, ${otherResults.length} other nearby results`
+            // );
           } else {
-            console.log(
-              `No exact zipcode matches, showing ${predictions.length} nearby results`
-            );
+            // console.log(
+            //   `No exact zipcode matches, showing ${predictions.length} nearby results`
+            // );
           }
         }
 
@@ -132,13 +132,13 @@ export default function AddressAutocomplete({
           }))
         );
         setShowSuggestions(true);
-        console.log("Suggestions set:", resultsToShow.length);
+        // console.log("Suggestions set:", resultsToShow.length);
       } else {
         // Log error for debugging
         if (
           status !== window.google.maps.places.PlacesServiceStatus.ZERO_RESULTS
         ) {
-          console.warn("Autocomplete error:", status);
+          // console.warn("Autocomplete error:", status);
         }
         // Keep dropdown open to show "No results" message
         setSuggestions([]);
@@ -162,7 +162,7 @@ export default function AddressAutocomplete({
         !window.google.maps.places ||
         !window.google.maps.places.AutocompleteService
       ) {
-        console.warn("Google Maps Places API not available yet");
+        // console.warn("Google Maps Places API not available yet");
         setSuggestions([]);
         setShowSuggestions(false);
         return;
@@ -173,11 +173,11 @@ export default function AddressAutocomplete({
 
         const geocoder = new window.google.maps.Geocoder();
         geocoder.geocode({ address: locationString }, (results, status) => {
-          console.log("Geocoding location context:", {
-            locationString,
-            status,
-            hasResults: !!results?.[0],
-          });
+          // console.log("Geocoding location context:", {
+          //   locationString,
+          //   status,
+          //   hasResults: !!results?.[0],
+          // });
 
           if (status === "OK" && results && results[0]?.geometry?.location) {
             const location = results[0].geometry.location;
@@ -187,12 +187,12 @@ export default function AddressAutocomplete({
               zipCode: zipCode, // Pass zipcode for filtering
             });
           } else {
-            console.warn(
-              "Geocoding failed for:",
-              locationString,
-              "Status:",
-              status
-            );
+            // console.warn(
+            //   "Geocoding failed for:",
+            //   locationString,
+            //   "Status:",
+            //   status
+            // );
             // Fallback: get predictions without location bias
             getPredictions(newValue);
           }
@@ -290,7 +290,7 @@ export default function AddressAutocomplete({
         if (zipCode || (city && state)) {
           const locationString = zipCode || `${city}, ${state}`;
 
-          console.log("Refetching on focus with:", { locationString, value });
+          // console.log("Refetching on focus with:", { locationString, value });
 
           const geocoder = new window.google.maps.Geocoder();
           geocoder.geocode({ address: locationString }, (results, status) => {

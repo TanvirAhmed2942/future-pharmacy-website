@@ -76,7 +76,6 @@ function EmailVerification() {
 
     try {
       const response = await verifyEmailMutation({ otp }).unwrap();
-      console.log(response);
 
       if (response.success) {
         if (response.data) {
@@ -219,7 +218,7 @@ function EmailVerification() {
         </h2>
         <p className="text-gray-700 text-xs sm:text-sm mb-4 sm:mb-6">
         To keep your account secure, we need to confirm your email
-        address. We've sent a 6-digit verification code to <span className="font-bold">({signupEmail})</span>
+        address. We&apos;ve sent a 6-digit verification code to <span className="font-bold">({signupEmail})</span>
         </p>
       </div>
 

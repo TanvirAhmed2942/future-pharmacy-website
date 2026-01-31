@@ -58,7 +58,7 @@ function PasswordModal({
   // Log API response to understand what it contains
   useEffect(() => {
     if (apiResponse && isOpen) {
-      console.log("Change Password API Response:", apiResponse);
+      // console.log("Change Password API Response:", apiResponse);
       // TODO: Based on apiResponse, determine what to show in the modal
       // The user will tell us what each response should do
     }

@@ -23,7 +23,6 @@ function OtpVerification() {
     useResendForgotPasswordOtpMutation();
   const { showSuccess, showError } = useShowToast();
   const forgotPasswordEmail = getCookie("forgotPasswordEmail");
-  console.log(forgotPasswordEmail);
   const handleInputChange = (index: number, value: string) => {
     if (value.length > 1) return; // Only allow single digit
 
@@ -75,7 +74,6 @@ function OtpVerification() {
 
     try {
       const response = await forgotPasswordOtpMatchMutation({ otp }).unwrap();
-      console.log(response);
 
       if (response.success) {
         if (response.data?.forgetOtpMatchToken) {
@@ -173,7 +171,7 @@ function OtpVerification() {
         </h2>
         <p className="text-gray-700 text-xs sm:text-sm mb-4 sm:mb-6">
           To keep your account secure, we need to confirm your email
-          address. We've sent a 6-digit verification code to <span className="font-bold">({forgotPasswordEmail})</span>
+          address. We&apos;ve sent a 6-digit verification code to <span className="font-bold">({forgotPasswordEmail})</span>
         </p>
       </div>
 

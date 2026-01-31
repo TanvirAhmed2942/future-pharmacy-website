@@ -346,7 +346,7 @@ export default function CheckOutDetailsLayout() {
 
   const handleComplete = () => {
     // Handle payment completion
-    console.log("Payment completed with data:", formData);
+    // console.log("Payment completed with data:", formData);
     // You can add navigation logic here or close the modal
     // For now, we'll just log the completion
   };
@@ -386,13 +386,12 @@ export default function CheckOutDetailsLayout() {
           <div className="relative">
             {/* Contact Details Form */}
             <div
-              className={`transition-all duration-300 ${
-                currentStep === 1
+              className={`transition-all duration-300 ${currentStep === 1
                   ? "translate-x-0 opacity-100 block"
                   : isAnimating
-                  ? "-translate-x-full opacity-0 absolute inset-0"
-                  : "-translate-x-full opacity-0 absolute inset-0"
-              }`}
+                    ? "-translate-x-full opacity-0 absolute inset-0"
+                    : "-translate-x-full opacity-0 absolute inset-0"
+                }`}
             >
               <ContactDetails
                 formData={formData}
@@ -403,13 +402,12 @@ export default function CheckOutDetailsLayout() {
 
             {/* Order Summary Form */}
             <div
-              className={`transition-all duration-300 ${
-                currentStep === 2
+              className={`transition-all duration-300 ${currentStep === 2
                   ? "translate-x-0 opacity-100 block"
                   : isAnimating
-                  ? "translate-x-full opacity-0 absolute inset-0"
-                  : "translate-x-full opacity-0 absolute inset-0"
-              }`}
+                    ? "translate-x-full opacity-0 absolute inset-0"
+                    : "translate-x-full opacity-0 absolute inset-0"
+                }`}
             >
               <OrderSummary
                 formData={formData}

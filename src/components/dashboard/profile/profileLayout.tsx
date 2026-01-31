@@ -9,7 +9,7 @@ import { updateUser } from "@/store/slices/userSlice/userSlice";
 function ProfileLayout() {
   const dispatch = useDispatch();
   const { data: profile } = useGetProfileQuery();
-  console.log(profile?.data);
+  // console.log(profile?.data);
   const personalInfo = {
     firstName: profile?.data?.first_name || "N/A",
     lastName: profile?.data?.last_name || "N/A",
@@ -25,9 +25,8 @@ function ProfileLayout() {
     if (profile?.data) {
       dispatch(
         updateUser({
-          name: `${profile.data.first_name || ""} ${
-            profile.data.last_name || ""
-          }`.trim(),
+          name: `${profile.data.first_name || ""} ${profile.data.last_name || ""
+            }`.trim(),
           first_name: profile.data.first_name,
           last_name: profile.data.last_name,
           email: profile.data.email,
@@ -39,11 +38,11 @@ function ProfileLayout() {
       );
     }
   }, [dispatch, profile?.data]);
-  console.log("personalInfo", personalInfo);
+  // console.log("personalInfo", personalInfo);
   const twofaInfo = {
     twoStepVerification: profile?.data?.twoStepVerification || false,
   };
-  console.log("twofaInfo", twofaInfo);
+  // console.log("twofaInfo", twofaInfo);
   return (
     <div className="bg-white space-y-6">
       <PersonalInfo personalInfo={personalInfo} />

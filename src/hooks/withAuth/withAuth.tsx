@@ -72,20 +72,20 @@ function withAuth<P extends object>(
         const token = getCookie("token");
         const hasToken = !!token;
 
-        console.log("withAuth: Checking authentication", {
-          hasToken,
-          isLoggedIn,
-          requireAuth,
-          pathname,
-          protectedRoute,
-        });
+        // console.log("withAuth: Checking authentication", {
+        //   hasToken,
+        //   isLoggedIn,
+        //   requireAuth,
+        //   pathname,
+        //   protectedRoute,
+        // });
 
         // Step 1: Check if authentication is required (requireAuth: true)
         if (requireAuth) {
           // If authentication is required but user is not authenticated
           if (!hasToken && !isLoggedIn) {
-            console.log("withAuth: Not authenticated, redirecting to login");
-            // Include current path as redirect parameter
+            // console.log("withAuth: Not authenticated, redirecting to login");
+            // Include current path as redirect parameter 
             const loginUrl = `${redirectTo}?redirect=${encodeURIComponent(
               pathname
             )}`;
@@ -98,9 +98,9 @@ function withAuth<P extends object>(
           // If we have a token but context says not logged in, still allow (token is primary)
           // The context might not be updated yet, but token exists
           if (hasToken && !isLoggedIn) {
-            console.log(
-              "withAuth: Token exists but context not updated, continuing to role check"
-            );
+            // console.log(
+            // "withAuth: Token exists but context not updated, continuing to role check"
+            // );
           }
         } else {
           // If authentication is not required, allow access
@@ -129,12 +129,12 @@ function withAuth<P extends object>(
         const hasAccess = rolesArray.includes(currentRole);
 
         if (!hasAccess) {
-          console.log(
-            "withAuth: Access denied. Required roles:",
-            rolesArray,
-            "Current role:",
-            currentRole
-          );
+          // console.log(
+          //   "withAuth: Access denied. Required roles:",
+          //   rolesArray,
+          //   "Current role:",
+          //   currentRole
+          // );
           // Show unauthorized modal instead of redirecting
           setShowUnauthorizedModal(true);
           setIsChecking(false);
@@ -220,9 +220,8 @@ function withAuth<P extends object>(
   }
 
   // Set display name for debugging
-  AuthenticatedComponent.displayName = `withAuth(${
-    WrappedComponent.displayName || WrappedComponent.name || "Component"
-  })`;
+  AuthenticatedComponent.displayName = `withAuth(${WrappedComponent.displayName || WrappedComponent.name || "Component"
+    })`;
 
   return AuthenticatedComponent;
 }
