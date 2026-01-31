@@ -19,8 +19,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { Button } from "@/components/ui/button";
-import { Trash2, ExternalLink } from "lucide-react";
-import Loader from "@/components/common/loader/Loader";
+import { Trash2, ExternalLink, Loader } from "lucide-react";
 import {
   useGetSavedBlogsQuery,
   useDeleteSavedBlogMutation,
@@ -257,8 +256,7 @@ function SavedBlogs() {
                             className="flex items-center gap-1"
                             disabled={isDeleting}
                           >
-                            <Trash2 className="size-4" />
-                            Delete
+                            {isDeleting ? <><p className="flex items-center justify-center gap-2"><Loader className="animate-spin size-4 text-white" /></p></> : <><Trash2 className="size-4" /> Delete</>}
                           </Button>
                         </div>
                       </TableCell>
@@ -356,8 +354,9 @@ function SavedBlogs() {
             </div>
           )}
         </>
-      )}
-    </div>
+      )
+      }
+    </div >
   );
 }
 

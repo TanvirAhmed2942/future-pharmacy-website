@@ -261,15 +261,13 @@ const CalendarModal: React.FC<DateTimePickerModalProps> = ({
                     disabled={!day.isCurrentMonth}
                     className={`
                       aspect-square flex items-center justify-center rounded-full text-xs md:text-sm relative
-                      ${
-                        day.isCurrentMonth
-                          ? "text-gray-900 hover:bg-[#d7aad3] cursor-pointer"
-                          : "text-gray-400 cursor-not-allowed"
+                      ${day.isCurrentMonth
+                        ? "text-gray-900 hover:bg-[#d7aad3] cursor-pointer"
+                        : "text-gray-400 cursor-not-allowed"
                       }
-                      ${
-                        day.isCurrentMonth && selectedDates.has(day.day)
-                          ? "bg-peter text-white hover:bg-peter-dark"
-                          : ""
+                      ${day.isCurrentMonth && selectedDates.has(day.day)
+                        ? "bg-peter text-white hover:bg-peter-dark"
+                        : ""
                       }
                     `}
                   >
@@ -288,9 +286,8 @@ const CalendarModal: React.FC<DateTimePickerModalProps> = ({
             <div className="mb-0">
               <span className="text-lg font-medium text-gray-700 block md:inline">
                 {selectedDates.size > 0
-                  ? `${selectedDates.size} ${
-                      selectedDates.size === 1 ? "Date" : "Dates"
-                    } Selected`
+                  ? `${selectedDates.size} ${selectedDates.size === 1 ? "Date" : "Dates"
+                  } Selected`
                   : "Select Dates"}
               </span>
               <div className="text-sm text-peter mt-1 md:mt-0 mb-2">
@@ -328,10 +325,9 @@ const CalendarModal: React.FC<DateTimePickerModalProps> = ({
                               className={`
                                 w-full py-2 px-3 rounded-lg border-2 text-center text-sm font-medium
                                 transition-all relative
-                                ${
-                                  timeSlot.available
-                                    ? "border-gray-200 hover:border-peter hover:bg-purple-50 cursor-pointer"
-                                    : "border-gray-200 bg-gray-50 text-gray-400 cursor-not-allowed"
+                                ${timeSlot.available
+                                  ? "border-gray-200 hover:border-peter hover:bg-purple-50 cursor-pointer"
+                                  : "border-gray-200 bg-gray-50 text-gray-400 cursor-not-allowed"
                                 }
                                 ${isSelected ? "border-peter bg-[#f3ecf3]" : ""}
                               `}
@@ -360,15 +356,13 @@ const CalendarModal: React.FC<DateTimePickerModalProps> = ({
                                 className={`
                                   min-w-[90px] py-2 px-2 rounded-lg border-2 text-center text-sm
                                   transition-all relative flex-shrink-0 snap-start
-                                  ${
-                                    timeSlot.available
-                                      ? "border-gray-200 hover:border-peter hover:bg-purple-50 cursor-pointer"
-                                      : "border-gray-200 bg-gray-50 text-gray-400 cursor-not-allowed"
+                                  ${timeSlot.available
+                                    ? "border-gray-200 hover:border-peter hover:bg-purple-50 cursor-pointer"
+                                    : "border-gray-200 bg-gray-50 text-gray-400 cursor-not-allowed"
                                   }
-                                  ${
-                                    isSelected
-                                      ? "border-peter bg-[#f3ecf3]"
-                                      : ""
+                                  ${isSelected
+                                    ? "border-peter bg-[#f3ecf3]"
+                                    : ""
                                   }
                                 `}
                               >

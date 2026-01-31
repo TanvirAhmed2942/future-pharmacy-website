@@ -18,6 +18,7 @@ import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { useSubmitInterestOtherBusinessMutation } from "@/store/Apis/businessApi/businessApi";
 import useShowToast from "@/hooks/useShowToast";
+import { Loader } from "lucide-react";
 
 interface FormValues {
   name: string;
@@ -369,7 +370,7 @@ function BusinessInquiryForm() {
                       required:
                         selectedOrganizationType === "others"
                           ? tOtherBusinesses("form.specifyOtherRequired") ||
-                            "Please specify the organization type"
+                          "Please specify the organization type"
                           : false,
                       minLength: {
                         value: 2,
@@ -487,7 +488,7 @@ function BusinessInquiryForm() {
                 className="w-full bg-peter hover:bg-peter-dark text-white py-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isLoading
-                  ? "Submitting..."
+                  ? <><p className="flex items-center justify-center gap-2">Submitting...<Loader className="animate-spin size-4 text-white" /></p></>
                   : tOtherBusinesses("form.submitButton")}
               </Button>
 

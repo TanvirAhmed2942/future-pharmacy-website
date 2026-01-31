@@ -10,6 +10,7 @@ import useShowToast from "@/hooks/useShowToast";
 import { setCookie, deleteCookie } from "@/lib/cookies";
 import { useAppDispatch } from "@/store/hooks";
 import { login } from "@/store/slices/userSlice/userSlice";
+import { Loader } from "lucide-react";
 
 function TwoStepVerification() {
   const [code, setCode] = useState(["", "", "", ""]);
@@ -217,7 +218,7 @@ function TwoStepVerification() {
             disabled={isLoading || code.some((digit) => !digit)}
             className="bg-peter hover:bg-peter-dark text-white font-medium py-2 px-6 rounded-lg mx-auto w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isLoading ? "Verifying..." : "Verify"}
+            {isLoading ? <><p className="flex items-center justify-center gap-2">Verifying...<Loader className="animate-spin size-4 text-white" /></p></> : "Verify"}
           </Button>
         </div>
       </div>

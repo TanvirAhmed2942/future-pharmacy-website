@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { useCreateContactMessageMutation } from "@/store/Apis/contact/contactApi";
 import useShowToast from "@/hooks/useShowToast";
+import { Loader } from "lucide-react";
 
 interface FormValues {
   name: string;
@@ -399,7 +400,7 @@ function ManContactUs() {
                   disabled={isLoading}
                   className="bg-[#8A4D9F] hover:bg-[#7A3D8F] disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-6 sm:px-10 py-3 sm:py-6 text-sm sm:text-base font-medium rounded-md transition-colors w-full sm:w-auto"
                 >
-                  {isLoading ? "Sending..." : t("submitButton")}
+                  {isLoading ? <><p className="flex items-center justify-center gap-2">Sending...<Loader className="animate-spin size-4 text-white" /></p></> : t("submitButton")}
                 </Button>
               </div>
               <div className="absolute inset-0 w-full h-full flex items-center justify-center pointer-events-none z-10">

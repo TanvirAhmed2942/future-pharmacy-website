@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useChangePasswordVerficationMutation } from "@/store/Apis/authApis/authApi";
 import useShowToast from "@/hooks/useShowToast";
+import { Loader } from "lucide-react";
 
 interface PasswordModalProps {
   isOpen: boolean;
@@ -370,7 +371,7 @@ function PasswordModal({
           <Button
             variant="outline"
             onClick={onClose}
-            className="w-full sm:flex-1"
+            className="w-full sm:flex-1 px-6 py-2 text-peter border-peter hover:bg-peter hover:text-peter-dark disabled:opacity-50"
           >
             Cancel
           </Button>
@@ -381,7 +382,7 @@ function PasswordModal({
                 disabled={isChangingPassword}
                 className="w-full sm:flex-1 bg-peter hover:bg-peter-dark text-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isChangingPassword ? "Saving..." : "Save Password"}
+                {isChangingPassword ? <><p className="flex items-center justify-center gap-2">Saving...<Loader className="animate-spin size-4 text-white" /></p></> : "Save Password"}
               </Button>
             )
           ) : (
@@ -390,7 +391,7 @@ function PasswordModal({
               disabled={isChangingPassword}
               className="w-full sm:flex-1 bg-peter hover:bg-peter-dark text-white disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isChangingPassword ? "Saving..." : "Save Password"}
+              {isChangingPassword ? <><p className="flex items-center justify-center gap-2">Saving...<Loader className="animate-spin size-4 text-white" /></p></> : "Save Password"}
             </Button>
           )}
         </DialogFooter>

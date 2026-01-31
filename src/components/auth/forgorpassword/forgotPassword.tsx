@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { useForgotPasswordMutation } from "@/store/Apis/authApis/authApi";
 import useShowToast from "@/hooks/useShowToast";
 import { setCookie } from "@/lib/cookies";
+import { Loader } from "lucide-react";
 
 function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -125,7 +126,7 @@ function ForgotPassword() {
             className="bg-peter hover:bg-peter-dark text-white font-medium py-2 px-6 rounded-lg w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={isLoading}
           >
-            {isLoading ? "Sending..." : "Send OTP"}
+            {isLoading ? <><p className="flex items-center justify-center gap-2">Sending...<Loader className="animate-spin size-4 text-white" /></p></> : "Send OTP"}
           </Button>
         </div>
       </form>

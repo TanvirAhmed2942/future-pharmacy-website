@@ -18,6 +18,7 @@ import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { useSubmitInterestInvestorMutation } from "@/store/Apis/businessApi/businessApi";
 import useShowToast from "@/hooks/useShowToast";
+import { Loader } from "lucide-react";
 
 interface FormValues {
   fullName: string;
@@ -352,7 +353,7 @@ function InvestorsInquiryForm() {
                             className={cn(
                               "bg-gray-50 text-[14px]",
                               errors.yearsOfInvestmentExperience &&
-                                "border-red-500"
+                              "border-red-500"
                             )}
                           >
                             <SelectValue
@@ -419,7 +420,7 @@ function InvestorsInquiryForm() {
                   disabled={isLoading}
                   className="w-full bg-peter hover:bg-peter-dark text-white h-10 text-base font-medium cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isLoading ? "Submitting..." : tForm("submitButton")}
+                  {isLoading ? <><p className="flex items-center justify-center gap-2">Submitting...<Loader className="animate-spin size-4 text-white" /></p></> : tForm("submitButton")}
                 </Button>
 
                 {/* Watermark */}

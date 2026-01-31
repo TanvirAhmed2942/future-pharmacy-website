@@ -17,7 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ChevronDownIcon } from "lucide-react";
+import { ChevronDownIcon, Loader } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
@@ -310,11 +310,11 @@ function ScheduleOnline() {
       // Format date of birth to YYYY-MM-DD
       const formattedDateOfBirth = data.dateOfBirth
         ? `${data.dateOfBirth.getFullYear()}-${String(
-            data.dateOfBirth.getMonth() + 1
-          ).padStart(2, "0")}-${String(data.dateOfBirth.getDate()).padStart(
-            2,
-            "0"
-          )}`
+          data.dateOfBirth.getMonth() + 1
+        ).padStart(2, "0")}-${String(data.dateOfBirth.getDate()).padStart(
+          2,
+          "0"
+        )}`
         : "";
 
       // Determine serviceType and serviceTypeChild based on conditions
@@ -605,9 +605,9 @@ function ScheduleOnline() {
                             `${(field.value.getMonth() + 1)
                               .toString()
                               .padStart(2, "0")}/${field.value
-                              .getDate()
-                              .toString()
-                              .padStart(2, "0")}/${field.value.getFullYear()}`
+                                .getDate()
+                                .toString()
+                                .padStart(2, "0")}/${field.value.getFullYear()}`
                           ) : (
                             <span>
                               {t("profileInfo.dateOfBirthPlaceholder")}
@@ -877,11 +877,11 @@ function ScheduleOnline() {
                           placeholder={
                             selectedCategory === "vaccinations"
                               ? t(
-                                  "services.serviceType.vaccinations.placeholder"
-                                )
+                                "services.serviceType.vaccinations.placeholder"
+                              )
                               : t(
-                                  "services.serviceType.health_screenings.placeholder"
-                                )
+                                "services.serviceType.health_screenings.placeholder"
+                              )
                           }
                         />
                       </SelectTrigger>
@@ -1052,11 +1052,11 @@ function ScheduleOnline() {
                   "w-full mt-1 justify-between font-normal text-left",
                   (!selectedAppointmentDates ||
                     selectedAppointmentDates.length === 0) &&
-                    "text-muted-foreground"
+                  "text-muted-foreground"
                 )}
               >
                 {selectedAppointmentDates &&
-                selectedAppointmentDates.length > 0 ? (
+                  selectedAppointmentDates.length > 0 ? (
                   <span className="text-sm font-medium text-gray-700">
                     {selectedAppointmentDates.length}{" "}
                     {selectedAppointmentDates.length === 1
@@ -1131,10 +1131,10 @@ function ScheduleOnline() {
 
               {(!selectedAppointmentDates ||
                 selectedAppointmentDates.length === 0) && (
-                <p className="text-red-500 text-xs mt-1">
-                  {t("appointment.required")}
-                </p>
-              )}
+                  <p className="text-red-500 text-xs mt-1">
+                    {t("appointment.required")}
+                  </p>
+                )}
             </div>
 
             <Label
@@ -1215,7 +1215,7 @@ function ScheduleOnline() {
             disabled={isLoading}
             className="w-full bg-peter hover:bg-peter-dark text-white py-3 rounded-md font-medium disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isLoading ? t("submitting") : t("submitButton")}
+            {isLoading ? <><p className="flex items-center justify-center gap-2">{t("submitting")}<Loader className="animate-spin size-4 text-white" /></p></> : t("submitButton")}
           </Button>
         </form>
       </div>

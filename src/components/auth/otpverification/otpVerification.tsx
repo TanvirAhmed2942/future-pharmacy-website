@@ -12,6 +12,7 @@ import {
 import useShowToast from "@/hooks/useShowToast";
 import { deleteCookie, setCookie } from "@/lib/cookies";
 import { getCookie } from "@/lib/cookies";
+import { Loader } from "lucide-react";
 function OtpVerification() {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
@@ -168,25 +169,25 @@ function OtpVerification() {
           />
         </div>
         <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">
-        Email Verification Code
+          Email Verification Code
         </h2>
         <p className="text-gray-700 text-xs sm:text-sm mb-4 sm:mb-6">
-        To keep your account secure, we need to confirm your email
-        address. We've sent a 6-digit verification code to <span className="font-bold">({forgotPasswordEmail})</span>
+          To keep your account secure, we need to confirm your email
+          address. We've sent a 6-digit verification code to <span className="font-bold">({forgotPasswordEmail})</span>
         </p>
       </div>
 
       {/* Verification Code Section */}
       <div className="space-y-3 sm:space-y-4">
         <h3 className="text-base sm:text-lg font-bold text-gray-800">
-        Get a Verification Code
+          Get a Verification Code
         </h3>
         <p className="text-gray-700 text-xs sm:text-sm">
-        Please enter the code below to complete your password reset. The code will expire in a few minutes.
-        <br/>
-        <span className="italic text-gray-500 text-xs -mt-1">* Standard rates apply.</span>
+          Please enter the code below to complete your password reset. The code will expire in a few minutes.
+          <br />
+          <span className="italic text-gray-500 text-xs -mt-1">* Standard rates apply.</span>
         </p>
-       
+
         {/* Verification Code Inputs */}
         <div className="flex justify-center space-x-2 sm:space-x-3 mt-4 sm:mt-6">
           {code.map((digit, index) => (
@@ -216,7 +217,7 @@ function OtpVerification() {
             disabled={isLoading || code.some((digit) => !digit)}
             className="bg-peter hover:bg-peter-dark text-white font-medium py-2 px-6 rounded-lg mx-auto w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isLoading ? "Verifying..." : "Verify"}
+            {isLoading ? <><p className="flex items-center justify-center gap-2">Verifying...<Loader className="animate-spin size-4 text-white" /></p></> : "Verify"}
           </Button>
         </div>
       </div>
@@ -231,7 +232,7 @@ function OtpVerification() {
             disabled={isResending}
             className="text-peter hover:text-peter-dark hover:underline disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isResending ? "Resending..." : "Resend"}
+            {isResending ? <><p className="flex items-center justify-center gap-2">Resending...<Loader className="animate-spin size-4 text-peter" /></p></> : "Resend"}
           </button>
         </p>
       </div>

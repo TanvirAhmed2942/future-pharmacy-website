@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import { Calendar } from "@/components/ui/calendar";
-import { ChevronDownIcon } from "lucide-react";
+import { ChevronDownIcon, Loader } from "lucide-react";
 import Link from "next/link";
 import {
   Popover,
@@ -222,11 +222,11 @@ function RefillOnline() {
       // Format date of birth to YYYY-MM-DD
       const formattedDateOfBirth = data.dateOfBirth
         ? `${data.dateOfBirth.getFullYear()}-${String(
-            data.dateOfBirth.getMonth() + 1
-          ).padStart(2, "0")}-${String(data.dateOfBirth.getDate()).padStart(
-            2,
-            "0"
-          )}`
+          data.dateOfBirth.getMonth() + 1
+        ).padStart(2, "0")}-${String(data.dateOfBirth.getDate()).padStart(
+          2,
+          "0"
+        )}`
         : "";
 
       // Transform form data to API format
@@ -449,9 +449,9 @@ function RefillOnline() {
                             `${(field.value.getMonth() + 1)
                               .toString()
                               .padStart(2, "0")}/${field.value
-                              .getDate()
-                              .toString()
-                              .padStart(2, "0")}/${field.value.getFullYear()}`
+                                .getDate()
+                                .toString()
+                                .padStart(2, "0")}/${field.value.getFullYear()}`
                           ) : (
                             <span>
                               {t("personalInformation.dateOfBirthPlaceholder")}
@@ -884,7 +884,7 @@ function RefillOnline() {
                   .
                 </p>
               </label>
-             
+
             </div>
             {errors.consent && (
               <p className="text-red-500 text-xs mt-1 ml-6">
@@ -899,7 +899,7 @@ function RefillOnline() {
             disabled={isLoading}
             className="w-full bg-peter hover:bg-peter-dark text-white py-3 rounded-md font-medium disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isLoading ? t("submitting") : t("submitButton")}
+            {isLoading ? <><p className="flex items-center justify-center gap-2">{t("submitting")}<Loader className="animate-spin size-4 text-white" /></p></> : t("submitButton")}
           </Button>
         </form>
       </div>

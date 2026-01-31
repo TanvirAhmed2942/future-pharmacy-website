@@ -4,7 +4,7 @@ import React, { useState, FormEvent } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Loader } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useResetPasswordMutation } from "@/store/Apis/authApis/authApi";
@@ -172,7 +172,7 @@ function ResetPassword() {
             className="bg-peter hover:bg-peter-dark text-white font-medium py-2 px-6 rounded-lg w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={isLoading}
           >
-            {isLoading ? "Resetting..." : "Change Password"}
+            {isLoading ? <><p className="flex items-center justify-center gap-2">Resetting...<Loader className="animate-spin size-4 text-white" /></p></> : "Change Password"}
           </Button>
         </div>
       </form>

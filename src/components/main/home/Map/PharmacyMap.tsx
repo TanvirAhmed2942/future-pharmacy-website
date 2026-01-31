@@ -3,7 +3,7 @@ import React, { useCallback, useMemo, useState } from "react";
 import { GoogleMap, Marker, DirectionsRenderer } from "@react-google-maps/api";
 import { Location, Pharmacy } from "./types";
 import PharmacyMarker from "./PharmacyMarker";
-import { Map as MapIcon } from "lucide-react";
+// import { Map as MapIcon } from "lucide-react";
 
 interface PharmacyMapProps {
   pickupLocation?: Location | null;
@@ -67,8 +67,10 @@ export default function PharmacyMap({
       clickableIcons: true,
       scrollwheel: true,
       zoomControl: true,
-      streetViewControl: true, // Pegman – drag and drop onto map for Street View
-      mapTypeControl: false,
+      gestureHandling: "greedy",
+      zoomAnimation: true,
+      streetViewControl: true, // No Pegman – use "Street View" button so no mistaken pick/redrop or drop outside map
+      mapTypeControl: true,
       fullscreenControl: true,
       draggableCursor: selectionMode ? "crosshair" : undefined,
     }),
@@ -193,6 +195,7 @@ export default function PharmacyMap({
         map.fitBounds(bounds, padding);
         hasInitializedBounds.current = true;
       }
+
     },
     [bounds]
   );
@@ -213,12 +216,11 @@ export default function PharmacyMap({
     []
   );
 
-  // Street View button: show panorama at best available location
-  // const handleStreetViewClick = useCallback(() => {
-  //   const location =
-  //     pickupLocation ?? dropoffLocation ?? mapCenter ?? defaultCenter;
-  //   showStreetViewAt(location);
-  // }, [pickupLocation, dropoffLocation, mapCenter, showStreetViewAt]);
+  const handleStreetViewClick = useCallback(() => {
+    const location =
+      pickupLocation ?? dropoffLocation ?? mapCenter ?? defaultCenter;
+    showStreetViewAt(location);
+  }, [pickupLocation, dropoffLocation, mapCenter, showStreetViewAt]);
 
   // Update bounds only when locations or pharmacies actually change (not on map pan/zoom)
   React.useEffect(() => {
@@ -393,12 +395,11 @@ export default function PharmacyMap({
         {/* Route between pickup and dropoff */}
         {directions && <DirectionsRenderer directions={directions} />}
       </GoogleMap>
-      {/* Street View button – visible fallback when Pegman icon doesn't load (e.g. white square) */}
       {/* <button
         type="button"
         onClick={handleStreetViewClick}
         className="absolute bottom-4 left-4 z-10 flex items-center gap-2 px-3 py-2.5 bg-white rounded-lg shadow-md border border-gray-200 hover:bg-gray-50 hover:border-peter transition-colors text-sm font-medium text-gray-700"
-        title="Street View – drag pegman or click to view"
+        title="Street View – click to view at map center"
         aria-label="Street View"
       >
         <MapIcon className="w-5 h-5 text-peter shrink-0" />

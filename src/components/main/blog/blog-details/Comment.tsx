@@ -21,6 +21,7 @@ import { useDeleteBlogCommentMutation } from "@/store/Apis/blogApi/blogApi";
 import { imgUrl } from "@/lib/img_url";
 import gsap from "gsap";
 import { useTranslations } from "next-intl";
+import { Loader } from "lucide-react";
 interface CommentProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -123,9 +124,8 @@ function Comment({ open, onOpenChange, blogId }: CommentProps) {
 
   // Get user initials
   const getUserInitials = (firstName: string, lastName: string) => {
-    return `${firstName?.charAt(0) || ""}${
-      lastName?.charAt(0) || ""
-    }`.toUpperCase();
+    return `${firstName?.charAt(0) || ""}${lastName?.charAt(0) || ""
+      }`.toUpperCase();
   };
 
   const handleSubmit = async () => {
@@ -193,7 +193,7 @@ function Comment({ open, onOpenChange, blogId }: CommentProps) {
                 disabled={!commentText.trim() || isSubmitting}
                 className="bg-peter hover:bg-peter-dark text-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isSubmitting ? t("posting") : t("respond")}
+                {isSubmitting ? <><p className="flex items-center justify-center gap-2">{t("posting")}<Loader className="animate-spin size-4 text-white" /></p></> : t("respond")}
               </Button>
             </div>
           </div>

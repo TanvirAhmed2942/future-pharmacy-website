@@ -2,7 +2,7 @@
 import React, { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Loader } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { LiaQuestionCircle } from "react-icons/lia";
 import {
@@ -343,9 +343,8 @@ export default function OrderSummary({
         deliveryTime: convertTimeTo24Hour(checkoutData.selectedTime || ""),
         email: checkoutData.email || formData.email,
         phone: checkoutData.contactNumber || formData.contactNumber,
-        legalName: `${checkoutData.firstName || formData.firstName} ${
-          checkoutData.lastName || formData.lastName
-        }`,
+        legalName: `${checkoutData.firstName || formData.firstName} ${checkoutData.lastName || formData.lastName
+          }`,
         deliveryInstruction: checkoutData.additionalInstructions || "",
         dateOfBirth: formatDateToAPI(
           checkoutData.dateOfBirth || formData.dateOfBirth
@@ -661,13 +660,12 @@ export default function OrderSummary({
         <Button
           onClick={handleCompletePayment}
           disabled={isSubmitting || !termsAgreed}
-          className={`w-full py-3 rounded-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed ${
-            termsAgreed && !isSubmitting
-              ? "bg-peter hover:bg-peter-dark text-white"
-              : "bg-gray-300 text-gray-500"
-          }`}
+          className={`w-full py-3 rounded-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed ${termsAgreed && !isSubmitting
+            ? "bg-peter hover:bg-peter-dark text-white"
+            : "bg-gray-300 text-gray-500"
+            }`}
         >
-          {isSubmitting ? "Processing..." : t("completePayment")}
+          {isSubmitting ? <><p className="flex items-center justify-center gap-2">Processing...<Loader className="animate-spin size-4 text-peter" /></p></> : t("completePayment")}
         </Button>
       </div>
 

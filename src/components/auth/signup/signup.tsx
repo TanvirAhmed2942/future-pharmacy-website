@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Loader } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import useIcon from "@/hooks/useIcon";
@@ -360,7 +360,7 @@ function Signup() {
                 }
                 className="rounded-full bg-gray-200 mt-0.5 flex-shrink-0"
               />
-              <Label 
+              <Label
                 htmlFor="terms"
                 className="text-xs sm:text-sm text-gray-700 flex-1 leading-relaxed !block"
               >
@@ -397,7 +397,7 @@ function Signup() {
               disabled={isLoading}
               className="w-full bg-peter hover:bg-peter-dark text-white font-medium py-1.5 px-4 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed text-sm"
             >
-              {isLoading ? "Creating Account..." : "Sign Up"}
+              {isLoading ? <><p className="flex items-center justify-center gap-2">Creating Account...<Loader className="animate-spin size-4 text-white" /></p></> : "Sign Up"}
             </Button>
 
             {/* Continue with Google Button */}
@@ -428,8 +428,8 @@ function Signup() {
             </p>
           </div>
         </div>
-      </ScrollArea>
-    </div>
+      </ScrollArea >
+    </div >
   );
 }
 

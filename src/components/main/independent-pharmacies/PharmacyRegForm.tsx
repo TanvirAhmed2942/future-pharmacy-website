@@ -18,6 +18,7 @@ import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { useSubmitInterestPharmacyMutation } from "@/store/Apis/businessApi/businessApi";
 import useShowToast from "@/hooks/useShowToast";
+import { Loader } from "lucide-react";
 interface FormValues {
   pharmacyName: string;
   pharmacyAddress: string;
@@ -387,7 +388,7 @@ function PharmacyRegForm() {
                 disabled={isLoading}
                 className="w-full bg-peter hover:bg-peter-dark text-white h-10 text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isLoading ? "Submitting..." : tForm("submitButton")}
+                {isLoading ? <><p className="flex items-center justify-center gap-2">Submitting...<Loader className="animate-spin size-4 text-white" /></p></> : tForm("submitButton")}
               </Button>
 
               {/* Watermark */}

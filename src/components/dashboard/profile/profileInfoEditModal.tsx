@@ -22,7 +22,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
-import { CalendarIcon, Upload, X } from "lucide-react";
+import { CalendarIcon, Loader, Upload, X } from "lucide-react";
 import Image from "next/image";
 import {
   useGetProfileQuery,
@@ -447,7 +447,7 @@ function ProfileInfoEditModal({ isOpen, onClose }: ProfileInfoEditModalProps) {
               variant="outline"
               onClick={onClose}
               disabled={isLoading}
-              className="px-6 py-2 text-peter border-peter hover:bg-peter hover:text-white disabled:opacity-50"
+              className="px-6 py-2 text-peter border-peter hover:bg-peter hover:text-peter-dark disabled:opacity-50"
             >
               Cancel
             </Button>
@@ -456,7 +456,7 @@ function ProfileInfoEditModal({ isOpen, onClose }: ProfileInfoEditModalProps) {
               disabled={isLoading}
               className="px-6 py-2 bg-peter hover:bg-peter-dark text-white disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isLoading ? "Saving..." : "Save Changes"}
+              {isLoading ? <><p className="flex items-center justify-center gap-2">Saving...<Loader className="animate-spin size-4 text-white" /></p></> : "Save Changes"}
             </Button>
           </div>
         </div>

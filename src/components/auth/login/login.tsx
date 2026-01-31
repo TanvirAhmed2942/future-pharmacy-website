@@ -4,7 +4,7 @@ import React, { useState, FormEvent } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Loader } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -50,8 +50,8 @@ function Login() {
           // Redirect to two-step verification page with redirect parameter
           const redirectUrl = redirectPath
             ? `/auth/two-step-verification?redirect=${encodeURIComponent(
-                redirectPath
-              )}`
+              redirectPath
+            )}`
             : "/auth/two-step-verification";
           setTimeout(() => {
             router.push(redirectUrl);
@@ -199,7 +199,7 @@ function Login() {
             className="bg-peter hover:bg-peter-dark text-white font-medium py-2 px-6 rounded-lg w-full sm:w-auto"
             disabled={isLoading}
           >
-            {isLoading ? "Logging in..." : "Login"}
+            {isLoading ? <><p className="flex items-center justify-center gap-2">Logging in...<Loader className="animate-spin size-4 text-white" /></p></> : "Login"}
           </Button>
           <Link
             href="/auth/forgot-password"
@@ -208,10 +208,10 @@ function Login() {
             Forget Password?
           </Link>
         </div>
-      </form>
+      </form >
 
       {/* Footer Link */}
-      <div className="text-center mt-4 sm:mt-6">
+      <div className="text-center mt-4 sm:mt-6" >
         <p className="text-xs sm:text-sm text-gray-700">
           Don&apos;t have an account?{" "}
           <Link
@@ -221,8 +221,8 @@ function Login() {
             Sign Up
           </Link>
         </p>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 }
 
