@@ -3,6 +3,7 @@ import React, { useCallback, useMemo, useState } from "react";
 import { GoogleMap, Marker, DirectionsRenderer } from "@react-google-maps/api";
 import { Location, Pharmacy } from "./types";
 import PharmacyMarker from "./PharmacyMarker";
+import { Map as MapIcon } from "lucide-react";
 
 interface PharmacyMapProps {
   pickupLocation?: Location | null;
@@ -66,7 +67,7 @@ export default function PharmacyMap({
       clickableIcons: true,
       scrollwheel: true,
       zoomControl: true,
-      streetViewControl: false,
+      streetViewControl: true, // Pegman – drag and drop onto map for Street View
       mapTypeControl: false,
       fullscreenControl: true,
       draggableCursor: selectionMode ? "crosshair" : undefined,
@@ -196,6 +197,29 @@ export default function PharmacyMap({
     [bounds]
   );
 
+  // Show Street View at a given location (map center, pickup, dropoff, or first pharmacy)
+  const showStreetViewAt = useCallback(
+    (location: Location | undefined) => {
+      const map = mapRef.current;
+      if (!map || !location || typeof window === "undefined" || !window.google)
+        return;
+      const streetView = map.getStreetView();
+      if (!streetView) return;
+      streetView.setPosition(
+        new window.google.maps.LatLng(location.lat, location.lng)
+      );
+      streetView.setVisible(true);
+    },
+    []
+  );
+
+  // Street View button: show panorama at best available location
+  // const handleStreetViewClick = useCallback(() => {
+  //   const location =
+  //     pickupLocation ?? dropoffLocation ?? mapCenter ?? defaultCenter;
+  //   showStreetViewAt(location);
+  // }, [pickupLocation, dropoffLocation, mapCenter, showStreetViewAt]);
+
   // Update bounds only when locations or pharmacies actually change (not on map pan/zoom)
   React.useEffect(() => {
     if (mapRef.current && bounds && hasInitializedBounds.current) {
@@ -313,60 +337,73 @@ export default function PharmacyMap({
   }, [selectedPharmacy]);
 
   return (
-    <GoogleMap
-      mapContainerClassName={`w-full h-full rounded-xl ${
-        selectionMode ? "cursor-crosshair" : ""
-      }`}
-      mapContainerStyle={{ width: "100%", height: "100%" }}
-      center={mapCenter}
-      zoom={zoom}
-      options={mapOptions}
-      onLoad={onLoad}
-      onClick={selectionMode ? handleMapClick : undefined}
-    >
-      {/* Pickup Location Marker - "A" */}
-      {pickupLocation && (
-        <Marker
-          position={pickupLocation}
-          title="Pickup Location (A)"
-          label={{
-            text: "A",
-            color: "#ffffff",
-            fontSize: "14px",
-            fontWeight: "bold",
-          }}
-        />
-      )}
+    <div className="relative w-full h-full">
+      <GoogleMap
+        mapContainerClassName={`w-full h-full rounded-xl ${selectionMode ? "cursor-crosshair" : ""
+          }`}
+        mapContainerStyle={{ width: "100%", height: "100%" }}
+        center={mapCenter}
+        zoom={zoom}
+        options={mapOptions}
+        onLoad={onLoad}
+        onClick={selectionMode ? handleMapClick : undefined}
+      >
+        {/* Pickup Location Marker - "A" */}
+        {pickupLocation && (
+          <Marker
+            position={pickupLocation}
+            title="Pickup Location (A)"
+            label={{
+              text: "A",
+              color: "#ffffff",
+              fontSize: "14px",
+              fontWeight: "bold",
+            }}
+          />
+        )}
 
-      {/* Dropoff Location Marker - "B" */}
-      {dropoffLocation && (
-        <Marker
-          position={dropoffLocation}
-          title="Dropoff Location (B)"
-          label={{
-            text: "B",
-            color: "#ffffff",
-            fontSize: "14px",
-            fontWeight: "bold",
-          }}
-        />
-      )}
+        {/* Dropoff Location Marker - "B" */}
+        {dropoffLocation && (
+          <Marker
+            position={dropoffLocation}
+            title="Dropoff Location (B)"
+            label={{
+              text: "B",
+              color: "#ffffff",
+              fontSize: "14px",
+              fontWeight: "bold",
+            }}
+          />
+        )}
 
-      {/* Pharmacy Markers */}
-      {pharmacies.map((pharmacy) => (
-        <PharmacyMarker
-          key={pharmacy.id}
-          pharmacy={pharmacy}
-          isSelected={selectedPharmacy?.id === pharmacy.id}
-          isInfoOpen={selectedPharmacy?.id === pharmacy.id}
-          onClick={handlePharmacyClick}
-          onSelect={onPharmacySelect}
-          onInfoClose={handleInfoClose}
-        />
-      ))}
+        {/* Pharmacy Markers */}
+        {pharmacies.map((pharmacy) => (
+          <PharmacyMarker
+            key={pharmacy.id}
+            pharmacy={pharmacy}
+            isSelected={selectedPharmacy?.id === pharmacy.id}
+            isInfoOpen={selectedPharmacy?.id === pharmacy.id}
+            onClick={handlePharmacyClick}
+            onSelect={onPharmacySelect}
+            onInfoClose={handleInfoClose}
+            onStreetViewClick={showStreetViewAt}
+          />
+        ))}
 
-      {/* Route between pickup and dropoff */}
-      {directions && <DirectionsRenderer directions={directions} />}
-    </GoogleMap>
+        {/* Route between pickup and dropoff */}
+        {directions && <DirectionsRenderer directions={directions} />}
+      </GoogleMap>
+      {/* Street View button – visible fallback when Pegman icon doesn't load (e.g. white square) */}
+      {/* <button
+        type="button"
+        onClick={handleStreetViewClick}
+        className="absolute bottom-4 left-4 z-10 flex items-center gap-2 px-3 py-2.5 bg-white rounded-lg shadow-md border border-gray-200 hover:bg-gray-50 hover:border-peter transition-colors text-sm font-medium text-gray-700"
+        title="Street View – drag pegman or click to view"
+        aria-label="Street View"
+      >
+        <MapIcon className="w-5 h-5 text-peter shrink-0" />
+        <span>Street View</span>
+      </button> */}
+    </div>
   );
 }

@@ -302,6 +302,26 @@ html body[data-scroll-locked] {
   }
 }
 
+/* Ensure Google Maps Street View (Pegman) control icon is visible - fixes blank white square */
+.gm-svpc,
+.gm-style > div[style*="cursor"] + div .gm-svpc {
+  min-width: 40px !important;
+  min-height: 40px !important;
+  width: 40px !important;
+  height: 40px !important;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+}
+/* Prevent map controls from being clipped or zero-sized */
+.gm-control-active > img,
+.gm-svpc > div {
+  min-width: 24px !important;
+  min-height: 24px !important;
+  max-width: none !important;
+  object-fit: contain !important;
+}
+
 .gm-ui-hover-effect {
   display: none !important;
 }
