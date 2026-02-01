@@ -69,11 +69,9 @@ function OurStorySection({
                     {whoWeAre.features.map((feature: string, idx: number) => (
                       <div
                         key={idx}
-                        className={` px-4 py-2 lg:text-sm 2xl:text-base ${
-                          idx < 2 ? "border-b-2 border-gray-300" : ""
-                        } ${
-                          idx % 2 === 0 ? "border-r-2  border-gray-300" : ""
-                        }`}
+                        className={` px-4 py-2 lg:text-sm 2xl:text-base ${idx < 2 ? "border-b-2 border-gray-300" : ""
+                          } ${idx % 2 === 0 ? "border-r-2  border-gray-300" : ""
+                          }`}
                       >
                         {feature}
                       </div>
@@ -102,6 +100,7 @@ function OurStorySection({
                   fill
                   className="object-cover"
                   priority
+                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 100vw, 100vw"
                 />
               </div>
             </div>
@@ -163,6 +162,7 @@ function OurStorySection({
                   alt="Pharmacist at work"
                   fill
                   className="object-cover  "
+                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 100vw, 100vw"
                 />
               </div>
 
