@@ -299,7 +299,7 @@ const NotifyCoverage = ({
         </div>
 
         {/* Terms */}
-        <p className="text-sm md:text-base text-gray-600 w-full">
+        {/* <p className="text-sm md:text-base text-gray-600 w-full">
           {t("termsText")}{" "}
           <Link
             href="/policies/Terms of Service.pdf"
@@ -327,7 +327,7 @@ const NotifyCoverage = ({
           >
             {t("hipaaPolicy")}
           </Link>
-        </p>
+        </p> */}
       </div>
 
       <CommonModal
