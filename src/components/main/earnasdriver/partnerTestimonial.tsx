@@ -15,19 +15,19 @@ function PartnerTestimonial() {
     {
       name: "Jane Cooper",
       role: "Patient",
-      image: "/testimonials/user.png",
+      image: "/testimonials/user_avatar.jpg",
       text: "Lorem ipsum dolor sit amet consectetur. Sed sit tristique nisl gravida vel. Faucibus gravida eget enim magna. Mauris feugiat venenatis adipiscing pretium. Mollis quis nisi placerat sit amet purus feugiat at. In venenatis integer lectus amet rutrum.",
     },
     {
       name: "Robert Fox",
       role: "Pharmacy Owner",
-      image: "/testimonials/user.png",
+      image: "/testimonials/user_avatar.jpg",
       text: "Lorem ipsum dolor sit amet consectetur. Sed sit tristique nisl gravida vel. Faucibus gravida eget enim magna. Mauris feugiat venenatis adipiscing pretium. Mollis quis nisi placerat sit amet purus feugiat at. In venenatis integer lectus amet rutrum.",
     },
     {
       name: "Sarah Williams",
       role: "Healthcare Provider",
-      image: "/testimonials/user.png",
+      image: "/testimonials/user_avatar.jpg",
       text: "Lorem ipsum dolor sit amet consectetur. Sed sit tristique nisl gravida vel. Faucibus gravida eget enim magna. Mauris feugiat venenatis adipiscing pretium. Mollis quis nisi placerat sit amet purus feugiat at. In venenatis integer lectus amet rutrum.",
     },
   ];
@@ -79,7 +79,7 @@ function PartnerTestimonial() {
             pagination={{
               clickable: true,
             }}
-            onSlideChange={() => {}}
+            onSlideChange={() => { }}
             className="testimonial-swiper"
           >
             {testimonials.map((testimonial, index) => (

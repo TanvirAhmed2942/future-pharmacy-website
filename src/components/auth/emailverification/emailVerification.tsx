@@ -14,6 +14,7 @@ import { deleteCookie, setCookie } from "@/lib/cookies";
 import { useAppDispatch } from "@/store/hooks";
 import { login } from "@/store/slices/userSlice/userSlice";
 import { getCookie } from "@/lib/cookies";
+import { Loader } from "lucide-react";
 
 function EmailVerification() {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
@@ -80,7 +81,7 @@ function EmailVerification() {
       if (response.success) {
         if (response.data) {
 
-          
+
           deleteCookie("createUserToken");
           // Set token in cookie
           setCookie("token", response.data);
@@ -137,7 +138,7 @@ function EmailVerification() {
       } else {
 
 
-        
+
         // Reset code on failure
         setCode(["", "", "", "", "", ""]);
         inputRefs.current[0]?.focus();
@@ -217,8 +218,8 @@ function EmailVerification() {
           Email Verification Code
         </h2>
         <p className="text-gray-700 text-xs sm:text-sm mb-4 sm:mb-6">
-        To keep your account secure, we need to confirm your email
-        address. We&apos;ve sent a 6-digit verification code to <span className="font-bold">({signupEmail})</span>
+          To keep your account secure, we need to confirm your email
+          address. We&apos;ve sent a 6-digit verification code to <span className="font-bold">({signupEmail})</span>
         </p>
       </div>
 
@@ -228,9 +229,9 @@ function EmailVerification() {
           Get a Verification Code
         </h3>
         <p className="text-gray-700 text-xs sm:text-sm">
-        Please enter the code below to complete your sign-up. The code
-will expire in a few minutes.<br/>
-<span className="italic text-gray-500 text-xs -mt-1">* Standard rates apply.</span>
+          Please enter the code below to complete your sign-up. The code
+          will expire in a few minutes.<br />
+          <span className="italic text-gray-500 text-xs -mt-1">* Standard rates apply.</span>
         </p>
 
         {/* Verification Code Inputs */}
@@ -262,7 +263,7 @@ will expire in a few minutes.<br/>
             disabled={isLoading || code.some((digit) => !digit)}
             className="bg-peter hover:bg-peter-dark text-white font-medium py-2 px-6 rounded-lg mx-auto w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isLoading ? "Verifying..." : "Verify"}
+            {isLoading ? <><p className="flex items-center justify-center gap-2">Verifying...<Loader className="animate-spin size-4 text-white" /></p></> : "Verify"}
           </Button>
         </div>
       </div>

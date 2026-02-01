@@ -42,7 +42,7 @@ function NavBar() {
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
   const [isPending, startTransition] = useTransition();
-  
+
   // Fetch latest profile data from API (only if logged in)
   const { data: profile } = useGetProfileQuery(undefined, {
     skip: !isLoggedIn, // Only fetch if user is logged in
@@ -69,14 +69,14 @@ function NavBar() {
   // Get user avatar URL with proper fallback
   const getAvatarUrl = () => {
     if (!profileImage || profileImage.trim() === "" || profileImage === "N/A") {
-      return "/testimonials/user.png";
+      return "/testimonials/user_avatar.jpg";
     }
     const url = imgUrl(profileImage);
     // Ensure we always return a valid URL (not empty string)
-    if (url && url.trim() !== "" && url !== "/testimonials/user.png") {
+    if (url && url.trim() !== "" && url !== "/testimonials/user_avatar.jpg") {
       return url;
     }
-    return "/testimonials/user.png";
+    return "/testimonials/user_avatar.jpg";
   };
 
   const userAvatar = getAvatarUrl();
@@ -228,8 +228,8 @@ function NavBar() {
                   <DropdownMenuTrigger asChild>
                     <button className="cursor-pointer focus:outline-none focus:ring-2 focus:ring-peter focus:ring-offset-2 rounded-full">
                       <Avatar className="w-8 h-8">
-                        <AvatarImage 
-                          src={userAvatar} 
+                        <AvatarImage
+                          src={userAvatar}
                           alt={userName}
                           onError={(e) => {
                             // If image fails to load, the fallback will show automatically
@@ -331,7 +331,7 @@ function NavBar() {
                         isActive("/earn-as-driver") ||
                         isActive("/investors") ||
                         isActive("/other-businesses")) &&
-                        "border-b-2 border-[#8d4585]"
+                      "border-b-2 border-[#8d4585]"
                     )}
                   >
                     {t("business.business")}
@@ -402,8 +402,8 @@ function NavBar() {
                   <DropdownMenuTrigger asChild>
                     <button className="cursor-pointer focus:outline-none focus:ring-2 focus:ring-peter focus:ring-offset-2 rounded-full">
                       <Avatar className="w-10 h-10">
-                        <AvatarImage 
-                          src={userAvatar} 
+                        <AvatarImage
+                          src={userAvatar}
                           alt={userName}
                           onError={(e) => {
                             // If image fails to load, the fallback will show automatically
@@ -498,7 +498,7 @@ function NavBar() {
                       isActive("/earn-as-driver") ||
                       isActive("/investors") ||
                       isActive("/other-businesses")) &&
-                      "border-b-2 border-[#8d4585]"
+                    "border-b-2 border-[#8d4585]"
                   )}
                 >
                   {t("business.business")}
@@ -689,8 +689,8 @@ function NavBar() {
           {/* Desktop Layout - Side by Side (1024px+) */}
           <div className={cn(
             "hidden lg:flex text-sm text-white",
-            isSpanish 
-              ? "flex-col gap-3 2xl:flex-row 2xl:items-center 2xl:justify-between 2xl:gap-0" 
+            isSpanish
+              ? "flex-col gap-3 2xl:flex-row 2xl:items-center 2xl:justify-between 2xl:gap-0"
               : "items-center justify-between"
           )}>
             {/* Contact Section */}

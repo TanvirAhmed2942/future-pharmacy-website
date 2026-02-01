@@ -40,8 +40,8 @@ function DashboardHeader() {
   const profileImage = profile?.data?.profile || user?.profile;
 
   const userAvatar = profileImage
-    ? imgUrl(profileImage) || "/testimonials/user.png"
-    : "/testimonials/user.png";
+    ? imgUrl(profileImage) || "/testimonials/user_avatar.jpg"
+    : "/testimonials/user_avatar.jpg";
   const userInitials = getUserInitials(firstName, lastName);
   const userName =
     firstName && lastName ? `${firstName} ${lastName}` : firstName || "User";

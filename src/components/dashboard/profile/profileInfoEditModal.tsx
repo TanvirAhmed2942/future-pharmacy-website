@@ -246,10 +246,7 @@ function ProfileInfoEditModal({ isOpen, onClose }: ProfileInfoEditModalProps) {
           <DialogTitle className="text-2xl font-bold text-gray-900">
             Edit info
           </DialogTitle>
-          <p className="text-sm text-gray-600 mt-2">
-            Lorem ipsum dolor sit amet consectetur. aliquet nullam vitae lorem
-            sagittis.
-          </p>
+
         </DialogHeader>
 
         <div className="px-6 pb-6">
@@ -270,6 +267,9 @@ function ProfileInfoEditModal({ isOpen, onClose }: ProfileInfoEditModalProps) {
                       height={200}
                       quality={100}
                       className="w-24 h-24 rounded-full object-cover border-2 border-gray-200"
+                      defaultValue={"/testimonials/user_avatar.jpg"}
+                      onError={() => setProfileImagePreview("/testimonials/user_avatar.jpg")}
+                      unoptimized={true}
                     />
                     {profileImageFile && (
                       <button
@@ -472,6 +472,9 @@ function ProfileInfoEditModal({ isOpen, onClose }: ProfileInfoEditModalProps) {
               {dateOfBirthError && (
                 <p className="text-red-500 text-xs mt-1">{dateOfBirthError}</p>
               )}
+              <p className="text-xs italic text-gray-500 mt-1">
+                * Age must be at least 13 years old.
+              </p>
             </div>
           </div>
 

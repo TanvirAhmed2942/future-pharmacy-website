@@ -24,13 +24,13 @@ export default function PersonalInfo({
 
   // Use the same logic as navbar for consistency
   const profileImage = personalInfo.profile
-    ? imgUrl(personalInfo.profile) || "/testimonials/user.png"
-    : "/testimonials/user.png";
+    ? imgUrl(personalInfo.profile) || "/testimonials/user_avatar.jpg"
+    : "/testimonials/user_avatar.jpg";
 
   // Use fallback image if there's an error or no profile image
   const displayImage =
-    imageError || !profileImage || profileImage === "/testimonials/user.png"
-      ? "/testimonials/user.png"
+    imageError || !profileImage || profileImage === "/testimonials/user_avatar.jpg"
+      ? "/testimonials/user_avatar.jpg"
       : profileImage;
 
   // Check if image is external (http/https) for unoptimized prop
