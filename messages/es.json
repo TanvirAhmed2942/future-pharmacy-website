@@ -51,7 +51,7 @@
         "titleDropoff": "Dirección de entrega fuera de cobertura",
         "descriptionPickup": "La ubicación de recogida que elegiste está fuera de nuestra zona de servicio. Elige una farmacia o dirección dentro de nuestros códigos postales cubiertos.",
         "descriptionDropoff": "La dirección de entrega que elegiste está fuera de nuestra zona de servicio. Elige una dirección dentro de nuestros códigos postales cubiertos.",
-        "zipcodeLabel": "Código postal:",
+        "zipcodeLabel": "Código postal detectado:",
         "ok": "Aceptar"
       }
     },

@@ -10,7 +10,7 @@ import { useGetZipcodeMutation } from "@/store/Apis/zipcodeApi/zipcodeApi";
 import { toast } from "sonner";
 import { useEffect } from "react";
 import { useTranslations } from "next-intl";
-import Link from "next/link";
+
 
 function CheckZoneCoverage() {
   const t = useTranslations("checkZoneCoverage");
@@ -107,7 +107,7 @@ function CheckZoneCoverage() {
         </div>
       )}
 
-      <div className="relative overflow-visible">
+      <div className="relative overflow-visible" id="check-zone-coverage-section">
         <section
           className="py-8 md:py-8 w-full flex flex-col items-center justify-center transition-all duration-500"
           style={{

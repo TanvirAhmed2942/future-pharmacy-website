@@ -51,7 +51,7 @@
         "titleDropoff": "Delivery address not in coverage",
         "descriptionPickup": "The pickup location you selected is outside our service area. Please choose a pharmacy or address within our covered zip codes.",
         "descriptionDropoff": "The delivery address you selected is outside our service area. Please choose an address within our covered zip codes.",
-        "zipcodeLabel": "ZIP code:",
+        "zipcodeLabel": "ZIP code detected:",
         "ok": "OK"
       }
     },
