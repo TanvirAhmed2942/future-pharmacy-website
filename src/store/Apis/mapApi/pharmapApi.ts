@@ -38,6 +38,20 @@ export interface GetPharmaciesParams {
   state: string;
 }
 
+export interface CoverageZipcodeItem {
+  _id: string;
+  zipCode: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface GetCoverageZipcodeResponse {
+  success: boolean;
+  message: string;
+  data: CoverageZipcodeItem[];
+  meta?: { page: number; limit: number; total: number; totalPage: number };
+}
+
 export const mapApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getPharmacies: builder.query<GetPharmaciesResponse, GetPharmaciesParams>({
@@ -54,6 +68,16 @@ export const mapApi = baseApi.injectEndpoints({
       }),
       providesTags: ["Map"],
     }),
+    getCoverageZipcode: builder.query<
+      GetCoverageZipcodeResponse,
+      void
+    >({
+      query: () => ({
+        url: `/coverage-zip-code`,
+        method: "GET",
+      }),
+      providesTags: ["Map"],
+    }),
   }),
   overrideExisting: true,
 });
@@ -62,5 +86,6 @@ export const {
   useGetPharmaciesQuery,
   useLazyGetPharmaciesQuery,
   useGetPartnerPharmaciesLogoQuery,
+  useGetCoverageZipcodeQuery,
 } = mapApi;
 // &city=${city}&state=${state}

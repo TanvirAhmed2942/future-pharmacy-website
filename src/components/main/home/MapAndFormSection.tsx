@@ -15,7 +15,7 @@ import DatePickerModal from "@/components/ui/date-picker-modal";
 import TimePickerModal from "@/components/ui/time-picker-modal";
 import LocationPickerModal from "@/components/main/home/location-picker-modal";
 import NewCustomerModal from "./checkUserStatusModal";
-
+import { useGetCoverageZipcodeQuery } from "@/store/Apis/mapApi/pharmapApi";
 import {
   selectIsLoggedIn,
   selectUser,
@@ -55,7 +55,17 @@ export default function MapAndFormSection() {
   const tForm = useTranslations("home.form");
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector(selectUser);
+  const { data: coverageZipcodeData } =
+    useGetCoverageZipcodeQuery(undefined, {
+      refetchOnMountOrArgChange: true,
+    });
 
+  const coverageZipcode = useMemo(() => {
+    if (!coverageZipcodeData?.data?.length) return [];
+    return coverageZipcodeData.data.map((item) => item.zipCode);
+  }, [coverageZipcodeData]);
+
+  console.warn("coverageZipcode", coverageZipcode);
   // Redux state
   const pickupAddress = useAppSelector((state) => state.map.pickupAddress);
   const dropoffAddress = useAppSelector((state) => state.map.dropoffAddress);
