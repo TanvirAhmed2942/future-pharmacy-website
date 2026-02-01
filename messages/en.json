@@ -46,6 +46,7 @@
       "changeCityOrZipCode": "Change Zip Code",
       "pharmacySuggestions": "Pharmacy Suggestions",
       "noPharmaciesFound": "No pharmacies found",
+      "errorLoadingPharmacies": "Error loading pharmacies",
       "modalDescription": "Create a Optimus health Solutions account for faster checkout later. No time right now? No problem. You can check out as guest.",
       "outOfCoverage": {
         "titlePickup": "Pickup location not in coverage",

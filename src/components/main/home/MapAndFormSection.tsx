@@ -91,6 +91,7 @@ export default function MapAndFormSection() {
   const {
     data: pharmaciesResponse,
     isLoading: pharmaciesLoading,
+    isError: pharmaciesIsError,
   } = useGetPharmaciesQuery(
     { postCode: zipCode, city, state },
     {
@@ -708,8 +709,17 @@ export default function MapAndFormSection() {
               Loading pharmacies...
             </div>
           )}
+          {!pharmaciesLoading && displayedPharmacies.length === 0 && (
+            <div className="absolute top-4 right-4 bg-white px-3 py-2 rounded-lg shadow-md z-10 border border-gray-200 text-sm text-gray-700">
+              {t("noPharmaciesFound")}
+            </div>
+          )}
 
-
+          {pharmaciesIsError && (
+            <div className="absolute top-4 right-4 bg-white px-3 py-2 rounded-lg shadow-md z-10 border border-red-200 text-sm text-red-700">
+              {pharmaciesIsError ? t("errorLoadingPharmacies") : t("errorLoadingPharmacies")}
+            </div>
+          )}
         </div>
 
         {/* Date Picker Modal */}

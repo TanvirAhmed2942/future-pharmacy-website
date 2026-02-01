@@ -6,6 +6,7 @@ import { getMessages, getLocale } from "next-intl/server";
 import ReduxProvider from "@/store/ReduxProvider";
 import { Toaster } from "@/components/ui/sonner";
 import AuthRestorer from "@/components/common/AuthRestorer";
+import PopoverGuard from "@/components/common/PopoverGuard";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -34,6 +35,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} antialiased bg-gray-50 `}>
+        <PopoverGuard />
         {/* ReduxProvider wraps all layouts (auth, dashboard, etc.) */}
         <ReduxProvider>
           <AuthRestorer />

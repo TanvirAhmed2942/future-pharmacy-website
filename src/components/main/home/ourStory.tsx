@@ -104,6 +104,7 @@ function OurStory() {
                     src="/home/our_story.webp"
                     alt="Our Story - Optimus Health Solutions"
                     fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 100vw, 100vw"
                     className="object-cover"
                     priority
                   />
