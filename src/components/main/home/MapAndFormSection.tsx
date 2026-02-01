@@ -43,7 +43,10 @@ import {
   setDuration,
   setSelectedPharmacy,
 } from "@/store/slices/mapSlice";
-import { useGetPharmaciesQuery } from "@/store/Apis/mapApi/pharmapApi";
+import {
+  useGetPharmaciesQuery,
+  useLazyGetPharmaciesQuery,
+} from "@/store/Apis/mapApi/pharmapApi";
 import { RiResetLeftLine } from "react-icons/ri";
 import { setCheckoutData } from "@/store/slices/checkoutSlice";
 import { toast } from "sonner";
@@ -78,7 +81,6 @@ export default function MapAndFormSection() {
   const {
     data: pharmaciesResponse,
     isLoading: pharmaciesLoading,
-    isError: pharmaciesError,
   } = useGetPharmaciesQuery(
     { postCode: zipCode, city, state },
     {
@@ -87,6 +89,8 @@ export default function MapAndFormSection() {
       skip: !(zipCode || (city && state)),
     }
   );
+
+  const [triggerGetPharmacies] = useLazyGetPharmaciesQuery();
 
   const pharmaciesFromApi = useMemo(() => {
     if (!pharmaciesResponse?.data) return [];
@@ -369,6 +373,8 @@ export default function MapAndFormSection() {
     }
     return address;
   };
+
+
 
   return (
     <GoogleMapsProvider>
@@ -659,17 +665,15 @@ export default function MapAndFormSection() {
               </div>
             </div>
           )}
+
           {/* Pharmacies Loading / Error */}
           {pharmaciesLoading && (
             <div className="absolute top-4 right-4 bg-white px-3 py-2 rounded-lg shadow-md z-10 border border-gray-200 text-sm text-gray-700">
               Loading pharmacies...
             </div>
           )}
-          {pharmaciesError && (
-            <div className="absolute top-4 right-4 bg-white px-3 py-2 rounded-lg shadow-md z-10 border border-red-200 text-sm text-red-600">
-              Failed to load pharmacies
-            </div>
-          )}
+
+
         </div>
 
         {/* Date Picker Modal */}
@@ -703,6 +707,38 @@ export default function MapAndFormSection() {
             dispatch(setCurrentLocation(location));
           }}
           currentLocation={currentLocation}
+          onUpdateLocation={async (newLocation) => {
+            const zipMatch = newLocation.match(/\b\d{5}(-\d{4})?\b/);
+            const postCode = zipMatch ? zipMatch[0] : newLocation.trim();
+            if (!postCode)
+              return {
+                success: false,
+                message: "Please enter a valid ZIP code.",
+              };
+            const result = await triggerGetPharmacies({
+              postCode,
+              city: "",
+              state: "",
+            });
+            if (result.isError && result.error) {
+              const err = result.error as {
+                status?: number;
+                data?: { message?: string; err?: { message?: string } };
+              };
+              const is404 = err.status === 404;
+              const msg =
+                err.data?.err?.message ?? err.data?.message ?? "";
+              if (
+                is404 ||
+                msg.toLowerCase().includes("postcode") ||
+                msg.toLowerCase().includes("coverage")
+              ) {
+                return { success: false, message: msg || undefined };
+              }
+            }
+            dispatch(setCurrentLocation(newLocation));
+            return { success: true };
+          }}
         />
 
         {/* New Customer Modal */}

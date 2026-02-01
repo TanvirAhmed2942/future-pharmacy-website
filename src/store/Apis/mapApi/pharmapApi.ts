@@ -58,6 +58,9 @@ export const mapApi = baseApi.injectEndpoints({
   overrideExisting: true,
 });
 
-export const { useGetPharmaciesQuery, useGetPartnerPharmaciesLogoQuery } =
-  mapApi;
+export const {
+  useGetPharmaciesQuery,
+  useLazyGetPharmaciesQuery,
+  useGetPartnerPharmaciesLogoQuery,
+} = mapApi;
 // &city=${city}&state=${state}

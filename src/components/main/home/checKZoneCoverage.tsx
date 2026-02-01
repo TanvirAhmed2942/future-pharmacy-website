@@ -6,7 +6,7 @@ import useIcon from "@/hooks/useIcon";
 import Loader from "@/components/common/loader/Loader";
 import { TbCircleCheckFilled, TbCircleX } from "react-icons/tb";
 import CommonModal from "@/components/common/commonModal/commonModal";
-import { useLazyGetZipcodeQuery } from "@/store/Apis/zipcodeApi/zipcodeApi";
+import { useGetZipcodeMutation } from "@/store/Apis/zipcodeApi/zipcodeApi";
 import { toast } from "sonner";
 import { useEffect } from "react";
 import { useTranslations } from "next-intl";
@@ -19,7 +19,7 @@ function CheckZoneCoverage() {
   const [isCovered, setIsCovered] = useState<boolean | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [notFoundZip, setNotFoundZip] = useState("");
-  const [triggerZipCheck] = useLazyGetZipcodeQuery();
+  const [triggerZipCheck] = useGetZipcodeMutation();
 
   const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
@@ -186,7 +186,7 @@ function CheckZoneCoverage() {
           />
         </section>
 
-       
+
       </div>
     </>
   );
@@ -301,27 +301,27 @@ const NotifyCoverage = ({
         {/* Terms */}
         <p className="text-sm md:text-base text-gray-600 w-full">
           {t("termsText")}{" "}
-          <Link 
-            href="/policies/Terms of Service.pdf" 
-            target="_blank" 
+          <Link
+            href="/policies/Terms of Service.pdf"
+            target="_blank"
             rel="noopener noreferrer"
             className="text-peter hover:underline"
           >
             {t("termsOfService")}
           </Link>
           ,{" "}
-          <Link 
-            href="/policies/Privacy Policy.pdf" 
-            target="_blank" 
+          <Link
+            href="/policies/Privacy Policy.pdf"
+            target="_blank"
             rel="noopener noreferrer"
             className="text-peter hover:underline"
           >
             {t("privacyPolicy")}
           </Link>
           , and{" "}
-          <Link 
-            href="/policies/Privacy Policy.pdf" 
-            target="_blank" 
+          <Link
+            href="/policies/Privacy Policy.pdf"
+            target="_blank"
             rel="noopener noreferrer"
             className="text-peter hover:underline"
           >

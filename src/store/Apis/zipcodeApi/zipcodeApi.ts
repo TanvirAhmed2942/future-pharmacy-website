@@ -21,16 +21,16 @@ export interface ZipcodeRequest {
 
 export const zipcodeApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getZipcode: builder.query<ZipcodeResponse, ZipcodeRequest | void>({
+    getZipcode: builder.mutation<ZipcodeResponse, ZipcodeRequest | void>({
       query: (body) => ({
         url: "/delivery-zone/create",
         method: "POST",
         body,
       }),
-      providesTags: ["Zipcode"],
+      invalidatesTags: ["Zipcode"],
     }),
   }),
   overrideExisting: true,
 });
 
-export const { useGetZipcodeQuery, useLazyGetZipcodeQuery } = zipcodeApi;
+export const { useGetZipcodeMutation } = zipcodeApi;
