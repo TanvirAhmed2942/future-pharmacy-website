@@ -236,7 +236,7 @@ function NavBar() {
                             e.currentTarget.style.display = 'none';
                           }}
                         />
-                        <AvatarFallback>{userInitials}</AvatarFallback>
+                        <AvatarFallback className="text-black bg-white">{userInitials}</AvatarFallback>
                       </Avatar>
                     </button>
                   </DropdownMenuTrigger>
@@ -410,7 +410,7 @@ function NavBar() {
                             e.currentTarget.style.display = 'none';
                           }}
                         />
-                        <AvatarFallback>{userInitials}</AvatarFallback>
+                        <AvatarFallback className="text-black bg-white">{userInitials}</AvatarFallback>
                       </Avatar>
                     </button>
                   </DropdownMenuTrigger>

@@ -362,8 +362,8 @@ function ProfileInfoEditModal({ isOpen, onClose }: ProfileInfoEditModalProps) {
                 id="email"
                 type="email"
                 value={formData.email}
-                disabled
                 className="bg-gray-100 border-gray-200 text-gray-500 cursor-not-allowed"
+                readOnly
               />
             </div>
 

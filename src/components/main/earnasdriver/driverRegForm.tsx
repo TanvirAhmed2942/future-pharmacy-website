@@ -26,6 +26,7 @@ interface FormValues {
   city: string;
   zipCode: string;
   vehicleType: string;
+  vehicleTypeOther: string;
   yearsWithLicense: string;
   message: string;
 }
@@ -37,6 +38,7 @@ function DriverRegForm() {
     handleSubmit,
     control,
     reset,
+    watch,
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
@@ -46,10 +48,14 @@ function DriverRegForm() {
       city: "",
       zipCode: "",
       vehicleType: "",
+      vehicleTypeOther: "",
       yearsWithLicense: "",
       message: "",
     },
   });
+
+  const vehicleType = watch("vehicleType");
+  const isVehicleTypeOthers = vehicleType === "others";
 
   const [submitInterestDriver, { isLoading }] =
     useSubmitInterestDriverMutation();
@@ -57,6 +63,20 @@ function DriverRegForm() {
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     try {
+      // When "others" is selected, require and use the specified vehicle type for API
+      if (data.vehicleType === "others") {
+        const otherValue = data.vehicleTypeOther?.trim();
+        if (!otherValue) {
+          showError({ message: tForm("vehicleTypeSpecifyOthersRequired") });
+          return;
+        }
+      }
+
+      const vehicleTypeForApi =
+        data.vehicleType === "others"
+          ? (data.vehicleTypeOther?.trim() || data.vehicleType)
+          : data.vehicleType;
+
       // Transform form data to match API format
       const submitData = {
         name: data.name,
@@ -64,7 +84,7 @@ function DriverRegForm() {
         email: data.emailAddress,
         city: data.city,
         zipCode: data.zipCode,
-        vehicleType: data.vehicleType,
+        vehicleType: vehicleTypeForApi,
         yearOfDriverLicense: data.yearsWithLicense,
         message: data.message,
       };
@@ -84,6 +104,7 @@ function DriverRegForm() {
           city: "",
           zipCode: "",
           vehicleType: "",
+          vehicleTypeOther: "",
           yearsWithLicense: "",
           message: "",
         });
@@ -318,6 +339,7 @@ function DriverRegForm() {
                           <SelectItem value="e-bike">E-bike</SelectItem>
                           <SelectItem value="motorbike">Motorbike</SelectItem>
                           <SelectItem value="scooter">Scooter</SelectItem>
+                          <SelectItem value="others">Others</SelectItem>
                         </SelectContent>
                       </Select>
                     )}
@@ -326,6 +348,38 @@ function DriverRegForm() {
                     <p className="text-red-500 text-xs mt-1">
                       {errors.vehicleType.message}
                     </p>
+                  )}
+                  {isVehicleTypeOthers && (
+                    <div className="mt-3">
+                      <Label
+                        htmlFor="vehicleTypeOther"
+                        className="text-sm text-gray-700"
+                      >
+                        {tForm("vehicleTypeSpecifyOthers")}
+                      </Label>
+                      <Input
+                        id="vehicleTypeOther"
+                        type="text"
+                        placeholder={tForm("vehicleTypeSpecifyOthersPlaceholder")}
+                        className={cn(
+                          "mt-1 bg-gray-50",
+                          errors.vehicleTypeOther && "border-red-500"
+                        )}
+                        {...register("vehicleTypeOther", {
+                          validate: (value) => {
+                            if (vehicleType !== "others") return true;
+                            if (!value?.trim())
+                              return tForm("vehicleTypeSpecifyOthersRequired");
+                            return true;
+                          },
+                        })}
+                      />
+                      {errors.vehicleTypeOther && (
+                        <p className="text-red-500 text-xs mt-1">
+                          {errors.vehicleTypeOther.message}
+                        </p>
+                      )}
+                    </div>
                   )}
                 </div>
                 <div>
