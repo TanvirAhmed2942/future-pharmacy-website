@@ -143,6 +143,8 @@ export default function MapAndFormSection() {
     context: "pickup" | "dropoff";
     zipcode: string | null;
   }>({ open: false, context: "pickup", zipcode: null });
+  // Key to force Map to clear local markers when modal closes (Redux may already be empty)
+  const [markersResetKey, setMarkersResetKey] = useState(0);
 
   const router = useRouter();
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
@@ -604,7 +606,7 @@ export default function MapAndFormSection() {
             </button>
 
             {/* Pharmacy Suggestions */}
-            {displayedPharmacies.length > 0 && (
+            {displayedPharmacies.length > 0 ? (
               <div className="mt-8">
                 <h2 className="text-xl font-bold text-gray-900 mb-4">
                   {t("pharmacySuggestions")}
@@ -631,6 +633,15 @@ export default function MapAndFormSection() {
                   ))}
                 </div>
               </div>
+            ) : (
+              <div className="mt-8">
+                <h2 className="text-xl font-bold text-gray-900 mb-4">
+                  {t("pharmacySuggestions")}
+                </h2>
+                <h2 className="text-xl font-noraml text-gray-500 mb-4">
+                  {t("noPharmaciesFound")}
+                </h2>
+              </div>
             )}
           </div>
         </div>
@@ -654,6 +665,7 @@ export default function MapAndFormSection() {
             onDropoffSelect={handleDropoffSelect}
             selectionMode={mapSelectionMode}
             onDistanceCalculated={handleDistanceCalculated}
+            markersResetKey={markersResetKey}
           />
           {mapSelectionMode && (
             <div className="absolute top-4 left-4 bg-white px-4 py-2 rounded-lg shadow-lg z-10 border-2 border-peter">
@@ -788,6 +800,8 @@ export default function MapAndFormSection() {
             dispatch(setDuration(null));
             dispatch(setSelectedPharmacy(null));
             setMapSelectionMode(null);
+            // Force Map to clear its local markers (they may persist when Redux was already empty)
+            setMarkersResetKey((k) => k + 1);
           }}
           context={outOfCoverageModal.context}
           zipcode={outOfCoverageModal.zipcode}

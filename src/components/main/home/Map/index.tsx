@@ -23,6 +23,8 @@ interface MapComponentProps {
   onDropoffSelect?: (location: Location, address: string) => void;
   selectionMode?: "pickup" | "dropoff" | null;
   onDistanceCalculated?: (distance: string, duration: string) => void;
+  /** When this key changes, local pickup/dropoff markers are cleared (e.g. after closing out-of-coverage modal). */
+  markersResetKey?: number;
 }
 
 export default function MapComponent({
@@ -42,6 +44,7 @@ export default function MapComponent({
   onDropoffSelect,
   selectionMode = null,
   onDistanceCalculated,
+  markersResetKey,
 }: MapComponentProps) {
   const [pickupLocation, setPickupLocation] = useState<Location | null>(
     pickupLocationProp || null
@@ -233,6 +236,17 @@ export default function MapComponent({
       }
     };
   }, []);
+
+  // When parent clears form (e.g. after closing out-of-coverage modal), clear local markers
+  // so they disappear even when Redux was already empty and props didn't change
+  useEffect(() => {
+    if (markersResetKey !== undefined && markersResetKey > 0) {
+      setPickupLocation(null);
+      setDropoffLocation(null);
+      onDistanceCalculated?.("", "");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- only clear when key changes
+  }, [markersResetKey]);
 
   const { isLoaded: mapsLoaded, loadError: mapsError } = useGoogleMaps();
 
