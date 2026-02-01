@@ -69,7 +69,9 @@
       "cancel": "Cancelar",
       "morning": "Mañana",
       "afternoon": "Tarde",
-      "evening": "Noche"
+      "evening": "Noche",
+      "closed": "Cerrado",
+      "descriptionClosed": "Estamos cerrados los domingos.\nPor favor, selecciona una fecha diferente."
     },
     "partners": {
       "headline": "Destacado de Farmacias Asociadas"

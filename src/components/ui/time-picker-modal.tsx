@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useTranslations } from "next-intl";
+import { ClosedAnimation } from "../lottieanimation/closed";
 interface TimePickerModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -34,61 +35,65 @@ export default function TimePickerModal({
     return `${displayHour}:${minute.toString().padStart(2, "0")} ${ampm}`;
   };
 
-  // Generate time slots with AM/PM format (29-minute intervals)
-  const generateTimeSlots = () => {
-    const morningSlots = [];
-    const afternoonSlots = [];
-    const eveningSlots = [];
-
-    // Morning slots (6:00 AM - 12:00 PM)
-    for (let hour = 6; hour < 12; hour++) {
+  // Generate slots for a time range (30-minute intervals, 29-min duration for display)
+  const generateSlotsForRange = (
+    startHour: number,
+    endHour: number
+  ): string[] => {
+    const slots: string[] = [];
+    for (let hour = startHour; hour < endHour; hour++) {
       for (let minute = 0; minute < 60; minute += 30) {
         const endMinute = minute + 29;
-        const endHour = endMinute >= 60 ? hour + 1 : hour;
+        const endH = endMinute >= 60 ? hour + 1 : hour;
         const finalEndMinute = endMinute >= 60 ? endMinute - 60 : endMinute;
 
         const startTime = formatTime(hour, minute);
-        const endTime = formatTime(endHour, finalEndMinute);
-
-        const timeSlot = `${startTime} - ${endTime}`;
-        morningSlots.push(timeSlot);
+        const endTime = formatTime(endH, finalEndMinute);
+        slots.push(`${startTime} - ${endTime}`);
       }
     }
-
-    // Afternoon slots (12:00 PM - 4:00 PM)
-    for (let hour = 12; hour < 16; hour++) {
-      for (let minute = 0; minute < 60; minute += 30) {
-        const endMinute = minute + 29;
-        const endHour = endMinute >= 60 ? hour + 1 : hour;
-        const finalEndMinute = endMinute >= 60 ? endMinute - 60 : endMinute;
-
-        const startTime = formatTime(hour, minute);
-        const endTime = formatTime(endHour, finalEndMinute);
-
-        const timeSlot = `${startTime} - ${endTime}`;
-        afternoonSlots.push(timeSlot);
-      }
-    }
-
-    // Evening slots (4:00 PM - 6:30 PM)
-    for (let hour = 16; hour < 19; hour++) {
-      for (let minute = 0; minute < 60; minute += 30) {
-        const endMinute = minute + 29;
-        const endHour = endMinute >= 60 ? hour + 1 : hour;
-        const finalEndMinute = endMinute >= 60 ? endMinute - 60 : endMinute;
-
-        const startTime = formatTime(hour, minute);
-        const endTime = formatTime(endHour, finalEndMinute);
-
-        const timeSlot = `${startTime} - ${endTime}`;
-        eveningSlots.push(timeSlot);
-      }
-    }
-
-    return { morningSlots, afternoonSlots, eveningSlots };
+    return slots;
   };
 
-  const { morningSlots, afternoonSlots, eveningSlots } = generateTimeSlots();
+  // Generate time slots based on selected day:
+  // Monday–Friday: 8am–7pm | Saturday: 10am–4pm | Sunday: Closed
+  const generateTimeSlots = () => {
+    const day = selectedDate ? selectedDate.getDay() : 1; // 0=Sun, 1=Mon, ..., 6=Sat; default Mon if no date
+
+    if (day === 0) {
+      return {
+        morningSlots: [] as string[],
+        afternoonSlots: [] as string[],
+        eveningSlots: [] as string[],
+        isClosed: true,
+      };
+    }
+
+    if (day === 6) {
+      // Saturday: 10am–4pm (morning 10–12, afternoon 12–4)
+      return {
+        morningSlots: generateSlotsForRange(10, 12),
+        afternoonSlots: generateSlotsForRange(12, 16),
+        eveningSlots: [] as string[],
+        isClosed: false,
+      };
+    }
+
+    // Monday–Friday: 8am–7pm
+    return {
+      morningSlots: generateSlotsForRange(8, 12),
+      afternoonSlots: generateSlotsForRange(12, 16),
+      eveningSlots: generateSlotsForRange(16, 19),
+      isClosed: false,
+    };
+  };
+
+  const {
+    morningSlots,
+    afternoonSlots,
+    eveningSlots,
+    isClosed,
+  } = generateTimeSlots();
 
   const formatDate = (date: Date) => {
     return date.toLocaleDateString("en-US", {
@@ -201,13 +206,12 @@ export default function TimePickerModal({
                 key={`${sectionName}-${index}`}
                 onClick={() => handleTimeSlotClick(slot)}
                 disabled={isDisabled}
-                className={`p-2.5 sm:p-3 rounded-lg border-2 transition-all text-xs sm:text-sm font-medium ${
-                  isDisabled
-                    ? "border-gray-200 bg-gray-100 text-gray-400 cursor-not-allowed opacity-50"
-                    : selectedTimeSlot === slot
+                className={`p-2.5 sm:p-3 rounded-lg border-2 transition-all text-xs sm:text-sm font-medium ${isDisabled
+                  ? "border-gray-200 bg-gray-100 text-gray-400 cursor-not-allowed opacity-50"
+                  : selectedTimeSlot === slot
                     ? "border-peter bg-peter text-white hover:bg-peter-dark"
                     : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
-                }`}
+                  }`}
               >
                 {slot}
               </button>
@@ -222,48 +226,81 @@ export default function TimePickerModal({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="w-[95vw] max-w-[95vw] sm:max-w-lg md:max-w-xl lg:max-w-2xl bg-white rounded-xl shadow-2xl border-0 p-0 max-h-[90vh] sm:max-h-[85vh] lg:max-h-[80vh] overflow-hidden">
         {/* Header */}
-        <DialogHeader className="p-3 sm:p-4 border-b">
-          <DialogTitle className="text-lg sm:text-xl font-bold text-gray-900">
-            {t("title")}
-          </DialogTitle>
-        </DialogHeader>
+        {isClosed ? (
+          <DialogHeader className="p-3 sm:p-4 border-b text-left">
+            <DialogTitle className="text-lg sm:text-xl font-bold text-gray-900 text-left">
+              {t("descriptionClosed")}
+            </DialogTitle>
+          </DialogHeader>
+        ) : (
+          <DialogHeader className="p-3 sm:p-4 border-b">
+            <DialogTitle className="text-lg sm:text-xl font-bold text-gray-900">
+              {t("title")}
+            </DialogTitle>
+          </DialogHeader>
+        )}
 
         {/* Delivery date info */}
-        <div className="px-4 sm:px-6 py-2 bg-gray-50">
-          <p className="text-xs sm:text-sm text-gray-600">
-            {t("description")}{" "}
-            <span className="font-semibold text-peter">
-              {selectedDate ? formatDate(selectedDate) : "Tuesday, July 23"}
-            </span>
-          </p>
-        </div>
+        {isClosed ? (
+          null
+        ) : (
+          <div className="px-4 sm:px-6 py-2 bg-gray-50">
+            <p className="text-xs sm:text-sm text-gray-600">
+              {t("description")}{" "}
+              <span className="font-semibold text-peter">
+                {selectedDate ? formatDate(selectedDate) : "Tuesday, July 23"}
+              </span>
+            </p>
+          </div>
+        )}
 
         {/* Time slots with scroll area */}
         <ScrollArea className="h-[250px] sm:h-[300px] md:h-[350px] lg:h-[400px] max-h-[50vh] sm:max-h-[45vh] lg:max-h-[40vh]">
           <div className="p-4 sm:p-5 lg:p-6">
-            {renderTimeSlots(morningSlots, t("morning"))}
-            {renderTimeSlots(afternoonSlots, t("afternoon"))}
-            {renderTimeSlots(eveningSlots, t("evening"))}
+            {isClosed ? (
+              // <p className="text-center text-gray-600 py-8 font-medium">
+              //   {t("closed")}
+              // </p>
+
+              <ClosedAnimation />
+            ) : (
+              <>
+                {morningSlots.length > 0 &&
+                  renderTimeSlots(morningSlots, t("morning"))}
+                {afternoonSlots.length > 0 &&
+                  renderTimeSlots(afternoonSlots, t("afternoon"))}
+                {eveningSlots.length > 0 &&
+                  renderTimeSlots(eveningSlots, t("evening"))}
+              </>
+            )}
           </div>
         </ScrollArea>
+
         {/* Action buttons */}
-        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 p-4 sm:p-5 lg:p-6 border-t">
-          <Button
-            onClick={onClose}
-            variant="outline"
-            className="w-full sm:flex-1 border-gray-300 text-gray-700 hover:bg-gray-50 text-sm sm:text-base py-2.5 sm:py-2"
-          >
-            {t("cancel")}
-          </Button>
-          <Button
-            onClick={handleConfirm}
-            className="w-full sm:flex-1 bg-peter hover:bg-peter-dark text-white text-sm sm:text-base py-2.5 sm:py-2"
-            disabled={!selectedTimeSlot}
-          >
-            {t("confirmTime")}
-          </Button>
-        </div>
+
+        {isClosed ? (
+          null
+        ) : (
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 p-4 sm:p-5 lg:p-6 border-t">
+            <Button
+              onClick={onClose}
+              variant="outline"
+              className="w-full sm:flex-1 border-gray-300 text-gray-700 hover:bg-gray-50 text-sm sm:text-base py-2.5 sm:py-2"
+            >
+              {t("cancel")}
+            </Button>
+            <Button
+              onClick={handleConfirm}
+              className="w-full sm:flex-1 bg-peter hover:bg-peter-dark text-white text-sm sm:text-base py-2.5 sm:py-2"
+              disabled={!selectedTimeSlot}
+            >
+              {t("confirmTime")}
+            </Button>
+          </div>
+        )}
       </DialogContent>
     </Dialog>
   );
 }
+
+

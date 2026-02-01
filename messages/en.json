@@ -69,7 +69,9 @@
       "cancel": "Cancel",
       "morning": "Morning",
       "afternoon": "Afternoon",
-      "evening": "Evening"
+      "evening": "Evening",
+      "closed": "Closed",
+      "descriptionClosed": "We are closed on Sundays. Please select a different date."
     },
     "partners": {
       "headline": "Partner Pharmacy Spotlight"

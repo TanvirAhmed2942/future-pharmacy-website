@@ -78,7 +78,7 @@ export default function DatePickerModal({
     });
   };
 
-  // Check if a date is in the past (before today)
+  // Check if a date is in the past (before today) or Sunday (closed)
   const isDateDisabled = (day: number, isCurrentMonth: boolean = true) => {
     const date = new Date(
       currentYear,
@@ -86,7 +86,9 @@ export default function DatePickerModal({
       day
     );
     date.setHours(0, 0, 0, 0);
-    return date < today;
+    const isPast = date < today;
+    const isSunday = date.getDay() === 0;
+    return isPast || isSunday;
   };
 
   // Check if previous month button should be disabled
