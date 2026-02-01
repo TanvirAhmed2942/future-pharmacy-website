@@ -45,7 +45,15 @@
       "titleforMobileView": "Solicita tu receta\nentregada en minutos",
       "changeCityOrZipCode": "Cambiar código postal",
       "pharmacySuggestions": "Sugerencias de farmacias",
-      "modalDescription": "Crea una cuenta de Optimus Health Solutions para un checkout más rápido más tarde. ¿No tienes tiempo ahora? No hay problema. Puedes hacer checkout como invitado."
+      "modalDescription": "Crea una cuenta de Optimus Health Solutions para un checkout más rápido más tarde. ¿No tienes tiempo ahora? No hay problema. Puedes hacer checkout como invitado.",
+      "outOfCoverage": {
+        "titlePickup": "Ubicación de recogida fuera de cobertura",
+        "titleDropoff": "Dirección de entrega fuera de cobertura",
+        "descriptionPickup": "La ubicación de recogida que elegiste está fuera de nuestra zona de servicio. Elige una farmacia o dirección dentro de nuestros códigos postales cubiertos.",
+        "descriptionDropoff": "La dirección de entrega que elegiste está fuera de nuestra zona de servicio. Elige una dirección dentro de nuestros códigos postales cubiertos.",
+        "zipcodeLabel": "Código postal:",
+        "ok": "Aceptar"
+      }
     },
     "form": {
       "pickupLocation": "Ubicación de recogida",

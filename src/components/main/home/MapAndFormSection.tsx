@@ -15,6 +15,8 @@ import DatePickerModal from "@/components/ui/date-picker-modal";
 import TimePickerModal from "@/components/ui/time-picker-modal";
 import LocationPickerModal from "@/components/main/home/location-picker-modal";
 import NewCustomerModal from "./checkUserStatusModal";
+import OutOfCoverageModal from "./OutOfCoverageModal";
+import { validateAddressCoverage } from "@/lib/coverageValidation";
 import { useGetCoverageZipcodeQuery } from "@/store/Apis/mapApi/pharmapApi";
 import {
   selectIsLoggedIn,
@@ -64,8 +66,6 @@ export default function MapAndFormSection() {
     if (!coverageZipcodeData?.data?.length) return [];
     return coverageZipcodeData.data.map((item) => item.zipCode);
   }, [coverageZipcodeData]);
-
-  console.warn("coverageZipcode", coverageZipcode);
   // Redux state
   const pickupAddress = useAppSelector((state) => state.map.pickupAddress);
   const dropoffAddress = useAppSelector((state) => state.map.dropoffAddress);
@@ -137,6 +137,12 @@ export default function MapAndFormSection() {
   const [displayedPharmacies, setDisplayedPharmacies] = useState<Pharmacy[]>(
     []
   );
+  // Out-of-coverage modal: show when user selects pickup/dropoff outside coverage
+  const [outOfCoverageModal, setOutOfCoverageModal] = useState<{
+    open: boolean;
+    context: "pickup" | "dropoff";
+    zipcode: string | null;
+  }>({ open: false, context: "pickup", zipcode: null });
 
   const router = useRouter();
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
@@ -304,35 +310,43 @@ export default function MapAndFormSection() {
     }
   };
 
-  const handlePickupSelect = (location: Location, address: string) => {
-    // console.log("Pickup Location Selected:", {
-    //   address: address,
-    //   latitude: location.lat,
-    //   longitude: location.lng,
-    //   coordinates: `Lat: ${location.lat}, Lng: ${location.lng}`,
-    // });
+  const handlePickupSelect = async (location: Location, address: string) => {
+    if (coverageZipcode.length > 0) {
+      const result = await validateAddressCoverage(location, coverageZipcode);
+      if (!result.valid) {
+        setOutOfCoverageModal({
+          open: true,
+          context: "pickup",
+          zipcode: result.zipcode,
+        });
+        setMapSelectionMode(null);
+        return;
+      }
+    }
     dispatch(setPickupAddress(address));
     dispatch(setPickupLocation(location));
-    // Clear name when manually selecting a location (not from pharmacy marker)
     dispatch(setPickupName(""));
-    // Clear selected pharmacy if user manually selects a pickup location
-    // handlePharmacySelect will set it again if selecting from a pharmacy
     dispatch(setSelectedPharmacy(null));
-    setMapSelectionMode(null); // Reset selection mode after selection
+    setMapSelectionMode(null);
   };
 
-  const handleDropoffSelect = (location: Location, address: string) => {
-    // console.log("Dropoff Location Selected:", {
-    //   address: address,
-    //   latitude: location.lat,
-    //   longitude: location.lng,
-    //   coordinates: `Lat: ${location.lat}, Lng: ${location.lng}`,
-    // });
+  const handleDropoffSelect = async (location: Location, address: string) => {
+    if (coverageZipcode.length > 0) {
+      const result = await validateAddressCoverage(location, coverageZipcode);
+      if (!result.valid) {
+        setOutOfCoverageModal({
+          open: true,
+          context: "dropoff",
+          zipcode: result.zipcode,
+        });
+        setMapSelectionMode(null);
+        return;
+      }
+    }
     dispatch(setDropoffAddress(address));
     dispatch(setDropoffLocation(location));
-    // Clear name when manually selecting a location
     dispatch(setDropoffName(""));
-    setMapSelectionMode(null); // Reset selection mode after selection
+    setMapSelectionMode(null);
   };
 
   const handlePharmacyClick = (pharmacy: Pharmacy) => {
@@ -756,6 +770,27 @@ export default function MapAndFormSection() {
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           description={t("modalDescription")}
+        />
+
+        {/* Out of coverage modal (pickup/dropoff outside service area) */}
+        <OutOfCoverageModal
+          isOpen={outOfCoverageModal.open}
+          onClose={() => {
+            setOutOfCoverageModal((prev) => ({ ...prev, open: false }));
+            // Clear both pickup and dropoff so form is in empty state
+            dispatch(setPickupAddress(""));
+            dispatch(setDropoffAddress(""));
+            dispatch(setPickupName(""));
+            dispatch(setDropoffName(""));
+            dispatch(setPickupLocation(null));
+            dispatch(setDropoffLocation(null));
+            dispatch(setDistance(null));
+            dispatch(setDuration(null));
+            dispatch(setSelectedPharmacy(null));
+            setMapSelectionMode(null);
+          }}
+          context={outOfCoverageModal.context}
+          zipcode={outOfCoverageModal.zipcode}
         />
       </div>
     </GoogleMapsProvider>
