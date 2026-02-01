@@ -647,6 +647,8 @@ export default function MapAndFormSection() {
           </div>
         </div>
 
+
+        <p className="text-sm text-gray-500 px-4 md:px-0 md:hidden">{t("pleaseZoomToSelectPharmacy")}</p>
         {/* Right Section - Map - Visible on all devices */}
         <div className="flex w-full lg:w-1/2 px-4 md:px-0 relative rounded-xl h-[400px] sm:h-[450px] md:h-[500px] lg:h-auto lg:min-h-[600px]">
           <MapComponent
