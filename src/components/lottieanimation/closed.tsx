@@ -12,7 +12,7 @@ export const ClosedAnimation = () => {
         setSrc(`${window.location.origin}${LOTTIE_PATH}`);
     }, []);
 
-    if (!src) return <div className="w-full h-full" />;
+    if (!src) return <div className="w-full h-full " />;
 
     return (
         <DotLottieReact
