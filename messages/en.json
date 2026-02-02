@@ -46,14 +46,16 @@
       "changeCityOrZipCode": "Change Zip Code",
       "pharmacySuggestions": "Pharmacy Suggestions",
       "noPharmaciesFound": "No pharmacies found",
-      "errorLoadingPharmacies": "Error loading pharmacies",
+      "errorLoadingPharmacies": "We couldn't find any pharmacies in your area. Change your zip code and try again.",
       "pleaseZoomToSelectPharmacy": "Please zoom in on the map to select a pharmacy.",
       "modalDescription": "Create a Optimus health Solutions account for faster checkout later. No time right now? No problem. You can check out as guest.",
       "outOfCoverage": {
-        "titlePickup": "Pickup location not in coverage",
-        "titleDropoff": "Delivery address not in coverage",
-        "descriptionPickup": "The pickup location you selected is outside our service area. Please choose a pharmacy or address within our covered zip codes.",
-        "descriptionDropoff": "The delivery address you selected is outside our service area. Please choose an address within our covered zip codes.",
+        "buttonText": "Click to check if your ZIP code is in our coverage area and let's stay in touch!",
+        "titlePickup": "Pickup location not in our coverage area",
+        "titleDropoff": "Delivery address not in our coverage area",
+        "thanksForChoosing": "Thank you for your interest in Optimus Health Solutions.",
+        "descriptionPickup": "Unfortunately, the pickup location you selected is outside our service area, but we're expanding quickly. Please choose a pharmacy or address within our covered zip codes.",
+        "descriptionDropoff": "Unfortunately, the delivery address you selected is outside our service area, but we're expanding quickly. Please choose a pharmacy or address within our covered zip codes.",
         "zipcodeLabel": "ZIP code detected:",
         "ok": "OK"
       }

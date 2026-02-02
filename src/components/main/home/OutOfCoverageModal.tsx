@@ -36,7 +36,6 @@ export default function OutOfCoverageModal({
   const title = context === "pickup" ? t("titlePickup") : t("titleDropoff");
   const description =
     context === "pickup" ? t("descriptionPickup") : t("descriptionDropoff");
-
   const smoothScrollToElement = useCallback((element: HTMLElement) => {
     const offset = -150;
     const elementPosition =
@@ -93,12 +92,15 @@ export default function OutOfCoverageModal({
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent
         showCloseButton
-        className="w-[calc(100vw-2rem)] max-w-[calc(100%-2rem)] max-h-[90dvh] overflow-y-auto p-4 sm:p-6 gap-3 sm:gap-4"
+        className="w-[calc(100vw-2rem)] max-w-[calc(100%-2rem)] max-h-[90dvh] overflow-y-auto overflow-x-hidden min-w-0 p-4 sm:p-6 gap-3 sm:gap-4"
       >
         <DialogHeader className="space-y-1 sm:space-y-2">
           <DialogTitle className="text-base sm:text-lg font-semibold leading-tight pr-8">
             {title}
           </DialogTitle>
+          <p className="text-sm sm:text-base text-gray-600">
+            {t("thanksForChoosing")}
+          </p>
           <DialogDescription className="text-start text-sm sm:text-base leading-snug">
             {description}
             {zipcode ? (
@@ -108,20 +110,15 @@ export default function OutOfCoverageModal({
             ) : null}
           </DialogDescription>
         </DialogHeader>
-        <Button
-          variant="ghost"
-          className="w-full text-peter hover:text-peter-dark hover:bg-peter/10 text-left justify-start py-2.5 sm:py-3 px-3 sm:px-4 text-sm sm:text-base whitespace-normal min-h-[44px]"
-          onClick={handleNavigateToCheckZoneCoverage}
-        >
-          Check if your zip code is in our coverage area?
-        </Button>
-        <DialogFooter className="flex-col-reverse sm:flex-row gap-2 sm:gap-2 mt-0">
+
+
+        <DialogFooter className="flex-col-reverse sm:flex-row gap-2 sm:gap-2 mt-0 min-w-0 overflow-visible">
           <Button
-            onClick={onClose}
+            onClick={handleNavigateToCheckZoneCoverage}
             variant="default"
-            className="w-full sm:w-auto bg-peter hover:bg-peter-dark text-white min-h-[44px] text-sm sm:text-base"
+            className="w-full  h-auto min-h-[48px] py-3 px-4 bg-peter hover:bg-peter-dark text-white text-sm sm:text-base whitespace-normal break-words text-center leading-normal overflow-visible"
           >
-            {t("ok")}
+            {t("buttonText")}
           </Button>
         </DialogFooter>
       </DialogContent>
