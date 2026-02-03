@@ -238,11 +238,14 @@ export default function LocationPickerModal({
                 New Location
               </h3>
               <Input
-                type="text"
+                type="number"
+                inputMode="numeric"
+                pattern="[0-9]"
                 placeholder="Enter ZIP code"
+                maxLength={5}
                 value={newLocation}
                 onChange={(e) => setNewLocation(e.target.value)}
-                className="w-full h-12 border-2 border-gray-200 focus:border-peter focus:ring-peter/20"
+                className="w-full h-12 border-2 border-gray-200 focus:border-peter focus:ring-peter/20 "
               />
             </div>
 
