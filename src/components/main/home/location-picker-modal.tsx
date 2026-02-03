@@ -129,12 +129,30 @@ export default function LocationPickerModal({
       <DialogContent className="sm:max-w-md bg-white rounded-xl shadow-2xl border-0 p-0">
         {/* Header */}
         <DialogHeader className="p-6 border-b">
-          <DialogTitle className="text-xl font-bold text-gray-900">
-            Change Zip Code
+          <DialogTitle
+            className={`text-xl font-bold text-gray-900 ${requestSubmitted ? "text-center" : ""
+              }`}
+          >
+            {requestSubmitted
+              ? "Thank you for choosing Optimus Health Solutions"
+              : zipcodeError && isRequestService
+                ? "Get early access"
+                : zipcodeError
+                  ? `ZIP code detected: ${newLocation || "—"}`
+                  : "Change Zip Code"}
           </DialogTitle>
-          <p className="text-sm text-gray-600 mt-2">
-            Enter your ZIP code to update your location.
-          </p>
+          {!requestSubmitted &&
+            zipcodeError &&
+            isRequestService && (
+              <p className="text-sm text-gray-600 mt-2">
+                Enter your email to get notified when we arrive
+              </p>
+            )}
+          {!zipcodeError && (
+            <p className="text-sm text-gray-600 mt-2">
+              Enter your ZIP code to update your location.
+            </p>
+          )}
         </DialogHeader>
 
 
@@ -143,7 +161,7 @@ export default function LocationPickerModal({
             {requestSubmitted ? (
               <>
                 <div className="mb-4 p-3 rounded-lg border border-green-200 bg-green-50 text-sm text-green-700">
-                  You will be notified as soon as we arrived.
+                  You will be notified as soon as we arrive!
                 </div>
                 <div className="flex gap-3">
                   <Button
@@ -164,8 +182,9 @@ export default function LocationPickerModal({
             ) : (
               <>
                 {!isRequestService && (
-                  <div className="mb-4 p-3 rounded-lg border border-red-200 bg-red-50 text-sm text-red-600">
-                    {zipcodeError}
+                  <div className="mb-4 p-3 text-center rounded-lg border border-red-200 bg-red-50 text-sm text-red-600">
+                    {zipcodeError === "This zip code is not exist in our coverage area!" ? "This ZIP code is currently outside our coverage area, but we'reexpanding quickly." : zipcodeError}
+                    <br />
                   </div>
                 )}
                 {isRequestService && (

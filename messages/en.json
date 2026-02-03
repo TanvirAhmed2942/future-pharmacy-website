@@ -46,7 +46,7 @@
       "changeCityOrZipCode": "Change Zip Code",
       "pharmacySuggestions": "Pharmacy Suggestions",
       "noPharmaciesFound": "No pharmacies found",
-      "errorLoadingPharmacies": "We couldn't find any pharmacies in your area. Change your zip code and try again.",
+      "errorLoadingPharmacies": "The ZIP code detected is outside our coverage areas. Please change ZIP code and try again.",
       "pleaseZoomToSelectPharmacy": "Please zoom in on the map to select a pharmacy.",
       "modalDescription": "Create a Optimus health Solutions account for faster checkout later. No time right now? No problem. You can check out as guest.",
       "outOfCoverage": {

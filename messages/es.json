@@ -46,7 +46,7 @@
       "changeCityOrZipCode": "Cambiar código postal",
       "pharmacySuggestions": "Sugerencias de farmacias",
       "noPharmaciesFound": "No se encontraron farmacias",
-      "errorLoadingPharmacies": "No pudimos encontrar ninguna farmacia en tu área. Cambia tu código postal y vuelve a intentarlo.",
+      "errorLoadingPharmacies": "El código postal detectado está fuera de nuestras áreas de cobertura. Por favor, cambie el código postal e inténtelo de nuevo.",
       "pleaseZoomToSelectPharmacy": "Por favor, acerca el mapa para seleccionar una farmacia.",
       "modalDescription": "Crea una cuenta de Optimus Health Solutions para un checkout más rápido más tarde. ¿No tienes tiempo ahora? No hay problema. Puedes hacer checkout como invitado.",
       "outOfCoverage": {
