@@ -19,21 +19,24 @@ export function useGeocode() {
         const geocoder = new window.google.maps.Geocoder();
 
         return new Promise((resolve) => {
-          geocoder.geocode({ address }, (results, status) => {
-            setLoading(false);
+          geocoder.geocode(
+            { address: address.includes("USA") ? address : `${address}, USA` },
+            (results, status) => {
+              setLoading(false);
 
-            if (status === "OK" && results && results[0]) {
-              const location = results[0].geometry.location;
-              resolve({
-                lat: location.lat(),
-                lng: location.lng(),
-                address: results[0].formatted_address,
-              });
-            } else {
-              setError(`Geocoding failed: ${status}`);
-              resolve(null);
+              if (status === "OK" && results && results[0]) {
+                const location = results[0].geometry.location;
+                resolve({
+                  lat: location.lat(),
+                  lng: location.lng(),
+                  address: results[0].formatted_address,
+                });
+              } else {
+                setError(`Geocoding failed: ${status}`);
+                resolve(null);
+              }
             }
-          });
+          );
         });
       } catch (err) {
         setLoading(false);
@@ -58,7 +61,12 @@ export function useGeocode() {
 
         return new Promise((resolve) => {
           geocoder.geocode(
-            { location: new window.google.maps.LatLng(location.lat, location.lng) },
+            {
+              location: new window.google.maps.LatLng(
+                location.lat,
+                location.lng
+              ),
+            },
             (results, status) => {
               setLoading(false);
 
@@ -73,7 +81,9 @@ export function useGeocode() {
         });
       } catch (err) {
         setLoading(false);
-        setError(err instanceof Error ? err.message : "Reverse geocoding failed");
+        setError(
+          err instanceof Error ? err.message : "Reverse geocoding failed"
+        );
         return null;
       }
     },
@@ -82,14 +92,47 @@ export function useGeocode() {
 
   const geocodeByZipCode = useCallback(
     async (zipCode: string): Promise<Location | null> => {
-      return geocodeAddress(zipCode);
+      if (!zipCode?.trim() || typeof window === "undefined" || !window.google) {
+        return null;
+      }
+      setLoading(true);
+      setError(null);
+      try {
+        const geocoder = new window.google.maps.Geocoder();
+        return new Promise((resolve) => {
+          geocoder.geocode(
+            {
+              address: `${zipCode.trim()}, USA`,
+              componentRestrictions: { country: "us" },
+            },
+            (results, status) => {
+              setLoading(false);
+              if (status === "OK" && results && results[0]) {
+                const loc = results[0].geometry.location;
+                resolve({
+                  lat: loc.lat(),
+                  lng: loc.lng(),
+                  address: results[0].formatted_address,
+                });
+              } else {
+                setError(`Geocoding failed: ${status}`);
+                resolve(null);
+              }
+            }
+          );
+        });
+      } catch (err) {
+        setLoading(false);
+        setError(err instanceof Error ? err.message : "Geocoding failed");
+        return null;
+      }
     },
-    [geocodeAddress]
+    []
   );
 
   const geocodeByCityState = useCallback(
     async (city: string, state: string): Promise<Location | null> => {
-      return geocodeAddress(`${city}, ${state}`);
+      return geocodeAddress(`${city}, ${state}, USA`);
     },
     [geocodeAddress]
   );
@@ -103,4 +146,3 @@ export function useGeocode() {
     error,
   };
 }
-

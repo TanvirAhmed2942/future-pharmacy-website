@@ -25,6 +25,7 @@ interface PharmacyMapProps {
   onDistanceCalculated?: (distance: string, duration: string) => void;
 }
 
+// New York (10001) – initial default center
 const defaultCenter: Location = {
   lat: 40.7128,
   lng: -74.006,
@@ -37,7 +38,6 @@ export default function PharmacyMap({
   dropoffLocation,
   pharmacies = [],
   center,
-  zoom = defaultZoom,
   onPharmacyClick,
   onPharmacySelect,
   showRoute = false,
@@ -66,6 +66,16 @@ export default function PharmacyMap({
       disableDefaultUI: false,
       clickableIcons: true,
       center: mapCenter,
+      zoom: defaultZoom,
+      restriction: {
+        latLngBounds: {
+          north: 49.38,
+          south: 24.52,
+          west: -125.0,
+          east: -66.93,
+        },
+        strictBounds: false,
+      },
       isFractionalZoomEnabled: true,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       colorScheme: google.maps.ColorScheme.FOLLOW_SYSTEM,
@@ -73,12 +83,12 @@ export default function PharmacyMap({
       zoomControl: true,
       gestureHandling: "greedy",
       zoomAnimation: true,
-      streetViewControl: true, // No Pegman – use "Street View" button so no mistaken pick/redrop or drop outside map
+      streetViewControl: true,
       mapTypeControl: true,
       fullscreenControl: true,
       draggableCursor: selectionMode ? "crosshair" : undefined,
     }),
-    [selectionMode]
+    [selectionMode, mapCenter]
   );
 
   // Calculate bounds to fit all markers
@@ -349,7 +359,7 @@ export default function PharmacyMap({
           }`}
         mapContainerStyle={{ width: "100%", height: "100%" }}
         center={mapCenter}
-        zoom={zoom}
+        zoom={defaultZoom}
         options={mapOptions}
         onLoad={onLoad}
         onClick={selectionMode ? handleMapClick : undefined}
@@ -399,16 +409,6 @@ export default function PharmacyMap({
         {/* Route between pickup and dropoff */}
         {directions && <DirectionsRenderer directions={directions} />}
       </GoogleMap>
-      {/* <button
-        type="button"
-        onClick={handleStreetViewClick}
-        className="absolute bottom-4 left-4 z-10 flex items-center gap-2 px-3 py-2.5 bg-white rounded-lg shadow-md border border-gray-200 hover:bg-gray-50 hover:border-peter transition-colors text-sm font-medium text-gray-700"
-        title="Street View – click to view at map center"
-        aria-label="Street View"
-      >
-        <MapIcon className="w-5 h-5 text-peter shrink-0" />
-        <span>Street View</span>
-      </button> */}
     </div>
   );
 }

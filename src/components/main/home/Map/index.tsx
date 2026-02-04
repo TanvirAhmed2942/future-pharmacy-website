@@ -62,17 +62,16 @@ export default function MapComponent({
   const pharmacySearchTimerRef = useRef<NodeJS.Timeout | null>(null);
   const lastSearchedLocationRef = useRef<string | null>(null);
 
-  // Initial load: search pharmacies with default center if no location provided
+  // Initial load: center on New York (initial zip is 10001)
   useEffect(() => {
-    const defaultCenter: Location = {
+    const newYorkCenter: Location = {
       lat: 40.7128,
       lng: -74.006,
     };
 
-    // If no location context is provided, use default center and search pharmacies
     if (!zipCode && !city && !state && !pickupAddress && !dropoffAddress) {
-      setMapCenter(defaultCenter);
-      searchPharmaciesByLocation(defaultCenter);
+      setMapCenter(newYorkCenter);
+      searchPharmaciesByLocation(newYorkCenter);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Only run once on mount
