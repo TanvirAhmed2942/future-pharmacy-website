@@ -4,6 +4,7 @@ import { useGetCoverageZipcodeQuery } from "@/store/Apis/mapApi/pharmapApi";
 import zipcodeRange from "./zipcoderange.json";
 import { MapPin } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { FlagAnimation } from "@/components/lottieanimation/flag";
 
 const STATE_NAMES: Record<string, string> = {
     AL: "Alabama",
@@ -134,21 +135,25 @@ function ListOfCoveredZone() {
     );
 
     return (
-        <div className="">
-            <div className="max-w-4xl mx-auto px-4 py-10">
-                <div className="mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900 tracking-tight">
-                        Our Coverage zones
-                    </h1>
-
-                    {totalZips > 0 && (
-                        <p className="mt-2 text-sm text-gray-500">
-                            {totalZips} zip code{totalZips !== 1 ? "s" : ""} in coverage
-                        </p>
-                    )}
+        <div className="min-w-0 w-full">
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10">
+                <div className="flex flex-col gap-6 sm:gap-0 sm:flex-row sm:items-start sm:justify-between">
+                    <div className="min-w-0 flex-1">
+                        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">
+                            Our Coverage Areas by State/ZIP Codes
+                        </h1>
+                        {totalZips > 0 && (
+                            <p className="mt-1.5 sm:mt-2 text-sm text-gray-500">
+                                {totalZips} zip code{totalZips !== 1 ? "s" : ""} in coverage
+                            </p>
+                        )}
+                    </div>
+                    <div className="shrink-0 hidden lg:block -mt-10">
+                        <FlagAnimation />
+                    </div>
                 </div>
 
-                <div className="mb-6">
+                <div className="mt-6 sm:mt-8 mb-6 sm:mb-8">
                     <label htmlFor="zip-search" className="sr-only">
                         Search by zip code
                     </label>
@@ -161,7 +166,7 @@ function ListOfCoveredZone() {
                         placeholder="Search by 5-digit zip code"
                         value={searchQuery}
                         onChange={handleSearchChange}
-                        className="max-w-xs font-mono tracking-widest"
+                        className="w-full sm:max-w-xs font-mono tracking-widest text-base sm:text-sm min-w-0"
                         aria-label="Search by zip code (5 digits)"
                     />
                     {searchQuery.length > 0 && (
@@ -172,13 +177,13 @@ function ListOfCoveredZone() {
                 </div>
 
                 {filteredStateKeys.length === 0 ? (
-                    <div className="rounded-xl border border-gray-200 bg-white p-8 text-center text-gray-500">
+                    <div className="rounded-xl border border-gray-200 bg-white p-6 sm:p-8 text-center text-gray-500 text-sm sm:text-base">
                         {searchQuery
                             ? `No zip codes match "${searchQuery}". Try a different search.`
                             : "No coverage data loaded."}
                     </div>
                 ) : (
-                    <div className="space-y-6">
+                    <div className="space-y-4 sm:space-y-6">
                         {filteredStateKeys.map((stateKey) => {
                             const zips = filteredByState[stateKey];
                             const stateName = stateKey === "Other" ? "Other" : (STATE_NAMES[stateKey] ?? stateKey);
@@ -186,27 +191,27 @@ function ListOfCoveredZone() {
                             return (
                                 <section
                                     key={stateKey}
-                                    className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden"
+                                    className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden min-w-0"
                                 >
-                                    <div className="flex items-center gap-3 px-5 py-4 bg-[#f3ecf3] border-b border-[#f3ecf3]">
-                                        <div className="flex h-9 w-9 items-start justify-center rounded-lg bg-peter/10 text-peter">
-                                            <MapPin className="h-4 w-4" />
+                                    <div className="flex items-center gap-3 px-4 sm:px-5 py-3 sm:py-4 bg-[#f3ecf3] border-b border-[#f3ecf3]">
+                                        <div className="flex h-8 w-8 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-lg bg-peter/10 text-peter">
+                                            <MapPin className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                                         </div>
-                                        <div>
-                                            <h2 className="text-lg font-semibold text-gray-900">
+                                        <div className="min-w-0">
+                                            <h2 className="text-base sm:text-lg font-semibold text-gray-900 truncate">
                                                 {stateLabel}
                                             </h2>
-                                            <p className="text-sm text-gray-500">
+                                            <p className="text-xs sm:text-sm text-gray-500">
                                                 {zips.length} zip code{zips.length !== 1 ? "s" : ""}
                                             </p>
                                         </div>
                                     </div>
-                                    <div className="p-4">
-                                        <ul className="flex flex-wrap gap-2">
+                                    <div className="p-3 sm:p-4">
+                                        <ul className="flex flex-wrap gap-1.5 sm:gap-2">
                                             {zips.map((zip, i) => (
                                                 <li
                                                     key={`${stateKey}-${zip}-${i}`}
-                                                    className="inline-flex items-center rounded-lg bg-gray-100 px-3 py-1.5 text-sm font-medium text-gray-800"
+                                                    className="inline-flex items-center rounded-lg bg-gray-100 px-2.5 py-1 sm:px-3 sm:py-1.5 text-xs sm:text-sm font-medium text-gray-800 min-w-0"
                                                 >
                                                     {zip}
                                                 </li>
