@@ -6,7 +6,6 @@ import mapSlice from "./slices/mapSlice";
 import userSlice from "./slices/userSlice/userSlice";
 import checkoutSlice from "./slices/checkoutSlice";
 import { baseApi } from "./Apis/baseApi";
-
 // Persist config for checkout slice
 const checkoutPersistConfig = {
   key: "checkout",

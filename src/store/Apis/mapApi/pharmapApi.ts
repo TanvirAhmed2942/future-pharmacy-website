@@ -70,12 +70,16 @@ export const mapApi = baseApi.injectEndpoints({
     }),
     getCoverageZipcode: builder.query<
       GetCoverageZipcodeResponse,
-      void
+      { limit?: number } | void
     >({
-      query: () => ({
-        url: `/coverage-zip-code`,
-        method: "GET",
-      }),
+      query: (params) => {
+        const search =
+          params && params.limit != null ? `?limit=${params.limit}` : "";
+        return {
+          url: `/coverage-zip-code${search}`,
+          method: "GET",
+        };
+      },
       providesTags: ["Map"],
     }),
   }),

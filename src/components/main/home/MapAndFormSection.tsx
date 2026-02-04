@@ -57,15 +57,16 @@ export default function MapAndFormSection() {
   const tForm = useTranslations("home.form");
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector(selectUser);
-  const { data: coverageZipcodeData } =
-    useGetCoverageZipcodeQuery(undefined, {
-      refetchOnMountOrArgChange: true,
-    });
+  const { data: coverageZipcodeData } = useGetCoverageZipcodeQuery(
+    { limit: 10000 },
+    { refetchOnMountOrArgChange: true }
+  );
 
   const coverageZipcode = useMemo(() => {
     if (!coverageZipcodeData?.data?.length) return [];
     return coverageZipcodeData.data.map((item) => item.zipCode);
   }, [coverageZipcodeData]);
+
   // Redux state
   const pickupAddress = useAppSelector((state) => state.map.pickupAddress);
   const dropoffAddress = useAppSelector((state) => state.map.dropoffAddress);
