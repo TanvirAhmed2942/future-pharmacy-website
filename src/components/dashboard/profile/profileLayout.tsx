@@ -9,7 +9,6 @@ import { updateUser } from "@/store/slices/userSlice/userSlice";
 function ProfileLayout() {
   const dispatch = useDispatch();
   const { data: profile } = useGetProfileQuery();
-  // console.log(profile?.data);
   const personalInfo = {
     firstName: profile?.data?.first_name || "N/A",
     lastName: profile?.data?.last_name || "N/A",

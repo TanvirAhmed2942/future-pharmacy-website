@@ -38,6 +38,34 @@ interface UpdateProfileRequest {
   gender: string;
   profile?: string;
 }
+
+export interface ActivityLogItem {
+  _id: string;
+  userId: {
+    _id: string;
+    profile?: string;
+    email?: string;
+    role?: string;
+  };
+  title: string;
+  message: string;
+  isDeleted: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface GetActivityLogResponse {
+  success: boolean;
+  message?: string;
+  meta?: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPage: number;
+  };
+  data?: ActivityLogItem[];
+}
+
 export const profileApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getProfile: builder.query<GetProfileResponse, void>({
@@ -88,6 +116,17 @@ export const profileApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["Profile"],
     }),
+    getActivityLog: builder.query<
+      GetActivityLogResponse,
+      { page?: number; limit?: number }
+    >({
+      query: ({ page = 1, limit = 10 } = {}) => ({
+        url: "/recent-activity",
+        method: "GET",
+        params: { page, limit },
+      }),
+      providesTags: ["Profile"],
+    }),
   }),
   overrideExisting: true,
 });
@@ -96,4 +135,5 @@ export const {
   useGetProfileQuery,
   useUpdateProfileMutation,
   useTwoStepVerificationMutation,
+  useGetActivityLogQuery,
 } = profileApi;
