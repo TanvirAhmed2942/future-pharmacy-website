@@ -40,7 +40,7 @@ function ActivityItem({ activity }: { activity: ActivityLogItem }) {
         <h3 className="text-base font-medium text-gray-900 mb-0.5">
           {activity.title}
         </h3>
-        <p className="text-sm text-gray-500 mb-0.5">{activity.message}</p>
+        <p className="text-sm text-gray-500 mb-0.5">{activity.message === "Enabled Two-step verification!" ? "Disabled Two-step verification!" : activity.message === "Disabled Two-step verification!" ? "Enabled Two-step verification!" : activity.message}</p>
         <p className="text-xs text-gray-400">
           {formatTimeAgo(activity.createdAt)}
         </p>
@@ -135,8 +135,8 @@ export default function ActivityLog() {
                   No activity yet.
                 </p>
               )}
-              {allActivities.map((activity) => (
-                <ActivityItem key={activity._id} activity={activity} />
+              {allActivities.map((activity, index) => (
+                <ActivityItem key={index} activity={activity} />
               ))}
               {/* Inline loading when fetching more */}
               {isFetching && allActivities.length > 0 && (

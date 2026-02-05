@@ -232,6 +232,7 @@ function NavBar() {
                         <AvatarImage
                           src={userAvatar}
                           alt={userName}
+                          className="w-full h-full object-cover"
                           onError={(e) => {
                             // If image fails to load, the fallback will show automatically
                             e.currentTarget.style.display = 'none';
@@ -406,6 +407,7 @@ function NavBar() {
                         <AvatarImage
                           src={userAvatar}
                           alt={userName}
+                          className="w-full h-full object-cover"
                           onError={(e) => {
                             // If image fails to load, the fallback will show automatically
                             e.currentTarget.style.display = 'none';
