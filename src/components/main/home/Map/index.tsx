@@ -25,6 +25,8 @@ interface MapComponentProps {
   onDistanceCalculated?: (distance: string, duration: string) => void;
   /** When this key changes, local pickup/dropoff markers are cleared (e.g. after closing out-of-coverage modal). */
   markersResetKey?: number;
+  /** Called when user's location is detected (for Redux/currentLocation). */
+  onUserLocationDetected?: (address: string) => void;
 }
 
 export default function MapComponent({
@@ -45,6 +47,7 @@ export default function MapComponent({
   selectionMode = null,
   onDistanceCalculated,
   markersResetKey,
+  onUserLocationDetected,
 }: MapComponentProps) {
   const [pickupLocation, setPickupLocation] = useState<Location | null>(
     pickupLocationProp || null
@@ -53,7 +56,10 @@ export default function MapComponent({
     dropoffLocationProp || null
   );
   const [mapCenter, setMapCenter] = useState<Location | null>(null);
-  const { geocodeAddress, geocodeByZipCode, geocodeByCityState } = useGeocode();
+  const [locationDeniedOrError, setLocationDeniedOrError] = useState(false);
+  const [userLocationForGeocode, setUserLocationForGeocode] = useState<Location | null>(null);
+  const hasCalledOnUserLocationDetectedRef = useRef(false);
+  const { geocodeAddress, geocodeByZipCode, geocodeByCityState, reverseGeocode } = useGeocode();
   const {
     pharmacies,
     searchPharmaciesByLocation,
@@ -61,20 +67,58 @@ export default function MapComponent({
   } = usePharmacySearch();
   const pharmacySearchTimerRef = useRef<NodeJS.Timeout | null>(null);
   const lastSearchedLocationRef = useRef<string | null>(null);
+  const { isLoaded: mapsLoaded, loadError: mapsError } = useGoogleMaps();
 
-  // Initial load: center on New York (initial zip is 10001)
+  const newYorkCenter: Location = { lat: 40.7128, lng: -74.006 };
+
+  // Initial load: get user location; fallback to New York and show "enable location" if denied
   useEffect(() => {
-    const newYorkCenter: Location = {
-      lat: 40.7128,
-      lng: -74.006,
-    };
+    if (zipCode || city || state || pickupAddress || dropoffAddress) return;
 
-    if (!zipCode && !city && !state && !pickupAddress && !dropoffAddress) {
+    if (!navigator.geolocation) {
+      setLocationDeniedOrError(true);
       setMapCenter(newYorkCenter);
       searchPharmaciesByLocation(newYorkCenter);
+      return;
     }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const userLoc: Location = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+        setMapCenter(userLoc);
+        searchPharmaciesByLocation(userLoc);
+        setUserLocationForGeocode(userLoc);
+        setLocationDeniedOrError(false);
+      },
+      () => {
+        setLocationDeniedOrError(true);
+        setMapCenter(newYorkCenter);
+        searchPharmaciesByLocation(newYorkCenter);
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Only run once on mount
+  }, []);
+
+  // After maps load and we have user location: reverse-geocode and notify parent (Redux)
+  useEffect(() => {
+    if (!mapsLoaded || hasCalledOnUserLocationDetectedRef.current || !onUserLocationDetected) return;
+    const userLoc = userLocationForGeocode;
+    if (!userLoc) return;
+
+    let cancelled = false;
+    reverseGeocode(userLoc).then((address) => {
+      if (cancelled || !address) return;
+      hasCalledOnUserLocationDetectedRef.current = true;
+      onUserLocationDetected(address);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [mapsLoaded, userLocationForGeocode, reverseGeocode, onUserLocationDetected]);
 
   // Debounced pharmacy search helper
   const debouncedPharmacySearch = useCallback(
@@ -247,8 +291,6 @@ export default function MapComponent({
     // eslint-disable-next-line react-hooks/exhaustive-deps -- only clear when key changes
   }, [markersResetKey]);
 
-  const { isLoaded: mapsLoaded, loadError: mapsError } = useGoogleMaps();
-
   // Prefer external pharmacies if provided
   const pharmaciesToRender = pharmaciesProp ?? pharmacies;
 
@@ -296,6 +338,11 @@ export default function MapComponent({
       {pharmacyLoading && mapsLoaded && (
         <div className="absolute top-4 right-4 bg-white px-4 py-2 rounded-lg shadow-lg z-10">
           <p className="text-sm text-gray-600">Loading pharmacies...</p>
+        </div>
+      )}
+      {locationDeniedOrError && mapsLoaded && (
+        <div className="absolute bottom-4 left-4 bg-white px-4 py-2 rounded-lg shadow-lg z-10 border border-gray-200">
+          <p className="text-sm text-gray-700">Please enable location to see pharmacies near you.</p>
         </div>
       )}
     </div>

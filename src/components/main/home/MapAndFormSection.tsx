@@ -670,6 +670,7 @@ export default function MapAndFormSection() {
             selectionMode={mapSelectionMode}
             onDistanceCalculated={handleDistanceCalculated}
             markersResetKey={markersResetKey}
+            onUserLocationDetected={(address) => dispatch(setCurrentLocation(address))}
           />
           {mapSelectionMode && (
             <div className="absolute top-4 left-4 bg-white px-4 py-2 rounded-lg shadow-lg z-10 border-2 border-peter">
