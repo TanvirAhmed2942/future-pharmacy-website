@@ -43,6 +43,9 @@ function Login() {
           // Store two-step token in cookie
           setCookie("two-step-token", response.data);
 
+          if ((response.data as { otp?: string }).otp === "true") {
+            showSuccess({ message: "Please verify your OTP" })
+          }
           showSuccess({
             message: response.message || "Please verify your OTP",
           });

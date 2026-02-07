@@ -226,16 +226,21 @@ function TwoStepVerification() {
       </div>
 
       {/* Retry Link */}
-      <div className="text-center mt-6 sm:mt-8">
-        <p className="text-xs sm:text-sm text-gray-600"></p>
-        Didn&apos;t receive the code?{" "}
-        <button
-          type="button"
-          onClick={handleRetry}
-          className="text-peter hover:text-peter-dark hover:underline text-xs sm:text-sm"
-        >
-          Retry
-        </button>
+      <div className="text-center mt-6 sm:mt-8 space-y-2">
+        <div>
+          <p className="text-xs sm:text-sm text-gray-600"></p>
+          Didn&apos;t receive the code?{" "}
+          <button
+            type="button"
+            onClick={handleRetry}
+            className="text-peter hover:text-peter-dark hover:underline text-xs sm:text-sm"
+          >
+            Retry
+          </button>
+        </div>
+        <p className="text-xs sm:text-sm text-gray-600 text-center">
+          Don&apos;t forget to check your <span className="font-bold">spam</span> or <span className="font-bold">junk</span> folder.
+        </p>
       </div>
     </div>
   );

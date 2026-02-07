@@ -44,7 +44,7 @@
       "title": "Request Your Prescriptions Delivered in Minutes",
       "titleforMobileView": "Request Your Prescriptions\nDelivered in Minutes",
       "changeCityOrZipCode": "Change Zip Code",
-      "pharmacySuggestions": "Pharmacy Suggestions",
+      "pharmacySuggestions": "Partner Pharmacy Suggestions",
       "noPharmaciesFound": "No pharmacies found",
       "errorLoadingPharmacies": "The ZIP code detected is outside our coverage areas. Please change ZIP code and try again.",
       "pleaseZoomToSelectPharmacy": "Please zoom in on the map to select a pharmacy.",

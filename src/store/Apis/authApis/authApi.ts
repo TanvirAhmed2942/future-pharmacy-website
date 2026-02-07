@@ -17,6 +17,7 @@ interface LoginResponse {
           fullName: string;
           email: string;
           role: string;
+          otp?: string;
         };
         accessToken: string;
         refreshToken: string;

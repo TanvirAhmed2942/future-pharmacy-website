@@ -44,7 +44,7 @@
       "title": "Solicita tu receta entregada en minutos",
       "titleforMobileView": "Solicita tu receta\nentregada en minutos",
       "changeCityOrZipCode": "Cambiar código postal",
-      "pharmacySuggestions": "Sugerencias de farmacias",
+      "pharmacySuggestions": "Sugerencias de farmacias asociadas",
       "noPharmaciesFound": "No se encontraron farmacias",
       "errorLoadingPharmacies": "El código postal detectado está fuera de nuestras áreas de cobertura. Por favor, cambie el código postal e inténtelo de nuevo.",
       "pleaseZoomToSelectPharmacy": "Por favor, acerca el mapa para seleccionar una farmacia.",

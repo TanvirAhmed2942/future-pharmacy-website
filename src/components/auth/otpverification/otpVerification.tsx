@@ -221,7 +221,7 @@ function OtpVerification() {
       </div>
 
       {/* Resend Link */}
-      <div className="text-center mt-6 sm:mt-8">
+      <div className="text-center mt-6 sm:mt-8 space-y-2">
         <p className="text-xs sm:text-sm text-gray-700">
           Didn&apos;t receive the code?{" "}
           <button
@@ -233,8 +233,11 @@ function OtpVerification() {
             {isResending ? <><p className="flex items-center justify-center gap-2">Resending...<Loader className="animate-spin size-4 text-peter" /></p></> : "Resend"}
           </button>
         </p>
+        <p className="text-xs sm:text-sm text-gray-600 text-center">
+          Don&apos;t forget to check your <span className="font-bold">spam</span> or <span className="font-bold">junk</span> folder.
+        </p>
       </div>
-    </div>
+    </div >
   );
 }
 
