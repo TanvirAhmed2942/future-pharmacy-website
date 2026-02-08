@@ -183,7 +183,7 @@ export default function LocationPickerModal({
               <>
                 {!isRequestService && (
                   <div className="mb-4 p-3 text-center rounded-lg border border-red-200 bg-red-50 text-sm text-red-600">
-                    {zipcodeError === "This zip code is not exist in our coverage area!" ? "This ZIP code is currently outside our coverage area, but we'reexpanding quickly." : zipcodeError}
+                    {zipcodeError === "This zip code is not exist in our coverage area!" ? "This ZIP code is currently outside our coverage area, but we're expanding quickly." : zipcodeError}
                     <br />
                   </div>
                 )}
