@@ -106,7 +106,7 @@ function OurStorySection({
             </div>
 
             {whoWeAre.paragraph3 && (
-              <p className="text-gray-700 text-base md:text-lg leading-relaxed text-justify xl:block  2xl:hidden mb-4">
+              <p className="text-gray-700 text-base md:text-lg leading-relaxed text-justify hidden xl:block  2xl:hidden mb-4">
                 {whoWeAre.paragraph3}
               </p>
             )}
