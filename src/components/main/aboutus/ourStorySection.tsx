@@ -181,7 +181,7 @@ function OurStorySection({
                 )}
 
                 {whyWeDoIt.paragraph3 && (
-                  <p className="text-gray-700 text-base md:text-lg leading-relaxed xl:hidden 2xl:block">
+                  <p className="text-gray-700 text-base md:text-lg leading-relaxed hidden xl:hidden 2xl:block">
                     {whyWeDoIt.paragraph3}
                   </p>
                 )}
