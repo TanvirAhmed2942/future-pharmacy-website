@@ -12,6 +12,7 @@ import { useAppSelector, useAppDispatch } from "@/store/hooks";
 import {
   selectIsLoggedIn,
   selectUser,
+  updateUser,
 } from "@/store/slices/userSlice/userSlice";
 import { logout } from "@/store/slices/userSlice/userSlice";
 import { clearCheckoutData } from "@/store/slices/checkoutSlice";
@@ -47,7 +48,15 @@ function NavBar() {
   const { data: profile } = useGetProfileQuery(undefined, {
     skip: !isLoggedIn, // Only fetch if user is logged in
   });
-
+  useEffect(() => {
+    if (profile?.data) {
+      dispatch(updateUser({
+        profile: profile?.data?.profile || "",
+        first_name: profile?.data?.first_name || "",
+        last_name: profile?.data?.last_name || "",
+      }));
+    }
+  }, [dispatch, profile?.data]);
   const t = useTranslations("header");
 
   // Get user avatar and initials

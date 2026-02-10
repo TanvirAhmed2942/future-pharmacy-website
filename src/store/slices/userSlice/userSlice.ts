@@ -38,6 +38,7 @@ const initialState: UserState = {
     state: "",
     zip: "",
     country: "",
+    profile: "",
     role: "user",
     dateOfBirth: "",
     isLoggedIn: false,

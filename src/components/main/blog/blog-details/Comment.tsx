@@ -22,6 +22,8 @@ import { imgUrl } from "@/lib/img_url";
 import gsap from "gsap";
 import { useTranslations } from "next-intl";
 import { Loader } from "lucide-react";
+import { useAppSelector } from "@/store/hooks";
+import { selectUser } from "@/store/slices/userSlice/userSlice";
 interface CommentProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -30,6 +32,7 @@ interface CommentProps {
 
 function Comment({ open, onOpenChange, blogId }: CommentProps) {
   const t = useTranslations("blog.comment");
+  const user = useAppSelector(selectUser);
   const [commentText, setCommentText] = useState("");
   const [deletingCommentId, setDeletingCommentId] = useState<string | null>(
     null
@@ -144,7 +147,7 @@ function Comment({ open, onOpenChange, blogId }: CommentProps) {
       toast.error(t("messages.postFailed"));
     }
   };
-
+  // { console.warn("sssssssss", user) }
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="right" className="w-full sm:max-w-lg p-0">
@@ -161,9 +164,10 @@ function Comment({ open, onOpenChange, blogId }: CommentProps) {
           <div className="p-6 border-b">
             <div className="flex items-start gap-3 mb-4">
               <Avatar className="w-10 h-10">
-                <AvatarImage src="https://github.com/shadcn.png" alt="User" />
+                <AvatarImage src={imgUrl(user?.profile)} alt="User" />
                 <AvatarFallback className="bg-peter text-white">
-                  U
+                  {getUserInitials(user?.first_name, user?.last_name)}
+
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1">
