@@ -12,9 +12,9 @@ type WorkItem = {
   descriptionTopText: string;
   descriptionBottomText: string;
 } & (
-  | { iconType: "custom"; customIcon: ReactElement | null }
-  | { iconType: "lucide"; icon: LucideIcon }
-);
+    | { iconType: "custom"; customIcon: ReactElement | null }
+    | { iconType: "lucide"; icon: LucideIcon }
+  );
 
 export default function HowOptimusWorks() {
   const router = useRouter();
@@ -53,7 +53,7 @@ export default function HowOptimusWorks() {
   return (
     <div className="relative mx-auto py-4 md:py-8 lg:py-16 overflow-hidden">
       {/* Blurred Background on the left (~70%) */}
-      <div className="absolute left-0 top-0 bottom-0 w-full lg:w-[80%] z-0">
+      <div className="absolute left-0 top-0 bottom-0 w-full lg:w-[72%] xl:w-[75%] z-0">
         <div
           className="absolute inset-0 bg-cover bg-center blur-xs"
           style={{
@@ -65,18 +65,19 @@ export default function HowOptimusWorks() {
       </div>
 
       {/* Unblurred section on the right (~30%) */}
-      <div className="absolute right-0 top-0 bottom-0 w-[20%] z-10 hidden lg:block">
+      <div className="absolute right-0 top-0 bottom-0 w-[25%] lg:w-[28%] xl:w-[25%] z-10 hidden lg:block ">
         <div
-          className="h-full bg-cover bg-no-repeat bg-left"
+          className="h-full lg:bg-fill lg:bg-bottom  bg-no-repeat "
           style={{
-            backgroundImage: 'url("/home/image 25.webp")',
+            backgroundImage: 'url("/home/delivery_3.png")',
+            maxWidth: '100%',
           }}
         />
       </div>
 
       {/* Content - positioned on the left side over blurred background */}
       <div className="relative z-10">
-        <div className="w-full lg:w-[80%] px-4 md:px-6 lg:px-8 xl:px-12">
+        <div className="w-full lg:w-[72%] xl:w-[75%] px-4 md:px-6 lg:px-8 xl:px-12">
           {/* Title */}
           <div className="mb-10 lg:mb-12">
             <h2 className="text-3xl md:text-5xl font-bold text-peter mb-4 font-inter text-center lg:text-center">
