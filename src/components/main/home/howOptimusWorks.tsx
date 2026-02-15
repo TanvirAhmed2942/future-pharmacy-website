@@ -53,7 +53,7 @@ export default function HowOptimusWorks() {
   return (
     <div className="relative mx-auto w-full  px-4 sm:px-6 lg:px-8 py-4 md:py-8 lg:py-16 overflow-hidden">
       {/* Blurred Background on the left (~70%) */}
-      <div className="absolute left-0 top-0 bottom-0 w-full md:w-[65%] lg:w-[65%] xl:w-[75%] 2xl:w-[74%]  z-0">
+      <div className="absolute left-0 top-0 bottom-0 w-full  lg:w-[65%] xl:w-[75%] 2xl:w-[74%]  z-0">
         <div
           className="absolute inset-0 bg-cover bg-center blur-xs"
           style={{
@@ -65,18 +65,19 @@ export default function HowOptimusWorks() {
       </div>
 
       {/* Unblurred section on the right (~30%) - delivery image */}
-      <div className="absolute right-0 top-0 bottom-0 w-[28%] md:w-[35%] lg:w-[35%] xl:w-[28%] 2xl:w-[26%] z-10 hidden lg:block">
+      <div className="absolute right-0 top-0 bottom-0 w-[28%]  lg:w-[35%] xl:w-[28%] 2xl:w-[26%] z-10 hidden lg:block">
         <div
           className="h-full w-full bg-no-repeat bg-center bg-fill"
           style={{
-            backgroundImage: 'url("/home/delivery_5.png")',
+            // backgroundImage: 'url("/home/delivery_5.png")',
+            backgroundImage: 'url("/home/delivery_6.jpg")',
           }}
         />
       </div>
 
       {/* Content - positioned on the left side over blurred background */}
       <div className="relative z-10">
-        <div className="w-full md:w-[65%] lg:w-[65%] xl:w-[75%] 2xl:w-[74%] px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
+        <div className="w-full  lg:w-[65%] xl:w-[75%] 2xl:w-[74%] px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
           {/* Title */}
           <div className="mb-8 md:mb-10 lg:mb-12">
             <h2 className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl font-bold text-peter mb-4 font-inter text-center">
