@@ -9,7 +9,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Eye, EyeOff, Loader } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import useIcon from "@/hooks/useIcon";
+// import useIcon from "@/hooks/useIcon";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
@@ -401,7 +401,7 @@ function Signup() {
             </Button>
 
             {/* Continue with Google Button */}
-            <Button
+            {/* <Button
               type="button"
               variant="outline"
               className="w-full bg-purple-50 hover:bg-purple-100 text-gray-700 font-medium py-1.5 px-4 rounded-lg border-purple-200 cursor-pointer text-sm"
@@ -412,7 +412,7 @@ function Signup() {
                   Continue with Google
                 </span>
               </div>
-            </Button>
+            </Button> */}
           </form>
 
           {/* Footer Link */}
