@@ -69,7 +69,7 @@ export default function HowOptimusWorks() {
         <div
           className="h-full lg:bg-fill lg:bg-bottom  bg-no-repeat "
           style={{
-            backgroundImage: 'url("/home/delivery_3.png")',
+            backgroundImage: 'url("/home/delivery_4.png")',
             maxWidth: '100%',
           }}
         />
