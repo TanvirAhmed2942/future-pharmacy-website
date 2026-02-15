@@ -51,9 +51,9 @@ export default function HowOptimusWorks() {
   ];
 
   return (
-    <div className="relative mx-auto py-4 md:py-8 lg:py-16 overflow-hidden">
+    <div className="relative mx-auto w-full  px-4 sm:px-6 lg:px-8 py-4 md:py-8 lg:py-16 overflow-hidden">
       {/* Blurred Background on the left (~70%) */}
-      <div className="absolute left-0 top-0 bottom-0 w-full lg:w-[72%] xl:w-[75%] z-0">
+      <div className="absolute left-0 top-0 bottom-0 w-full md:w-[65%] lg:w-[65%] xl:w-[75%] 2xl:w-[74%]  z-0">
         <div
           className="absolute inset-0 bg-cover bg-center blur-xs"
           style={{
@@ -64,26 +64,25 @@ export default function HowOptimusWorks() {
         <div className="absolute inset-0 bg-black/20" />
       </div>
 
-      {/* Unblurred section on the right (~30%) */}
-      <div className="absolute right-0 top-0 bottom-0 w-[25%] lg:w-[28%] xl:w-[25%] z-10 hidden lg:block ">
+      {/* Unblurred section on the right (~30%) - delivery image */}
+      <div className="absolute right-0 top-0 bottom-0 w-[28%] md:w-[35%] lg:w-[35%] xl:w-[28%] 2xl:w-[26%] z-10 hidden lg:block">
         <div
-          className="h-full lg:bg-fill lg:bg-bottom  bg-no-repeat "
+          className="h-full w-full bg-no-repeat bg-center bg-fill"
           style={{
-            backgroundImage: 'url("/home/delivery_4.png")',
-            maxWidth: '100%',
+            backgroundImage: 'url("/home/delivery_5.png")',
           }}
         />
       </div>
 
       {/* Content - positioned on the left side over blurred background */}
       <div className="relative z-10">
-        <div className="w-full lg:w-[72%] xl:w-[75%] px-4 md:px-6 lg:px-8 xl:px-12">
+        <div className="w-full md:w-[65%] lg:w-[65%] xl:w-[75%] 2xl:w-[74%] px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
           {/* Title */}
-          <div className="mb-10 lg:mb-12">
-            <h2 className="text-3xl md:text-5xl font-bold text-peter mb-4 font-inter text-center lg:text-center">
+          <div className="mb-8 md:mb-10 lg:mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl font-bold text-peter mb-4 font-inter text-center">
               {t("headline1")}{" "}
               <span
-                className="relative text-3xl md:text-5xl font-bold text-peter  bg-clip-text"
+                className="relative text-2xl sm:text-3xl md:text-4xl xl:text-5xl font-bold text-peter bg-clip-text"
                 style={{
                   backgroundImage:
                     "linear-gradient(90deg, #ffffff, #d771d0, #ffffff, #c276c2, #ffffff)",
@@ -101,11 +100,11 @@ export default function HowOptimusWorks() {
           </div>
 
           {/* Cards Grid - arranged horizontally, constrained to left side */}
-          <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-4 2xl:gap-10 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-5 xl:gap-6 2xl:gap-8 mb-6">
             {items.map((item, index) => (
               <Card
                 key={index}
-                className="bg-white/85 backdrop-blur-[1px] p-8 text-center hover:shadow-lg transition-shadow flex flex-col border-none shadow-lg h-full"
+                className="bg-white/85 backdrop-blur-[1px] p-6 sm:p-7 lg:p-6 xl:p-8 text-center hover:shadow-lg transition-shadow flex flex-col border-none shadow-lg h-full"
               >
                 {/* Icon section - fixed height */}
                 <div className="flex justify-center mb-4 h-20 items-center">
