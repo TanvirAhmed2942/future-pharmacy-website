@@ -37,6 +37,8 @@ import {
   selectUser,
 } from "@/store/slices/userSlice/userSlice";
 import { useGetProfileQuery } from "@/store/Apis/profileApi/profileApi";
+import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 
 type MedicationInput = {
   id: number;
@@ -428,26 +430,42 @@ function TransferOnline() {
                 >
                   {t("personalInformation.phoneNumber")} *
                 </Label>
-                <Input
-                  type="tel"
-                  id="phoneNumber"
-                  {...register("phoneNumber", {
+                <Controller
+                  name="phoneNumber"
+                  control={control}
+                  rules={{
                     required: t("personalInformation.phoneNumberRequired"),
-                    validate: (value) => {
-                      // Check if the value contains at least one digit
-                      if (!/\d/.test(value)) {
-                        return (
-                          t("personalInformation.phoneNumberInvalid") ||
-                          "Phone number must contain numbers"
-                        );
-                      }
-                      return true;
-                    },
-                  })}
-                  placeholder={t("personalInformation.phoneNumberPlaceholder")}
-                  className={cn(
-                    "w-full mt-1",
-                    errors.phoneNumber && "border-red-500"
+                    validate: (value) =>
+                      !value
+                        ? true
+                        : isValidPhoneNumber(value) ||
+                        t("personalInformation.phoneNumberInvalid") ||
+                        "Please enter a valid phone number",
+                  }}
+                  render={({ field }) => (
+                    <PhoneInput
+                      id="phoneNumber"
+                      defaultCountry="US"
+                      international
+                      placeholder={t("personalInformation.phoneNumberPlaceholder")}
+                      value={field.value || undefined}
+                      onChange={(val) => field.onChange(val ?? "")}
+                      onBlur={field.onBlur}
+                      className={cn(
+                        "PhoneInput mt-1 flex h-9 w-full min-w-0 rounded-md border pl-2 pr-0 shadow-xs transition-[color,box-shadow] outline-none",
+                        "bg-transparent [&_.PhoneInputCountry]:bg-transparent [&_.PhoneInputInput]:border-0 [&_.PhoneInputInput]:bg-transparent [&_.PhoneInputInput]:focus-visible:ring-0 [&_.PhoneInputInput]:outline-none",
+                        "border-input focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px]",
+                        "text-sm",
+                        errors.phoneNumber && "!border-red-500"
+                      )}
+                      // numberInputProps={{
+                      //   className: cn(
+                      //     "flex h-10 w-full min-w-0 flex-1 rounded-r-md border-0 bg-transparent px-3 py-1 text-sm outline-none placeholder:text-muted-foreground",
+                      //     "focus-visible:ring-0 focus-visible:ring-offset-0"
+                      //   ),
+                      // }}
+                      inputComponent={Input}
+                    />
                   )}
                 />
                 {errors.phoneNumber && (
@@ -580,28 +598,45 @@ function TransferOnline() {
                 >
                   {t("pharmacyInformation.previousPharmacy.pharmacyPhone")}
                 </Label>
-                <Input
-                  type="tel"
-                  id="previousPharmacyPhone"
-                  {...register("previousPharmacyPhone", {
-                    validate: (value) => {
-                      // Only validate if value is provided, and check if it contains at least one digit
-                      if (value && value.trim() !== "" && !/\d/.test(value)) {
-                        return (
-                          t(
-                            "pharmacyInformation.previousPharmacy.pharmacyPhoneInvalid"
-                          ) || "Phone number must contain numbers"
-                        );
-                      }
-                      return true;
-                    },
-                  })}
-                  placeholder={t(
-                    "pharmacyInformation.previousPharmacy.pharmacyPhonePlaceholder"
-                  )}
-                  className={cn(
-                    "w-full mt-1",
-                    errors.previousPharmacyPhone && "border-red-500"
+                <Controller
+                  name="previousPharmacyPhone"
+                  control={control}
+                  rules={{
+                    validate: (value) =>
+                      !value || value.trim() === ""
+                        ? true
+                        : isValidPhoneNumber(value) ||
+                        t(
+                          "pharmacyInformation.previousPharmacy.pharmacyPhoneInvalid"
+                        ) ||
+                        "Please enter a valid phone number",
+                  }}
+                  render={({ field }) => (
+                    <PhoneInput
+                      id="previousPharmacyPhone"
+                      defaultCountry="US"
+                      international
+                      placeholder={t(
+                        "pharmacyInformation.previousPharmacy.pharmacyPhonePlaceholder"
+                      )}
+                      value={field.value || undefined}
+                      onChange={(val) => field.onChange(val ?? "")}
+                      onBlur={field.onBlur}
+                      className={cn(
+                        "PhoneInput mt-1 flex h-9 w-full min-w-0 rounded-md border pl-2 pr-0 shadow-xs transition-[color,box-shadow] outline-none",
+                        "bg-transparent [&_.PhoneInputCountry]:bg-transparent [&_.PhoneInputInput]:border-0 [&_.PhoneInputInput]:bg-transparent [&_.PhoneInputInput]:focus-visible:ring-0 [&_.PhoneInputInput]:outline-none",
+                        "border-input focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px]",
+                        "text-sm",
+                        errors.previousPharmacyPhone && "!border-red-500"
+                      )}
+                      // numberInputProps={{
+                      //   className: cn(
+                      //     "flex h-10 w-full min-w-0 flex-1 rounded-r-md border-0 bg-transparent px-3 py-1 text-sm outline-none placeholder:text-muted-foreground",
+                      //     "focus-visible:ring-0 focus-visible:ring-offset-0"
+                      //   ),
+                      // }}
+                      inputComponent={Input}
+                    />
                   )}
                 />
                 {errors.previousPharmacyPhone && (
@@ -717,28 +752,45 @@ function TransferOnline() {
                 >
                   {t("pharmacyInformation.newPharmacy.pharmacyPhone")}
                 </Label>
-                <Input
-                  type="tel"
-                  id="newPharmacyPhone"
-                  {...register("newPharmacyPhone", {
-                    validate: (value) => {
-                      // Only validate if value is provided, and check if it contains at least one digit
-                      if (value && value.trim() !== "" && !/\d/.test(value)) {
-                        return (
-                          t(
-                            "pharmacyInformation.newPharmacy.pharmacyPhoneInvalid"
-                          ) || "Phone number must contain numbers"
-                        );
-                      }
-                      return true;
-                    },
-                  })}
-                  placeholder={t(
-                    "pharmacyInformation.newPharmacy.pharmacyPhonePlaceholder"
-                  )}
-                  className={cn(
-                    "w-full mt-1",
-                    errors.newPharmacyPhone && "border-red-500"
+                <Controller
+                  name="newPharmacyPhone"
+                  control={control}
+                  rules={{
+                    validate: (value) =>
+                      !value || value.trim() === ""
+                        ? true
+                        : isValidPhoneNumber(value) ||
+                        t(
+                          "pharmacyInformation.newPharmacy.pharmacyPhoneInvalid"
+                        ) ||
+                        "Please enter a valid phone number",
+                  }}
+                  render={({ field }) => (
+                    <PhoneInput
+                      id="newPharmacyPhone"
+                      defaultCountry="US"
+                      international
+                      placeholder={t(
+                        "pharmacyInformation.newPharmacy.pharmacyPhonePlaceholder"
+                      )}
+                      value={field.value || undefined}
+                      onChange={(val) => field.onChange(val ?? "")}
+                      onBlur={field.onBlur}
+                      className={cn(
+                        "PhoneInput mt-1 flex h-9 w-full min-w-0 rounded-md border pl-2 pr-0 shadow-xs transition-[color,box-shadow] outline-none",
+                        "bg-transparent [&_.PhoneInputCountry]:bg-transparent [&_.PhoneInputInput]:border-0 [&_.PhoneInputInput]:bg-transparent [&_.PhoneInputInput]:focus-visible:ring-0 [&_.PhoneInputInput]:outline-none",
+                        "border-input focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px]",
+                        "text-sm",
+                        errors.newPharmacyPhone && "!border-red-500"
+                      )}
+                      // numberInputProps={{
+                      //   className: cn(
+                      //     "flex h-10 w-full min-w-0 flex-1 rounded-r-md border-0 bg-transparent px-3 py-1 text-sm outline-none placeholder:text-muted-foreground",
+                      //     "focus-visible:ring-0 focus-visible:ring-offset-0"
+                      //   ),
+                      // }}
+                      inputComponent={Input}
+                    />
                   )}
                 />
                 {errors.newPharmacyPhone && (

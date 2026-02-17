@@ -31,6 +31,9 @@ import {
 import useShowToast from "@/hooks/useShowToast";
 import { useDateOfBirthValidation } from "@/hooks/useDateOfBirthValidation";
 import { imgUrl } from "@/lib/img_url";
+import { cn } from "@/lib/utils";
+import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 
 interface ProfileInfoEditModalProps {
   isOpen: boolean;
@@ -175,6 +178,11 @@ function ProfileInfoEditModal({ isOpen, onClose }: ProfileInfoEditModalProps) {
     // Validation
     if (!formData.firstName || !formData.lastName) {
       showError({ message: "First name and last name are required" });
+      return;
+    }
+
+    if (formData.phone.trim() && !isValidPhoneNumber(formData.phone)) {
+      showError({ message: "Please enter a valid phone number" });
       return;
     }
 
@@ -375,12 +383,24 @@ function ProfileInfoEditModal({ isOpen, onClose }: ProfileInfoEditModalProps) {
               >
                 Phone Number
               </Label>
-              <Input
+              <PhoneInput
                 id="phone"
-                value={formData.phone}
-                onChange={(e) => handleInputChange("phone", e.target.value)}
+                defaultCountry="US"
+                international
+                placeholder="Enter phone number"
+                value={formData.phone || undefined}
+                onChange={(val) => handleInputChange("phone", val ?? "")}
                 disabled={isLoading}
-                className="bg-gray-50 border-gray-200 focus:border-peter focus:ring-peter disabled:opacity-50"
+                className={cn(
+                  "PhoneInput flex h-9 w-full min-w-0 rounded-md border border-gray-200 bg-gray-50 pl-2 pr-0 shadow-xs transition-[color,box-shadow] outline-none focus-within:border-peter focus-within:ring-peter focus-within:ring-[3px] disabled:opacity-50",
+                  "[&_.PhoneInputCountry]:bg-transparent [&_.PhoneInputInput]:border-0 [&_.PhoneInputInput]:bg-transparent [&_.PhoneInputInput]:focus-visible:ring-0 [&_.PhoneInputInput]:outline-none"
+                )}
+                numberInputProps={{
+                  className: cn(
+                    "flex h-9 w-full min-w-0 flex-1 rounded-r-md border-0 bg-transparent px-3 py-1 text-sm outline-none placeholder:text-muted-foreground focus-visible:ring-0 focus-visible:ring-offset-0"
+                  ),
+                }}
+                inputComponent={Input}
               />
             </div>
 

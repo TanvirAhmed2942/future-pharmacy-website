@@ -15,6 +15,9 @@ import Link from "next/link";
 import Backbutton from "@/components/common/backbutton/backbutton";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useDateOfBirthValidation } from "@/hooks/useDateOfBirthValidation";
+import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
+import "react-phone-number-input/style.css";
+import { cn } from "@/lib/utils";
 
 // Format date as mm/dd/yyyy
 const formatDateDisplay = (dateStr: string): string => {
@@ -74,6 +77,8 @@ export default function ContactDetails({
 
     if (!formData.contactNumber.trim()) {
       newErrors.contactNumber = "Contact number is required";
+    } else if (!isValidPhoneNumber(formData.contactNumber)) {
+      newErrors.contactNumber = "Please enter a valid phone number";
     }
 
     if (!formData.firstName.trim()) {
@@ -139,12 +144,26 @@ export default function ContactDetails({
           <label className="block text-sm font-semibold text-gray-900 mb-2">
             {t("contactNumber.label")}
           </label>
-          <Input
-            type="tel"
+          <PhoneInput
+            defaultCountry="US"
+            international
             placeholder={t("contactNumber.placeholder")}
-            value={formData.contactNumber}
-            onChange={(e) => handleFieldChange("contactNumber", e.target.value)}
-            className={`w-full ${errors.contactNumber ? "border-red-500" : ""}`}
+            value={formData.contactNumber || undefined}
+            onChange={(val) => handleFieldChange("contactNumber", val ?? "")}
+            className={cn(
+              "PhoneInput flex h-10 w-full min-w-0 rounded-md border border-input bg-transparent pl-2 pr-0 shadow-xs transition-[color,box-shadow] outline-none",
+              "[&_.PhoneInputCountry]:bg-transparent [&_.PhoneInputInput]:border-0 [&_.PhoneInputInput]:bg-transparent [&_.PhoneInputInput]:focus-visible:ring-0 [&_.PhoneInputInput]:outline-none",
+              "focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px]",
+              "text-sm",
+              errors.contactNumber && "!border-red-500"
+            )}
+            // numberInputProps={{
+            //   className: cn(
+            //     "flex h-10 w-full min-w-0 flex-1 rounded-r-md border-0 bg-transparent px-3 py-1 text-sm outline-none placeholder:text-muted-foreground",
+            //     "focus-visible:ring-0 focus-visible:ring-offset-0"
+            //   ),
+            // }}
+            inputComponent={Input}
           />
           {errors.contactNumber && (
             <p className="text-red-500 text-xs mt-1">{errors.contactNumber}</p>
