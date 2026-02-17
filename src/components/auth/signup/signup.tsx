@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -18,6 +18,8 @@ import useShowToast from "@/hooks/useShowToast";
 import { useAppDispatch } from "@/store/hooks";
 import { login } from "@/store/slices/userSlice/userSlice";
 import { setCookie } from "@/lib/cookies";
+import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 
 interface SignupFormData {
   firstName: string;
@@ -41,6 +43,7 @@ function Signup() {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm<SignupFormData>({
     defaultValues: {
@@ -287,21 +290,38 @@ function Signup() {
               >
                 Phone Number
               </Label>
-              <Input
-                id="phoneNumber"
-                type="tel"
-                placeholder="Enter your phone number here..."
-                className={cn(
-                  "w-full text-sm sm:text-base",
-                  errors.phoneNumber && "border-red-500"
-                )}
-                {...register("phoneNumber", {
+              <Controller
+                name="phoneNumber"
+                control={control}
+                rules={{
                   required: "Phone number is required",
-                  pattern: {
-                    value: /^[0-9]+$/,
-                    message: "Phone number must contain only numbers",
-                  },
-                })}
+                  validate: (value) =>
+                    !value ? true : isValidPhoneNumber(value) || "Please enter a valid phone number",
+                }}
+                render={({ field }) => (
+                  <PhoneInput
+                    id="phoneNumber"
+                    defaultCountry="US"
+                    placeholder="Enter your phone number here..."
+                    value={field.value}
+                    onChange={field.onChange}
+                    onBlur={field.onBlur}
+                    className={cn(
+                      "PhoneInput flex h-9 w-full min-w-0 rounded-md border pl-2 pr-0 shadow-xs transition-[color,box-shadow] outline-none",
+                      " [&_.PhoneInputCountry]:bg-transparent [&_.PhoneInputInput]:border-0 [&_.PhoneInputInput]:bg-transparent [&_.PhoneInputInput]:focus-visible:ring-0 [&_.PhoneInputInput]:outline-none",
+                      "border-input focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px]",
+                      "text-sm sm:text-base",
+                      errors.phoneNumber && "!border-red-500 aria-invalid:border-destructive"
+                    )}
+                    numberInputProps={{
+                      className: cn(
+                        "flex h-9 w-full min-w-0 flex-1 rounded-r-md border-0 bg-transparent px-3 py-1 text-base shadow-none outline-none placeholder:text-muted-foreground md:text-sm",
+                        "focus-visible:ring-0 focus-visible:ring-offset-0"
+                      ),
+                    }}
+                    inputComponent={Input}
+                  />
+                )}
               />
               {errors.phoneNumber && (
                 <p className="text-red-500 text-[10px] sm:text-xs lg:text-base 2xl:text-base leading-relaxed lg:mt-0.2 2xl:mt-0.5">
