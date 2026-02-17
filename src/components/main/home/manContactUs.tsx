@@ -18,6 +18,8 @@ import { useTranslations } from "next-intl";
 import { useCreateContactMessageMutation } from "@/store/Apis/contact/contactApi";
 import useShowToast from "@/hooks/useShowToast";
 import { Loader } from "lucide-react";
+import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 
 interface FormValues {
   name: string;
@@ -248,22 +250,40 @@ function ManContactUs() {
                   >
                     {t("phoneNumber")}
                   </Label>
-                  <Input
-                    id="phone"
-                    type="tel"
-                    placeholder={t("phoneNumberPlaceholder")}
-                    className={cn(
-                      "bg-gray-50 placeholder:text-xs sm:placeholder:text-[14px] h-10 sm:h-11 text-sm",
-                      errors.phone && "border-red-500"
+                  <Controller
+                    name="phone"
+                    control={control}
+                    rules={{
+                      validate: (value) =>
+                        !value
+                          ? true
+                          : isValidPhoneNumber(value) || t("phoneNumberInvalid"),
+                    }}
+                    render={({ field }) => (
+                      <PhoneInput
+                        id="phone"
+                        defaultCountry="US"
+                        international
+                        placeholder={t("phoneNumberPlaceholder")}
+                        value={field.value || undefined}
+                        onChange={(val) => field.onChange(val ?? "")}
+                        onBlur={field.onBlur}
+                        className={cn(
+                          "PhoneInput flex h-10 sm:h-11 w-full min-w-0 rounded-md border pl-2 pr-0 shadow-none transition-[color,box-shadow] outline-none",
+                          "bg-gray-50 [&_.PhoneInputCountry]:bg-transparent [&_.PhoneInputInput]:border-0 [&_.PhoneInputInput]:bg-transparent [&_.PhoneInputInput]:focus-visible:ring-0 [&_.PhoneInputInput]:outline-none",
+                          "border-input focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px]",
+                          "text-sm placeholder:text-xs sm:placeholder:text-[14px]",
+                          errors.phone && "!border-red-500"
+                        )}
+                        // numberInputProps={{
+                        //   className: cn(
+                        //     "flex h-10 sm:h-11 w-full min-w-0 flex-1 rounded-r-md border-0 bg-transparent px-3 py-1 text-sm placeholder:text-xs sm:placeholder:text-[14px] outline-none",
+                        //     "focus-visible:ring-0 focus-visible:ring-offset-0"
+                        //   ),
+                        // }}
+                        inputComponent={Input}
+                      />
                     )}
-                    {...register("phone", {
-                      required: false,
-                      pattern: {
-                        value:
-                          /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
-                        message: t("phoneNumberInvalid"),
-                      },
-                    })}
                   />
                   {errors.phone && (
                     <p className="text-red-500 text-xs mt-1">

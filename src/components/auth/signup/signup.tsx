@@ -302,12 +302,13 @@ function Signup() {
                   <PhoneInput
                     id="phoneNumber"
                     defaultCountry="US"
+                    international
                     placeholder="Enter your phone number here..."
-                    value={field.value}
-                    onChange={field.onChange}
+                    value={field.value || undefined}
+                    onChange={(val) => field.onChange(val ?? "")}
                     onBlur={field.onBlur}
                     className={cn(
-                      "PhoneInput flex h-9 w-full min-w-0 rounded-md border pl-2 pr-0 shadow-xs transition-[color,box-shadow] outline-none",
+                      "PhoneInput flex h-9 w-full min-w-0 rounded-md border pl-2 pr-0 shadow-none transition-[color,box-shadow] outline-none",
                       " [&_.PhoneInputCountry]:bg-transparent [&_.PhoneInputInput]:border-0 [&_.PhoneInputInput]:bg-transparent [&_.PhoneInputInput]:focus-visible:ring-0 [&_.PhoneInputInput]:outline-none",
                       "border-input focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px]",
                       "text-sm sm:text-base",
