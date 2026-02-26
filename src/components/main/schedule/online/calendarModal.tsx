@@ -23,11 +23,18 @@ const CalendarModal: React.FC<DateTimePickerModalProps> = ({
   onSelectDateTime,
   initialSelectedDates = [],
 }) => {
-  const [currentDate, setCurrentDate] = useState(new Date(2025, 3, 24)); // April 2025
+  const [currentDate, setCurrentDate] = useState(() => new Date());
   const [selectedDates, setSelectedDates] = useState<Set<number>>(new Set());
   const [selectedDateTimes, setSelectedDateTimes] = useState<
     Map<number, string[]>
   >(new Map());
+
+  // When modal opens, show current month; reset or restore selections
+  React.useEffect(() => {
+    if (isOpen) {
+      setCurrentDate(new Date());
+    }
+  }, [isOpen]);
 
   // Initialize with existing selections when modal opens
   React.useEffect(() => {
@@ -102,37 +109,59 @@ const CalendarModal: React.FC<DateTimePickerModalProps> = ({
     });
   };
 
+  const getStartOfToday = () => {
+    const d = new Date();
+    d.setHours(0, 0, 0, 0);
+    return d.getTime();
+  };
+
   const getDaysInMonth = (date: Date) => {
     const year = date.getFullYear();
     const month = date.getMonth();
     const firstDay = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     const daysInPrevMonth = new Date(year, month, 0).getDate();
+    const todayStart = getStartOfToday();
 
-    const days = [];
+    const days: Array<{
+      day: number;
+      isCurrentMonth: boolean;
+      fullDate: Date;
+      isPast: boolean;
+    }> = [];
 
     // Previous month days
     for (let i = firstDay - 1; i >= 0; i--) {
+      const d = daysInPrevMonth - i;
+      const fullDate = new Date(year, month - 1, d);
       days.push({
-        day: daysInPrevMonth - i,
+        day: d,
         isCurrentMonth: false,
+        fullDate,
+        isPast: fullDate.getTime() < todayStart,
       });
     }
 
     // Current month days
     for (let i = 1; i <= daysInMonth; i++) {
+      const fullDate = new Date(year, month, i);
       days.push({
         day: i,
         isCurrentMonth: true,
+        fullDate,
+        isPast: fullDate.getTime() < todayStart,
       });
     }
 
     // Next month days
     const remainingDays = 42 - days.length;
     for (let i = 1; i <= remainingDays; i++) {
+      const fullDate = new Date(year, month + 1, i);
       days.push({
         day: i,
         isCurrentMonth: false,
+        fullDate,
+        isPast: fullDate.getTime() < todayStart,
       });
     }
 
@@ -151,8 +180,12 @@ const CalendarModal: React.FC<DateTimePickerModalProps> = ({
     );
   };
 
-  const handleDateClick = (day: { day: number; isCurrentMonth: boolean }) => {
-    if (day.isCurrentMonth) {
+  const handleDateClick = (day: {
+    day: number;
+    isCurrentMonth: boolean;
+    isPast: boolean;
+  }) => {
+    if (day.isCurrentMonth && !day.isPast) {
       const newSelectedDates = new Set(selectedDates);
       if (newSelectedDates.has(day.day)) {
         // Remove date if already selected
@@ -254,29 +287,36 @@ const CalendarModal: React.FC<DateTimePickerModalProps> = ({
 
               {/* Calendar Days */}
               <div className="grid grid-cols-7 gap-2">
-                {days.map((day, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handleDateClick(day)}
-                    disabled={!day.isCurrentMonth}
-                    className={`
-                      aspect-square flex items-center justify-center rounded-full text-xs md:text-sm relative
-                      ${day.isCurrentMonth
-                        ? "text-gray-900 hover:bg-[#d7aad3] cursor-pointer"
-                        : "text-gray-400 cursor-not-allowed"
-                      }
-                      ${day.isCurrentMonth && selectedDates.has(day.day)
-                        ? "bg-peter text-white hover:bg-peter-dark"
-                        : ""
-                      }
-                    `}
-                  >
-                    {day.day}
-                    {day.isCurrentMonth && selectedDates.has(day.day) && (
-                      <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-white rounded-full"></span>
-                    )}
-                  </button>
-                ))}
+                {days.map((day, index) => {
+                  const isDisabled = !day.isCurrentMonth || day.isPast;
+                  const isSelectable =
+                    day.isCurrentMonth && !day.isPast;
+                  return (
+                    <button
+                      key={index}
+                      onClick={() => handleDateClick(day)}
+                      disabled={isDisabled}
+                      className={`
+                        aspect-square flex items-center justify-center rounded-full text-xs md:text-sm relative
+                        ${day.isPast
+                          ? "text-gray-300 bg-gray-100/50 cursor-not-allowed"
+                          : day.isCurrentMonth
+                            ? "text-gray-900 hover:bg-[#d7aad3] cursor-pointer"
+                            : "text-gray-400 cursor-not-allowed"
+                        }
+                        ${isSelectable && selectedDates.has(day.day)
+                          ? "bg-peter text-white hover:bg-peter-dark"
+                          : ""
+                        }
+                      `}
+                    >
+                      {day.day}
+                      {isSelectable && selectedDates.has(day.day) && (
+                        <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-white rounded-full"></span>
+                      )}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </div>
