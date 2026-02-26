@@ -46,8 +46,8 @@ function ProfileInfoEditModal({ isOpen, onClose }: ProfileInfoEditModalProps) {
   const { showSuccess, showError } = useShowToast();
 
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    first_name: "",
+    last_name: "",
     email: "",
     phone: "",
     gender: "",
@@ -66,8 +66,8 @@ function ProfileInfoEditModal({ isOpen, onClose }: ProfileInfoEditModalProps) {
   useEffect(() => {
     if (profile?.data && isOpen) {
       setFormData({
-        firstName: profile.data.first_name || "",
-        lastName: profile.data.last_name || "",
+        first_name: profile.data.first_name || "",
+        last_name: profile.data.last_name || "",
         email: profile.data.email || "",
         phone: profile.data.phone || "",
         gender: profile.data.gender || "",
@@ -176,7 +176,7 @@ function ProfileInfoEditModal({ isOpen, onClose }: ProfileInfoEditModalProps) {
 
   const handleSave = async () => {
     // Validation
-    if (!formData.firstName || !formData.lastName) {
+    if (!formData.first_name || !formData.last_name) {
       showError({ message: "First name and last name are required" });
       return;
     }
@@ -210,8 +210,8 @@ function ProfileInfoEditModal({ isOpen, onClose }: ProfileInfoEditModalProps) {
 
     try {
       const response = await updateProfileMutation({
-        firstName: formData.firstName,
-        lastName: formData.lastName,
+        first_name: formData.first_name,
+        last_name: formData.last_name,
         phone: formData.phone,
         gender: formData.gender,
         dateOfBirth: formData.dateOfBirth,
@@ -327,15 +327,15 @@ function ProfileInfoEditModal({ isOpen, onClose }: ProfileInfoEditModalProps) {
             {/* First Name */}
             <div className="space-y-2">
               <Label
-                htmlFor="firstName"
+                htmlFor="first_name"
                 className="text-sm font-medium text-gray-700"
               >
                 First Name
               </Label>
               <Input
-                id="firstName"
-                value={formData.firstName}
-                onChange={(e) => handleInputChange("firstName", e.target.value)}
+                id="first_name"
+                value={formData.first_name}
+                onChange={(e) => handleInputChange("first_name", e.target.value)}
                 disabled={isLoading}
                 className="bg-gray-50 border-gray-200 focus:border-peter focus:ring-peter disabled:opacity-50"
               />
@@ -344,15 +344,15 @@ function ProfileInfoEditModal({ isOpen, onClose }: ProfileInfoEditModalProps) {
             {/* Last Name */}
             <div className="space-y-2">
               <Label
-                htmlFor="lastName"
+                htmlFor="last_name"
                 className="text-sm font-medium text-gray-700"
               >
                 Last Name
               </Label>
               <Input
-                id="lastName"
-                value={formData.lastName}
-                onChange={(e) => handleInputChange("lastName", e.target.value)}
+                id="last_name"
+                value={formData.last_name}
+                onChange={(e) => handleInputChange("last_name", e.target.value)}
                 disabled={isLoading}
                 className="bg-gray-50 border-gray-200 focus:border-peter focus:ring-peter disabled:opacity-50"
               />

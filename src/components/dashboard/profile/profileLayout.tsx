@@ -10,8 +10,8 @@ function ProfileLayout() {
   const dispatch = useDispatch();
   const { data: profile } = useGetProfileQuery();
   const personalInfo = {
-    firstName: profile?.data?.first_name || "N/A",
-    lastName: profile?.data?.last_name || "N/A",
+    first_name: profile?.data?.first_name || "N/A",
+    last_name: profile?.data?.last_name || "N/A",
     gender: profile?.data?.gender || "N/A",
     email: profile?.data?.email || "N/A",
     phone: profile?.data?.phone || "N/A",

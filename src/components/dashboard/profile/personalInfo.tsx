@@ -6,8 +6,8 @@ import ProfileInfoEditModal from "./profileInfoEditModal";
 import { imgUrl } from "@/lib/img_url";
 
 type PersonalInfoProps = {
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
   gender: string;
   email: string;
   phone: string;
@@ -62,7 +62,7 @@ export default function PersonalInfo({
                 <div>
                   <p className="text-sm text-gray-500 mb-1">First Name</p>
                   <p className="text-base font-medium text-gray-900">
-                    {personalInfo.firstName}
+                    {personalInfo.first_name}
                   </p>
                 </div>
 
@@ -70,7 +70,7 @@ export default function PersonalInfo({
                 <div>
                   <p className="text-sm text-gray-500 mb-1">Last Name</p>
                   <p className="text-base font-medium text-gray-900">
-                    {personalInfo.lastName}
+                    {personalInfo.last_name}
                   </p>
                 </div>
 
@@ -147,7 +147,7 @@ export default function PersonalInfo({
                 <div>
                   <p className="text-sm text-gray-500 mb-1">First Name</p>
                   <p className="text-base font-medium text-gray-900">
-                    {personalInfo.firstName}
+                    {personalInfo.first_name}
                   </p>
                 </div>
 
@@ -155,7 +155,7 @@ export default function PersonalInfo({
                 <div>
                   <p className="text-sm text-gray-500 mb-1">Last Name</p>
                   <p className="text-base font-medium text-gray-900">
-                    {personalInfo.lastName}
+                    {personalInfo.last_name}
                   </p>
                 </div>
 

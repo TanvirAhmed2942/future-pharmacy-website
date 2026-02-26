@@ -31,8 +31,8 @@ interface UpdateProfileResponse {
   error?: string;
 }
 interface UpdateProfileRequest {
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
   phone: string;
   dateOfBirth: string;
   gender: string;
@@ -83,11 +83,19 @@ export const profileApi = baseApi.injectEndpoints({
     >({
       query: (body) => {
         const { profileFile, ...rest } = body;
+        // Ensure payload uses snake_case (first_name, last_name) for the API
+        const firstName =
+          (rest as Record<string, unknown>).first_name ??
+          (rest as Record<string, unknown>).firstName ??
+          "";
+        const lastName =
+          (rest as Record<string, unknown>).last_name ??
+          (rest as Record<string, unknown>).lastName ??
+          "";
 
-        // Always use FormData with the same property names
         const formData = new FormData();
-        formData.append("firstName", rest.firstName);
-        formData.append("lastName", rest.lastName);
+        formData.append("first_name", String(firstName));
+        formData.append("last_name", String(lastName));
         formData.append("phone", rest.phone);
         formData.append("dateOfBirth", rest.dateOfBirth);
         formData.append("gender", rest.gender);
@@ -103,6 +111,7 @@ export const profileApi = baseApi.injectEndpoints({
           url: "/users/update-my-profile",
           method: "PATCH",
           body: formData,
+          formData: true, // use FormData as-is so keys stay first_name/last_name
         };
       },
       invalidatesTags: ["Profile"],
