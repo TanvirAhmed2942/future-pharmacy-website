@@ -164,7 +164,7 @@ function Comment({ open, onOpenChange, blogId }: CommentProps) {
           <div className="p-6 border-b">
             <div className="flex items-start gap-3 mb-4">
               <Avatar className="w-10 h-10">
-                <AvatarImage src={imgUrl(user?.profile)} alt="User" />
+                <AvatarImage src={imgUrl(user?.profile)} alt="User" className="object-cover" />
                 <AvatarFallback className="bg-peter text-white">
                   {getUserInitials(user?.first_name, user?.last_name)}
 
