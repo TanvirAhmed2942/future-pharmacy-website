@@ -26,7 +26,7 @@ import {
 import { resetMapState, setSelectedPharmacy } from "@/store/slices/mapSlice";
 import { useCreateCheckoutMutation } from "@/store/Apis/checkoutApi/checkOutApi";
 import useShowToast from "@/hooks/useShowToast";
-import { useRouter } from "next/navigation";
+
 import Link from "next/link";
 interface OrderSummaryProps {
   formData: {
@@ -246,7 +246,6 @@ export default function OrderSummary({
   const [createCheckout, { isLoading: isSubmitting }] =
     useCreateCheckoutMutation();
   const { showSuccess, showError } = useShowToast();
-  const router = useRouter();
 
   // Safety check: Clear guest checkout data if user is logged in
   useEffect(() => {
@@ -396,12 +395,12 @@ export default function OrderSummary({
         dispatch(resetMapState());
         dispatch(setSelectedPharmacy(null));
 
-        // Redirect to Stripe checkout URL in a new tab if URL is provided
+        // Redirect to Stripe checkout URL in the same tab (no new tab)
         if (response.data?.url) {
-          window.open(response.data.url, "_blank", "noopener,noreferrer");
+          window.location.href = response.data.url;
         }
 
-        router.push("/");
+        // router.push("/");
 
         // Call the original onComplete callback
         onComplete();
